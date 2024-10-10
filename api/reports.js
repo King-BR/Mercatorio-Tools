@@ -1,8 +1,14 @@
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+
+const router = express.Router();
+
 // Path to the folder where JSON files are stored
 const jsonFolder = path.join(__dirname, "../../mercatorio-game-bot/raw_reports");
 
 // Endpoint to list JSON files dynamically
-app.get("/list-json-files", (req, res) => {
+router.get("/list-json-files", (req, res) => {
   fs.readdir(jsonFolder, (err, files) => {
     if (err) {
       return res.status(500).json({ error: "Unable to read files" });
@@ -14,7 +20,7 @@ app.get("/list-json-files", (req, res) => {
 });
 
 // Serve the selected JSON file
-app.get("/raw_reports/:filename", (req, res) => {
+router.get("/raw_reports/:filename", (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(jsonFolder, filename);
 
@@ -25,3 +31,5 @@ app.get("/raw_reports/:filename", (req, res) => {
     res.status(404).json({ error: "File not found" });
   }
 });
+
+module.exports = router
