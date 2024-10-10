@@ -1,0 +1,12 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+#jsonDisplay {
+  height: 800px;
+  overflow-y: scroll;
+}
+
+.w3-card-4 {
+  margin-bottom: 20px;
+}

@@ -1,2 +1,2 @@
 # Mercatorio-Tools
-Public tool made by me for the Mercatorio game
+Public tools made by me for the Mercatorio game

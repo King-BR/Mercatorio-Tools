@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report Viewer</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="w3-container w3-padding-16 w3-light-grey">
+      <a href="index.html" class="w3-button w3-blue">Back</a>
+      <h2>Report Viewer</h2>
+    </div>
+
+    <div class="w3-container w3-padding">
+      <div class="w3-card-4 w3-padding w3-margin-bottom">
+        <h3>Select Report</h3>
+        <select id="reportSelector" class="w3-select">
+          <option value="" disabled selected>Select a report</option>
+        </select>
+      </div>
+
+      <div id="reportContent" class="w3-card-4 w3-padding">
+        <h3>Report Content</h3>
+        <pre id="jsonDisplay" class="w3-code w3-border w3-light-grey"></pre>
+      </div>
+    </div>
+
+    <script src="js/townReport.js"></script>
+  </body>
+</html>
