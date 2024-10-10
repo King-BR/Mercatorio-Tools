@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // Initialize discord bot
-const client = require("./discord/index.js");
+//const client = require("./discord/index.js");
 
 // Serve static files (HTML, CSS, JS) from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
