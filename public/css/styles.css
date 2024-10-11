@@ -1,9 +1,37 @@
+/* Define default light mode variables */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #1a73e8;
+}
+
+/* Dark mode variables */
+body.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --link-color: #bb86fc;
+}
+
+/* Apply the variables to your elements */
 body {
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-family: Arial, sans-serif;
 }
 
+a {
+  color: var(--link-color);
+}
+
+/* Additional dark mode styles (optional) */
+.dark-mode div.w3-container {
+  background-color: #333333;
+}
+
 #jsonDisplay {
-  height: 800px;
+  height: auto;
+  min-height: 300px;
+  max-height: 600px;
   overflow-y: scroll;
 }
 
