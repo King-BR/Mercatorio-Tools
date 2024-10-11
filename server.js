@@ -1,15 +1,13 @@
 require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_DB);
 
 const app = express();
 const port = 3000;
@@ -17,17 +15,21 @@ const port = 3000;
 // Initialize discord bot
 //const client = require("./discord/index.js");
 
-// Serve static files (HTML, CSS, JS) from the 'public' folder
+app.use(cors());
+app.use(express.json());
+
+// Serve main page
 app.use(express.static(path.join(__dirname, "public")));
 
-// Route to handle /town_report
-app.get("/town_report", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "town_report.html"));
-});
+// Serve pages dynamically
+const pagesFolder = fs.readdirSync(path.join(__dirname, "public"));
+const pagesFiles = pagesFolder.filter((file) => file.endsWith(".html"));
 
-// Route to handle /notifications
-app.get("/notifications", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "notifications.html"));
+pagesFiles.forEach((file) => {
+  app.use(
+    `/${file.replace(".html", "")}`,
+    express.static(path.join(__dirname, "public", file))
+  );
 });
 
 // Import API routes
@@ -45,7 +47,7 @@ apiFiles.forEach((file) => {
 apiProtectedFolder.forEach((file) => {
   const route = require(`./api/protected/${file}`);
   const middleware = require(`./middleware/${file}`);
-  app.use(`/api/${file.replace(".js", "")}`, middleware, route);
+  app.use(`/api/${file.replace(".js", "")}`, route);
 });
 
 // Start the server

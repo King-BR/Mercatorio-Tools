@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JWT Authentication Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      #protected {
+        display: none;
+      }
+      #message {
+        color: red;
+      }
+      .form-container {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="w3-padding-16">
+      <div class="w3-row">
+        <div class="w3-col s1">
+          <a href="/" class="w3-button w3-round w3-blue">Back</a>
+        </div>
+        <div class="w3-col s1">
+          <button class="w3-button w3-round w3-blue" id="dark-mode-toggle">
+            Toggle Dark Mode
+          </button>
+        </div>
+      </div>
+      <h2>Login Example</h2>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="form-container">
+      <h2>Login</h2>
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input
+        type="password"
+        id="login-password"
+        placeholder="Password"
+        required
+      />
+      <button onclick="login()">Login</button>
+      <p id="login-message"></p>
+    </div>
+
+    <!-- Registration Form -->
+    <div id="register-form" class="form-container">
+      <h2>Register</h2>
+      <input type="email" id="register-email" placeholder="Email" required />
+      <input
+        type="password"
+        id="register-password"
+        placeholder="Password"
+        required
+      />
+      <button onclick="register()">Register</button>
+      <p id="register-message"></p>
+    </div>
+
+    <!-- Protected Area -->
+    <div id="protected">
+      <h2>Protected Area</h2>
+      <p>This is a protected area, visible only to logged-in users.</p>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="js/auth.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
