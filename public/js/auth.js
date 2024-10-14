@@ -20,7 +20,10 @@ async function login() {
 
     const data = await response.json();
     localStorage.setItem("token", data.accessToken);
+    localStorage.setItem("userId", data.userId);
+    localStorage.setItem("email", email);
 
+    document.getElementById("login-password").value = "";
     document.getElementById("login-form").style.display = "none";
     document.getElementById("register-form").style.display = "none";
     document.getElementById("protected").style.display = "block";
@@ -58,6 +61,8 @@ async function register() {
 
 async function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("email");
   document.getElementById("login-form").style.display = "block";
   document.getElementById("register-form").style.display = "block";
   document.getElementById("protected").style.display = "none";
@@ -67,7 +72,20 @@ async function checkLoginStatus() {
   const token = localStorage.getItem("token");
 
   if (!token && window.location.pathname.includes("dashboard")) {
-    window.location.replace("/login.html");
+    window.location.replace("/login");
+  }
+
+  if (token && window.location.pathname.includes("login")) {
+    const loggedText = document.getElementById("logged-text");
+    document.getElementById("protected").style.display = "block";
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("register-form").style.display = "none";
+
+    loggedText.innerHTML = `Email: ${localStorage.getItem("email")}<br>
+    User ID: <span class="spoiler-content" id="userId">${localStorage.getItem(
+      "userId"
+    )}</span>
+    <button class="spoiler-button w3-button w3-round w3-blue" id="spoiler-userId" onclick="toggleSpoiler('userId')">Show</button>`;
     return;
   }
 }

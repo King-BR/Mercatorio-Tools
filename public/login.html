@@ -3,22 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JWT Authentication Example</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      #protected {
-        display: none;
-      }
-      #message {
-        color: red;
-      }
-      .form-container {
-        margin-bottom: 20px;
-      }
-    </style>
+    <title>Mercatorio Tools</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
     <div class="w3-padding-16">
@@ -27,7 +15,11 @@
           <a href="/" class="w3-button w3-round w3-blue">Back</a>
         </div>
         <div class="w3-col s1">
-          <button class="w3-button w3-round w3-blue" id="dark-mode-toggle">
+          <button
+            class="w3-button w3-round w3-blue"
+            id="dark-mode-toggle"
+            onclick="toggleDarkMode()"
+          >
             Toggle Dark Mode
           </button>
         </div>
@@ -36,7 +28,7 @@
     </div>
 
     <!-- Login Form -->
-    <div id="login-form" class="form-container">
+    <div id="login-form">
       <h2>Login</h2>
       <input type="email" id="login-email" placeholder="Email" required />
       <input
@@ -50,7 +42,7 @@
     </div>
 
     <!-- Registration Form -->
-    <div id="register-form" class="form-container">
+    <div id="register-form">
       <h2>Register</h2>
       <input type="email" id="register-email" placeholder="Email" required />
       <input
@@ -65,9 +57,10 @@
 
     <!-- Protected Area -->
     <div id="protected">
-      <h2>Protected Area</h2>
-      <p>This is a protected area, visible only to logged-in users.</p>
-      <button onclick="logout()">Logout</button>
+      <h2>Logged</h2>
+      <p>You are already logged in:</p>
+      <p id="logged-text"></p>
+      <button class="w3-button w3-round w3-blue" onclick="logout()">Logout</button>
     </div>
 
     <!-- Link to the external JavaScript file -->

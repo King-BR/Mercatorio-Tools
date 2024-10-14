@@ -32,11 +32,23 @@ pagesFiles.forEach((file) => {
   );
 });
 
+const dashboardFolder = fs.readdirSync(
+  path.join(__dirname, "public", "dashboard")
+);
+const dashboardFiles = dashboardFolder.filter((file) => file.endsWith(".html"));
+
+dashboardFiles.forEach((file) => {
+  app.use(
+    `/dashboard/${file.replace(".html", "")}`,
+    express.static(path.join(__dirname, "public", "dashboard", file))
+  );
+});
+
 // Import API routes
 const apiFolder = fs.readdirSync(path.join(__dirname, "api"));
 const apiFiles = apiFolder.filter((file) => file.endsWith(".js"));
 const apiProtectedFolder = fs.readdirSync(
-  path.join(__dirname, "api/protected")
+  path.join(__dirname, "api", "protected")
 );
 
 apiFiles.forEach((file) => {
@@ -46,7 +58,6 @@ apiFiles.forEach((file) => {
 
 apiProtectedFolder.forEach((file) => {
   const route = require(`./api/protected/${file}`);
-  const middleware = require(`./middleware/${file}`);
   app.use(`/api/${file.replace(".js", "")}`, route);
 });
 

@@ -1,15 +1,15 @@
 /* Define default light mode variables */
 :root {
-  --background-color: #ffffff;
-  --text-color: #000000;
-  --link-color: #1a73e8;
-}
-
-/* Dark mode variables */
-body.dark-mode {
   --background-color: #121212;
   --text-color: #ffffff;
   --link-color: #bb86fc;
+}
+
+/* Dark mode variables */
+body.light-mode {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #1a73e8;
 }
 
 /* Apply the variables to your elements */
@@ -23,8 +23,11 @@ a {
   color: var(--link-color);
 }
 
-/* Additional dark mode styles (optional) */
-.dark-mode div.w3-container {
+.light-mode div.w3-container {
+  background-color: #e9e9e9;
+}
+
+.w3-container {
   background-color: #333333;
 }
 
@@ -37,4 +40,24 @@ a {
 
 .w3-card-4 {
   margin-bottom: 20px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+#protected {
+  display: none;
+}
+#message {
+  color: red;
+}
+
+.spoiler-content {
+  display: none;
+}
+
+.spoiler-button {
+  cursor: pointer;
 }
