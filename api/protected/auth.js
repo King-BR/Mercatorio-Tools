@@ -8,7 +8,7 @@ const auth = require("../../middleware/auth.js");
 
 // Generate Access Token (valid for 1 hour)
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "30d" });
 }
 
 // POST /api/auth/login
@@ -37,7 +37,9 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ accessToken: token });
+    res
+      .status(200)
+      .json({ accessToken: token, userId: user._id.toString(), email: email });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Error logging in", error: error.message });
@@ -54,7 +56,8 @@ router.post("/register", async (req, res) => {
 
   try {
     // Check if the user already exists
-    const existingUser = await User.findOne({ email: email });
+    var existingUser = await User.findOne({ email: email });
+
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -80,8 +83,8 @@ router.put(
   [
     auth, // This middleware ensures the user is authenticated
     check("currentPassword", "Current password is required").exists(),
-    check("newPassword", "New password must be at least 6 characters").isLength(
-      { min: 6 }
+    check("newPassword", "New password must be at least 8 characters").isLength(
+      { min: 8 }
     ),
   ],
   async (req, res) => {
@@ -97,13 +100,13 @@ router.put(
       const user = await User.findById(req.user.id);
 
       if (!user) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
 
       // Check if the current password is correct
       const isMatch = await bcrypt.compare(currentPassword, user.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: "Incorrect current password" });
+        return res.status(400).json({ message: "Incorrect current password" });
       }
 
       // Hash the new password before saving
@@ -113,7 +116,7 @@ router.put(
       // Save the updated user information
       await user.save();
 
-      res.json({ msg: "Password updated successfully" });
+      res.json({ message: "Password updated successfully" });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
@@ -121,18 +124,18 @@ router.put(
   }
 );
 
-// POST /api/auth/refresh-token
-router.post("/refresh-token", async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+// POST /api/auth/
+router.post("/", async (req, res) => {
+  const token = req.cookies.token;
 
-  if (!refreshToken) {
-    return res.status(401).json({ msg: "No refresh token, please log in" });
+  if (!token) {
+    return res.status(401).json({ message: "No token, please log in" });
   }
 
   // Verify the refresh token
-  jwt.verify(refreshToken, JWT_REFRESH_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ msg: "Invalid refresh token" });
+      return res.status(403).json({ message: "Invalid token" });
     }
 
     // Generate a new access token
