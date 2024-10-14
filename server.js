@@ -7,7 +7,14 @@ const fs = require("fs");
 const path = require("path");
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_DB);
+mongoose
+  .connect(process.env.MONGO_DB)
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((error) => {
+    console.error(`Error connecting to database:\n${error}`);
+  });
 
 const app = express();
 const port = 3000;
