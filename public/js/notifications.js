@@ -4,16 +4,16 @@ document
     const type = this.value;
     const dataDiv = document.getElementById("notification-data");
 
+    // fetch products from api /api/products
+    const productsResponse = await fetch("/api/products");
+    var products = await productsResponse.json();
+
+    var productOptions = products.map(
+      (product) => `<option value="${product.id}">${product.name}</option>`
+    );
+
     switch (type) {
       case "price": {
-        // fetch products from api /api/products
-        const productsResponse = await fetch("/api/products");
-        var products = await productsResponse.json();
-
-        var productOptions = products.map(
-          (product) => `<option value="${product.id}">${product.name}</option>`
-        );
-
         dataDiv.innerHTML = `
           <div class="w3-col">
             <label for="product" class="w3-row">Product</label>
