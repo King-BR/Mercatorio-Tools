@@ -24,43 +24,50 @@
           </button>
         </div>
       </div>
-      <h2>Login Example</h2>
     </div>
 
-    <!-- Login Form -->
-    <div id="login-form">
-      <h2>Login</h2>
-      <input type="email" id="login-email" placeholder="Email" required />
-      <input
-        type="password"
-        id="login-password"
-        placeholder="Password"
-        required
-      />
-      <button onclick="login()">Login</button>
-      <p id="login-message"></p>
-    </div>
+    <div class="w3-container">
+      <!-- Login Form -->
+      <div id="login-form">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input
+          type="password"
+          id="login-password"
+          placeholder="Password"
+          required
+        />
+        <button class="w3-button w3-round w3-green" onclick="login()">
+          Login
+        </button>
+        <p id="login-message"></p>
+      </div>
 
-    <!-- Registration Form -->
-    <div id="register-form">
-      <h2>Register</h2>
-      <input type="email" id="register-email" placeholder="Email" required />
-      <input
-        type="password"
-        id="register-password"
-        placeholder="Password"
-        required
-      />
-      <button onclick="register()">Register</button>
-      <p id="register-message"></p>
-    </div>
+      <!-- Registration Form -->
+      <div id="register-form">
+        <h2>Register</h2>
+        <input type="email" id="register-email" placeholder="Email" required />
+        <input
+          type="password"
+          id="register-password"
+          placeholder="Password"
+          required
+        />
+        <button class="w3-button w3-round w3-green" onclick="register()">
+          Register
+        </button>
+        <p id="register-message"></p>
+      </div>
 
-    <!-- Protected Area -->
-    <div id="protected">
-      <h2>Logged</h2>
-      <p>You are already logged in:</p>
-      <p id="logged-text"></p>
-      <button class="w3-button w3-round w3-blue" onclick="logout()">Logout</button>
+      <!-- Protected Area -->
+      <div id="protected">
+        <h2>You are already logged in:</h2>
+        <p id="logged-text"></p>
+        <button class="w3-button w3-round w3-red" onclick="logout()">
+          Logout
+        </button>
+      </div>
+      <br />
     </div>
 
     <!-- Link to the external JavaScript file -->
