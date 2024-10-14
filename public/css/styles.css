@@ -31,6 +31,14 @@ a {
   background-color: #333333;
 }
 
+.light-mode pre.code-color {
+  background-color: #f5f5f5;
+}
+
+.code-color {
+  background-color: #9f9f9f;
+}
+
 #jsonDisplay {
   height: auto;
   min-height: 300px;
