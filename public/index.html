@@ -13,15 +13,17 @@
     ></script>
   </head>
   <body>
-    <div class="w3-row w3-teal" style="display: flex">
-      <h2 class="w3-padding w3-col s8">Welcome to Mercatorio Tools</h2>
+    <header class="w3-teal">
+      <h2 class="w3-padding">Welcome to Mercatorio Tools</h2>
 
-      <div class="w3-bar w3-col s4" style="align-items: center; display: flex">
-        <a href="/account" class="w3-bar-item w3-button">
-          <i class="fas fa-user-circle" style="font-size:40px"></i>
-        </a>
-      </div>
-    </div>
+      <a
+        href="/account"
+        class="w3-button"
+        style="display: flex; align-items: center"
+      >
+        <i class="fas fa-user-circle" style="font-size: 40px"></i>
+      </a>
+    </header>
 
     <div style="padding: 15px">
       <button
@@ -29,7 +31,7 @@
         id="dark-mode-toggle"
         onclick="toggleDarkMode()"
       >
-        Toggle Dark Mode
+        <i id="dark-mode-icon" class="fas fa-moon"></i>
       </button>
     </div>
 

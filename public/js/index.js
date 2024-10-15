@@ -7,6 +7,19 @@ function toggleDarkMode() {
   } else {
     localStorage.setItem("theme", "dark");
   }
+
+  setDarkModeIcon();
+}
+
+function setDarkModeIcon() {
+  const icon = document.getElementById("dark-mode-icon");
+  if (document.body.classList.contains("light-mode")) {
+    icon.classList.remove("fa-sun");
+    icon.classList.add("fa-moon");
+  } else {
+    icon.classList.remove("fa-moon");
+    icon.classList.add("fa-sun");
+  }
 }
 
 function toggleSpoiler(elementId) {
@@ -27,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (savedTheme) {
     document.body.classList.toggle("light-mode", savedTheme === "light");
   }
+
+  setDarkModeIcon();
 
   checkLoginStatus();
 });
