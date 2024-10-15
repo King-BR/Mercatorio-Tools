@@ -20,7 +20,7 @@ const app = express();
 const port = 3000;
 
 // Initialize discord bot
-//const client = require("./discord/index.js");
+// const client = require("./discord/index.js");
 
 app.use(cors());
 app.use(express.json());

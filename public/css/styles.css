@@ -1,11 +1,11 @@
-/* Define default light mode variables */
+/* Define default dark mode variables */
 :root {
   --background-color: #121212;
   --text-color: #ffffff;
   --link-color: #bb86fc;
 }
 
-/* Dark mode variables */
+/* Light mode variables */
 body.light-mode {
   --background-color: #ffffff;
   --text-color: #000000;
@@ -58,6 +58,7 @@ body {
 #protected {
   display: none;
 }
+
 #message {
   color: red;
 }

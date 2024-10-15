@@ -24,10 +24,9 @@ async function login() {
     localStorage.setItem("email", email);
 
     document.getElementById("login-password").value = "";
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("register-form").style.display = "none";
-    document.getElementById("protected").style.display = "block";
     document.getElementById("login-message").textContent = "";
+
+    showAccountInfo();
   } catch (error) {
     document.getElementById("login-message").textContent = error.message;
   }
@@ -72,20 +71,24 @@ async function checkLoginStatus() {
   const token = localStorage.getItem("token");
 
   if (!token && window.location.pathname.includes("dashboard")) {
-    window.location.replace("/login");
+    window.location.replace("/account");
   }
 
-  if (token && window.location.pathname.includes("login")) {
-    const loggedText = document.getElementById("logged-text");
-    document.getElementById("protected").style.display = "block";
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("register-form").style.display = "none";
-
-    loggedText.innerHTML = `Email: ${localStorage.getItem("email")}<br>
-    User ID: <span class="spoiler-content" id="userId">${localStorage.getItem(
-      "userId"
-    )}</span>
-    <button class="spoiler-button w3-button w3-round w3-blue" id="spoiler-userId" onclick="toggleSpoiler('userId')">Show</button>`;
+  if (token && window.location.pathname.includes("account")) {
+    showAccountInfo();
     return;
   }
+}
+
+function showAccountInfo() {
+  const loggedText = document.getElementById("logged-text");
+  document.getElementById("protected").style.display = "block";
+  document.getElementById("login-form").style.display = "none";
+  document.getElementById("register-form").style.display = "none";
+
+  loggedText.innerHTML = `Email: ${localStorage.getItem("email")}<br>
+  User ID: <span class="spoiler-content" id="userId">${localStorage.getItem(
+    "userId"
+  )}</span>
+  <button class="spoiler-button w3-button w3-round w3-blue" id="spoiler-userId" onclick="toggleSpoiler('userId')">Show</button>`;
 }
