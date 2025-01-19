@@ -1,10 +1,12 @@
 var recipes = {};
 var outputList = {};
 var inputList = {};
+var previousRecipe = {};
+var tree = {};
 
 async function getRecipes() {
   try {
-    const response = await fetch("../api/recipes");
+    const response = await fetch("/api/recipes");
     recipes = await response.json();
 
     recipes = Object.fromEntries(
@@ -41,24 +43,30 @@ function loadRecipe() {
 
   outputList = {};
   inputList = {};
+  previousRecipe = {};
+  tree = {};
 
   const recipe = recipes[recipeKey];
 
-  recipe.outputs.forEach((output) => {
-    if (outputList[output.product]) {
-      outputList[output.product] += Math.round(100 * output.amount * mult) / 100;
-    } else {
-      outputList[output.product] = Math.round(100 * output.amount * mult) / 100;
-    }
-  });
-
-  recipe.inputs.forEach((input) => {
-    if (inputList[input.product]) {
-      inputList[input.product] += Math.round(100 * input.amount * mult) / 100;
-    } else {
-      inputList[input.product] = Math.round(100 * input.amount * mult) / 100;
-    }
-  });
+  tree.name = recipeKey;
+  tree.outputs = recipe.outputs
+    ? recipe.outputs.map((output) => ({
+        ...output,
+        amount:
+          output.amount * mult < 0.1
+            ? Math.round(100 * output.amount * mult) / 100
+            : Math.round(10 * output.amount * mult) / 10,
+      }))
+    : [{ product: "prestige", amount: recipe.prestige * 100 * mult }];
+  tree.inputs = recipe.inputs
+    ? recipe.inputs.map((input) => ({
+        ...input,
+        amount:
+          input.amount * mult < 0.1
+            ? Math.round(100 * input.amount * mult) / 100
+            : Math.round(10 * input.amount * mult) / 10,
+      }))
+    : [];
 
   let treeHtml = `
         <ul class="tree">
@@ -71,15 +79,11 @@ function loadRecipe() {
                         <span>Outputs</span>
                         <ul>
                             ${
-                              recipe.outputs
-                                ? recipe.outputs
+                              tree.outputs
+                                ? tree.outputs
                                     .map(
                                       (output) =>
-                                        `<li>${
-                                          Math.round(
-                                            100 * output.amount * mult
-                                          ) / 100
-                                        }x ${output.product}</li>`
+                                        `<li>${output.amount}x ${output.product}</li>`
                                     )
                                     .join("")
                                 : recipe.prestige * 100 * mult + " prestige"
@@ -89,9 +93,9 @@ function loadRecipe() {
                     <li>
                         <span>Inputs</span>
                         <ul>
-                            ${recipe.inputs
+                            ${tree.inputs
                               .map((input) =>
-                                createInputNode(input, mult, recipeKey, 0)
+                                createInputNode(input, mult, tree, 0)
                               )
                               .join("")}
                         </ul>
@@ -105,48 +109,33 @@ function loadRecipe() {
   document.getElementById("input-list").innerHTML = "";
   document.getElementById("output-list").innerHTML = "";
 
-  for (const product in inputList) {
-    document.getElementById(
-      "input-list"
-    ).innerHTML += `<li>${inputList[product]}x ${product}</li>`;
-  }
-
-  for (const product in outputList) {
-    document.getElementById(
-      "output-list"
-    ).innerHTML += `<li>${outputList[product]}x ${product}</li>`;
-  }
+  updateMaterialList();
 }
 
 function createInputNode(input, mult, parentRecipe, index) {
   index++;
   if (input.product == "labour") {
-    return `<li>${Math.round(100 * input.amount * mult) / 100}x ${
-      input.product
-    }</li>`;
+    return `<li>${input.amount}x ${input.product}</li>`;
   }
 
   const possibleRecipes = findRecipesByProduct(input.product);
 
   if (possibleRecipes.length === 0) {
-    return `<li>${Math.round(100 * input.amount * mult) / 100}x ${
-      input.product
-    }</li>`;
+    return `<li>${input.amount}x ${input.product}</li>`;
   }
 
   const selectId = `recipe-select-${input.product.replace(
     /\s+/g,
     "-"
   )}-${index}`;
-  console.log(selectId);
 
   return `
     <li>
-      ${Math.round(100 * input.amount * mult) / 100}x ${input.product}
+      ${input.amount}x ${input.product}
       <select id="${selectId}" onchange="loadSubRecipe('${
     input.product
-  }', this.value, '${selectId}', '${parentRecipe}', ${mult}, ${index})">
-        <option value="">Select Recipe</option>
+  }', this.value, '${selectId}', '${parentRecipe.name}', ${mult}, ${index})">
+        <option value="empty">Select Recipe</option>
         ${possibleRecipes
           .map(
             (recipeKey) =>
@@ -157,7 +146,7 @@ function createInputNode(input, mult, parentRecipe, index) {
       <div id="tree-container-${input.product.replace(
         /\s+/g,
         "-"
-      )}-${index}"></div>
+      )}-${index}-${selectId}"></div>
     </li>`;
 }
 
@@ -180,20 +169,8 @@ function loadSubRecipe(
 ) {
   if (!recipeKey || !recipes[recipeKey]) {
     document.getElementById(
-      `tree-container-${product.replace(/\s+/g, "-")}-${index}`
+      `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
     ).innerHTML = "";
-
-    // if there is no recipe selected, include in the input list
-    if (inputList[product]) {
-      inputList[product] +=
-        Math.round(
-          100 *
-            recipes[parentRecipe].inputs.find(
-              (input) => input.product === product
-            ).amount *
-            parentMult
-        ) / 100;
-    }
     return;
   }
 
@@ -207,15 +184,17 @@ function loadSubRecipe(
       (input) => input.product === product
     );
 
+    parentRecipeInput.amount = parentRecipeInput.amount * parentMult;
+
     if (parentRecipeInput) {
       mult =
-        (parentRecipeInput.amount * parentMult) /
+        parentRecipeInput.amount /
         recipe.outputs.find((output) => output.product === product).amount;
 
       mult = Math.round(10 * mult) / 10;
 
       while (
-        parentRecipeInput.amount * parentMult >
+        parentRecipeInput.amount >
         recipe.outputs.find((output) => output.product === product).amount *
           mult
       ) {
@@ -224,52 +203,53 @@ function loadSubRecipe(
 
       mult = Math.round(10 * mult) / 10;
     }
-  }
 
-  if (inputList[product]) {
-    inputList[product] -=
-      Math.round(
-        100 *
-          recipes[parentRecipe].inputs.find(
-            (input) => input.product === product
-          ).amount *
-          parentMult
-      ) / 100;
-  }
+    tree.nextNode = {};
+    tree.nextNode.name = recipeKey;
+    tree.nextNode.outputs = recipe.outputs;
+    tree.nextNode.inputs = recipe.inputs;
 
-  recipe.inputs.forEach((input) => {
-    if (inputList[input.product]) {
-      inputList[input.product] += Math.round(100 * input.amount * mult) / 100;
-    } else {
-      inputList[input.product] = Math.round(100 * input.amount * mult) / 100;
+    if (tree.nextNode.outputs) {
+      tree.nextNode.outputs.forEach((out, i) => {
+        tree.nextNode.outputs[i].amount =
+          out.amount * mult < 0.1
+            ? Math.round(100 * out.amount * mult) / 100
+            : Math.round(10 * out.amount * mult) / 10;
+      });
     }
-  });
+
+    if (tree.nextNode.inputs) {
+      tree.nextNode.inputs.forEach((inp, i) => {
+        tree.nextNode.inputs[i].amount =
+          inp.amount * mult < 0.1
+            ? Math.round(100 * inp.amount * mult) / 100
+            : Math.round(10 * inp.amount * mult) / 10;
+      });
+    }
+  }
 
   let subTreeHtml = `
     <ul class="tree">
       <li>
-        <span class="recipe" onclick="toggleChildren(this)">${mult}x ${
-    recipe.name
-  }</span>
+        <span class="recipe" onclick="toggleChildren(this)">${
+          Math.round(mult * 10) / 10
+        }x ${tree.nextNode.name}</span>
         <ul>
           <li>
             <span>Outputs</span>
             <ul>
-              ${recipe.outputs
-                .map(
-                  (output) =>
-                    `<li>${Math.round(100 * output.amount * mult) / 100}x ${
-                      output.product
-                    }</li>`
-                )
+              ${tree.nextNode.outputs
+                .map((output) => `<li>${output.amount}x ${output.product}</li>`)
                 .join("")}
             </ul>
           </li>
           <li>
             <span>Inputs</span>
             <ul>
-              ${recipe.inputs
-                .map((input) => createInputNode(input, mult, recipeKey, index))
+              ${tree.nextNode.inputs
+                .map((input) =>
+                  createInputNode(input, mult, tree.nextNode, index)
+                )
                 .join("")}
             </ul>
           </li>
@@ -278,22 +258,93 @@ function loadSubRecipe(
     </ul>`;
 
   document.getElementById(
-    `tree-container-${product.replace(/\s+/g, "-")}-${index}`
+    `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
   ).innerHTML = subTreeHtml;
 
   document.getElementById("input-list").innerHTML = "";
   document.getElementById("output-list").innerHTML = "";
 
+  updateMaterialList();
+
+  previousRecipe[
+    `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
+  ] = recipeKey;
+}
+
+function updateMaterialList() {
+  var tmpRecipe = tree;
+  var index = 0;
+
+  outputList = {};
+  inputList = {};
+
+  while (true) {
+    tmpRecipe.outputs.forEach((output) => {
+      if (index === 0) {
+        if (outputList[output.product]) {
+          outputList[output.product] += output.amount;
+        } else {
+          outputList[output.product] = output.amount;
+        }
+      } else {
+        if (inputList[output.product]) {
+          inputList[output.product] -= output.amount;
+        } else {
+          outputList[output.product] = output.amount;
+        }
+
+        if (inputList[output.product] <= 0) {
+          if (!outputList[output.product]) outputList[output.product] = 0;
+          outputList[output.product] += inputList[output.product] * -1;
+          delete inputList[output.product];
+          if (outputList[output.product] <= 0)
+            delete outputList[output.product];
+        }
+      }
+    });
+
+    tmpRecipe.inputs.forEach((input) => {
+      if (index === 0) {
+        if (inputList[input.product]) {
+          inputList[input.product] += input.amount;
+        } else {
+          inputList[input.product] = input.amount;
+        }
+      } else {
+        if (inputList[input.product]) {
+          inputList[input.product] += input.amount;
+        } else {
+          inputList[input.product] = input.amount;
+        }
+      }
+    });
+
+    if (!tmpRecipe.nextNode) {
+      break;
+    }
+
+    index++;
+    tmpRecipe = tmpRecipe.nextNode;
+  }
+
   for (const product in inputList) {
-    document.getElementById(
-      "input-list"
-    ).innerHTML += `<li>${inputList[product]}x ${product}</li>`;
+    inputList[product] = inputList[product];
+
+    document.getElementById("input-list").innerHTML += `<li>${
+      inputList[product] < 0.1
+        ? Math.round(100 * inputList[product]) / 100
+        : Math.round(10 * inputList[product]) / 10
+    }x ${product}</li>`;
   }
 
   for (const product in outputList) {
-    document.getElementById(
-      "output-list"
-    ).innerHTML += `<li>${outputList[product]}x ${product}</li>`;
+    outputList[product] = outputList[product];
+
+    document.getElementById("output-list").innerHTML += `<li>${
+      outputList[product] < 0.1
+        ? Math.round(100 * outputList[product]) / 100
+        : Math.round(10 * outputList[product]) / 10
+    }x ${product}</li>`;
   }
 }
 
