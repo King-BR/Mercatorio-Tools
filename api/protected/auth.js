@@ -15,6 +15,19 @@ function generateAccessToken(user) {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
+  if (
+    email == process.env.ADMIN_EMAIL &&
+    password == process.env.ADMIN_PASSWORD
+  ) {
+    const token = jwt.sign({ userId: "admin" }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res
+      .status(200)
+      .json({ accessToken: token, userId: "admin", email: email });
+  }
+
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
   }

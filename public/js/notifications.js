@@ -4,8 +4,8 @@ document
     const type = this.value;
     const dataDiv = document.getElementById("notification-data");
 
-    // fetch products from api /api/products
-    const productsResponse = await fetch("/api/products");
+    // fetch products from /api/products
+    const productsResponse = await fetch("../api/products");
     var products = await productsResponse.json();
 
     var productOptions = products.map(

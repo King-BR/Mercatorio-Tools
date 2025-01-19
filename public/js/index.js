@@ -34,6 +34,14 @@ function toggleSpoiler(elementId) {
   }
 }
 
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   // Check for saved preference in localStorage
   const savedTheme = localStorage.getItem("theme");

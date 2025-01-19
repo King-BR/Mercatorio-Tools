@@ -2,7 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const Discord = require("discord.js");
 const client = new Discord.Client({
-  partials: ["MESSAGE", "REACTION"],
+  partials: [
+    Discord.Partials.Message,
+    Discord.Partials.User,
+    Discord.Partials.GuildMember,
+    Discord.Partials.Channel,
+  ],
   intents: [
     Discord.GatewayIntentBits.Guilds,
     Discord.GatewayIntentBits.GuildMessages,
@@ -35,7 +40,6 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const filePath = path.join(commandsFolder, file);
   const command = require(filePath);
-  // Set a new item in the Collection with the key as the command name and the value as the exported module
   if ("data" in command && "execute" in command) {
     client.commands.set(command.data.name, command);
     commands.push(command.data.toJSON());
@@ -49,22 +53,89 @@ for (const file of commandFiles) {
 // Construct and prepare an instance of the REST module
 const rest = new Discord.REST().setToken(process.env.DISCORD_TOKEN);
 
-// and deploy your commands!
 (async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+  try {
+    console.log(
+      `Started refreshing ${commands.length} application (/) commands.`
+    );
 
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Discord.Routes.applicationGuildCommands(config.clientId, config.guildId),
-			{ body: commands },
-		);
+    const data = await rest.put(
+      Discord.Routes.applicationGuildCommands(config.clientId, config.guildId),
+      { body: commands }
+    );
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
+    console.log(
+      `Successfully reloaded ${data.length} application (/) commands.`
+    );
+  } catch (error) {
+    console.error(error);
+  }
 })();
 
-module.exports = client;
+module.exports = {
+  /**
+   * The Discord client instance
+   * @type {Discord.Client}
+   */
+  client,
+
+  /**
+   * Send a message to a channel
+   * @param {Discord.Snowflake} id
+   * @param {string} message
+   */
+  sendDiscordMessage: function (id, message) {
+    client.channels
+      .fetch(id)
+      .then((channel) => {
+        if (channel.isSendable()) {
+          channel.send(message).catch((error) => {
+            client.channels.fetch(config.errorChannelId).then((channel) => {
+              channel.send(
+                `**Error sending message to channel with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
+              );
+            });
+          });
+        } else {
+          client.channels.fetch(config.errorChannelId).then((channel) => {
+            channel.send(
+              `**Error sending message to channel with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\nChannel is not sendable.`
+            );
+          });
+        }
+      })
+      .catch((error) => {
+        client.channels.fetch(config.errorChannelId).then((channel) => {
+          channel.send(
+            `**Error sending message to channel with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
+          );
+        });
+      });
+  },
+
+  /**
+   * Send a private message to a user
+   * @param {Discord.Snowflake} id
+   * @param {string} message
+   */
+  sendDMMessage: function (id, message) {
+    client.users
+      .fetch(id)
+      .then((user) => {
+        user.send(message).catch((error) => {
+          client.channels.fetch(config.errorChannelId).then((channel) => {
+            channel.send(
+              `**Error sending DM to user ${user.tag}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
+            );
+          });
+        });
+      })
+      .catch((error) => {
+        client.channels.fetch(config.errorChannelId).then((channel) => {
+          channel.send(
+            `**Error fetching user with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
+          );
+        });
+      });
+  },
+};
