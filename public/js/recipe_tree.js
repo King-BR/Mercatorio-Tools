@@ -167,6 +167,37 @@ function loadSubRecipe(
   parentMult,
   index
 ) {
+  if (
+    !previousRecipe.hasOwnProperty(
+      `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
+    )
+  ) {
+    previousRecipe[
+      `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
+    ] = recipeKey;
+  } else if (
+    previousRecipe[
+      `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
+    ] !== recipeKey
+  ) {
+    tree.nexNode = tree.nexNode || [];
+
+    tree.nexNode.find((node, i) => {
+      if (
+        node.name ===
+        previousRecipe[
+          `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
+        ]
+      ) {
+        tree.nexNode.splice(i, 1);
+      }
+    });
+
+    previousRecipe[
+      `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
+    ] = recipeKey;
+  }
+
   if (!recipeKey || !recipes[recipeKey]) {
     document.getElementById(
       `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
@@ -204,23 +235,24 @@ function loadSubRecipe(
       mult = Math.round(10 * mult) / 10;
     }
 
-    tree.nextNode = {};
-    tree.nextNode.name = recipeKey;
-    tree.nextNode.outputs = recipe.outputs;
-    tree.nextNode.inputs = recipe.inputs;
+    tree.nexNode = tree.nexNode || [];
+    var tmpNode = {};
+    tmpNode.name = recipeKey;
+    tmpNode.outputs = recipe.outputs;
+    tmpNode.inputs = recipe.inputs;
 
-    if (tree.nextNode.outputs) {
-      tree.nextNode.outputs.forEach((out, i) => {
-        tree.nextNode.outputs[i].amount =
+    if (tmpNode.outputs) {
+      recipe.outputs.forEach((out, i) => {
+        tmpNode.outputs[i].amount =
           out.amount * mult < 0.1
             ? Math.round(100 * out.amount * mult) / 100
             : Math.round(10 * out.amount * mult) / 10;
       });
     }
 
-    if (tree.nextNode.inputs) {
-      tree.nextNode.inputs.forEach((inp, i) => {
-        tree.nextNode.inputs[i].amount =
+    if (tmpNode.inputs) {
+      recipe.inputs.forEach((inp, i) => {
+        tmpNode.inputs[i].amount =
           inp.amount * mult < 0.1
             ? Math.round(100 * inp.amount * mult) / 100
             : Math.round(10 * inp.amount * mult) / 10;
@@ -233,12 +265,12 @@ function loadSubRecipe(
       <li>
         <span class="recipe" onclick="toggleChildren(this)">${
           Math.round(mult * 10) / 10
-        }x ${tree.nextNode.name}</span>
+        }x ${tmpNode.name}</span>
         <ul>
           <li>
             <span>Outputs</span>
             <ul>
-              ${tree.nextNode.outputs
+              ${tmpNode.outputs
                 .map((output) => `<li>${output.amount}x ${output.product}</li>`)
                 .join("")}
             </ul>
@@ -246,10 +278,8 @@ function loadSubRecipe(
           <li>
             <span>Inputs</span>
             <ul>
-              ${tree.nextNode.inputs
-                .map((input) =>
-                  createInputNode(input, mult, tree.nextNode, index)
-                )
+              ${tmpNode.inputs
+                .map((input) => createInputNode(input, mult, tmpNode, index))
                 .join("")}
             </ul>
           </li>
@@ -261,6 +291,8 @@ function loadSubRecipe(
     `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
   ).innerHTML = subTreeHtml;
 
+  tree.nexNode.push(tmpNode);
+
   document.getElementById("input-list").innerHTML = "";
   document.getElementById("output-list").innerHTML = "";
 
@@ -271,6 +303,47 @@ function loadSubRecipe(
   ] = recipeKey;
 }
 
+function handleRecipeChange(index, tmpRecipe) {
+  tmpRecipe.outputs.forEach((output) => {
+    if (index === 0) {
+      if (outputList[output.product]) {
+        outputList[output.product] += output.amount;
+      } else {
+        outputList[output.product] = output.amount;
+      }
+    } else {
+      if (inputList[output.product]) {
+        inputList[output.product] -= output.amount;
+      } else {
+        outputList[output.product] = output.amount;
+      }
+
+      if (inputList[output.product] <= 0) {
+        if (!outputList[output.product]) outputList[output.product] = 0;
+        outputList[output.product] += inputList[output.product] * -1;
+        delete inputList[output.product];
+        if (outputList[output.product] <= 0) delete outputList[output.product];
+      }
+    }
+  });
+
+  tmpRecipe.inputs.forEach((input) => {
+    if (index === 0) {
+      if (inputList[input.product]) {
+        inputList[input.product] += input.amount;
+      } else {
+        inputList[input.product] = input.amount;
+      }
+    } else {
+      if (inputList[input.product]) {
+        inputList[input.product] += input.amount;
+      } else {
+        inputList[input.product] = input.amount;
+      }
+    }
+  });
+}
+
 function updateMaterialList() {
   var tmpRecipe = tree;
   var index = 0;
@@ -278,53 +351,13 @@ function updateMaterialList() {
   outputList = {};
   inputList = {};
 
-  while (true) {
-    tmpRecipe.outputs.forEach((output) => {
-      if (index === 0) {
-        if (outputList[output.product]) {
-          outputList[output.product] += output.amount;
-        } else {
-          outputList[output.product] = output.amount;
-        }
-      } else {
-        if (inputList[output.product]) {
-          inputList[output.product] -= output.amount;
-        } else {
-          outputList[output.product] = output.amount;
-        }
+  handleRecipeChange(index, tmpRecipe);
 
-        if (inputList[output.product] <= 0) {
-          if (!outputList[output.product]) outputList[output.product] = 0;
-          outputList[output.product] += inputList[output.product] * -1;
-          delete inputList[output.product];
-          if (outputList[output.product] <= 0)
-            delete outputList[output.product];
-        }
-      }
+  index++;
+  if (tmpRecipe.nexNode && tmpRecipe.nexNode.length > 0) {
+    tmpRecipe.nexNode.forEach((node) => {
+      handleRecipeChange(index, node);
     });
-
-    tmpRecipe.inputs.forEach((input) => {
-      if (index === 0) {
-        if (inputList[input.product]) {
-          inputList[input.product] += input.amount;
-        } else {
-          inputList[input.product] = input.amount;
-        }
-      } else {
-        if (inputList[input.product]) {
-          inputList[input.product] += input.amount;
-        } else {
-          inputList[input.product] = input.amount;
-        }
-      }
-    });
-
-    if (!tmpRecipe.nextNode) {
-      break;
-    }
-
-    index++;
-    tmpRecipe = tmpRecipe.nextNode;
   }
 
   for (const product in inputList) {
