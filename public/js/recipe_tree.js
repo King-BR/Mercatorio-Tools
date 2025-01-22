@@ -1,17 +1,11 @@
 var recipes = {};
-var outputList = {};
-var inputList = {};
+var materialsList = {};
 var previousRecipe = {};
 var tree = {};
 
-async function getRecipes() {
+async function init() {
   try {
-    const response = await fetch("/api/recipes");
-    recipes = await response.json();
-
-    recipes = Object.fromEntries(
-      Object.entries(recipes).filter(([key, value]) => !value.bots_only)
-    );
+    await getRecipes();
 
     const select = document.getElementById("recipe-select");
     select.innerHTML = "";
@@ -29,6 +23,15 @@ async function getRecipes() {
   }
 }
 
+async function getRecipes() {
+  const response = await fetch("/api/recipes");
+  recipes = await response.json();
+
+  recipes = Object.fromEntries(
+    Object.entries(recipes).filter(([key, value]) => !value.bots_only)
+  );
+}
+
 function loadRecipe() {
   const select = document.getElementById("recipe-select");
   const input_mult = document.getElementById("production-multiplier");
@@ -41,8 +44,7 @@ function loadRecipe() {
     return;
   }
 
-  outputList = {};
-  inputList = {};
+  materialsList = {};
   previousRecipe = {};
   tree = {};
 
@@ -215,7 +217,10 @@ function loadSubRecipe(
       (input) => input.product === product
     );
 
-    parentRecipeInput.amount = parentRecipeInput.amount * parentMult;
+    parentRecipeInput.amount =
+      parentRecipeInput.amount * parentMult < 0.1
+        ? Math.round(100 * parentRecipeInput.amount * parentMult) / 100
+        : Math.round(10 * parentRecipeInput.amount * parentMult) / 10;
 
     if (parentRecipeInput) {
       mult =
@@ -242,7 +247,7 @@ function loadSubRecipe(
     tmpNode.inputs = recipe.inputs;
 
     if (tmpNode.outputs) {
-      recipe.outputs.forEach((out, i) => {
+      tmpNode.outputs.forEach((out, i) => {
         tmpNode.outputs[i].amount =
           out.amount * mult < 0.1
             ? Math.round(100 * out.amount * mult) / 100
@@ -251,7 +256,7 @@ function loadSubRecipe(
     }
 
     if (tmpNode.inputs) {
-      recipe.inputs.forEach((inp, i) => {
+      tmpNode.inputs.forEach((inp, i) => {
         tmpNode.inputs[i].amount =
           inp.amount * mult < 0.1
             ? Math.round(100 * inp.amount * mult) / 100
@@ -305,41 +310,18 @@ function loadSubRecipe(
 
 function handleRecipeChange(index, tmpRecipe) {
   tmpRecipe.outputs.forEach((output) => {
-    if (index === 0) {
-      if (outputList[output.product]) {
-        outputList[output.product] += output.amount;
-      } else {
-        outputList[output.product] = output.amount;
-      }
+    if (materialsList[output.product]) {
+      materialsList[output.product] += output.amount;
     } else {
-      if (inputList[output.product]) {
-        inputList[output.product] -= output.amount;
-      } else {
-        outputList[output.product] = output.amount;
-      }
-
-      if (inputList[output.product] <= 0) {
-        if (!outputList[output.product]) outputList[output.product] = 0;
-        outputList[output.product] += inputList[output.product] * -1;
-        delete inputList[output.product];
-        if (outputList[output.product] <= 0) delete outputList[output.product];
-      }
+      materialsList[output.product] = output.amount;
     }
   });
 
   tmpRecipe.inputs.forEach((input) => {
-    if (index === 0) {
-      if (inputList[input.product]) {
-        inputList[input.product] += input.amount;
-      } else {
-        inputList[input.product] = input.amount;
-      }
+    if (materialsList[input.product]) {
+      materialsList[input.product] -= input.amount;
     } else {
-      if (inputList[input.product]) {
-        inputList[input.product] += input.amount;
-      } else {
-        inputList[input.product] = input.amount;
-      }
+      materialsList[input.product] = input.amount * -1;
     }
   });
 }
@@ -350,6 +332,7 @@ function updateMaterialList() {
 
   outputList = {};
   inputList = {};
+  materialsList = {};
 
   handleRecipeChange(index, tmpRecipe);
 
@@ -360,24 +343,19 @@ function updateMaterialList() {
     });
   }
 
-  for (const product in inputList) {
-    inputList[product] = inputList[product];
+  for (const key in materialsList) {
+    materialsList[key] =
+      materialsList[key] <= 0.1
+        ? Math.round(100 * materialsList[key]) / 100
+        : Math.round(10 * materialsList[key]) / 10;
 
-    document.getElementById("input-list").innerHTML += `<li>${
-      inputList[product] < 0.1
-        ? Math.round(100 * inputList[product]) / 100
-        : Math.round(10 * inputList[product]) / 10
-    }x ${product}</li>`;
-  }
-
-  for (const product in outputList) {
-    outputList[product] = outputList[product];
-
-    document.getElementById("output-list").innerHTML += `<li>${
-      outputList[product] < 0.1
-        ? Math.round(100 * outputList[product]) / 100
-        : Math.round(10 * outputList[product]) / 10
-    }x ${product}</li>`;
+    if (materialsList[key] > 0) {
+      document.getElementById("output-list").innerHTML += `
+        <li>${materialsList[key]}x ${key}</li>`;
+    } else {
+      document.getElementById("input-list").innerHTML += `
+        <li>${materialsList[key] * -1}x ${key}</li>`;
+    }
   }
 }
 
@@ -389,4 +367,4 @@ function toggleChildren(element) {
   }
 }
 
-window.onload = getRecipes;
+window.onload = init;
