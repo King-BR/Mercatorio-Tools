@@ -1,6 +1,7 @@
 var recipes = {};
 var materialsList = {};
 var previousRecipe = {};
+var productRecipe = {};
 var tree = {};
 
 async function init() {
@@ -200,37 +201,47 @@ function loadSubRecipe(
     ] = recipeKey;
   }
 
-  if (!recipeKey || !recipes[recipeKey]) {
+  if (!recipeKey || (!recipes[recipeKey] && recipeKey !== "empty")) {
     document.getElementById(
       `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
     ).innerHTML = "";
     return;
   }
 
-  const recipe = recipes[recipeKey];
+  const recipe =
+    recipeKey === "empty"
+      ? { name: "null", inputs: [], outputs: [] }
+      : recipes[recipeKey];
 
   var mult = 1;
 
   if (parentRecipe) {
-    const parentRecipeInputs = recipes[parentRecipe].inputs;
-    const parentRecipeInput = parentRecipeInputs.find(
+    var parentRecipeInputs = recipes[parentRecipe].inputs;
+    var parentRecipeInput = parentRecipeInputs.find(
       (input) => input.product === product
     );
-
-    parentRecipeInput.amount =
+    var parentRecipeInputAmount =
       parentRecipeInput.amount * parentMult < 0.1
         ? Math.round(100 * parentRecipeInput.amount * parentMult) / 100
         : Math.round(10 * parentRecipeInput.amount * parentMult) / 10;
 
-    if (parentRecipeInput) {
+    if (parentRecipeInput && recipe.outputs.length > 0) {
       mult =
-        parentRecipeInput.amount /
+        parentRecipeInputAmount /
         recipe.outputs.find((output) => output.product === product).amount;
+
+      console.log(
+        mult +
+          " | " +
+          parentRecipeInputAmount +
+          " | " +
+          recipe.outputs.find((output) => output.product === product).amount
+      );
 
       mult = Math.round(10 * mult) / 10;
 
       while (
-        parentRecipeInput.amount >
+        parentRecipeInputAmount >
         recipe.outputs.find((output) => output.product === product).amount *
           mult
       ) {
@@ -292,6 +303,8 @@ function loadSubRecipe(
       </li>
     </ul>`;
 
+  if (recipeKey === "empty") subTreeHtml = "";
+
   document.getElementById(
     `tree-container-${product.replace(/\s+/g, "-")}-${index}-${selectId}`
   ).innerHTML = subTreeHtml;
@@ -330,8 +343,6 @@ function updateMaterialList() {
   var tmpRecipe = tree;
   var index = 0;
 
-  outputList = {};
-  inputList = {};
   materialsList = {};
 
   handleRecipeChange(index, tmpRecipe);
@@ -352,7 +363,7 @@ function updateMaterialList() {
     if (materialsList[key] > 0) {
       document.getElementById("output-list").innerHTML += `
         <li>${materialsList[key]}x ${key}</li>`;
-    } else {
+    } else if (materialsList[key] < 0) {
       document.getElementById("input-list").innerHTML += `
         <li>${materialsList[key] * -1}x ${key}</li>`;
     }
