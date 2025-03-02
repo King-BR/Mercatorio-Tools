@@ -3,32 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Custom Notifications</title>
+    <title>Recipe Tree</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-    <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/recipe_tree.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/recipe_tree.css" />
     <script
       src="https://kit.fontawesome.com/c4d49d24d3.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
   </head>
-  <body style="margin: 0px">
-    <div
-      class="w3-sidebar w3-bar-block w3-collapse"
-      style="width: 270px"
-      id="mySidebar"
-    >
-      <button class="w3-bar-item w3-button w3-hide-large" onclick="w3_close()">
-        Close &times;
-      </button>
-
-      <div class="w3-row sidebar-item">
-        <div class="w3-col s5">
+  <body>
+    <div class="w3-padding">
+      <div class="w3-row">
+        <div class="w3-col s1">
           <a href="/" class="w3-button w3-round w3-blue">Back</a>
         </div>
 
-        <div class="w3-col s4">
+        <div class="w3-col s1">
           <button
             class="w3-button w3-round w3-blue"
             id="dark-mode-toggle"
@@ -38,52 +31,13 @@
           </button>
         </div>
       </div>
-
-      <div class="w3-padding-16 sidebar-item">
-        <h2>Recipe Tree Visualizer (WIP)</h2>
-      </div>
-
-      <div class="sidebar-item">
-        <label for="recipe-select">Choose a recipe:</label>
-        <select id="recipe-select" onchange="loadRecipe()">
-          <option value="">Loading recipes...</option>
-        </select>
-      </div>
-
-      <div class="sidebar-item">
-        <label for="production-multiplier">Production multiplier:</label>
-        <input
-          type="number"
-          id="production-multiplier"
-          value="1"
-          min="0.1"
-          max="999"
-          step="0.1"
-          oninput="loadRecipe()"
-        />
-      </div>
-
-      <div style="margin: 5px">
-        <h4>Output List</h4>
-        <ul id="output-list">
-          <li>Loading...</li>
-        </ul>
-      </div>
-
-      <div style="margin: 5px">
-        <h4>Input List</h4>
-        <ul id="input-list">
-          <li>Loading...</li>
-        </ul>
-      </div>
+      <h1>Recipe Tree</h1>
     </div>
-
-    <button class="w3-button w3-xlarge" onclick="w3_open()">&#9776;</button>
-
-    <div id="tree-container"></div>
-
-    <script src="../js/auth.js"></script>
-    <script src="../js/recipe_tree.js"></script>
-    <script src="../js/index.js"></script>
+    
+    <div id="recipe-container"></div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/recipe_tree.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

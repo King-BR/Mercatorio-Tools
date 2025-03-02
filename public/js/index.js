@@ -9,6 +9,37 @@ function toggleDarkMode() {
   }
 
   setDarkModeIcon();
+
+  if (document.getElementById("recipe-container")) {
+    var nodes = document
+      .getElementById("recipe-container")
+      .getElementsByTagName("circle");
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].style.fill = document.body.classList.contains("light-mode")
+        ? "steelblue"
+        : "steelblue";
+    }
+
+    console.log("nodes", nodes);
+
+    var links = document
+      .getElementById("recipe-container")
+      .getElementsByTagName("line");
+    for (var i = 0; i < links.length; i++) {
+      links[i].style.stroke = document.body.classList.contains("light-mode")
+        ? "black"
+        : "white";
+    }
+    
+    var texts = document
+      .getElementById("recipe-container")
+      .getElementsByTagName("text");
+    for (var i = 0; i < texts.length; i++) {
+      texts[i].style.stroke = document.body.classList.contains("light-mode")
+        ? "green"
+        : "green";
+    }
+  }
 }
 
 function setDarkModeIcon() {
