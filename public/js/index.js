@@ -20,8 +20,6 @@ function toggleDarkMode() {
         : "steelblue";
     }
 
-    console.log("nodes", nodes);
-
     var links = document
       .getElementById("recipe-container")
       .getElementsByTagName("line");
@@ -30,7 +28,7 @@ function toggleDarkMode() {
         ? "black"
         : "white";
     }
-    
+
     var texts = document
       .getElementById("recipe-container")
       .getElementsByTagName("text");
