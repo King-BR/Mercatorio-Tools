@@ -123,7 +123,7 @@ function findRecipeByProduct(product) {
 
 function buildTreeData(
   recipeName,
-  visited = new Set(),
+  visited = new Map(),
   amount = 0,
   product,
   mult = 1
@@ -143,12 +143,15 @@ function buildTreeData(
 
   if (fa < 0.1) fa = 0.1;
 
-  if (visited.has(recipeName)) {
+  if (!visited.has(recipeName)) visited.set(recipeName, 0);
+
+  if (visited.get(recipeName) > 0) {
     return {
       name: `${recipe.name} (${amount > 0 ? `${fa}x` : "1x"})`,
     };
+  } else {
+    visited.set(recipeName, visited.get(recipeName) + 1);
   }
-  visited.add(recipeName);
 
   recipe.outputs.forEach((output) => {
     if (!materialList.has(output.product)) materialList.set(output.product, 0);
@@ -190,7 +193,7 @@ function buildTreeData(
       return {
         name: `${input.product} (${aa})`,
         children: [
-          buildTreeData(r, new Set(visited), input.amount, input.product, mult),
+          buildTreeData(r, new Map(visited), input.amount, input.product, mult),
         ],
       };
     }
@@ -248,7 +251,7 @@ function renderTree(rName, prodMultiplier = 1) {
     children: [
       buildTreeData(
         rName,
-        new Set(),
+        new Map(),
         recipes[rName].outputs[0].amount,
         recipes[rName].outputs[0].product,
         prodMultiplier
@@ -342,10 +345,21 @@ function updateMaterialList(rName) {
 
   const recipe = recipes[rName];
 
-  labourPerProductDiv.textContent = `Labour per ${
-    recipe.outputs[0].product
-  }: ${Math.abs(
-    materialList.get("labour") / materialList.get(recipe.outputs[0].product)
+  let tmparr = [];
+
+  for (let output of recipe.outputs) {
+    let labourPerProduct = Math.abs(
+      recipe.outputs[0].product == "labour"
+        ? materialList.get("labour") - recipe.outputs[0].amount
+        : materialList.get("labour") /
+            materialList.get(recipe.outputs[0].product)
+    );
+
+    tmparr.push(`${output.product}: ${labourPerProduct.toFixed(2)}`);
+  }
+
+  labourPerProductDiv.innerHTML = `<h2>Labour per products</h2>${tmparr.join(
+    "<br>"
   )}`;
 
   const tableBody = document.getElementById("material-list-body");
