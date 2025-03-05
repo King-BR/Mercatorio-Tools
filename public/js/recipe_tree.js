@@ -130,24 +130,25 @@ function buildTreeData(
 ) {
   const recipe = recipes[recipeName];
 
-  if (visited.has(recipeName))
-    return {
-      name: `${recipe.name} (${
-        amount > 0
-          ? `${
-              Math.round(
-                ((amount * mult) /
-                  recipe.outputs.find((o) => o.product == product).amount) *
-                  10
-              ) / 10
-            }x`
-          : "1x"
-      })`,
-    };
-  visited.add(recipeName);
   if (!recipe) {
     return { name: recipeName };
   }
+
+  let fa =
+    Math.round(
+      ((amount * mult) /
+        recipe.outputs.find((o) => o.product == product).amount) *
+        10
+    ) / 10;
+
+  if (fa < 0.1) fa = 0.1;
+
+  if (visited.has(recipeName)) {
+    return {
+      name: `${recipe.name} (${amount > 0 ? `${fa}x` : "1x"})`,
+    };
+  }
+  visited.add(recipeName);
 
   recipe.outputs.forEach((output) => {
     if (!materialList.has(output.product)) materialList.set(output.product, 0);
@@ -165,65 +166,38 @@ function buildTreeData(
 
     if (!materialList.has(input.product)) materialList.set(input.product, 0);
 
-    if (r && input.product !== "labour") {
-      let finalAmount = Math.round(input.amount * mult * 100) / 100;
+    let finalAmount2 = Math.round(input.amount * mult * 100) / 100;
+    let finalAmount =
+      Math.round(
+        input.amount *
+          mult *
+          (Math.round(
+            (amount / recipe.outputs.find((o) => o.product == product).amount) *
+              10
+          ) /
+            10) *
+          100
+      ) / 100;
+
+    if (r) {
+      let aa = amount > 0 ? finalAmount : finalAmount2;
 
       materialList.set(
         input.product,
-        materialList.get(input.product) + finalAmount * -1
+        materialList.get(input.product) + aa * -1
       );
 
       return {
-        name: `${input.product} (${finalAmount})`,
+        name: `${input.product} (${aa})`,
         children: [
           buildTreeData(r, new Set(visited), input.amount, input.product, mult),
         ],
-      };
-    } else {
-      let finalAmount2 = Math.round(input.amount * mult * 100) / 100;
-      let finalAmount =
-        Math.round(
-          input.amount *
-            mult *
-            (Math.round(
-              (amount /
-                recipe.outputs.find((o) => o.product == product).amount) *
-                10
-            ) /
-              10) *
-            100
-        ) / 100;
-
-      if (amount > 0) {
-        materialList.set(
-          input.product,
-          materialList.get(input.product) + finalAmount * -1
-        );
-      } else {
-        materialList.set(
-          input.product,
-          materialList.get(input.product) + finalAmount2 * -1
-        );
-      }
-
-      return {
-        name: `${input.product} (${amount > 0 ? finalAmount : finalAmount2})`,
       };
     }
   });
 
   return {
-    name: `${recipe.name} (${
-      amount > 0
-        ? `${
-            Math.round(
-              ((amount * mult) /
-                recipe.outputs.find((o) => o.product == product).amount) *
-                10
-            ) / 10
-          }x`
-        : "1x"
-    })`,
+    name: `${recipe.name} (${amount > 0 ? `${fa}x` : "1x"})`,
     children: inputs,
   };
 }
@@ -283,8 +257,6 @@ function renderTree(rName, prodMultiplier = 1) {
   };
 
   const root = d3.hierarchy(data);
-  const maxDepth = d3.max(root.descendants(), (d) => d.depth);
-  const nodeCount = root.descendants().length;
 
   const treeLayout = d3
     .tree()
@@ -370,9 +342,11 @@ function updateMaterialList(rName) {
 
   const recipe = recipes[rName];
 
-  labourPerProductDiv.textContent = `Labour per ${recipe.outputs[0].product}: ${
-    Math.abs(materialList.get("labour") / materialList.get(recipe.outputs[0].product))
-  }`;
+  labourPerProductDiv.textContent = `Labour per ${
+    recipe.outputs[0].product
+  }: ${Math.abs(
+    materialList.get("labour") / materialList.get(recipe.outputs[0].product)
+  )}`;
 
   const tableBody = document.getElementById("material-list-body");
   tableBody.innerHTML = "";
