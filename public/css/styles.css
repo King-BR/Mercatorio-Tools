@@ -116,6 +116,10 @@ header {
   font-weight: bold;
 }
 
+#recipe-container {
+  background-color: #181818;
+}
+
 .popup-container {
   position: fixed;
   top: 50%;

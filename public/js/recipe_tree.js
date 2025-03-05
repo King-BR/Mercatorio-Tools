@@ -180,15 +180,34 @@ function buildTreeData(
         ],
       };
     } else {
-      let finalAmount = Math.round(input.amount * mult * 100) / 100;
+      let finalAmount2 = Math.round(input.amount * mult * 100) / 100;
+      let finalAmount =
+        Math.round(
+          input.amount *
+            mult *
+            (Math.round(
+              (amount /
+                recipe.outputs.find((o) => o.product == product).amount) *
+                10
+            ) /
+              10) *
+            100
+        ) / 100;
 
-      materialList.set(
-        input.product,
-        materialList.get(input.product) + finalAmount * -1
-      );
+      if (amount > 0) {
+        materialList.set(
+          input.product,
+          materialList.get(input.product) + finalAmount * -1
+        );
+      } else {
+        materialList.set(
+          input.product,
+          materialList.get(input.product) + finalAmount2 * -1
+        );
+      }
 
       return {
-        name: `${input.product} (${finalAmount})`,
+        name: `${input.product} (${amount > 0 ? finalAmount : finalAmount2})`,
       };
     }
   });
@@ -342,10 +361,19 @@ function renderTree(rName, prodMultiplier = 1) {
 
   svg.call(d3.zoom().transform, svg.node().__zoom);
 
-  updateMaterialList();
+  updateMaterialList(rName);
 }
 
-function updateMaterialList() {
+function updateMaterialList(rName) {
+  const labourPerProductDiv = document.getElementById("labour-per-product");
+  labourPerProductDiv.innerHTML = "";
+
+  const recipe = recipes[rName];
+
+  labourPerProductDiv.textContent = `Labour per ${recipe.outputs[0].product}: ${
+    Math.abs(materialList.get("labour") / recipe.outputs[0].amount)
+  }`;
+
   const tableBody = document.getElementById("material-list-body");
   tableBody.innerHTML = "";
 
