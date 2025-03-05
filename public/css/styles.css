@@ -2,7 +2,8 @@
 :root {
   --background-color: #121212;
   --text-color: #ffffff;
-  --link-color: #bb86fc;
+  --link-color: #3b38ff;
+  --popup-background-color: #2d2d2d;
 }
 
 /* Light mode variables */
@@ -10,9 +11,10 @@ body.light-mode {
   --background-color: #ffffff;
   --text-color: #000000;
   --link-color: #1a73e8;
+  --popup-background-color: #b0b0b0;
 }
 
-/* Apply the variables to your elements */
+/* Apply the variables to the elements */
 body {
   background-color: var(--background-color);
   color: var(--text-color);
@@ -95,15 +97,15 @@ header {
 
 .sidebar-item {
   display: flex;
-  align-items: center; /* Center vertically */
+  align-items: center;
   margin: 5px;
 }
 
 .sidebar-item label {
   display: flex;
-  align-items: center; /* Center vertically */
+  align-items: center;
   font-weight: bold;
-  flex: 1; /* Ensure label takes the remaining space */
+  flex: 1;
 }
 
 .sidebar-item input[type="checkbox"] {
@@ -112,4 +114,54 @@ header {
 
 .w3-button {
   font-weight: bold;
+}
+
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+  background-color: var(--popup-background-color);
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  min-width: 300px;
+  max-width: 1000px;
+  max-height: 600px;
+  overflow: auto;
+  flex: 1;
+}
+
+.popup-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  min-width: 300;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.popup-close {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.popup-close:hover {
+  color: red;
+}
+
+.config-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.config-item select {
+  width: 100%;
+  max-width: 180px;
 }

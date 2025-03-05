@@ -29,12 +29,21 @@ function toggleDarkMode() {
         : "white";
     }
 
+    var rects = document
+      .getElementById("recipe-container")
+      .getElementsByTagName("rect");
+    for (var i = 0; i < rects.length; i++) {
+      rects[i].style.fill = document.body.classList.contains("light-mode")
+        ? "black"
+        : "lightgray";
+    }
+
     var texts = document
       .getElementById("recipe-container")
       .getElementsByTagName("text");
     for (var i = 0; i < texts.length; i++) {
       texts[i].style.stroke = document.body.classList.contains("light-mode")
-        ? "green"
+        ? "white"
         : "green";
     }
   }

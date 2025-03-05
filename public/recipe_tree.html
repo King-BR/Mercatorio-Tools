@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/recipe_tree.css" />
     <script
       src="https://kit.fontawesome.com/c4d49d24d3.js"
       crossorigin="anonymous"
@@ -32,10 +31,68 @@
         </div>
       </div>
       <h1>Recipe Tree</h1>
+
+      <div class="w3-row">
+        <div class="w3-col s1">
+          <button
+            id="recipe-config-btn"
+            class="w3-button w3-blue w3-round"
+            onclick="openConfig()"
+          >
+            Config
+          </button>
+        </div>
+
+        <div class="w3-col s4">
+          <select
+            id="recipe-select"
+            class="w3-select w3-border w3-round"
+            onchange="loadTree()"
+          >
+            <option value="" disabled selected>Select a recipe</option>
+          </select>
+        </div>
+
+        <div class="w3-col s1">
+          <input
+            class="w3-input w3-border w3-round"
+            style="margin-left: 20px"
+            id="production-mult"
+            type="number"
+            value="1"
+            min="0.1"
+            placeholder="Production multiplier"
+            oninput="loadTree()"
+            step="0.1"
+          />
+        </div>
+      </div>
     </div>
-    
+
+    <div id="recipe-config-popup" class="popup-container" style="display: none">
+      <span
+        id="close-recipe-config-btn"
+        class="popup-close"
+        onclick="closeConfig()"
+        >&times;</span
+      >
+      <div id="recipe-config-div" class="popup-content"></div>
+    </div>
+
     <div id="recipe-container"></div>
-    
+    <div id="material-list-container" class="w3-padding">
+      <h2>Material List</h2>
+      <table class="w3-table w3-bordered">
+        <thead>
+          <tr>
+            <th>Material</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="material-list-body"></tbody>
+      </table>
+    </div>
+
     <script src="js/auth.js"></script>
     <script src="js/recipe_tree.js"></script>
     <script src="js/index.js"></script>
