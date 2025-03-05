@@ -117,7 +117,8 @@ header {
 }
 
 #recipe-container {
-  background-color: #181818;
+  background-color: #3e3e3e;
+  width: 95%;
 }
 
 .popup-container {
@@ -130,11 +131,17 @@ header {
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  min-width: 300px;
-  max-width: 1000px;
+  min-width: 50%;
+  max-width: 80%;
   max-height: 600px;
-  overflow: auto;
   flex: 1;
+}
+
+@media (max-width: 768px) {
+  .popup-container {
+    min-width: 50%;
+    max-width: 70%;
+  }
 }
 
 .popup-content {
@@ -144,12 +151,13 @@ header {
   min-width: 300;
   max-width: 1000px;
   margin: 0 auto;
+  overflow: auto;
 }
 
 .popup-close {
   position: absolute;
   top: 0px;
-  right: 10px;
+  right: 50px;
   font-size: 30px;
   cursor: pointer;
   color: var(--text-color);
