@@ -336,10 +336,10 @@ function renderTree(rName, prodMultiplier = 1) {
 
   svg.call(d3.zoom().transform, svg.node().__zoom);
 
-  updateMaterialList(rName);
+  updateMaterialList(rName, prodMultiplier);
 }
 
-function updateMaterialList(rName) {
+function updateMaterialList(rName, mult) {
   const labourPerProductDiv = document.getElementById("labour-per-product");
   labourPerProductDiv.innerHTML = "";
 
@@ -350,7 +350,7 @@ function updateMaterialList(rName) {
   for (let output of recipe.outputs) {
     let labourPerProduct = Math.abs(
       recipe.outputs[0].product == "labour"
-        ? materialList.get("labour") - recipe.outputs[0].amount
+        ? (recipe.outputs[0].amount * mult) - materialList.get("labour")
         : materialList.get("labour") /
             materialList.get(recipe.outputs[0].product)
     );
