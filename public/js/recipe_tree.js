@@ -371,7 +371,7 @@ function updateMaterialList(rName) {
   const recipe = recipes[rName];
 
   labourPerProductDiv.textContent = `Labour per ${recipe.outputs[0].product}: ${
-    Math.abs(materialList.get("labour") / recipe.outputs[0].amount)
+    Math.abs(materialList.get("labour") / materialList.get(recipe.outputs[0].product))
   }`;
 
   const tableBody = document.getElementById("material-list-body");
