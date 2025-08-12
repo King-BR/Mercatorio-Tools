@@ -13,24 +13,37 @@
     <div id="app">
       <header>
         <a href="/" class="w3-button w3-round w3-blue">Back</a>
-        <h1>Recipe Explorer</h1>
+          <h1>Recipe Explorer</h1>
+        <div class="subheader">
 
-        <select
-          id="recipe-select"
-          class="w3-select w3-border w3-round"
-          style="width: auto"
-          onchange="updateRecipeTree()"
-        >
-          <option value="" disabled selected>Select a product</option>
-        </select>
+          <select
+            id="recipe-select"
+            class="w3-select w3-border w3-round"
+            style="width: auto"
+            onchange="updateRecipeTree()"
+          >
+            <option value="" disabled selected>Select a product</option>
+          </select>
 
-        <button
-          id="recipe-config-btn"
-          class="w3-button w3-blue w3-round"
-          onclick="openConfig()"
-        >
-          Recipe Config
-        </button>
+          <input
+            id="multiplier-input"
+            class="w3-input w3-border w3-round"
+            type="number"
+            min="0.1"
+            step="0.1"
+            value="1"
+            style="width: 70px"
+            onchange="updateRecipeTree()"
+          />
+
+          <button
+            id="recipe-config-btn"
+            class="w3-button w3-blue w3-round"
+            onclick="openConfig()"
+          >
+            Recipe Config
+          </button>
+        </div>
       </header>
 
       <div

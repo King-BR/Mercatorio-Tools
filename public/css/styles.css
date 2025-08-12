@@ -34,7 +34,7 @@ html,
   margin: 0;
 }
 
-header {
+header, .subheader {
   display: flex;
   gap: 8px;
   padding: 10px;

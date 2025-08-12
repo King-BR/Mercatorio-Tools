@@ -1,8 +1,11 @@
 var previousProduct = null;
 var rootProduct = null;
+var rootMult = 1;
 var recipes = {};
 var products = [];
-var recipeConfig = new Map();
+const productsAmounts = new Map();
+const productsUsed = new Map();
+const recipeConfig = new Map();
 const state = new Map();
 const tiers = ["Novice", "Worker", "Journeyman", "Master"];
 
@@ -126,20 +129,21 @@ function closeConfig() {
 
 function buildGraph(rootName) {
   const nodes = new Map();
-  const links = [];
+  var links = [];
   var visited = new Set();
 
-  function ensureNode(name, amount = 0) {
+  function ensureNode(name) {
     if (!nodes.has(name)) {
       let r = recipes[recipeConfig.get(name)];
 
-      const baseLabel = `${amount ? amount + "x " : ""}${
+      const baseLabel = `{amountProduct}x ${
         name[0].toUpperCase() + name.slice(1)
       }`;
+
       const extraLabel =
         state.get(name) === "buy"
           ? ""
-          : `\n${r.building
+          : `\n{amountRecipe}x ${r.building
               .split(" ")
               .map((word) => word[0].toUpperCase() + word.slice(1))
               .join(" ")}\n${tiers[r.tier - 1]}${
@@ -159,7 +163,7 @@ function buildGraph(rootName) {
   }
 
   function expand(productName, amountRequired = 0, parent = null, depth = 0) {
-    ensureNode(productName, amountRequired);
+    ensureNode(productName);
     //if (parent) links.push({ source: productName, target: parent });
 
     if (productName === "labour") return;
@@ -168,36 +172,77 @@ function buildGraph(rootName) {
 
     const recipeName = recipeConfig.get(productName);
     if (!recipeName) {
-      console.log(`Sem receita configurada para ${productName}`);
+      console.log(`No recipe for ${productName}`);
       return;
     }
 
     const r = recipes[recipeName];
-    if (!r || !r.inputs) {
-      console.log(`Receita ${recipeName} não tem inputs para ${productName}`);
+    if (
+      !r ||
+      !r.outputs ||
+      r.outputs.filter((i) => i.product === productName).length === 0
+    ) {
+      console.log(`Recipe ${recipeName} doesnt output ${productName}`);
       return;
     }
 
     if (state.get(productName) === "buy") return; // stop expansion if set to buy
 
-    // get the mult for the amount required
-    let mult =
-      amountRequired / r.outputs.find((o) => o.product === productName).amount;
+    const output = r.outputs.find((o) => o.product === productName);
 
-    mult = Math.round(mult * 10) / 10;
+    // get multiplier to produce required amount
+    var mult = Math.round((amountRequired / output.amount) * 10) / 10;
+
+    if (mult < 0.1) mult = 0.1;
+
+    if (!parent && depth === 0) mult = rootMult;
 
     for (const inp of r.inputs) {
       links.push({
         source: inp.product,
         target: productName,
-        inputAmount: inp.amount,
+        inputAmountTarget: inp.amount * mult,
+        inputAmountSource: 0,
       });
 
       expand(inp.product, inp.amount * mult, productName, depth + 1);
     }
   }
 
+  function mergeBidirectionalLinks(links) {
+    const merged = [];
+    const seen = new Set();
+
+    links.forEach((link) => {
+      const keyAB = `${link.source}-${link.target}`;
+      const keyBA = `${link.target}-${link.source}`;
+
+      if (seen.has(keyAB) || seen.has(keyBA)) return;
+
+      const reverse = links.find(
+        (l) => l.source === link.target && l.target === link.source
+      );
+
+      if (reverse) {
+        merged.push({
+          source: link.source,
+          target: link.target,
+          inputAmountTarget: link.inputAmountTarget,
+          inputAmountSource: reverse.inputAmountTarget,
+        });
+        seen.add(keyAB);
+        seen.add(keyBA);
+      } else {
+        merged.push(link);
+        seen.add(keyAB);
+      }
+    });
+
+    return merged;
+  }
+
   expand(rootName);
+  links = mergeBidirectionalLinks(links);
   return { nodes: Array.from(nodes.values()), links };
 }
 
@@ -205,17 +250,34 @@ function render(root) {
   g.selectAll("*").remove();
   const { nodes, links } = buildGraph(root);
 
-  // Define arrow head
+  // Define arrow heads
   svg
     .append("defs")
     .append("marker")
-    .attr("id", "arrowhead")
+    .attr("id", "arrow-end")
     .attr("viewBox", "-0 -5 10 10")
     .attr("refX", 10)
     .attr("refY", 0)
     .attr("orient", "auto")
     .attr("markerWidth", 20)
     .attr("markerHeight", 20)
+    .attr("xoverflow", "visible")
+    .append("svg:path")
+    .attr("d", "M 0,-5 L 10 ,0 L 0,5")
+    .attr("fill", "#999999")
+    .style("stroke", "none");
+
+  svg
+    .append("defs")
+    .append("marker")
+    .attr("id", "arrow-start")
+    .attr("viewBox", "-0 -5 10 10")
+    .attr("refX", 10)
+    .attr("refY", 0)
+    .attr("orient", "auto")
+    .attr("markerWidth", 20)
+    .attr("markerHeight", 20)
+    .attr("orient", "auto-start-reverse")
     .attr("xoverflow", "visible")
     .append("svg:path")
     .attr("d", "M 0,-5 L 10 ,0 L 0,5")
@@ -245,7 +307,10 @@ function render(root) {
     .enter()
     .append("line")
     .attr("class", "edge")
-    .attr("marker-end", "url(#arrowhead)");
+    .attr("marker-end", (d) => "url(#arrow-end)")
+    .attr("marker-start", (d) =>
+      d.inputAmountSource > 0 ? "url(#arrow-start)" : null
+    );
 
   // Link labels
   const linkLabels = g
@@ -273,7 +338,35 @@ function render(root) {
     .attr("fill", "#F6FF00")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
-    .text((d) => `${d.inputAmount}`);
+    .each(function (d) {
+      let text = `${d.source.id}: ${
+        Math.round(d.inputAmountTarget * 100) / 100
+      }`;
+
+      if (d.inputAmountSource)
+        text += `\n${d.target.id}: ${
+          Math.round(d.inputAmountSource * 100) / 100
+        }`;
+
+      const lines = text.split("\n");
+      const textSel = d3.select(this);
+      lines.forEach((line, i) => {
+        textSel
+          .append("tspan")
+          .attr("x", 0)
+          .attr(
+            "dy",
+            i === 0
+              ? lines.length > 1 && lines.length <= 3
+                ? -15
+                : lines.length > 3
+                ? -25
+                : 5
+              : 20
+          )
+          .text(line);
+      });
+    });
 
   // Resize background to contain link label text
   linkLabels.each(function () {
@@ -335,6 +428,72 @@ function render(root) {
     .append("text")
     .attr("text-anchor", "middle")
     .each(function (d) {
+      var totalAmountProduct = 0;
+
+      if (!d.root) {
+        links.forEach((l) => {
+          if (l.source.id === d.id) {
+            totalAmountProduct += l.inputAmountTarget;
+          }
+        });
+      } else {
+        totalAmountProduct =
+          recipes[recipeConfig.get(d.id)].outputs.find(
+            (o) => o.product === d.id
+          ).amount * (d.root ? rootMult : 1);
+      }
+
+      totalAmountProduct =
+        Math.round(totalAmountProduct * (d.root ? rootMult : 1) * 100) / 100;
+
+      var productUsed = totalAmountProduct;
+      var mult;
+
+      if (d.id !== "labour") {
+        mult =
+          Math.round(
+            ((totalAmountProduct * (d.root ? rootMult : 1)) /
+              recipes[recipeConfig.get(d.id)].outputs.find(
+                (o) => o.product === d.id
+              ).amount) *
+              10
+          ) / 10;
+
+        if (mult < 0.1) mult = 0.1;
+
+        if (state.get(d.id) === "produce")
+          totalAmountProduct =
+            totalAmountProduct <=
+            Math.round(
+              recipes[recipeConfig.get(d.id)].outputs.find(
+                (o) => o.product === d.id
+              ).amount *
+                (d.root ? rootMult : mult) *
+                100
+            ) /
+              100
+              ? Math.round(
+                  recipes[recipeConfig.get(d.id)].outputs.find(
+                    (o) => o.product === d.id
+                  ).amount *
+                    (d.root ? rootMult : mult) *
+                    100
+                ) / 100
+              : Math.round(
+                  recipes[recipeConfig.get(d.id)].outputs.find(
+                    (o) => o.product === d.id
+                  ).amount *
+                    (d.root ? rootMult + 0.1 : mult + 0.1) *
+                    100
+                ) / 100;
+      }
+
+      productsAmounts.set(d.id, totalAmountProduct);
+      productsUsed.set(d.id, productUsed);
+
+      d.label = d.label.replace("{amountProduct}", totalAmountProduct);
+      if (mult > 0) d.label = d.label.replace("{amountRecipe}", mult);
+
       const lines = d.label.split("\n");
       const textSel = d3.select(this);
       lines.forEach((line, i) => {
@@ -455,24 +614,35 @@ function updateSummary(root) {
 
   // render summary
   const div = document.getElementById("summary");
-  div.innerHTML = `<p><small>Green nodes are products being bought from the market, red nodes are being produced — click on it to toggle</small></p>
+  div.innerHTML = `<p><small>The yellow node is the "root" product that you are trying to make, green nodes are products being bought from the market, red nodes are being produced — click on it to toggle (exceptions is the root product and labour)</small></p>
   
 
   `;
 }
 
 async function updateRecipeTree() {
+  if (!products.includes(document.getElementById("recipe-select").value))
+    return;
   rootProduct = document.getElementById("recipe-select").value.trim();
+
+  rootMult = document
+    .getElementById("multiplier-input")
+    .value.trim()
+    .replace(",", ".");
+
   if (!recipes || Object.keys(recipes).length === 0) await getRecipes();
 
   // Initialize state for products
   if (!previousProduct || previousProduct !== rootProduct) {
+    state.clear();
     Object.values(products).forEach((product) => {
       state.set(product, "buy");
       if (product === rootProduct) state.set(product, "produce");
     });
   }
 
+  productsAmounts.clear();
+  productsUsed.clear();
   previousProduct = rootProduct;
 
   render(rootProduct);
@@ -485,10 +655,11 @@ async function init() {
 
   populateConfig();
 
+  document.getElementById("multiplier-input").value = 1;
   const select = document.getElementById("recipe-select");
   for (const product of products) {
     const option = document.createElement("option");
-    option.value = product; // aqui é nome do produto
+    option.value = product;
     option.text = product;
     select.appendChild(option);
   }
