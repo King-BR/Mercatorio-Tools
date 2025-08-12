@@ -1,4 +1,5 @@
 var previousProduct = null;
+var rootProduct = null;
 var recipes = {};
 var products = [];
 var recipeConfig = new Map();
@@ -132,11 +133,18 @@ function buildGraph(rootName) {
     if (!nodes.has(name)) {
       let r = recipes[recipeConfig.get(name)];
 
-      const baseLabel = `${amount ? amount + "x " : ""}${name}`;
+      const baseLabel = `${amount ? amount + "x " : ""}${
+        name[0].toUpperCase() + name.slice(1)
+      }`;
       const extraLabel =
         state.get(name) === "buy"
           ? ""
-          : `\n${r.building}\nTier: ${tiers[r.tier - 1]}`;
+          : `\n${r.building
+              .split(" ")
+              .map((word) => word[0].toUpperCase() + word.slice(1))
+              .join(" ")}\n${tiers[r.tier - 1]}${
+              r.class ? `\n${r.class[0].toUpperCase() + r.class.slice(1)}` : ""
+            }`;
 
       const label = baseLabel + extraLabel;
 
@@ -197,24 +205,24 @@ function render(root) {
   g.selectAll("*").remove();
   const { nodes, links } = buildGraph(root);
 
-  // Antes do render, defina a seta uma vez:
+  // Define arrow head
   svg
     .append("defs")
     .append("marker")
     .attr("id", "arrowhead")
     .attr("viewBox", "-0 -5 10 10")
-    .attr("refX", 9) // distância da ponta da seta até o ponto final da linha (ajuste para combinar com o raio do nó)
+    .attr("refX", 10)
     .attr("refY", 0)
     .attr("orient", "auto")
-    .attr("markerWidth", 10)
-    .attr("markerHeight", 10)
+    .attr("markerWidth", 20)
+    .attr("markerHeight", 20)
     .attr("xoverflow", "visible")
     .append("svg:path")
     .attr("d", "M 0,-5 L 10 ,0 L 0,5")
-    .attr("fill", "#999")
+    .attr("fill", "#999999")
     .style("stroke", "none");
 
-  // force simulation
+  // Force simulation
   const simulation = d3
     .forceSimulation(nodes)
     .force(
@@ -223,11 +231,12 @@ function render(root) {
         .forceLink(links)
         .id((d) => d.id)
         .distance(200)
-        .strength(0.1)
+        .strength(0.05)
     )
     .force("charge", d3.forceManyBody().strength(-600))
     .force("center", d3.forceCenter(window.innerWidth / 2 - 160, height / 2));
 
+  // Links
   const link = g
     .append("g")
     .attr("class", "links")
@@ -238,24 +247,51 @@ function render(root) {
     .attr("class", "edge")
     .attr("marker-end", "url(#arrowhead)");
 
+  // Link labels
   const linkLabels = g
     .append("g")
     .attr("class", "link-labels")
-    .selectAll("text")
+    .selectAll("g.link-label")
     .data(links)
     .enter()
-    .append("text")
-    .attr("font-size", 15)
-    .attr("fill", "#F6FF00FF")
-    .attr("dy", -5) // ajusta para ficar acima da linha
-    .attr("text-anchor", "middle")
-    .text((d) => {
-      // Aqui você define o texto da aresta, exemplo:
-      // pode ser quantidade do input ou nome do ingrediente etc
-      if (d.inputAmount) return `${d.inputAmount}`;
-      return "";
-    });
+    .append("g")
+    .attr("class", "link-label")
+    .style("pointer-events", "none");
 
+  // Create background
+  linkLabels
+    .append("rect")
+    .attr("rx", 4)
+    .attr("ry", 4)
+    .attr("fill", "#000000FF")
+    .attr("stroke", "none");
+
+  // Link label text
+  linkLabels
+    .append("text")
+    .attr("font-size", 12)
+    .attr("fill", "#F6FF00")
+    .attr("text-anchor", "middle")
+    .attr("dy", "0.35em")
+    .text((d) => `${d.inputAmount}`);
+
+  // Resize background to contain link label text
+  linkLabels.each(function () {
+    const gThis = d3.select(this);
+    const textNode = gThis.select("text").node();
+    if (!textNode) return;
+    const bbox = textNode.getBBox();
+    const padX = 6;
+    const padY = 4;
+    gThis
+      .select("rect")
+      .attr("x", bbox.x - padX)
+      .attr("y", bbox.y - padY)
+      .attr("width", bbox.width + padX * 2)
+      .attr("height", bbox.height + padY * 2);
+  });
+
+  // Create node groups
   const node = g
     .append("g")
     .attr("class", "nodes")
@@ -265,6 +301,9 @@ function render(root) {
     .append("g")
     .attr("class", "node-group")
     .on("click", (_, d) => {
+      if (d.root) return;
+      if (d.id === "labour") return;
+
       const current = state.get(d.id) || "buy";
       state.set(d.id, current === "produce" ? "buy" : "produce");
 
@@ -272,7 +311,7 @@ function render(root) {
       updateSummary(root);
     });
 
-  // Circle nodes
+  // Product nodes
   node
     .append("circle")
     .attr("r", (d) => {
@@ -283,6 +322,11 @@ function render(root) {
     .attr("class", "node")
     .attr("fill", (d) => {
       const mode = state.get(d.id) || "buy";
+
+      if (d.id === rootProduct) {
+        d.root = true;
+        return "#FFD900FF";
+      }
       return mode === "buy" ? "#00D40BFF" : "#D40000FF";
     });
 
@@ -297,24 +341,34 @@ function render(root) {
         textSel
           .append("tspan")
           .attr("x", 0)
-          .attr("dy", i === 0 ? (lines.length > 1 ? -10 : 0) : 16)
+          .attr(
+            "dy",
+            i === 0
+              ? lines.length > 1 && lines.length <= 3
+                ? -15
+                : lines.length > 3
+                ? -25
+                : 5
+              : 20
+          )
           .text(line);
       });
     });
 
-  // Update
+  // Update node radius
   text.each(function () {
     const textNode = this;
     const bbox = textNode.getBBox();
-    const r = Math.max(bbox.width / 2, bbox.height / 2) + 8;
-    d3.select(textNode.parentNode).select("circle").attr("r", r);
+    const r = Math.max(bbox.width / 2, bbox.height / 2) + 20;
+    d3.select(textNode.parentNode)
+      .select("circle")
+      .attr("r", r)
+      .each(function (d) {
+        d.radius = r;
+      });
   });
 
-  node.each(function (d) {
-    const bbox = this.getBBox();
-    d.radius = Math.max(bbox.width, bbox.height) / 2;
-  });
-
+  // Update link, nodes and labels positions
   simulation.on("tick", () => {
     link
       .attr("x1", (d) => {
@@ -358,14 +412,16 @@ function render(root) {
         return d.target.y + normY * offsetTarget;
       });
 
-    linkLabels
-      .attr("x", (d) => (d.source.x + d.target.x) / 2)
-      .attr("y", (d) => (d.source.y + d.target.y) / 2);
+    linkLabels.attr("transform", (d) => {
+      const mx = (d.source.x + d.target.x) / 2;
+      const my = (d.source.y + d.target.y) / 2;
+      return `translate(${mx},${my})`;
+    });
 
     node.attr("transform", (d) => `translate(${d.x},${d.y})`);
   });
 
-  // drag
+  // Drag view
   node.call(
     d3
       .drag()
@@ -386,9 +442,8 @@ function render(root) {
   );
 }
 
-// summary calculation
+// TODO: summary calculation
 function updateSummary(root) {
-  return;
   const required = new Map(); // product -> totalAmount
   const costBreakdown = { material: 0, labour: 0, unknown: 0 };
 
@@ -401,28 +456,13 @@ function updateSummary(root) {
   // render summary
   const div = document.getElementById("summary");
   div.innerHTML = `<p><small>Green nodes are products being bought from the market, red nodes are being produced — click on it to toggle</small></p>
-    <h3>Summary for: <strong>${root}</strong></h3>
-    <p><strong>Estimated material cost:</strong> ${materialCost.toFixed(2)}</p>
-    <p><strong>Estimated time / Labour:</strong> ${costBreakdown.labour}</p>
-    <h4>Details</h4>
-    <ul>
-      ${requiredList
-        .map(
-          (r) =>
-            `<li>${r.product} — amt: ${r.amount.toFixed(2)} — ${
-              r.unitPrice != null
-                ? `unit ${r.unitPrice} → subtotal ${r.subtotal.toFixed(2)}`
-                : "no price"
-            }</li>`
-        )
-        .join("")}
-    </ul>
-    
+  
+
   `;
 }
 
 async function updateRecipeTree() {
-  const rootProduct = document.getElementById("recipe-select").value.trim();
+  rootProduct = document.getElementById("recipe-select").value.trim();
   if (!recipes || Object.keys(recipes).length === 0) await getRecipes();
 
   // Initialize state for products
