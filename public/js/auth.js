@@ -1,4 +1,4 @@
-const apiUrl = "/api/auth"; // Use relative URL
+const apiUrl = "../api/auth"; // Use relative URL
 
 async function login() {
   const email = document.getElementById("login-email").value;

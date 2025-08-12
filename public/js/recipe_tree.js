@@ -1,12 +1,22 @@
-var width = document.documentElement.clientWidth;
-var height = document.documentElement.clientHeight * 0.8;
+var previousProduct = null;
 var recipes = {};
-var recipeConfig = new Map();
 var products = [];
-var materialList = new Map();
+var recipeConfig = new Map();
+const state = new Map();
+const tiers = ["Novice", "Worker", "Journeyman", "Master"];
+
+const width = window.innerWidth;
+const height = window.innerHeight - 56;
+
+const svg = d3.select("#svgCanvas");
+const g = svg.append("g");
+const zoom = d3
+  .zoom()
+  .on("zoom", ({ transform }) => g.attr("transform", transform));
+svg.call(zoom);
 
 async function getRecipes() {
-  const response = await fetch("/api/recipes");
+  const response = await fetch("api/recipes");
   recipes = await response.json();
 
   recipes = Object.fromEntries(
@@ -52,6 +62,18 @@ function getProducts() {
   return products;
 }
 
+function findAllRecipesByProduct(product) {
+  return Object.values(recipes).filter((recipe) => {
+    return recipe.outputs.some((output) => output.product === product);
+  });
+}
+
+function findRecipeByProduct(product) {
+  return Object.values(recipes).find((recipe) => {
+    return recipe.outputs.some((output) => output.product === product);
+  });
+}
+
 function populateConfig() {
   const configDiv = document.getElementById("recipe-config-div");
   configDiv.innerHTML = "";
@@ -59,8 +81,6 @@ function populateConfig() {
   recipeConfig.clear();
 
   for (let product of products) {
-    recipeConfig.set(product, "market");
-
     const div = document.createElement("div");
 
     div.classList.add("config-item");
@@ -71,15 +91,9 @@ function populateConfig() {
     const productRecipes = findAllRecipesByProduct(product);
     const select = document.createElement("select");
 
+    recipeConfig.set(product, productRecipes[0].name);
+
     select.id = `${product}-recipe-select`;
-
-    const marketOption = document.createElement("option");
-
-    marketOption.value = "market";
-    marketOption.text = "market";
-    marketOption.selected = true;
-
-    select.appendChild(marketOption);
 
     for (let recipe of productRecipes) {
       const option = document.createElement("option");
@@ -91,7 +105,7 @@ function populateConfig() {
 
     select.onchange = (event) => {
       recipeConfig.set(product, event.target.value);
-      loadTree();
+      updateRecipeTree();
     };
 
     div.appendChild(label);
@@ -109,275 +123,320 @@ function closeConfig() {
   document.getElementById("recipe-config-popup").style.display = "none";
 }
 
-function findAllRecipesByProduct(product) {
-  return Object.values(recipes).filter((recipe) => {
-    return recipe.outputs.some((output) => output.product === product);
-  });
-}
+function buildGraph(rootName) {
+  const nodes = new Map();
+  const links = [];
+  var visited = new Set();
 
-function findRecipeByProduct(product) {
-  return Object.values(recipes).find((recipe) => {
-    return recipe.outputs.some((output) => output.product === product);
-  });
-}
+  function ensureNode(name, amount = 0) {
+    if (!nodes.has(name)) {
+      let r = recipes[recipeConfig.get(name)];
 
-function buildTreeData(
-  recipeName,
-  visited = new Map(),
-  amount = 0,
-  product,
-  mult = 1
-) {
-  const recipe = recipes[recipeName];
+      const baseLabel = `${amount ? amount + "x " : ""}${name}`;
+      const extraLabel =
+        state.get(name) === "buy"
+          ? ""
+          : `\n${r.building}\nTier: ${tiers[r.tier - 1]}`;
 
-  if (!recipe) {
-    return { name: recipeName };
-  }
+      const label = baseLabel + extraLabel;
 
-  let fa =
-    Math.round(
-      ((amount * mult) /
-        recipe.outputs.find((o) => o.product == product).amount) *
-        10
-    ) / 10;
-
-  if (fa < 0.1) fa = 0.1;
-
-  if (!visited.has(recipeName)) visited.set(recipeName, 0);
-
-  if (visited.get(recipeName) > 0) {
-    return {
-      name: `${recipe.name} (${amount > 0 ? `${fa}x` : "1x"})`,
-    };
-  } else {
-    visited.set(recipeName, visited.get(recipeName) + 1);
-  }
-
-  recipe.outputs.forEach((output) => {
-    if (!materialList.has(output.product)) materialList.set(output.product, 0);
-
-    let finalAmount = Math.round(output.amount * mult * 100) / 100;
-
-    materialList.set(
-      output.product,
-      materialList.get(output.product) + finalAmount
-    );
-  });
-
-  const inputs = recipe.inputs.map((input) => {
-    const r = recipeConfig.get(input.product);
-
-    if (!materialList.has(input.product)) materialList.set(input.product, 0);
-
-    let finalAmount2 = Math.round(input.amount * mult * 100) / 100;
-    let finalAmount =
-      Math.round(
-        input.amount *
-          mult *
-          (Math.round(
-            (amount / recipe.outputs.find((o) => o.product == product).amount) *
-              10
-          ) /
-            10) *
-          100
-      ) / 100;
-
-    if (r) {
-      let aa = amount > 0 ? finalAmount : finalAmount2;
-
-      materialList.set(
-        input.product,
-        materialList.get(input.product) + aa * -1
-      );
-
-      return {
-        name: `${input.product} (${aa})`,
-        children: [
-          buildTreeData(r, new Map(visited), input.amount, input.product, mult),
-        ],
-      };
+      nodes.set(name, {
+        id: name,
+        label,
+        data: r,
+      });
     }
-  });
 
-  return {
-    name: `${recipe.name} (${amount > 0 ? `${fa}x` : "1x"})`,
-    children: inputs,
-  };
-}
+    return nodes.get(name);
+  }
 
-function loadTree() {
-  const recipeName = document.getElementById("recipe-select").value;
-  const mult = document.getElementById("production-mult").value;
-  renderTree(recipeName, mult);
-}
+  function expand(productName, amountRequired = 0, parent = null, depth = 0) {
+    ensureNode(productName, amountRequired);
+    //if (parent) links.push({ source: productName, target: parent });
 
-function renderTree(rName, prodMultiplier = 1) {
-  const svgContainer = d3.select("#recipe-container");
+    if (productName === "labour") return;
+    if (visited.has(productName)) return;
+    visited.add(productName);
 
-  let svg = svgContainer.select("svg");
-  let container;
+    const recipeName = recipeConfig.get(productName);
+    if (!recipeName) {
+      console.log(`Sem receita configurada para ${productName}`);
+      return;
+    }
 
-  if (svg.empty()) {
-    svg = svgContainer
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height);
+    const r = recipes[recipeName];
+    if (!r || !r.inputs) {
+      console.log(`Receita ${recipeName} não tem inputs para ${productName}`);
+      return;
+    }
 
-    const zoom = d3
-      .zoom()
-      .scaleExtent([0.5, 5])
-      .on("zoom", (event) => {
-        container.attr("transform", event.transform);
+    if (state.get(productName) === "buy") return; // stop expansion if set to buy
+
+    // get the mult for the amount required
+    let mult =
+      amountRequired / r.outputs.find((o) => o.product === productName).amount;
+
+    mult = Math.round(mult * 10) / 10;
+
+    for (const inp of r.inputs) {
+      links.push({
+        source: inp.product,
+        target: productName,
+        inputAmount: inp.amount,
       });
 
-    svg.call(zoom);
-    container = svg.append("g");
-    svg.node().__zoom = d3.zoomIdentity;
-  } else {
-    container = svg.select("g");
-    container.selectAll("*").remove();
+      expand(inp.product, inp.amount * mult, productName, depth + 1);
+    }
   }
 
-  materialList.clear();
-
-  const data = {
-    name: recipes[rName].outputs
-      .map((o) => {
-        let finalAmount = Math.round(o.amount * prodMultiplier * 100) / 100;
-
-        return `${o.product} (${finalAmount})`;
-      })
-      .join(" + "),
-    children: [
-      buildTreeData(
-        rName,
-        new Map(),
-        recipes[rName].outputs[0].amount,
-        recipes[rName].outputs[0].product,
-        prodMultiplier
-      ),
-    ],
-  };
-
-  const root = d3.hierarchy(data);
-
-  const treeLayout = d3
-    .tree()
-    .size([width * 2, height * 2])
-    .separation((a, b) => (a.parent === b.parent ? 1500 : 1000));
-
-  treeLayout(root);
-
-  const linksGroup = container.append("g").attr("class", "links");
-  linksGroup
-    .selectAll("line")
-    .data(root.links())
-    .enter()
-    .append("line")
-    .attr("x1", (d) => d.source.x - width / 2)
-    .attr("y1", (d) => d.source.y)
-    .attr("x2", (d) => d.target.x - width / 2)
-    .attr("y2", (d) => d.target.y)
-    .style(
-      "stroke",
-      document.body.classList.contains("light-mode") ? "black" : "white"
-    );
-
-  const nodesGroup = container.append("g").attr("class", "nodes");
-  nodesGroup
-    .selectAll("circle")
-    .data(root.descendants())
-    .enter()
-    .append("circle")
-    .attr("cx", (d) => d.x - width / 2)
-    .attr("cy", (d) => d.y)
-    .attr("r", 10)
-    .style(
-      "fill",
-      document.body.classList.contains("light-mode") ? "steelblue" : "steelblue"
-    );
-
-  const textGroup = nodesGroup
-    .selectAll("g")
-    .data(root.descendants())
-    .enter()
-    .append("g")
-    .attr("transform", (d) => `translate(${d.x - width / 2}, ${d.y - 25})`);
-
-  textGroup
-    .append("rect")
-    .attr(
-      "fill",
-      document.body.classList.contains("light-mode") ? "black" : "lightgray"
-    )
-    .attr("rx", 5)
-    .attr("ry", 5)
-    .style("opacity", 0.7);
-
-  const text = textGroup
-    .append("text")
-    .text((d) => d.data.name)
-    .attr("text-anchor", "middle")
-    .attr("dy", "0.35em")
-    .style(
-      "fill",
-      document.body.classList.contains("light-mode") ? "white" : "green"
-    )
-    .style("font-size", "15px");
-
-  text.each(function () {
-    const bbox = this.getBBox();
-    d3.select(this.previousSibling)
-      .attr("x", bbox.x - 5)
-      .attr("y", bbox.y - 2)
-      .attr("width", bbox.width + 10)
-      .attr("height", bbox.height + 4);
-  });
-
-  svg.call(d3.zoom().transform, svg.node().__zoom);
-
-  updateMaterialList(rName, prodMultiplier);
+  expand(rootName);
+  return { nodes: Array.from(nodes.values()), links };
 }
 
-function updateMaterialList(rName, mult) {
-  const labourPerProductDiv = document.getElementById("labour-per-product");
-  labourPerProductDiv.innerHTML = "";
+function render(root) {
+  g.selectAll("*").remove();
+  const { nodes, links } = buildGraph(root);
 
-  const recipe = recipes[rName];
+  // Antes do render, defina a seta uma vez:
+  svg
+    .append("defs")
+    .append("marker")
+    .attr("id", "arrowhead")
+    .attr("viewBox", "-0 -5 10 10")
+    .attr("refX", 9) // distância da ponta da seta até o ponto final da linha (ajuste para combinar com o raio do nó)
+    .attr("refY", 0)
+    .attr("orient", "auto")
+    .attr("markerWidth", 10)
+    .attr("markerHeight", 10)
+    .attr("xoverflow", "visible")
+    .append("svg:path")
+    .attr("d", "M 0,-5 L 10 ,0 L 0,5")
+    .attr("fill", "#999")
+    .style("stroke", "none");
 
-  let tmparr = [];
+  // force simulation
+  const simulation = d3
+    .forceSimulation(nodes)
+    .force(
+      "link",
+      d3
+        .forceLink(links)
+        .id((d) => d.id)
+        .distance(200)
+        .strength(0.1)
+    )
+    .force("charge", d3.forceManyBody().strength(-600))
+    .force("center", d3.forceCenter(window.innerWidth / 2 - 160, height / 2));
 
-  for (let output of recipe.outputs) {
-    let labourPerProduct = Math.abs(
-      recipe.outputs[0].product == "labour"
-        ? (recipe.outputs[0].amount * mult) - materialList.get("labour")
-        : materialList.get("labour") /
-            materialList.get(recipe.outputs[0].product)
-    );
+  const link = g
+    .append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter()
+    .append("line")
+    .attr("class", "edge")
+    .attr("marker-end", "url(#arrowhead)");
 
-    tmparr.push(`${output.product}: ${labourPerProduct.toFixed(2)}`);
+  const linkLabels = g
+    .append("g")
+    .attr("class", "link-labels")
+    .selectAll("text")
+    .data(links)
+    .enter()
+    .append("text")
+    .attr("font-size", 15)
+    .attr("fill", "#F6FF00FF")
+    .attr("dy", -5) // ajusta para ficar acima da linha
+    .attr("text-anchor", "middle")
+    .text((d) => {
+      // Aqui você define o texto da aresta, exemplo:
+      // pode ser quantidade do input ou nome do ingrediente etc
+      if (d.inputAmount) return `${d.inputAmount}`;
+      return "";
+    });
+
+  const node = g
+    .append("g")
+    .attr("class", "nodes")
+    .selectAll("g")
+    .data(nodes)
+    .enter()
+    .append("g")
+    .attr("class", "node-group")
+    .on("click", (_, d) => {
+      const current = state.get(d.id) || "buy";
+      state.set(d.id, current === "produce" ? "buy" : "produce");
+
+      render(root);
+      updateSummary(root);
+    });
+
+  // Circle nodes
+  node
+    .append("circle")
+    .attr("r", (d) => {
+      const radius = 24 + (d.label.length > 20 ? 10 : 0);
+      d.radius = radius;
+      return radius;
+    })
+    .attr("class", "node")
+    .attr("fill", (d) => {
+      const mode = state.get(d.id) || "buy";
+      return mode === "buy" ? "#00D40BFF" : "#D40000FF";
+    });
+
+  // Text labels
+  const text = node
+    .append("text")
+    .attr("text-anchor", "middle")
+    .each(function (d) {
+      const lines = d.label.split("\n");
+      const textSel = d3.select(this);
+      lines.forEach((line, i) => {
+        textSel
+          .append("tspan")
+          .attr("x", 0)
+          .attr("dy", i === 0 ? (lines.length > 1 ? -10 : 0) : 16)
+          .text(line);
+      });
+    });
+
+  // Update
+  text.each(function () {
+    const textNode = this;
+    const bbox = textNode.getBBox();
+    const r = Math.max(bbox.width / 2, bbox.height / 2) + 8;
+    d3.select(textNode.parentNode).select("circle").attr("r", r);
+  });
+
+  node.each(function (d) {
+    const bbox = this.getBBox();
+    d.radius = Math.max(bbox.width, bbox.height) / 2;
+  });
+
+  simulation.on("tick", () => {
+    link
+      .attr("x1", (d) => {
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) return d.source.x;
+
+        const offsetSource = d.source.radius || 24;
+        const normX = dx / dist;
+        return d.source.x + normX * offsetSource;
+      })
+      .attr("y1", (d) => {
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) return d.source.y;
+
+        const offsetSource = d.source.radius || 24;
+        const normY = dy / dist;
+        return d.source.y + normY * offsetSource;
+      })
+      .attr("x2", (d) => {
+        const dx = d.source.x - d.target.x;
+        const dy = d.source.y - d.target.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) return d.target.x;
+
+        const offsetTarget = d.target.radius || 24;
+        const normX = dx / dist;
+        return d.target.x + normX * offsetTarget;
+      })
+      .attr("y2", (d) => {
+        const dx = d.source.x - d.target.x;
+        const dy = d.source.y - d.target.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) return d.target.y;
+
+        const offsetTarget = d.target.radius || 24;
+        const normY = dy / dist;
+        return d.target.y + normY * offsetTarget;
+      });
+
+    linkLabels
+      .attr("x", (d) => (d.source.x + d.target.x) / 2)
+      .attr("y", (d) => (d.source.y + d.target.y) / 2);
+
+    node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+  });
+
+  // drag
+  node.call(
+    d3
+      .drag()
+      .on("start", (event, d) => {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      })
+      .on("drag", (event, d) => {
+        d.fx = event.x;
+        d.fy = event.y;
+      })
+      .on("end", (event, d) => {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      })
+  );
+}
+
+// summary calculation
+function updateSummary(root) {
+  return;
+  const required = new Map(); // product -> totalAmount
+  const costBreakdown = { material: 0, labour: 0, unknown: 0 };
+
+  // compute material cost for required map
+  let materialCost = 0;
+  const requiredList = [];
+
+  costBreakdown.material = materialCost;
+
+  // render summary
+  const div = document.getElementById("summary");
+  div.innerHTML = `<p><small>Green nodes are products being bought from the market, red nodes are being produced — click on it to toggle</small></p>
+    <h3>Summary for: <strong>${root}</strong></h3>
+    <p><strong>Estimated material cost:</strong> ${materialCost.toFixed(2)}</p>
+    <p><strong>Estimated time / Labour:</strong> ${costBreakdown.labour}</p>
+    <h4>Details</h4>
+    <ul>
+      ${requiredList
+        .map(
+          (r) =>
+            `<li>${r.product} — amt: ${r.amount.toFixed(2)} — ${
+              r.unitPrice != null
+                ? `unit ${r.unitPrice} → subtotal ${r.subtotal.toFixed(2)}`
+                : "no price"
+            }</li>`
+        )
+        .join("")}
+    </ul>
+    
+  `;
+}
+
+async function updateRecipeTree() {
+  const rootProduct = document.getElementById("recipe-select").value.trim();
+  if (!recipes || Object.keys(recipes).length === 0) await getRecipes();
+
+  // Initialize state for products
+  if (!previousProduct || previousProduct !== rootProduct) {
+    Object.values(products).forEach((product) => {
+      state.set(product, "buy");
+      if (product === rootProduct) state.set(product, "produce");
+    });
   }
 
-  labourPerProductDiv.innerHTML = `<h2>Labour per products</h2>${tmparr.join(
-    "<br>"
-  )}`;
+  previousProduct = rootProduct;
 
-  const tableBody = document.getElementById("material-list-body");
-  tableBody.innerHTML = "";
-
-  materialList.forEach((amount, material) => {
-    const row = document.createElement("tr");
-
-    const materialCell = document.createElement("td");
-    materialCell.textContent = material;
-
-    const amountCell = document.createElement("td");
-    amountCell.textContent = amount.toFixed(2);
-
-    row.appendChild(materialCell);
-    row.appendChild(amountCell);
-    tableBody.appendChild(row);
-  });
+  render(rootProduct);
+  updateSummary(rootProduct);
 }
 
 async function init() {
@@ -387,17 +446,12 @@ async function init() {
   populateConfig();
 
   const select = document.getElementById("recipe-select");
-  for (let recipe in recipes) {
+  for (const product of products) {
     const option = document.createElement("option");
-    option.value = recipe;
-    option.text = recipes[recipe].name;
-
-    if (recipe === Object.keys(recipes)[0]) option.selected = true;
-
+    option.value = product; // aqui é nome do produto
+    option.text = product;
     select.appendChild(option);
   }
-
-  loadTree();
 }
 
 window.onload = init;
