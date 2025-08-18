@@ -5,6 +5,8 @@ var recipes = {};
 var products = [];
 var links = [];
 var nodes = new Map();
+var previousProductConfig = null;
+var currentProductConfig = null;
 const productsAmounts = new Map();
 const productsUsed = new Map();
 const recipeConfig = new Map();
@@ -84,10 +86,7 @@ function findRecipeByProduct(product) {
 
 function populateConfig() {
   const configDiv = document.getElementById("recipe-config-div");
-  const configSidebar = document.getElementById("recipe-config-sidebar");
-
-  configDiv.innerHTML = "";
-  configSidebar.innerHTML = "";
+  const configSelect = document.getElementById("recipe-config-select");
 
   recipeConfig.clear();
   recipesByProduct.clear();
@@ -97,8 +96,126 @@ function populateConfig() {
     recipeConfig.set(product, productRecipes[0]?.name || null);
     recipesByProduct.set(product, productRecipes);
 
-    
+    const option = document.createElement("option");
+    option.value = product;
+    option.textContent = product[0].toUpperCase() + product.slice(1);
+    configSelect.appendChild(option);
+
+    configDiv.innerHTML += `<div id="${product}-config-div" class="recipe-config-item" style="display: none;">
+      <h1>${product[0].toUpperCase() + product.slice(1)}</h1>
+      ${productRecipes
+        .map(
+          (recipe) => `
+          <h2>${recipe.name
+            .split(" ")
+            .map((word) => word[0].toUpperCase() + word.slice(1))
+            .join(
+              " "
+            )} <input type="checkbox" class="w3-checkbox check-config" id="${product}-${
+            recipe.name
+          }-enabled" ${
+            recipeConfig.get(product) === recipe.name ? "checked" : ""
+          } onchange="updateRecipeConfig(this)" /></h2>
+            <div class="recipe-config-item-desc">
+              Building: ${recipe.building
+                .split(" ")
+                .map((word) => word[0].toUpperCase() + word.slice(1))
+                .join(" ")}
+              ${
+                recipe.upgrades
+                  ? "<br> Upgrades: " +
+                    recipe.upgrades
+                      .map((u) =>
+                        u
+                          .split(" ")
+                          .map((word) => word[0].toUpperCase() + word.slice(1))
+                          .join(" ")
+                      )
+                      .join(", ")
+                  : ""
+              }
+              <br>
+              Level: ${
+                recipe.class
+                  ? recipe.class[0].toUpperCase() + recipe.class.slice(1)
+                  : "Any"
+              } ${tiers[recipe.tier - 1]}
+            </div>
+            <div class="recipe-config-item-products">
+              ${recipe.inputs ? "<h3>Inputs</h3>" : ""}
+              ${recipe.outputs ? "<h3>Outputs</h3>" : ""}
+                ${
+                  recipe.inputs
+                    ? "<div>" +
+                      recipe.inputs
+                        .map(
+                          (input) =>
+                            `<div>${
+                              input.product[0].toUpperCase() +
+                              input.product.slice(1)
+                            }: ${input.amount}</div>`
+                        )
+                        .join("") +
+                      "</div>"
+                    : ""
+                }
+                ${
+                  recipe.outputs
+                    ? "<div>" +
+                      recipe.outputs
+                        .map(
+                          (output) =>
+                            `<div>${
+                              output.product[0].toUpperCase() +
+                              output.product.slice(1)
+                            }: ${output.amount}</div>`
+                        )
+                        .join("") +
+                      "</div>"
+                    : ""
+                }
+            </div>
+      `
+        )
+        .join("")}
+    </div>`;
   }
+}
+
+function updateConfig() {
+  previousProductConfig = currentProductConfig;
+  currentProductConfig = document.getElementById("recipe-config-select").value;
+
+  document.getElementById("default-message-config").style.display = "none";
+
+  if (previousProductConfig != "" && previousProductConfig)
+    document.getElementById(
+      `${previousProductConfig}-config-div`
+    ).style.display = "none";
+
+  document.getElementById(`${currentProductConfig}-config-div`).style.display =
+    "block";
+
+  const allCheckboxes = document.getElementsByClassName("check-config");
+  var productCheckboxes = Array.from(allCheckboxes).filter((checkbox) =>
+    checkbox.id.startsWith(`${currentProductConfig}-`)
+  );
+
+  productCheckboxes.forEach((checkbox) => {
+    checkbox.checked =
+      recipeConfig.get(currentProductConfig) === checkbox.id.split("-")[1];
+  });
+
+  updateRecipeTree();
+}
+
+function updateRecipeConfig(checkbox) {
+  const [product, recipeName] = checkbox.id.split("-").slice(0, 2);
+  if (checkbox.checked) {
+    recipeConfig.set(product, recipeName);
+  }
+
+  updateConfig();
 }
 
 function openConfig() {
@@ -744,7 +861,7 @@ async function updateRecipeTree() {
   );
 
   render(rootProduct);
-  updateSummary(rootProduct);
+  updateSummary();
 }
 
 async function init() {
