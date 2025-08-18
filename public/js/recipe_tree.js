@@ -268,7 +268,7 @@ function buildGraph(rootName) {
   function expand(productName, amountRequired = 0, parent = null, depth = 0) {
     ensureNode(productName);
 
-    if (productName === "labour") return;
+    if (productName === "labour" && rootProduct !== "labour") return;
     if (visited.has(productName)) return;
     visited.add(productName);
 
@@ -862,7 +862,7 @@ async function init() {
   for (const product of products) {
     const option = document.createElement("option");
     option.value = product;
-    option.text = product;
+    option.text = product[0].toUpperCase() + product.slice(1);
     select.appendChild(option);
   }
 }
