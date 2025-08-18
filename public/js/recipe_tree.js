@@ -537,7 +537,7 @@ function render(root) {
       state.set(d.id, current === "produce" ? "buy" : "produce");
 
       render(root);
-      updateSummary(root);
+      updateSummary();
     });
 
   // Product nodes
@@ -571,7 +571,7 @@ function render(root) {
 
       if (state.get(d.id) === "buy") {
         totalAmountProduct = Math.ceil(totalAmountProduct);
-      } else if (d.id !== "labour") {
+      } else {
         mult =
           Math.ceil(
             ((totalAmountProduct * (d.root ? rootMult : 1)) /
@@ -629,7 +629,7 @@ function render(root) {
 
       if (state.get(d.id) === "buy") {
         totalAmountProduct = Math.ceil(totalAmountProduct);
-      } else if (d.id !== "labour") {
+      } else {
         mult =
           Math.ceil(
             ((totalAmountProduct * (d.root ? rootMult : 1)) /
@@ -777,50 +777,37 @@ function render(root) {
   );
 }
 
-// TODO: summary calculation
-function updateSummary(root) {
-  const required = new Map(); // product -> totalAmount
-  const costBreakdown = { material: 0, labour: 0, unknown: 0 };
-
-  // compute material cost for required map
-  let materialCost = 0;
-  const requiredList = [];
-
-  costBreakdown.material = materialCost;
-
-  // render summary
+// Update the summary
+function updateSummary() {
   const div = document.getElementById("summary");
-  div.innerHTML = `<p><small>The yellow node is the "root" product that you are trying to make, green nodes are products being bought from the market, red nodes are being produced — click on it to toggle (exceptions is the root product and labour)</small></p>
-  
-  <h3><strong>Summary for ${rootProduct}:</strong></h3>
+  div.innerHTML = `<h3><strong>Summary for ${rootProduct}:</strong></h3>
   <p>Labour per ${rootProduct}: ${
     Math.ceil(
       ((productsUsed.get("labour") || 0) / productsAmounts.get(rootProduct)) *
         100
-    ) / 100
+    ) / 100 || 0
   }</p>
   <h3>Surplus</h3>
   ${Array.from(productsAmounts.keys())
     .map((p) => {
       let amount = productsAmounts.get(p) - productsUsed.get(p);
-      if (amount > 0) return `<p>${p}: ${Math.round(amount * 100) / 100}</p>`;
+      if (amount > 0) return `<p>${p}: ${Math.ceil(amount * 100) / 100}</p>`;
     })
     .join("")}
   <h3>Total products needed</h3>
   ${Array.from(productsUsed.keys())
     .map((p) => {
-      let amount = productsUsed.get(p);
-      if (amount > 0) return `<p>${p}: ${Math.round(amount * 100) / 100}</p>`;
+      let amount = productsUsed.get(p) || -1;
+      if (amount > -1) return `<p>${p}: ${Math.ceil(amount * 100) / 100}</p>`;
     })
     .join("")}
   `;
 }
 
 async function updateRecipeTree() {
-  if (!products.includes(document.getElementById("recipe-select").value.trim()))
+  if (!products.includes(document.getElementById("recipe-select").value))
     return;
   rootProduct = document.getElementById("recipe-select").value.trim();
-  populateConfig();
 
   rootMult =
     Math.ceil(
