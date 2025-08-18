@@ -13,27 +13,23 @@
     ></script>
   </head>
   <body>
-    <header class="w3-teal">
+    <header>
       <h2 class="w3-padding">Welcome to Mercatorio Tools</h2>
 
-      <a
-        href="/account"
-        class="w3-button"
-        style="display: flex; align-items: center"
-      >
-        <i class="fas fa-user-circle" style="font-size: 40px"></i>
-      </a>
-    </header>
+      <div>
+        <button
+          class="w3-button w3-round w3-blue"
+          id="dark-mode-toggle"
+          onclick="toggleDarkMode()"
+        >
+          <i id="dark-mode-icon" class="fas fa-moon"></i>
+        </button>
 
-    <div style="padding: 15px">
-      <button
-        class="w3-button w3-round w3-blue"
-        id="dark-mode-toggle"
-        onclick="toggleDarkMode()"
-      >
-        <i id="dark-mode-icon" class="fas fa-moon"></i>
-      </button>
-    </div>
+        <a href="/account" class="w3-button">
+          <i class="fas fa-user-circle" style="font-size: 40px"></i>
+        </a>
+      </div>
+    </header>
 
     <div class="w3-container">
       <h2>Available Tools</h2>
@@ -82,8 +78,8 @@
       </ul>
     </div>
 
-    <footer class="w3-container w3-teal w3-center">
-      <p>Mercatorio Tools &copy; 2024</p>
+    <footer class="w3-container w3-center w3-bottom">
+      <p>Mercatorio Tools &copy; 2025</p>
     </footer>
 
     <script src="js/auth.js"></script>

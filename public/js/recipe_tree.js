@@ -3,9 +3,13 @@ var rootProduct = null;
 var rootMult = 1;
 var recipes = {};
 var products = [];
+var links = [];
+var nodes = new Map();
 const productsAmounts = new Map();
 const productsUsed = new Map();
 const recipeConfig = new Map();
+const recipesByProduct = new Map();
+
 const state = new Map();
 const tiers = ["Novice", "Worker", "Journeyman", "Master"];
 
@@ -80,42 +84,20 @@ function findRecipeByProduct(product) {
 
 function populateConfig() {
   const configDiv = document.getElementById("recipe-config-div");
+  const configSidebar = document.getElementById("recipe-config-sidebar");
+
   configDiv.innerHTML = "";
+  configSidebar.innerHTML = "";
 
   recipeConfig.clear();
+  recipesByProduct.clear();
 
-  for (let product of products) {
-    const div = document.createElement("div");
-
-    div.classList.add("config-item");
-
-    const label = document.createElement("label");
-    label.textContent = product;
-
+  for (const product of products) {
     const productRecipes = findAllRecipesByProduct(product);
-    const select = document.createElement("select");
+    recipeConfig.set(product, productRecipes[0]?.name || null);
+    recipesByProduct.set(product, productRecipes);
 
-    recipeConfig.set(product, productRecipes[0].name);
-
-    select.id = `${product}-recipe-select`;
-
-    for (let recipe of productRecipes) {
-      const option = document.createElement("option");
-      option.value = recipe.name;
-      option.text = recipe.name;
-
-      select.appendChild(option);
-    }
-
-    select.onchange = (event) => {
-      recipeConfig.set(product, event.target.value);
-      updateRecipeTree();
-    };
-
-    div.appendChild(label);
-    div.appendChild(select);
-
-    configDiv.appendChild(div);
+    
   }
 }
 
@@ -128,9 +110,10 @@ function closeConfig() {
 }
 
 function buildGraph(rootName) {
-  const nodes = new Map();
-  var links = [];
   var visited = new Set();
+
+  links = [];
+  nodes = new Map();
 
   function ensureNode(name) {
     if (!nodes.has(name)) {
@@ -143,11 +126,14 @@ function buildGraph(rootName) {
       const extraLabel =
         state.get(name) === "buy"
           ? ""
-          : `\n{amountRecipe}x ${r.building
+          : `\n{amountRecipe}x ${r.name
+              .split(" ")
+              .map((word) => word[0].toUpperCase() + word.slice(1))
+              .join(" ")}\n${r.building
               .split(" ")
               .map((word) => word[0].toUpperCase() + word.slice(1))
               .join(" ")}\n${tiers[r.tier - 1]}${
-              r.class ? `\n${r.class[0].toUpperCase() + r.class.slice(1)}` : ""
+              r.class ? ` ${r.class[0].toUpperCase() + r.class.slice(1)}` : ""
             }`;
 
       const label = baseLabel + extraLabel;
@@ -164,7 +150,6 @@ function buildGraph(rootName) {
 
   function expand(productName, amountRequired = 0, parent = null, depth = 0) {
     ensureNode(productName);
-    //if (parent) links.push({ source: productName, target: parent });
 
     if (productName === "labour") return;
     if (visited.has(productName)) return;
@@ -191,25 +176,29 @@ function buildGraph(rootName) {
     const output = r.outputs.find((o) => o.product === productName);
 
     // get multiplier to produce required amount
-    var mult = Math.round((amountRequired / output.amount) * 10) / 10;
-
-    if (mult < 0.1) mult = 0.1;
+    var mult =
+      Number.parseFloat(amountRequired) / Number.parseFloat(output.amount);
 
     if (!parent && depth === 0) mult = rootMult;
+    if (mult < 0.1) mult = 0.1;
+
+    mult = Math.ceil(Number.parseFloat(mult) * 10) / 10;
 
     for (const inp of r.inputs) {
       links.push({
         source: inp.product,
         target: productName,
         inputAmountTarget: inp.amount * mult,
+        multTarget: mult,
         inputAmountSource: 0,
+        multSource: 0,
       });
 
       expand(inp.product, inp.amount * mult, productName, depth + 1);
     }
   }
 
-  function mergeBidirectionalLinks(links) {
+  function mergeBidirectionalLinks() {
     const merged = [];
     const seen = new Set();
 
@@ -228,7 +217,9 @@ function buildGraph(rootName) {
           source: link.source,
           target: link.target,
           inputAmountTarget: link.inputAmountTarget,
+          multTarget: link.multTarget,
           inputAmountSource: reverse.inputAmountTarget,
+          multSource: reverse.multTarget,
         });
         seen.add(keyAB);
         seen.add(keyBA);
@@ -242,13 +233,34 @@ function buildGraph(rootName) {
   }
 
   expand(rootName);
-  links = mergeBidirectionalLinks(links);
-  return { nodes: Array.from(nodes.values()), links };
+  nodes = Array.from(nodes.values());
+  links = mergeBidirectionalLinks();
 }
 
 function render(root) {
   g.selectAll("*").remove();
-  const { nodes, links } = buildGraph(root);
+  productsAmounts.clear();
+
+  buildGraph(root);
+
+  links.forEach((l) => {
+    productsAmounts.set(
+      l.source,
+      Math.ceil(
+        ((productsAmounts.get(l.source) || 0) +
+          Number.parseFloat(l.inputAmountTarget)) *
+          100
+      ) / 100
+    );
+    productsAmounts.set(
+      l.target,
+      Math.ceil(
+        ((productsAmounts.get(l.target) || 0) +
+          Number.parseFloat(l.inputAmountSource)) *
+          100
+      ) / 100
+    );
+  });
 
   // Define arrow heads
   svg
@@ -292,11 +304,15 @@ function render(root) {
       d3
         .forceLink(links)
         .id((d) => d.id)
-        .distance(200)
-        .strength(0.05)
+        .distance(300)
+        .strength(0.2)
     )
     .force("charge", d3.forceManyBody().strength(-600))
-    .force("center", d3.forceCenter(window.innerWidth / 2 - 160, height / 2));
+    .force("collision", d3.forceCollide().radius(60))
+    .force(
+      "center",
+      d3.forceCenter(window.innerWidth / 2 - window.innerWidth / 5, height / 2)
+    );
 
   // Links
   const link = g
@@ -307,6 +323,8 @@ function render(root) {
     .enter()
     .append("line")
     .attr("class", "edge")
+    .attr("stroke", (d) => "#999999")
+    .attr("stroke-width", (d) => "2px")
     .attr("marker-end", (d) => "url(#arrow-end)")
     .attr("marker-start", (d) =>
       d.inputAmountSource > 0 ? "url(#arrow-start)" : null
@@ -335,17 +353,17 @@ function render(root) {
   linkLabels
     .append("text")
     .attr("font-size", 12)
-    .attr("fill", "#F6FF00")
+    .attr("fill", "#FFFFFFFF")
     .attr("text-anchor", "middle")
     .attr("dy", "0.35em")
     .each(function (d) {
       let text = `${d.source.id}: ${
-        Math.round(d.inputAmountTarget * 100) / 100
+        Math.ceil(d.inputAmountTarget * 100) / 100
       }`;
 
       if (d.inputAmountSource)
         text += `\n${d.target.id}: ${
-          Math.round(d.inputAmountSource * 100) / 100
+          Math.ceil(d.inputAmountSource * 100) / 100
         }`;
 
       const lines = text.split("\n");
@@ -364,6 +382,7 @@ function render(root) {
                 : 5
               : 20
           )
+          .attr("fill", i === 0 ? "#FFFFFF" : "#F6FF00")
           .text(line);
       });
     });
@@ -421,37 +440,23 @@ function render(root) {
         return "#FFD900FF";
       }
       return mode === "buy" ? "#00D40BFF" : "#D40000FF";
-    });
-
-  // Text labels
-  const text = node
-    .append("text")
-    .attr("text-anchor", "middle")
+    })
     .each(function (d) {
-      var totalAmountProduct = 0;
+      var totalAmountProduct =
+        Math.ceil((productsAmounts.get(d.id) || 0) * 100) / 100;
 
-      if (!d.root) {
-        links.forEach((l) => {
-          if (l.source.id === d.id) {
-            totalAmountProduct += l.inputAmountTarget;
-          }
-        });
-      } else {
-        totalAmountProduct =
-          recipes[recipeConfig.get(d.id)].outputs.find(
-            (o) => o.product === d.id
-          ).amount * (d.root ? rootMult : 1);
-      }
+      totalAmountProduct = Number.parseFloat(
+        Math.ceil(totalAmountProduct * (d.root ? rootMult : 1) * 100) / 100
+      );
 
-      totalAmountProduct =
-        Math.round(totalAmountProduct * (d.root ? rootMult : 1) * 100) / 100;
+      var amountUsed = totalAmountProduct;
+      var mult = 0;
 
-      var productUsed = totalAmountProduct;
-      var mult;
-
-      if (d.id !== "labour") {
+      if (state.get(d.id) === "buy") {
+        totalAmountProduct = Math.ceil(totalAmountProduct);
+      } else if (d.id !== "labour") {
         mult =
-          Math.round(
+          Math.ceil(
             ((totalAmountProduct * (d.root ? rootMult : 1)) /
               recipes[recipeConfig.get(d.id)].outputs.find(
                 (o) => o.product === d.id
@@ -460,36 +465,90 @@ function render(root) {
           ) / 10;
 
         if (mult < 0.1) mult = 0.1;
+        if (d.root) mult = rootMult;
 
-        if (state.get(d.id) === "produce")
-          totalAmountProduct =
-            totalAmountProduct <=
-            Math.round(
-              recipes[recipeConfig.get(d.id)].outputs.find(
-                (o) => o.product === d.id
-              ).amount *
-                (d.root ? rootMult : mult) *
-                100
-            ) /
+        mult = Number.parseFloat(mult);
+
+        if (
+          totalAmountProduct >
+          Math.ceil(
+            recipes[recipeConfig.get(d.id)].outputs.find(
+              (o) => o.product === d.id
+            ).amount *
+              mult *
               100
-              ? Math.round(
-                  recipes[recipeConfig.get(d.id)].outputs.find(
-                    (o) => o.product === d.id
-                  ).amount *
-                    (d.root ? rootMult : mult) *
-                    100
-                ) / 100
-              : Math.round(
-                  recipes[recipeConfig.get(d.id)].outputs.find(
-                    (o) => o.product === d.id
-                  ).amount *
-                    (d.root ? rootMult + 0.1 : mult + 0.1) *
-                    100
-                ) / 100;
+          ) /
+            100
+        )
+          mult = Math.ceil((mult + (d.root ? 0 : 0.1)) * 10) / 10;
+
+        totalAmountProduct =
+          Math.ceil(
+            recipes[recipeConfig.get(d.id)].outputs.find(
+              (o) => o.product === d.id
+            ).amount *
+              mult *
+              100
+          ) / 100;
       }
 
       productsAmounts.set(d.id, totalAmountProduct);
-      productsUsed.set(d.id, productUsed);
+      productsUsed.set(d.id, amountUsed);
+    });
+
+  // Text labels
+  const text = node
+    .append("text")
+    .attr("text-anchor", "middle")
+    .each(function (d) {
+      var totalAmountProduct =
+        Math.ceil((productsAmounts.get(d.id) || 0) * 100) / 100;
+
+      totalAmountProduct = Number.parseFloat(
+        Math.ceil(totalAmountProduct * (d.root ? rootMult : 1) * 100) / 100
+      );
+
+      var mult = 0;
+
+      if (state.get(d.id) === "buy") {
+        totalAmountProduct = Math.ceil(totalAmountProduct);
+      } else if (d.id !== "labour") {
+        mult =
+          Math.ceil(
+            ((totalAmountProduct * (d.root ? rootMult : 1)) /
+              recipes[recipeConfig.get(d.id)].outputs.find(
+                (o) => o.product === d.id
+              ).amount) *
+              10
+          ) / 10;
+
+        if (mult < 0.1) mult = 0.1;
+        if (d.root) mult = rootMult;
+
+        mult = Number.parseFloat(mult);
+
+        if (
+          totalAmountProduct >
+          Math.ceil(
+            recipes[recipeConfig.get(d.id)].outputs.find(
+              (o) => o.product === d.id
+            ).amount *
+              mult *
+              100
+          ) /
+            100
+        )
+          mult = Math.ceil((mult + (d.root ? 0 : 0.1)) * 10) / 10;
+
+        totalAmountProduct =
+          Math.ceil(
+            recipes[recipeConfig.get(d.id)].outputs.find(
+              (o) => o.product === d.id
+            ).amount *
+              mult *
+              100
+          ) / 100;
+      }
 
       d.label = d.label.replace("{amountProduct}", totalAmountProduct);
       if (mult > 0) d.label = d.label.replace("{amountRecipe}", mult);
@@ -616,19 +675,45 @@ function updateSummary(root) {
   const div = document.getElementById("summary");
   div.innerHTML = `<p><small>The yellow node is the "root" product that you are trying to make, green nodes are products being bought from the market, red nodes are being produced — click on it to toggle (exceptions is the root product and labour)</small></p>
   
-
+  <h3><strong>Summary for ${rootProduct}:</strong></h3>
+  <p>Labour per ${rootProduct}: ${
+    Math.ceil(
+      ((productsUsed.get("labour") || 0) / productsAmounts.get(rootProduct)) *
+        100
+    ) / 100
+  }</p>
+  <h3>Surplus</h3>
+  ${Array.from(productsAmounts.keys())
+    .map((p) => {
+      let amount = productsAmounts.get(p) - productsUsed.get(p);
+      if (amount > 0) return `<p>${p}: ${Math.round(amount * 100) / 100}</p>`;
+    })
+    .join("")}
+  <h3>Total products needed</h3>
+  ${Array.from(productsUsed.keys())
+    .map((p) => {
+      let amount = productsUsed.get(p);
+      if (amount > 0) return `<p>${p}: ${Math.round(amount * 100) / 100}</p>`;
+    })
+    .join("")}
   `;
 }
 
 async function updateRecipeTree() {
-  if (!products.includes(document.getElementById("recipe-select").value))
+  if (!products.includes(document.getElementById("recipe-select").value.trim()))
     return;
   rootProduct = document.getElementById("recipe-select").value.trim();
+  populateConfig();
 
-  rootMult = document
-    .getElementById("multiplier-input")
-    .value.trim()
-    .replace(",", ".");
+  rootMult =
+    Math.ceil(
+      Number.parseFloat(
+        document
+          .getElementById("multiplier-input")
+          .value.trim()
+          .replace(",", ".")
+      ) * 10
+    ) / 10;
 
   if (!recipes || Object.keys(recipes).length === 0) await getRecipes();
 
@@ -644,6 +729,19 @@ async function updateRecipeTree() {
   productsAmounts.clear();
   productsUsed.clear();
   previousProduct = rootProduct;
+
+  productsAmounts.set(
+    rootProduct,
+    (productsAmounts.get(rootProduct) || 0) +
+      Math.ceil(
+        recipes[recipeConfig.get(rootProduct)].outputs.find(
+          (o) => o.product === rootProduct
+        ).amount *
+          rootMult *
+          100
+      ) /
+        100
+  );
 
   render(rootProduct);
   updateSummary(rootProduct);

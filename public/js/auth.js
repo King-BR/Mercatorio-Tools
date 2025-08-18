@@ -62,6 +62,7 @@ async function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   localStorage.removeItem("email");
+  document.getElementById("logged-text").innerHTML = "";
   document.getElementById("login-form").style.display = "block";
   document.getElementById("register-form").style.display = "block";
   document.getElementById("protected").style.display = "none";

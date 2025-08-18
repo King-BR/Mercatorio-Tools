@@ -8,7 +8,7 @@ function toggleDarkMode() {
     localStorage.setItem("theme", "dark");
   }
 
-  setDarkModeIcon();
+  toggleDarkModeIcon();
 
   if (document.getElementById("recipe-container")) {
     var nodes = document
@@ -49,7 +49,7 @@ function toggleDarkMode() {
   }
 }
 
-function setDarkModeIcon() {
+function toggleDarkModeIcon() {
   const icon = document.getElementById("dark-mode-icon");
   if (document.body.classList.contains("light-mode")) {
     icon.classList.remove("fa-sun");
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.classList.toggle("light-mode", savedTheme === "light");
   }
 
-  setDarkModeIcon();
+  toggleDarkModeIcon();
 
   checkLoginStatus();
 });
