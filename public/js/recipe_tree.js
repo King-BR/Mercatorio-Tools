@@ -9,11 +9,14 @@ var previousProductConfig = null;
 var currentProductConfig = null;
 const productsAmounts = new Map();
 const productsUsed = new Map();
+const productsPrices = new Map();
+const productsUnitCost = new Map();
 const recipeConfig = new Map();
 const recipesByProduct = new Map();
+const currentMarketPrices = new Map();
 
 const state = new Map();
-const tiers = ["Novice", "Worker", "Journeyman", "Master"];
+const tiers = ["Novice", "Worker", "Journeyman", "Master", "Specialist"];
 
 const width = window.innerWidth;
 const height = window.innerHeight - 56;
@@ -72,6 +75,53 @@ function getProducts() {
   return products;
 }
 
+async function getMarketPrices() {
+  const response = await fetch(
+    "https://api.mercatorio-tools.tech/tmp/marketdata"
+  );
+  const data = await response.json();
+
+  var tmpMarketPrices = new Map();
+  var amountMarkets = new Map();
+
+  currentMarketPrices.clear();
+
+  data.forEach((town) => {
+    products.forEach((product) => {
+      if (!town.markets[product]) return;
+
+      var marketdata = town.markets[product];
+      marketdata.moving_average =
+        Math.ceil((Number.parseFloat(marketdata.moving_average) || 0) * 100) /
+        100;
+      marketdata.average_price =
+        Math.ceil((Number.parseFloat(marketdata.average_price) || 0) * 100) /
+        100;
+
+      if (marketdata.moving_average > 0 || marketdata.average_price > 0) {
+        tmpMarketPrices.set(
+          product,
+          (tmpMarketPrices.get(product) || 0) +
+            (marketdata?.moving_average || marketdata?.average_price)
+        );
+
+        amountMarkets.set(product, (amountMarkets.get(product) || 0) + 1);
+      }
+    });
+  });
+
+  tmpMarketPrices.forEach((price, product) => {
+    currentMarketPrices.set(
+      product,
+      Math.ceil((price / amountMarkets.get(product)) * 100) / 100
+    );
+    productsPrices.set(
+      product,
+      Math.ceil((price / amountMarkets.get(product)) * 100) / 100
+    );
+  });
+}
+
 function findAllRecipesByProduct(product) {
   return Object.values(recipes).filter((recipe) => {
     return recipe.outputs.some((output) => output.product === product);
@@ -82,6 +132,13 @@ function findRecipeByProduct(product) {
   return Object.values(recipes).find((recipe) => {
     return recipe.outputs.some((output) => output.product === product);
   });
+}
+
+function upperCase(str) {
+  return str
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 function populateConfig() {
@@ -98,48 +155,37 @@ function populateConfig() {
 
     const option = document.createElement("option");
     option.value = product;
-    option.textContent = product[0].toUpperCase() + product.slice(1);
+    option.textContent = upperCase(product);
     configSelect.appendChild(option);
 
     configDiv.innerHTML += `<div id="${product}-config-div" class="recipe-config-item" style="display: none;">
-      <h1>${product[0].toUpperCase() + product.slice(1)}</h1>
+      <h1>${upperCase(product)}</h1>
+        <label for="${product}-price">Market Price</label>
+        <input id="${product}-price" class="w3-round input-product-price" type="number" min=0 step="0.01" value="${
+      productsPrices.get(product) || 0
+    }" onchange="updateProductPrice(this)"/>
       ${productRecipes
         .map(
           (recipe) => `
-          <h2>${recipe.name
-            .split(" ")
-            .map((word) => word[0].toUpperCase() + word.slice(1))
-            .join(
-              " "
-            )} <input type="checkbox" class="w3-checkbox check-config" id="${product}-${
+          <h2>${upperCase(
+            recipe.name
+          )} <input type="radio" name="${product}-recipe-btn" class="w3-round check-config" id="${product}-${
             recipe.name
           }-enabled" ${
             recipeConfig.get(product) === recipe.name ? "checked" : ""
           } onchange="updateRecipeConfig(this)" /></h2>
             <div class="recipe-config-item-desc">
-              Building: ${recipe.building
-                .split(" ")
-                .map((word) => word[0].toUpperCase() + word.slice(1))
-                .join(" ")}
+              Building: ${upperCase(recipe.site)}
               ${
                 recipe.upgrades
                   ? "<br> Upgrades: " +
-                    recipe.upgrades
-                      .map((u) =>
-                        u
-                          .split(" ")
-                          .map((word) => word[0].toUpperCase() + word.slice(1))
-                          .join(" ")
-                      )
-                      .join(", ")
+                    recipe.upgrades.map((u) => upperCase(u)).join(", ")
                   : ""
               }
               <br>
-              Level: ${
-                recipe.class
-                  ? recipe.class[0].toUpperCase() + recipe.class.slice(1)
-                  : "Any"
-              } ${tiers[recipe.tier - 1]}
+              Level: ${recipe.class ? upperCase(recipe.class) : "Any"} ${
+            tiers[recipe.tier - 1]
+          }
             </div>
             <div class="recipe-config-item-products">
               ${recipe.inputs ? "<h3>Inputs</h3>" : ""}
@@ -150,10 +196,9 @@ function populateConfig() {
                       recipe.inputs
                         .map(
                           (input) =>
-                            `<div>${
-                              input.product[0].toUpperCase() +
-                              input.product.slice(1)
-                            }: ${input.amount}</div>`
+                            `<div>${upperCase(input.product)}: ${
+                              input.amount
+                            }</div>`
                         )
                         .join("") +
                       "</div>"
@@ -165,10 +210,9 @@ function populateConfig() {
                       recipe.outputs
                         .map(
                           (output) =>
-                            `<div>${
-                              output.product[0].toUpperCase() +
-                              output.product.slice(1)
-                            }: ${output.amount}</div>`
+                            `<div>${upperCase(output.product)}: ${
+                              output.amount
+                            }</div>`
                         )
                         .join("") +
                       "</div>"
@@ -195,27 +239,31 @@ function updateConfig() {
 
   document.getElementById(`${currentProductConfig}-config-div`).style.display =
     "block";
-
-  const allCheckboxes = document.getElementsByClassName("check-config");
-  var productCheckboxes = Array.from(allCheckboxes).filter((checkbox) =>
-    checkbox.id.startsWith(`${currentProductConfig}-`)
-  );
-
-  productCheckboxes.forEach((checkbox) => {
-    checkbox.checked =
-      recipeConfig.get(currentProductConfig) === checkbox.id.split("-")[1];
-  });
-
-  updateRecipeTree();
 }
 
 function updateRecipeConfig(checkbox) {
   const [product, recipeName] = checkbox.id.split("-").slice(0, 2);
+
   if (checkbox.checked) {
     recipeConfig.set(product, recipeName);
   }
 
   updateConfig();
+  updateRecipeTree();
+}
+
+function updateProductPrice(input) {
+  const product = input.id.split("-")[0];
+  const price =
+    Math.ceil(Number.parseFloat(input.value.replace(",", ".")) * 100) / 100;
+
+  if (!products.includes(product)) return;
+
+  if (isNaN(price) || price < 0) input.value = 0;
+
+  productsPrices.set(product, price);
+
+  updateSummary();
 }
 
 function openConfig() {
@@ -236,22 +284,14 @@ function buildGraph(rootName) {
     if (!nodes.has(name)) {
       let r = recipes[recipeConfig.get(name)];
 
-      const baseLabel = `{amountProduct}x ${
-        name[0].toUpperCase() + name.slice(1)
-      }`;
+      const baseLabel = `{amountProduct}x ${upperCase(name)}`;
 
       const extraLabel =
         state.get(name) === "buy"
           ? ""
-          : `\n{amountRecipe}x ${r.name
-              .split(" ")
-              .map((word) => word[0].toUpperCase() + word.slice(1))
-              .join(" ")}\n${r.building
-              .split(" ")
-              .map((word) => word[0].toUpperCase() + word.slice(1))
-              .join(" ")}\n${tiers[r.tier - 1]}${
-              r.class ? ` ${r.class[0].toUpperCase() + r.class.slice(1)}` : ""
-            }`;
+          : `\n{amountRecipe}x ${upperCase(r.name)}\n${upperCase(r.site)}\n${
+              tiers[r.tier - 1]
+            }${r.class ? ` ${upperCase(r.class)}` : ""}`;
 
       const label = baseLabel + extraLabel;
 
@@ -571,7 +611,7 @@ function render(root) {
 
       if (state.get(d.id) === "buy") {
         totalAmountProduct = Math.ceil(totalAmountProduct);
-      } else {
+      } else if (state.get(d.id) === "produce") {
         mult =
           Math.ceil(
             ((totalAmountProduct * (d.root ? rootMult : 1)) /
@@ -629,7 +669,7 @@ function render(root) {
 
       if (state.get(d.id) === "buy") {
         totalAmountProduct = Math.ceil(totalAmountProduct);
-      } else {
+      } else if (state.get(d.id) === "produce") {
         mult =
           Math.ceil(
             ((totalAmountProduct * (d.root ? rootMult : 1)) /
@@ -780,6 +820,32 @@ function render(root) {
 // Update the summary
 function updateSummary() {
   const div = document.getElementById("summary");
+
+  productsUnitCost.clear();
+
+  const productsBought = new Map();
+  const productsProduced = new Map();
+
+  productsAmounts.forEach((amount, product) => {
+    if (state.get(product) === "buy") {
+      productsBought.set(product, amount);
+    } else if (state.get(product) === "produce") {
+      productsProduced.set(product, amount);
+    }
+  });
+
+  productsBought.forEach((amount, product) => {
+    productsUnitCost.set(product, productsPrices.get(product) || 0);
+  });
+
+  productsProduced.forEach((amount, product) => {
+    var tmpCost = 0;
+
+    tmpCost = getCost(product);
+
+    productsUnitCost.set(product, Math.ceil((tmpCost / amount) * 100) / 100);
+  });
+
   div.innerHTML = `<h3><strong>Summary for ${rootProduct}:</strong></h3>
   <p>Labour per ${rootProduct}: ${
     Math.ceil(
@@ -787,6 +853,8 @@ function updateSummary() {
         100
     ) / 100 || 0
   }</p>
+  <p>Unit cost: ${productsUnitCost.get(rootProduct) || 0}</p>
+  <p>Market price: ${productsPrices.get(rootProduct) || 0}</p>
   <h3>Surplus</h3>
   ${Array.from(productsAmounts.keys())
     .map((p) => {
@@ -801,7 +869,32 @@ function updateSummary() {
       if (amount > -1) return `<p>${p}: ${Math.ceil(amount * 100) / 100}</p>`;
     })
     .join("")}
+  <h3>Price breakdown</h3>
+  ${Array.from(productsUnitCost.keys())
+    .map((p) => {
+      let cost = productsUnitCost.get(p);
+      if (cost > 0) return `<p>${p}: ${cost}</p>`;
+    })
+    .join("")}
   `;
+
+  function getCost(product) {
+    var tmpCost = 0;
+
+    links.forEach((link) => {
+      if (link.target.id === product) {
+        if (state.get(link.source.id) === "buy") {
+          tmpCost +=
+            (productsUnitCost.get(link.source.id) || 0) *
+            (link.inputAmountTarget || 0);
+        } else {
+          tmpCost += getCost(link.source.id);
+        }
+      }
+    });
+
+    return Math.ceil(tmpCost * 100) / 100;
+  }
 }
 
 async function updateRecipeTree() {
@@ -854,6 +947,7 @@ async function updateRecipeTree() {
 async function init() {
   await getRecipes();
   getProducts();
+  await getMarketPrices();
 
   populateConfig();
 
@@ -862,7 +956,7 @@ async function init() {
   for (const product of products) {
     const option = document.createElement("option");
     option.value = product;
-    option.text = product[0].toUpperCase() + product.slice(1);
+    option.text = upperCase(product);
     select.appendChild(option);
   }
 }
