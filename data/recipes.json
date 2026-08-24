@@ -4,7 +4,7 @@
     "tier": 2,
     "site": "alloy smelter",
     "class": "forging",
-    "points": 4,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "charcoal", "amount": 12 },
@@ -19,7 +19,7 @@
     "tier": 3,
     "site": "alloy smelter",
     "class": "forging",
-    "points": 5,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "charcoal", "amount": 14 },
@@ -34,7 +34,7 @@
     "tier": 4,
     "site": "alloy smelter",
     "class": "forging",
-    "points": 6,
+    "points": 10,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "charcoal", "amount": 15 },
@@ -51,11 +51,11 @@
     "class": "nutrition",
     "points": 1.25,
     "inputs": [
-      { "product": "labour", "amount": 120 },
+      { "product": "labour", "amount": 100 },
       { "product": "firewood", "amount": 10 },
-      { "product": "grain", "amount": 105 }
+      { "product": "grain", "amount": 85 }
     ],
-    "outputs": [{ "product": "bread", "amount": 240 }]
+    "outputs": [{ "product": "bread", "amount": 200 }]
   },
   "bake bread 2": {
     "name": "bake bread 2",
@@ -65,53 +65,41 @@
     "class": "nutrition",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 120 },
-      { "product": "firewood", "amount": 12 },
-      { "product": "flour", "amount": 40 }
+      { "product": "labour", "amount": 72 },
+      { "product": "firewood", "amount": 8 },
+      { "product": "flour", "amount": 24 }
     ],
-    "outputs": [{ "product": "bread", "amount": 400 }]
+    "outputs": [{ "product": "bread", "amount": 240 }]
   },
-  "bake bread 2 (coal)": {
-    "name": "bake bread 2 (coal)",
-    "tier": 2,
+  "bake bread 3": {
+    "name": "bake bread 3",
+    "tier": 3,
     "site": "bakery",
     "upgrades": ["stone oven"],
     "class": "nutrition",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 120 },
-      { "product": "charcoal", "amount": 12 },
-      { "product": "flour", "amount": 40 }
+      { "product": "labour", "amount": 70 },
+      { "product": "flour", "amount": 24 },
+      { "product": "charcoal", "amount": 8 }
     ],
-    "outputs": [{ "product": "bread", "amount": 400 }]
+    "outputs": [{ "product": "bread", "amount": 240 }]
   },
-  "bake bread 3": {
-    "name": "bake bread 3",
+  "bake bread 4": {
+    "name": "bake bread 4",
     "tier": 4,
     "site": "bakery",
     "upgrades": ["stone oven"],
     "class": "nutrition",
-    "points": 5,
+    "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 120 },
-      { "product": "firewood", "amount": 13 },
-      { "product": "flour", "amount": 42 }
+      { "product": "labour", "amount": 70 },
+      { "product": "charcoal", "amount": 8 },
+      { "product": "seeds", "amount": 4 },
+      { "product": "flour", "amount": 24 }
     ],
-    "outputs": [{ "product": "bread", "amount": 425 }]
-  },
-  "bake bread 3 (coal)": {
-    "name": "bake bread 3 (coal)",
-    "tier": 4,
-    "site": "bakery",
-    "upgrades": ["stone oven"],
-    "class": "nutrition",
-    "points": 5,
-    "inputs": [
-      { "product": "labour", "amount": 120 },
-      { "product": "charcoal", "amount": 13 },
-      { "product": "flour", "amount": 42 }
-    ],
-    "outputs": [{ "product": "bread", "amount": 425 }]
+    "outputs": [{ "product": "bread", "amount": 245 }],
+    "fallbacks": ["bake bread 3"]
   },
   "bake pasties 1": {
     "name": "bake pasties 1",
@@ -119,7 +107,7 @@
     "site": "bakery",
     "upgrades": ["stone oven"],
     "class": "nutrition",
-    "points": 2.5,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "firewood", "amount": 6 },
@@ -136,7 +124,7 @@
     "site": "bakery",
     "upgrades": ["stone oven"],
     "class": "nutrition",
-    "points": 5,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 145 },
       { "product": "firewood", "amount": 7 },
@@ -153,7 +141,7 @@
     "site": "bakery",
     "upgrades": ["stone oven"],
     "class": "nutrition",
-    "points": 4,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 160 },
       { "product": "firewood", "amount": 6 },
@@ -170,7 +158,7 @@
     "site": "bakery",
     "upgrades": ["stone oven"],
     "class": "nutrition",
-    "points": 6,
+    "points": 10,
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "firewood", "amount": 7 },
@@ -216,10 +204,10 @@
     "class": "textile",
     "points": 1,
     "inputs": [
-      { "product": "labour", "amount": 130 },
-      { "product": "fleece", "amount": 12 }
+      { "product": "labour", "amount": 160 },
+      { "product": "fleece", "amount": 14 }
     ],
-    "outputs": [{ "product": "garments", "amount": 12 }]
+    "outputs": [{ "product": "garments", "amount": 15 }]
   },
   "bind garments 2": {
     "name": "bind garments 2",
@@ -228,10 +216,10 @@
     "class": "textile",
     "points": 1.2,
     "inputs": [
-      { "product": "labour", "amount": 130 },
-      { "product": "wool", "amount": 10 }
+      { "product": "labour", "amount": 160 },
+      { "product": "wool", "amount": 12 }
     ],
-    "outputs": [{ "product": "garments", "amount": 13 }]
+    "outputs": [{ "product": "garments", "amount": 16 }]
   },
   "bind garments 3": {
     "name": "bind garments 3",
@@ -240,27 +228,81 @@
     "class": "textile",
     "points": 1.3,
     "inputs": [
-      { "product": "labour", "amount": 130 },
-      { "product": "yarn", "amount": 30 }
+      { "product": "labour", "amount": 155 },
+      { "product": "yarn", "amount": 45 }
     ],
-    "outputs": [{ "product": "garments", "amount": 15 }]
+    "outputs": [{ "product": "garments", "amount": 22 }]
+  },
+  "binding duty 1": {
+    "name": "binding duty 1",
+    "tier": 1,
+    "site": "household",
+    "class": "textile",
+    "points": 0.75,
+    "resident_only": true,
+    "inputs": [
+      { "product": "labour", "amount": 25 },
+      { "product": "fleece", "amount": 3 }
+    ],
+    "outputs": [{ "product": "garments", "amount": 3 }]
+  },
+  "binding duty 2": {
+    "name": "binding duty 2",
+    "tier": 1,
+    "site": "household",
+    "class": "textile",
+    "points": 0.75,
+    "resident_only": true,
+    "inputs": [
+      { "product": "labour", "amount": 25 },
+      { "product": "wool", "amount": 3.5 }
+    ],
+    "outputs": [{ "product": "garments", "amount": 3.5 }]
+  },
+  "binding duty 3": {
+    "name": "binding duty 3",
+    "tier": 1,
+    "site": "household",
+    "class": "textile",
+    "points": 0.75,
+    "resident_only": true,
+    "inputs": [
+      { "product": "labour", "amount": 25 },
+      { "product": "yarn", "amount": 7.5 }
+    ],
+    "outputs": [{ "product": "garments", "amount": 4 }]
+  },
+  "blow alembics 1": {
+    "name": "blow alembics 1",
+    "tier": 3,
+    "site": "glass blower",
+    "class": "crafting",
+    "points": 8,
+    "inputs": [
+      { "product": "labour", "amount": 130 },
+      { "product": "firewood", "amount": 6 },
+      { "product": "tools", "amount": 2 },
+      { "product": "glass", "amount": 7 }
+    ],
+    "outputs": [{ "product": "alembics", "amount": 3 }]
+  },
+  "blow alembics 2": {
+    "name": "blow alembics 2",
+    "tier": 4,
+    "site": "glass blower",
+    "class": "crafting",
+    "points": 12,
+    "inputs": [
+      { "product": "labour", "amount": 130 },
+      { "product": "firewood", "amount": 6 },
+      { "product": "tools", "amount": 2 },
+      { "product": "glass", "amount": 6.5 }
+    ],
+    "outputs": [{ "product": "alembics", "amount": 3 }]
   },
   "blow glassware 1": {
     "name": "blow glassware 1",
-    "tier": 1,
-    "site": "glass blower",
-    "class": "crafting",
-    "points": 1.5,
-    "inputs": [
-      { "product": "labour", "amount": 140 },
-      { "product": "firewood", "amount": 10 },
-      { "product": "tools", "amount": 1 }
-    ],
-    "outputs": [{ "product": "glassware", "amount": 6 }]
-  },
-  "blow glassware 2": {
-    "name": "blow glassware 2",
-    "tier": 3,
+    "tier": 2,
     "site": "glass blower",
     "class": "crafting",
     "points": 2.5,
@@ -268,7 +310,22 @@
       { "product": "labour", "amount": 100 },
       { "product": "firewood", "amount": 4 },
       { "product": "tools", "amount": 1 },
-      { "product": "glass", "amount": 4 }
+      { "product": "glass", "amount": 3.2 }
+    ],
+    "outputs": [{ "product": "glassware", "amount": 8 }]
+  },
+  "blow glassware 2": {
+    "name": "blow glassware 2",
+    "tier": 3,
+    "site": "glass blower",
+    "class": "crafting",
+    "points": 4,
+    "inputs": [
+      { "product": "labour", "amount": 95 },
+      { "product": "firewood", "amount": 5 },
+      { "product": "tools", "amount": 1 },
+      { "product": "glass", "amount": 4 },
+      { "product": "cookware", "amount": 1 }
     ],
     "outputs": [{ "product": "glassware", "amount": 10 }],
     "fallbacks": ["blow glassware 1"]
@@ -278,16 +335,17 @@
     "tier": 4,
     "site": "glass blower",
     "class": "crafting",
-    "points": 2.5,
+    "points": 6,
     "inputs": [
-      { "product": "labour", "amount": 85 },
-      { "product": "charcoal", "amount": 4 },
+      { "product": "labour", "amount": 90 },
+      { "product": "charcoal", "amount": 5 },
       { "product": "tools", "amount": 1 },
       { "product": "dye", "amount": 0.25 },
       { "product": "gold bars", "amount": 0.05 },
-      { "product": "glass", "amount": 3.5 }
+      { "product": "glass", "amount": 4 },
+      { "product": "cookware", "amount": 1 }
     ],
-    "outputs": [{ "product": "glassware", "amount": 10 }]
+    "outputs": [{ "product": "glassware", "amount": 11 }]
   },
   "blow premium glassware 1": {
     "name": "blow premium glassware 1",
@@ -295,7 +353,7 @@
     "site": "glass blower",
     "upgrades": ["premium production"],
     "class": "crafting",
-    "points": 5,
+    "points": 7,
     "inputs": [
       { "product": "labour", "amount": 80 },
       { "product": "charcoal", "amount": 3 },
@@ -311,7 +369,7 @@
     "site": "glass blower",
     "upgrades": ["premium production"],
     "class": "crafting",
-    "points": 6,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 80 },
       { "product": "charcoal", "amount": 3.5 },
@@ -345,8 +403,8 @@
     "class": "crafting",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 50 },
-      { "product": "firewood", "amount": 5 },
+      { "product": "labour", "amount": 52 },
+      { "product": "firewood", "amount": 6 },
       { "product": "tools", "amount": 2 },
       { "product": "cookware", "amount": 1.5 },
       { "product": "herbs", "amount": 8 }
@@ -360,12 +418,13 @@
     "class": "crafting",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 45 },
+      { "product": "labour", "amount": 46 },
       { "product": "firewood", "amount": 5 },
       { "product": "tools", "amount": 3 },
       { "product": "cookware", "amount": 2 },
       { "product": "herbs", "amount": 8.5 },
-      { "product": "glassware", "amount": 0.25 }
+      { "product": "glassware", "amount": 0.25 },
+      { "product": "potash", "amount": 1 }
     ],
     "outputs": [{ "product": "dye", "amount": 11 }],
     "fallbacks": ["boil dye 2"]
@@ -377,15 +436,17 @@
     "class": "crafting",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 45 },
-      { "product": "firewood", "amount": 5 },
-      { "product": "tools", "amount": 4 },
+      { "product": "labour", "amount": 40 },
+      { "product": "firewood", "amount": 4 },
+      { "product": "tools", "amount": 3 },
       { "product": "cookware", "amount": 2 },
       { "product": "herbs", "amount": 9 },
-      { "product": "glassware", "amount": 0.5 }
+      { "product": "glassware", "amount": 0.5 },
+      { "product": "potash", "amount": 1 },
+      { "product": "spirits", "amount": 2 }
     ],
     "outputs": [{ "product": "dye", "amount": 12 }],
-    "fallbacks": ["boil dye 2"]
+    "fallbacks": ["boil dye 3", "boil dye 2"]
   },
   "boil premium dye 4": {
     "name": "boil premium dye 4",
@@ -402,9 +463,80 @@
       { "product": "flax plants", "amount": 10 },
       { "product": "cookware", "amount": 2 },
       { "product": "glassware", "amount": 0.5 },
-      { "product": "herbs", "amount": 6 }
+      { "product": "herbs", "amount": 5 },
+      { "product": "potash", "amount": 1 },
+      { "product": "spirits", "amount": 2 }
     ],
     "outputs": [{ "product": "premium dye", "amount": 2 }]
+  },
+  "boil soap 1": {
+    "name": "boil soap 1",
+    "tier": 2,
+    "site": "soapery",
+    "class": "nutrition",
+    "points": 4,
+    "inputs": [
+      { "product": "labour", "amount": 90 },
+      { "product": "firewood", "amount": 10 },
+      { "product": "potash", "amount": 9 },
+      { "product": "cookware", "amount": 2 },
+      { "product": "tallow", "amount": 22 }
+    ],
+    "outputs": [{ "product": "soap", "amount": 12 }]
+  },
+  "boil soap 2": {
+    "name": "boil soap 2",
+    "tier": 3,
+    "site": "soapery",
+    "class": "nutrition",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 80 },
+      { "product": "firewood", "amount": 11 },
+      { "product": "potash", "amount": 9 },
+      { "product": "casks", "amount": 2 },
+      { "product": "flax plants", "amount": 10 },
+      { "product": "cookware", "amount": 2 },
+      { "product": "tallow", "amount": 23 }
+    ],
+    "outputs": [{ "product": "soap", "amount": 13 }],
+    "fallbacks": ["boil soap 1"]
+  },
+  "boil soap 3": {
+    "name": "boil soap 3",
+    "tier": 3,
+    "site": "soapery",
+    "class": "nutrition",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 80 },
+      { "product": "charcoal", "amount": 11 },
+      { "product": "potash", "amount": 9 },
+      { "product": "casks", "amount": 3 },
+      { "product": "cookware", "amount": 3 },
+      { "product": "tallow", "amount": 24 },
+      { "product": "herbs", "amount": 2 }
+    ],
+    "outputs": [{ "product": "soap", "amount": 15 }]
+  },
+  "boil soap 4": {
+    "name": "boil soap 4",
+    "tier": 4,
+    "site": "soapery",
+    "class": "nutrition",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 70 },
+      { "product": "charcoal", "amount": 11 },
+      { "product": "potash", "amount": 9 },
+      { "product": "casks", "amount": 4 },
+      { "product": "dye", "amount": 1 },
+      { "product": "cookware", "amount": 3 },
+      { "product": "tallow", "amount": 25 },
+      { "product": "herbs", "amount": 2 }
+    ],
+    "outputs": [{ "product": "soap", "amount": 16 }],
+    "fallbacks": ["boil soap 3"]
   },
   "border patrol 1": {
     "name": "border patrol 1",
@@ -414,11 +546,12 @@
     "points": 4,
     "inputs": [
       { "product": "labour", "amount": 100 },
-      { "product": "arms", "amount": 9 },
+      { "product": "arms", "amount": 8 },
       { "product": "garments", "amount": 1 },
-      { "product": "light armour", "amount": 1 }
+      { "product": "light armour", "amount": 2 },
+      { "product": "spirits", "amount": 1 }
     ],
-    "outputs": [{ "product": "protection", "amount": 160 }]
+    "outputs": [{ "product": "protection", "amount": 175 }]
   },
   "border patrol 2": {
     "name": "border patrol 2",
@@ -428,9 +561,10 @@
     "points": 8,
     "inputs": [
       { "product": "labour", "amount": 100 },
-      { "product": "swords", "amount": 2.25 },
-      { "product": "coats", "amount": 1 },
-      { "product": "light armour", "amount": 1 }
+      { "product": "swords", "amount": 2 },
+      { "product": "light armour", "amount": 2 },
+      { "product": "garments", "amount": 1 },
+      { "product": "medicine", "amount": 0.25 }
     ],
     "outputs": [{ "product": "protection", "amount": 225 }]
   },
@@ -442,11 +576,27 @@
     "points": 8,
     "inputs": [
       { "product": "labour", "amount": 100 },
-      { "product": "swords", "amount": 2.25 },
-      { "product": "coats", "amount": 1 },
-      { "product": "plate armour", "amount": 0.2 }
+      { "product": "swords", "amount": 2.5 },
+      { "product": "plate armour", "amount": 0.25 },
+      { "product": "garments", "amount": 1 },
+      { "product": "medicine", "amount": 0.25 }
     ],
-    "outputs": [{ "product": "protection", "amount": 280 }]
+    "outputs": [{ "product": "protection", "amount": 300 }]
+  },
+  "border patrol 4": {
+    "name": "border patrol 4",
+    "tier": 4,
+    "site": "outpost",
+    "class": "weaponry",
+    "points": 10,
+    "inputs": [
+      { "product": "labour", "amount": 100 },
+      { "product": "swords", "amount": 2.5 },
+      { "product": "coats", "amount": 1 },
+      { "product": "plate armour", "amount": 0.25 },
+      { "product": "medicine", "amount": 0.25 }
+    ],
+    "outputs": [{ "product": "protection", "amount": 320 }]
   },
   "breed cattle 1": {
     "name": "breed cattle 1",
@@ -455,7 +605,7 @@
     "upgrades": ["cowshed"],
     "class": "nutrition",
     "points": 0.7,
-    "inputs": [{ "product": "labour", "amount": 11 }],
+    "inputs": [{ "product": "labour", "amount": 11.8 }],
     "outputs": [{ "product": "cattle", "amount": 0.25 }]
   },
   "breed cattle 2": {
@@ -466,7 +616,7 @@
     "class": "nutrition",
     "points": 1,
     "inputs": [
-      { "product": "labour", "amount": 9.5 },
+      { "product": "labour", "amount": 10.6 },
       { "product": "harnesses", "amount": 0.1 }
     ],
     "outputs": [{ "product": "cattle", "amount": 0.27 }],
@@ -480,11 +630,12 @@
     "class": "nutrition",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 9.5 },
-      { "product": "harnesses", "amount": 0.1 }
+      { "product": "labour", "amount": 10.5 },
+      { "product": "harnesses", "amount": 0.1 },
+      { "product": "rope", "amount": 0.01 }
     ],
     "outputs": [{ "product": "cattle", "amount": 0.28 }],
-    "fallbacks": ["breed cattle 1"]
+    "fallbacks": ["breed cattle 2", "breed cattle 1"]
   },
   "brew beer 1": {
     "name": "brew beer 1",
@@ -634,11 +785,11 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 5,
+    "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 85 },
+      { "product": "labour", "amount": 90 },
       { "product": "cloth", "amount": 9 },
-      { "product": "timber", "amount": 20 },
+      { "product": "timber", "amount": 21 },
       { "product": "rope", "amount": 0.4 },
       { "product": "tar", "amount": 2.5 },
       { "product": "nails", "amount": 2 },
@@ -652,16 +803,17 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 10,
+    "points": 8,
     "inputs": [
-      { "product": "labour", "amount": 75 },
+      { "product": "labour", "amount": 70 },
       { "product": "timber", "amount": 21 },
       { "product": "sails", "amount": 0.25 },
       { "product": "nails", "amount": 2 },
       { "product": "tar", "amount": 3 },
       { "product": "tackles", "amount": 0.15 },
       { "product": "tools", "amount": 2 },
-      { "product": "axes", "amount": 1 }
+      { "product": "axes", "amount": 1 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "cog", "amount": 0.06 }]
   },
@@ -671,16 +823,17 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 12,
+    "points": 10,
     "inputs": [
-      { "product": "labour", "amount": 75 },
+      { "product": "labour", "amount": 70 },
       { "product": "timber", "amount": 20 },
       { "product": "tools", "amount": 2 },
       { "product": "axes", "amount": 1 },
       { "product": "tackles", "amount": 0.15 },
       { "product": "nails", "amount": 2 },
       { "product": "tar", "amount": 3 },
-      { "product": "premium sails", "amount": 0.12 }
+      { "product": "premium sails", "amount": 0.12 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "cog", "amount": 0.06 }]
   },
@@ -690,16 +843,17 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 15,
+    "points": 12,
     "inputs": [
-      { "product": "labour", "amount": 65 },
+      { "product": "labour", "amount": 60 },
       { "product": "timber", "amount": 20 },
       { "product": "tools", "amount": 2 },
       { "product": "tackles", "amount": 0.15 },
       { "product": "nails", "amount": 2 },
       { "product": "tar", "amount": 3 },
       { "product": "premium axes", "amount": 0.5 },
-      { "product": "premium sails", "amount": 0.12 }
+      { "product": "premium sails", "amount": 0.12 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "cog", "amount": 0.06 }]
   },
@@ -726,7 +880,8 @@
       { "product": "timber", "amount": 5 },
       { "product": "tools", "amount": 1 },
       { "product": "wheels", "amount": 1 },
-      { "product": "nails", "amount": 4 }
+      { "product": "nails", "amount": 4 },
+      { "product": "tallow", "amount": 0.25 }
     ],
     "outputs": [{ "product": "handcart", "amount": 0.5 }],
     "fallbacks": ["build handcart 1"]
@@ -737,18 +892,19 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 12,
+    "points": 10,
     "inputs": [
       { "product": "labour", "amount": 80 },
-      { "product": "timber", "amount": 20 },
+      { "product": "timber", "amount": 22 },
       { "product": "sails", "amount": 0.35 },
       { "product": "nails", "amount": 3 },
       { "product": "tar", "amount": 4 },
       { "product": "tackles", "amount": 0.15 },
       { "product": "tools", "amount": 2 },
-      { "product": "axes", "amount": 2 }
+      { "product": "axes", "amount": 2 },
+      { "product": "paper", "amount": 1 }
     ],
-    "outputs": [{ "product": "hulk", "amount": 0.04 }]
+    "outputs": [{ "product": "hulk", "amount": 0.03 }]
   },
   "build hulk 2": {
     "name": "build hulk 2",
@@ -756,18 +912,19 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 12,
+    "points": 10,
     "inputs": [
-      { "product": "labour", "amount": 75 },
-      { "product": "timber", "amount": 20 },
+      { "product": "labour", "amount": 70 },
+      { "product": "timber", "amount": 22 },
       { "product": "tools", "amount": 2 },
       { "product": "tackles", "amount": 0.15 },
       { "product": "nails", "amount": 3 },
       { "product": "tar", "amount": 4 },
       { "product": "premium axes", "amount": 1 },
-      { "product": "premium sails", "amount": 0.15 }
+      { "product": "premium sails", "amount": 0.15 },
+      { "product": "paper", "amount": 1 }
     ],
-    "outputs": [{ "product": "hulk", "amount": 0.04 }]
+    "outputs": [{ "product": "hulk", "amount": 0.03 }]
   },
   "build premium cog 1": {
     "name": "build premium cog 1",
@@ -778,13 +935,14 @@
     "points": 12,
     "inputs": [
       { "product": "labour", "amount": 70 },
-      { "product": "timber", "amount": 22 },
+      { "product": "timber", "amount": 20 },
       { "product": "tools", "amount": 2 },
       { "product": "axes", "amount": 2 },
       { "product": "tackles", "amount": 0.12 },
       { "product": "sails", "amount": 0.2 },
       { "product": "nails", "amount": 2 },
-      { "product": "tar", "amount": 2.5 }
+      { "product": "tar", "amount": 2.5 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "premium cog", "amount": 0.03 }]
   },
@@ -797,14 +955,15 @@
     "points": 15,
     "inputs": [
       { "product": "labour", "amount": 65 },
-      { "product": "timber", "amount": 22 },
+      { "product": "timber", "amount": 20 },
       { "product": "tools", "amount": 2 },
       { "product": "tackles", "amount": 0.15 },
       { "product": "nails", "amount": 2 },
       { "product": "tar", "amount": 3 },
       { "product": "premium axes", "amount": 1 },
       { "product": "premium sails", "amount": 0.15 },
-      { "product": "axes", "amount": 1 }
+      { "product": "axes", "amount": 1 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "premium cog", "amount": 0.04 }]
   },
@@ -813,11 +972,12 @@
     "tier": 2,
     "site": "shipyard",
     "class": "maritime",
-    "points": 2.5,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 65 },
-      { "product": "cloth", "amount": 5 },
-      { "product": "timber", "amount": 10 }
+      { "product": "timber", "amount": 10 },
+      { "product": "canvas", "amount": 1.2 },
+      { "product": "tools", "amount": 1 }
     ],
     "outputs": [{ "product": "snekkja", "amount": 0.1 }]
   },
@@ -827,15 +987,15 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 5,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 62 },
       { "product": "timber", "amount": 15 },
-      { "product": "cloth", "amount": 7 },
       { "product": "rope", "amount": 0.25 },
       { "product": "nails", "amount": 1 },
       { "product": "tar", "amount": 2.5 },
-      { "product": "tools", "amount": 2 }
+      { "product": "tools", "amount": 2 },
+      { "product": "canvas", "amount": 2 }
     ],
     "outputs": [{ "product": "snekkja", "amount": 0.15 }],
     "fallbacks": ["build snekkja 1"]
@@ -846,10 +1006,10 @@
     "site": "shipyard",
     "upgrades": ["crane"],
     "class": "maritime",
-    "points": 8,
+    "points": 6,
     "inputs": [
-      { "product": "labour", "amount": 60 },
-      { "product": "timber", "amount": 16 },
+      { "product": "labour", "amount": 56 },
+      { "product": "timber", "amount": 15 },
       { "product": "sails", "amount": 0.2 },
       { "product": "nails", "amount": 1 },
       { "product": "tar", "amount": 2.5 },
@@ -857,7 +1017,7 @@
       { "product": "tools", "amount": 2 },
       { "product": "axes", "amount": 1 }
     ],
-    "outputs": [{ "product": "snekkja", "amount": 0.2 }]
+    "outputs": [{ "product": "snekkja", "amount": 0.18 }]
   },
   "build snekkja 4": {
     "name": "build snekkja 4",
@@ -886,7 +1046,7 @@
     "class": "maritime",
     "points": 8,
     "inputs": [
-      { "product": "labour", "amount": 50 },
+      { "product": "labour", "amount": 56 },
       { "product": "timber", "amount": 16 },
       { "product": "tools", "amount": 2 },
       { "product": "tackles", "amount": 0.2 },
@@ -895,7 +1055,7 @@
       { "product": "premium axes", "amount": 0.5 },
       { "product": "premium sails", "amount": 0.1 }
     ],
-    "outputs": [{ "product": "snekkja", "amount": 0.2 }]
+    "outputs": [{ "product": "snekkja", "amount": 0.21 }]
   },
   "build tumbrel 1": {
     "name": "build tumbrel 1",
@@ -924,7 +1084,8 @@
       { "product": "tools", "amount": 1 },
       { "product": "axes", "amount": 1 },
       { "product": "wheels", "amount": 2.5 },
-      { "product": "wrought iron", "amount": 5 }
+      { "product": "wrought iron", "amount": 5 },
+      { "product": "tallow", "amount": 0.25 }
     ],
     "outputs": [{ "product": "tumbrel", "amount": 0.28 }],
     "fallbacks": ["build tumbrel 1"]
@@ -941,7 +1102,8 @@
       { "product": "tools", "amount": 1 },
       { "product": "wheels", "amount": 2.5 },
       { "product": "wrought iron", "amount": 5 },
-      { "product": "premium axes", "amount": 0.5 }
+      { "product": "premium axes", "amount": 0.5 },
+      { "product": "tallow", "amount": 0.25 }
     ],
     "outputs": [{ "product": "tumbrel", "amount": 0.3 }],
     "fallbacks": ["build tumbrel 1"]
@@ -1055,11 +1217,8 @@
     "site": "glass house",
     "class": "forging",
     "points": 1.25,
-    "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "limestone", "amount": 0.5 }
-    ],
-    "outputs": [{ "product": "glass", "amount": 3 }]
+    "inputs": [{ "product": "labour", "amount": 43 }],
+    "outputs": [{ "product": "glass", "amount": 1.5 }]
   },
   "burn glass 2": {
     "name": "burn glass 2",
@@ -1069,12 +1228,28 @@
     "class": "forging",
     "points": 1.75,
     "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "tools", "amount": 1.5 },
-      { "product": "limestone", "amount": 1 }
+      { "product": "labour", "amount": 41 },
+      { "product": "tools", "amount": 2 },
+      { "product": "limestone", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "glass", "amount": 3.5 }],
+    "outputs": [{ "product": "glass", "amount": 1.8 }],
     "fallbacks": ["burn glass 1"]
+  },
+  "burn glass 3": {
+    "name": "burn glass 3",
+    "tier": 3,
+    "site": "glass house",
+    "upgrades": ["toolshed 1"],
+    "class": "forging",
+    "points": 2,
+    "inputs": [
+      { "product": "labour", "amount": 40 },
+      { "product": "potash", "amount": 2 },
+      { "product": "tools", "amount": 1 },
+      { "product": "limestone", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "glass", "amount": 2.2 }],
+    "fallbacks": ["burn glass 2", "burn glass 1"]
   },
   "burn lime 1": {
     "name": "burn lime 1",
@@ -1103,6 +1278,48 @@
       { "product": "limestone", "amount": 18 }
     ],
     "outputs": [{ "product": "slaked lime", "amount": 95 }]
+  },
+  "burn potash 1": {
+    "name": "burn potash 1",
+    "tier": 2,
+    "site": "burner hut",
+    "class": "forging",
+    "points": 0.15,
+    "inputs": [
+      { "product": "labour", "amount": 2.2 },
+      { "product": "casks", "amount": 0.1 }
+    ],
+    "outputs": [{ "product": "potash", "amount": 0.4 }]
+  },
+  "burn potash 2": {
+    "name": "burn potash 2",
+    "tier": 2,
+    "site": "burner hut",
+    "upgrades": ["toolshed 1"],
+    "class": "forging",
+    "points": 0.15,
+    "inputs": [
+      { "product": "labour", "amount": 2 },
+      { "product": "casks", "amount": 0.2 },
+      { "product": "tools", "amount": 0.1 }
+    ],
+    "outputs": [{ "product": "potash", "amount": 0.46 }],
+    "fallbacks": ["burn potash 1"]
+  },
+  "burn potash 3": {
+    "name": "burn potash 3",
+    "tier": 3,
+    "site": "burner hut",
+    "upgrades": ["toolshed 2"],
+    "class": "forging",
+    "points": 0.15,
+    "inputs": [
+      { "product": "labour", "amount": 2 },
+      { "product": "casks", "amount": 0.2 },
+      { "product": "axes", "amount": 0.05 }
+    ],
+    "outputs": [{ "product": "potash", "amount": 0.5 }],
+    "fallbacks": ["burn potash 1"]
   },
   "burn tar 1": {
     "name": "burn tar 1",
@@ -1237,7 +1454,7 @@
     "class": "nutrition",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 43 },
+      { "product": "labour", "amount": 45 },
       { "product": "tools", "amount": 1 },
       { "product": "blades", "amount": 1 },
       { "product": "cattle", "amount": 3.5 }
@@ -1264,17 +1481,86 @@
     "class": "textile",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 30 },
+      { "product": "labour", "amount": 35 },
       { "product": "tools", "amount": 1 },
       { "product": "fleece", "amount": 50 }
     ],
     "outputs": [{ "product": "wool", "amount": 50 }],
     "fallbacks": ["card wool 1"]
   },
+  "card wool 3": {
+    "name": "card wool 3",
+    "tier": 2,
+    "site": "carding house",
+    "upgrades": ["stock cards"],
+    "class": "textile",
+    "points": 2,
+    "inputs": [
+      { "product": "labour", "amount": 30 },
+      { "product": "canvas", "amount": 0.2 },
+      { "product": "tools", "amount": 1.5 },
+      { "product": "fleece", "amount": 55 }
+    ],
+    "outputs": [{ "product": "wool", "amount": 55 }],
+    "fallbacks": ["card wool 2", "card wool 1"]
+  },
+  "card wool 4": {
+    "name": "card wool 4",
+    "tier": 3,
+    "site": "carding house",
+    "upgrades": ["washing coppers"],
+    "class": "textile",
+    "points": 4,
+    "inputs": [
+      { "product": "labour", "amount": 30 },
+      { "product": "canvas", "amount": 0.25 },
+      { "product": "tools", "amount": 2 },
+      { "product": "fleece", "amount": 60 },
+      { "product": "soap", "amount": 0.4 }
+    ],
+    "outputs": [{ "product": "wool", "amount": 64 }],
+    "fallbacks": ["card wool 3", "card wool 2", "card wool 1"]
+  },
+  "card wool 5 (butter)": {
+    "name": "card wool 5 (butter)",
+    "tier": 4,
+    "site": "carding house",
+    "upgrades": ["washing coppers"],
+    "class": "textile",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 33 },
+      { "product": "canvas", "amount": 0.25 },
+      { "product": "tools", "amount": 1 },
+      { "product": "butter", "amount": 0.05 },
+      { "product": "fleece", "amount": 60 },
+      { "product": "soap", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "wool", "amount": 66 }],
+    "fallbacks": ["card wool 4", "card wool 3", "card wool 2", "card wool 1"]
+  },
+  "card wool 5 (tallow)": {
+    "name": "card wool 5 (tallow)",
+    "tier": 4,
+    "site": "carding house",
+    "upgrades": ["washing coppers"],
+    "class": "textile",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 33 },
+      { "product": "canvas", "amount": 0.25 },
+      { "product": "tools", "amount": 1 },
+      { "product": "fleece", "amount": 60 },
+      { "product": "tallow", "amount": 0.2 },
+      { "product": "soap", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "wool", "amount": 66 }],
+    "fallbacks": ["card wool 4", "card wool 3", "card wool 2", "card wool 1"]
+  },
   "carting 1": {
     "name": "carting 1",
     "tier": 1,
-    "site": "cartshed",
+    "site": "cartyard",
     "class": "mercantile",
     "points": 1.5,
     "inputs": [{ "product": "labour", "amount": 50 }],
@@ -1282,17 +1568,66 @@
   },
   "carting 2": {
     "name": "carting 2",
+    "tier": 1,
+    "site": "cartyard",
+    "class": "mercantile",
+    "points": 1.75,
+    "inputs": [
+      { "product": "labour", "amount": 45 },
+      { "product": "handcart", "amount": 0.04 }
+    ],
+    "outputs": [{ "product": "carting", "amount": 300 }],
+    "fallbacks": ["carting 1"]
+  },
+  "carting 3": {
+    "name": "carting 3",
     "tier": 2,
-    "site": "cartshed",
+    "site": "cartyard",
+    "class": "mercantile",
+    "points": 2,
+    "inputs": [
+      { "product": "labour", "amount": 30 },
+      { "product": "wheels", "amount": 0.5 },
+      { "product": "ox power", "amount": 25 }
+    ],
+    "outputs": [{ "product": "carting", "amount": 380 }],
+    "fallbacks": ["carting 1"]
+  },
+  "carting 4": {
+    "name": "carting 4",
+    "tier": 2,
+    "site": "cartyard",
     "class": "mercantile",
     "points": 2,
     "inputs": [
       { "product": "labour", "amount": 25 },
-      { "product": "wheels", "amount": 1 },
-      { "product": "ox power", "amount": 25 }
+      { "product": "ox power", "amount": 25 },
+      { "product": "tumbrel", "amount": 0.02 }
     ],
-    "outputs": [{ "product": "carting", "amount": 375 }],
+    "outputs": [{ "product": "carting", "amount": 400 }],
     "fallbacks": ["carting 1"]
+  },
+  "carting service 1": {
+    "name": "carting service 1",
+    "tier": 1,
+    "site": "cartshed",
+    "class": "mercantile",
+    "points": 0.5,
+    "inputs": [{ "product": "labour", "amount": 20 }],
+    "outputs": [{ "product": "carting", "amount": 100 }]
+  },
+  "carting service 2": {
+    "name": "carting service 2",
+    "tier": 1,
+    "site": "cartshed",
+    "class": "mercantile",
+    "points": 0.75,
+    "inputs": [
+      { "product": "labour", "amount": 15 },
+      { "product": "handcart", "amount": 0.01 }
+    ],
+    "outputs": [{ "product": "carting", "amount": 100 }],
+    "fallbacks": ["carting service 1"]
   },
   "cast bells 1": {
     "name": "cast bells 1",
@@ -1300,7 +1635,7 @@
     "site": "foundry",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 6,
+    "points": 10,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "charcoal", "amount": 20 },
@@ -1320,7 +1655,7 @@
     "site": "foundry",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 8,
+    "points": 16,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "charcoal", "amount": 22 },
@@ -1374,7 +1709,7 @@
     "site": "foundry",
     "upgrades": ["sculpture moulds"],
     "class": "forging",
-    "points": 6,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 85 },
       { "product": "charcoal", "amount": 18 },
@@ -1393,7 +1728,7 @@
     "site": "foundry",
     "upgrades": ["sculpture moulds"],
     "class": "forging",
-    "points": 6,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 110 },
       { "product": "charcoal", "amount": 18 },
@@ -1412,7 +1747,7 @@
     "site": "foundry",
     "upgrades": ["sculpture moulds"],
     "class": "forging",
-    "points": 8,
+    "points": 12,
     "inputs": [
       { "product": "labour", "amount": 80 },
       { "product": "charcoal", "amount": 16 },
@@ -1456,19 +1791,19 @@
   "coaling 1": {
     "name": "coaling 1",
     "tier": 1,
-    "site": "charcoal hut",
+    "site": "burner hut",
     "class": "forging",
-    "points": 0.2,
+    "points": 0.15,
     "inputs": [{ "product": "labour", "amount": 1.1 }],
     "outputs": [{ "product": "charcoal", "amount": 1.6 }]
   },
   "coaling 2": {
     "name": "coaling 2",
     "tier": 1,
-    "site": "charcoal hut",
+    "site": "burner hut",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 0.3,
+    "points": 0.25,
     "inputs": [
       { "product": "labour", "amount": 1 },
       { "product": "tools", "amount": 0.15 }
@@ -1481,7 +1816,7 @@
     "tier": 1,
     "site": "gold camp",
     "class": "forging",
-    "points": 1,
+    "points": 0.5,
     "inputs": [{ "product": "labour", "amount": 60 }],
     "outputs": [{ "product": "gold ore", "amount": 0.8 }]
   },
@@ -1490,7 +1825,7 @@
     "tier": 1,
     "site": "iron camp",
     "class": "forging",
-    "points": 0.75,
+    "points": 0.4,
     "inputs": [{ "product": "labour", "amount": 25 }],
     "outputs": [{ "product": "iron ore", "amount": 15 }]
   },
@@ -1499,7 +1834,7 @@
     "tier": 1,
     "site": "slab yard",
     "class": "crafting",
-    "points": 1,
+    "points": 0.5,
     "inputs": [{ "product": "labour", "amount": 7 }],
     "outputs": [{ "product": "firewood", "amount": 10 }]
   },
@@ -1509,7 +1844,7 @@
     "site": "slab yard",
     "upgrades": ["toolshed 1"],
     "class": "crafting",
-    "points": 1,
+    "points": 0.5,
     "inputs": [
       { "product": "labour", "amount": 6 },
       { "product": "tools", "amount": 1 }
@@ -1522,7 +1857,7 @@
     "tier": 1,
     "site": "weaponsmith",
     "class": "weaponry",
-    "points": 3,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 50 },
       { "product": "charcoal", "amount": 4 },
@@ -1536,7 +1871,7 @@
     "tier": 1,
     "site": "leatherworks",
     "class": "crafting",
-    "points": 2,
+    "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "leather", "amount": 8 }
@@ -1549,7 +1884,7 @@
     "site": "leatherworks",
     "upgrades": ["punching jig"],
     "class": "crafting",
-    "points": 2.5,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "tools", "amount": 1 },
@@ -1564,7 +1899,7 @@
     "site": "leatherworks",
     "upgrades": ["punching jig"],
     "class": "crafting",
-    "points": 3,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "tools", "amount": 2 },
@@ -1580,7 +1915,7 @@
     "site": "leatherworks",
     "upgrades": ["punching jig"],
     "class": "crafting",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "blades", "amount": 2 },
@@ -1595,7 +1930,7 @@
     "tier": 1,
     "site": "coppersmith",
     "class": "crafting",
-    "points": 3,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 90 },
       { "product": "charcoal", "amount": 4 },
@@ -1608,7 +1943,7 @@
     "tier": 2,
     "site": "coppersmith",
     "class": "crafting",
-    "points": 4,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 85 },
       { "product": "charcoal", "amount": 4 },
@@ -1623,22 +1958,59 @@
     "tier": 3,
     "site": "coppersmith",
     "class": "crafting",
-    "points": 5,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 85 },
       { "product": "charcoal", "amount": 4 },
       { "product": "tools", "amount": 2 },
-      { "product": "copper ingots", "amount": 22 }
+      { "product": "copper ingots", "amount": 21 },
+      { "product": "lead bars", "amount": 1 }
+    ],
+    "outputs": [{ "product": "cookware", "amount": 25 }],
+    "fallbacks": ["craft cookware 2", "craft cookware 1"]
+  },
+  "craft cookware 4": {
+    "name": "craft cookware 4",
+    "tier": 3,
+    "site": "coppersmith",
+    "upgrades": ["bickiron"],
+    "class": "crafting",
+    "points": 3,
+    "inputs": [
+      { "product": "labour", "amount": 80 },
+      { "product": "charcoal", "amount": 4 },
+      { "product": "tools", "amount": 2 },
+      { "product": "copper ingots", "amount": 19 },
+      { "product": "tin ingots", "amount": 2 },
+      { "product": "lead bars", "amount": 1 }
     ],
     "outputs": [{ "product": "cookware", "amount": 26 }],
-    "fallbacks": ["craft cookware 1"]
+    "fallbacks": ["craft cookware 3", "craft cookware 2", "craft cookware 1"]
+  },
+  "craft cookware 5": {
+    "name": "craft cookware 5",
+    "tier": 4,
+    "site": "coppersmith",
+    "upgrades": ["bickiron"],
+    "class": "crafting",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 76 },
+      { "product": "charcoal", "amount": 4 },
+      { "product": "tools", "amount": 2 },
+      { "product": "copper ingots", "amount": 19 },
+      { "product": "silver bars", "amount": 0.25 },
+      { "product": "lead bars", "amount": 1 }
+    ],
+    "outputs": [{ "product": "cookware", "amount": 27 }],
+    "fallbacks": ["craft cookware 3", "craft cookware 2", "craft cookware 1"]
   },
   "craft furniture 1": {
     "name": "craft furniture 1",
     "tier": 1,
     "site": "carpentry",
     "class": "crafting",
-    "points": 2,
+    "points": 1,
     "inputs": [
       { "product": "labour", "amount": 90 },
       { "product": "timber", "amount": 7.5 }
@@ -1650,12 +2022,12 @@
     "tier": 1,
     "site": "carpentry",
     "class": "crafting",
-    "points": 2.5,
+    "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "timber", "amount": 11 },
-      { "product": "cloth", "amount": 6 },
-      { "product": "tools", "amount": 0.5 }
+      { "product": "labour", "amount": 88 },
+      { "product": "timber", "amount": 12 },
+      { "product": "cloth", "amount": 3 },
+      { "product": "tools", "amount": 1 }
     ],
     "outputs": [{ "product": "furniture", "amount": 22 }],
     "fallbacks": ["craft furniture 1"]
@@ -1665,13 +2037,13 @@
     "tier": 2,
     "site": "carpentry",
     "class": "crafting",
-    "points": 3.5,
+    "points": 2,
     "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "timber", "amount": 13 },
-      { "product": "tools", "amount": 1.5 },
-      { "product": "nails", "amount": 5 },
-      { "product": "dyed cloth", "amount": 3 }
+      { "product": "labour", "amount": 83 },
+      { "product": "timber", "amount": 15 },
+      { "product": "tools", "amount": 1 },
+      { "product": "nails", "amount": 4 },
+      { "product": "dyed cloth", "amount": 2 }
     ],
     "outputs": [{ "product": "furniture", "amount": 25 }],
     "fallbacks": ["craft furniture 1"]
@@ -1684,12 +2056,13 @@
     "class": "crafting",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "timber", "amount": 15 },
+      { "product": "labour", "amount": 78 },
+      { "product": "timber", "amount": 14 },
       { "product": "tools", "amount": 1 },
-      { "product": "wool", "amount": 2.5 },
-      { "product": "leather", "amount": 1.5 },
-      { "product": "nails", "amount": 5 }
+      { "product": "wool", "amount": 1.5 },
+      { "product": "leather", "amount": 2 },
+      { "product": "nails", "amount": 4 },
+      { "product": "varnish", "amount": 1 }
     ],
     "outputs": [{ "product": "furniture", "amount": 28 }],
     "fallbacks": ["craft furniture 1"]
@@ -1702,16 +2075,18 @@
     "class": "crafting",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 75 },
-      { "product": "timber", "amount": 16 },
+      { "product": "labour", "amount": 74 },
+      { "product": "timber", "amount": 15 },
       { "product": "tools", "amount": 0.5 },
-      { "product": "wool", "amount": 2.5 },
+      { "product": "wool", "amount": 1.5 },
       { "product": "leather", "amount": 2 },
-      { "product": "nails", "amount": 6 },
-      { "product": "axes", "amount": 0.5 }
+      { "product": "nails", "amount": 5 },
+      { "product": "axes", "amount": 0.5 },
+      { "product": "dyed cloth", "amount": 1 },
+      { "product": "varnish", "amount": 1 }
     ],
     "outputs": [{ "product": "furniture", "amount": 30 }],
-    "fallbacks": ["craft furniture 4", "craft furniture 1"]
+    "fallbacks": ["craft furniture 4", "craft furniture 3", "craft furniture 1"]
   },
   "craft furniture 6": {
     "name": "craft furniture 6",
@@ -1721,16 +2096,18 @@
     "class": "crafting",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 75 },
+      { "product": "labour", "amount": 73 },
       { "product": "timber", "amount": 15 },
       { "product": "tools", "amount": 1 },
       { "product": "axes", "amount": 1 },
-      { "product": "wool", "amount": 4 },
+      { "product": "wool", "amount": 2 },
       { "product": "leather", "amount": 2 },
-      { "product": "nails", "amount": 6 }
+      { "product": "nails", "amount": 5 },
+      { "product": "dyed cloth", "amount": 2 },
+      { "product": "varnish", "amount": 1 }
     ],
     "outputs": [{ "product": "furniture", "amount": 32 }],
-    "fallbacks": ["craft furniture 4", "craft furniture 1"]
+    "fallbacks": ["craft furniture 4", "craft furniture 3", "craft furniture 1"]
   },
   "craft furniture 7": {
     "name": "craft furniture 7",
@@ -1740,16 +2117,18 @@
     "class": "crafting",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 70 },
+      { "product": "labour", "amount": 65 },
       { "product": "timber", "amount": 15 },
       { "product": "tools", "amount": 1 },
-      { "product": "wool", "amount": 4 },
+      { "product": "wool", "amount": 2 },
       { "product": "leather", "amount": 2 },
-      { "product": "nails", "amount": 6 },
-      { "product": "premium axes", "amount": 0.5 }
+      { "product": "nails", "amount": 5 },
+      { "product": "premium axes", "amount": 0.5 },
+      { "product": "dyed cloth", "amount": 2 },
+      { "product": "varnish", "amount": 1 }
     ],
     "outputs": [{ "product": "furniture", "amount": 33 }],
-    "fallbacks": ["craft furniture 4", "craft furniture 1"]
+    "fallbacks": ["craft furniture 4", "craft furniture 3", "craft furniture 1"]
   },
   "craft gears 1": {
     "name": "craft gears 1",
@@ -1760,30 +2139,53 @@
     "points": 5,
     "inputs": [
       { "product": "labour", "amount": 210 },
-      { "product": "timber", "amount": 12 },
+      { "product": "timber", "amount": 18 },
       { "product": "tools", "amount": 2 },
-      { "product": "wrought iron", "amount": 4 },
+      { "product": "wrought iron", "amount": 1.5 },
       { "product": "nails", "amount": 2 }
     ],
     "outputs": [{ "product": "gears", "amount": 10 }]
   },
   "craft gears 2": {
     "name": "craft gears 2",
+    "tier": 3,
+    "site": "machine workshop",
+    "upgrades": ["pattern guide"],
+    "class": "crafting",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 176 },
+      { "product": "timber", "amount": 8 },
+      { "product": "tools", "amount": 2 },
+      { "product": "wrought iron", "amount": 1.5 },
+      { "product": "nails", "amount": 2 },
+      { "product": "wheels", "amount": 5 },
+      { "product": "paper", "amount": 1 },
+      { "product": "tallow", "amount": 1 }
+    ],
+    "outputs": [{ "product": "gears", "amount": 11 }],
+    "fallbacks": ["craft gears 1"]
+  },
+  "craft gears 3": {
+    "name": "craft gears 3",
     "tier": 4,
     "site": "machine workshop",
     "upgrades": ["pattern guide"],
     "class": "crafting",
     "points": 8,
     "inputs": [
-      { "product": "labour", "amount": 200 },
-      { "product": "timber", "amount": 14 },
+      { "product": "labour", "amount": 162 },
+      { "product": "timber", "amount": 8 },
       { "product": "tools", "amount": 2 },
       { "product": "chisels", "amount": 4 },
-      { "product": "wrought iron", "amount": 5 },
-      { "product": "nails", "amount": 3 }
+      { "product": "wheels", "amount": 6 },
+      { "product": "paper", "amount": 1 },
+      { "product": "wrought iron", "amount": 2 },
+      { "product": "nails", "amount": 3 },
+      { "product": "tallow", "amount": 1 }
     ],
     "outputs": [{ "product": "gears", "amount": 12 }],
-    "fallbacks": ["craft gears 1"]
+    "fallbacks": ["craft gears 2", "craft gears 1"]
   },
   "craft lathes 1": {
     "name": "craft lathes 1",
@@ -1833,7 +2235,8 @@
       { "product": "chisels", "amount": 10 },
       { "product": "blades", "amount": 5 },
       { "product": "wheels", "amount": 10 },
-      { "product": "nails", "amount": 4 }
+      { "product": "nails", "amount": 4 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "lathes", "amount": 5 }],
     "fallbacks": ["craft lathes 1"]
@@ -1859,7 +2262,7 @@
     "site": "machine workshop",
     "upgrades": ["joining station"],
     "class": "crafting",
-    "points": 5,
+    "points": 6,
     "inputs": [
       { "product": "labour", "amount": 140 },
       { "product": "timber", "amount": 24 },
@@ -1878,7 +2281,7 @@
     "site": "machine workshop",
     "upgrades": ["joining station"],
     "class": "crafting",
-    "points": 6,
+    "points": 10,
     "inputs": [
       { "product": "labour", "amount": 140 },
       { "product": "timber", "amount": 25 },
@@ -1887,7 +2290,8 @@
       { "product": "gears", "amount": 1 },
       { "product": "thread", "amount": 30 },
       { "product": "nails", "amount": 6 },
-      { "product": "hinges", "amount": 1 }
+      { "product": "hinges", "amount": 1 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "looms", "amount": 1.5 }],
     "fallbacks": ["craft looms 2", "craft looms 1"]
@@ -1909,10 +2313,10 @@
     "tier": 3,
     "site": "carpentry",
     "class": "crafting",
-    "points": 3,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 65 },
-      { "product": "timber", "amount": 4 },
+      { "product": "timber", "amount": 5 },
       { "product": "tools", "amount": 1 },
       { "product": "mouldboards", "amount": 5 }
     ],
@@ -1942,9 +2346,9 @@
     "class": "crafting",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 130 },
-      { "product": "timber", "amount": 8 },
-      { "product": "tools", "amount": 8 },
+      { "product": "labour", "amount": 140 },
+      { "product": "timber", "amount": 9 },
+      { "product": "tools", "amount": 10 },
       { "product": "blades", "amount": 45 }
     ],
     "outputs": [{ "product": "scythes", "amount": 45 }]
@@ -2008,13 +2412,14 @@
     "points": 7,
     "inputs": [
       { "product": "labour", "amount": 200 },
-      { "product": "timber", "amount": 12 },
-      { "product": "tools", "amount": 2 },
-      { "product": "chisels", "amount": 2 },
+      { "product": "timber", "amount": 13 },
+      { "product": "tools", "amount": 3 },
+      { "product": "chisels", "amount": 3 },
       { "product": "wheels", "amount": 8 },
       { "product": "thread", "amount": 4 },
       { "product": "nails", "amount": 4 },
-      { "product": "lathes", "amount": 0.4 }
+      { "product": "lathes", "amount": 0.4 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "spinning wheels", "amount": 4 }],
     "fallbacks": ["craft spinning wheels 2", "craft spinning wheels 1"]
@@ -2024,21 +2429,21 @@
     "tier": 1,
     "site": "coppersmith",
     "class": "crafting",
-    "points": 3,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "charcoal", "amount": 4 },
       { "product": "timber", "amount": 5 },
       { "product": "copper ingots", "amount": 8 }
     ],
-    "outputs": [{ "product": "tools", "amount": 42 }]
+    "outputs": [{ "product": "tools", "amount": 43 }]
   },
   "craft tools 2": {
     "name": "craft tools 2",
     "tier": 3,
     "site": "coppersmith",
     "class": "crafting",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 40 },
       { "product": "timber", "amount": 6 },
@@ -2184,7 +2589,7 @@
     "site": "logging camp",
     "upgrades": ["toolshed 2"],
     "class": "crafting",
-    "points": 0.5,
+    "points": 0.3,
     "inputs": [
       { "product": "labour", "amount": 0.55 },
       { "product": "axes", "amount": 0.05 }
@@ -2210,7 +2615,7 @@
     "tier": 4,
     "site": "masonry",
     "class": "crafting",
-    "points": 10,
+    "points": 12,
     "inputs": [
       { "product": "labour", "amount": 105 },
       { "product": "tools", "amount": 2 },
@@ -2244,13 +2649,6 @@
     "outputs": [{ "product": "carting", "amount": 200 }],
     "fallbacks": ["delivery duty 1"]
   },
-  "delivery service 1": {
-    "name": "delivery service 1",
-    "tier": 1,
-    "site": "farmstead",
-    "class": "mercantile",
-    "outputs": [{ "product": "carting", "amount": 40 }]
-  },
   "dig clay 1": {
     "name": "dig clay 1",
     "tier": 1,
@@ -2274,62 +2672,113 @@
     "outputs": [{ "product": "clay", "amount": 50 }],
     "fallbacks": ["dig clay 1"]
   },
+  "distill acid 1": {
+    "name": "distill acid 1",
+    "tier": 3,
+    "site": "distillery",
+    "class": "nutrition",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 90 },
+      { "product": "firewood", "amount": 12 },
+      { "product": "iron ore", "amount": 20 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "glassware", "amount": 1 },
+      { "product": "alembics", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "acid", "amount": 5 }]
+  },
+  "distill acid 2": {
+    "name": "distill acid 2",
+    "tier": 3,
+    "site": "distillery",
+    "class": "nutrition",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 65 },
+      { "product": "firewood", "amount": 10 },
+      { "product": "copper ore", "amount": 10 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "glassware", "amount": 1 },
+      { "product": "alembics", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "acid", "amount": 6 }]
+  },
+  "distill acid 3": {
+    "name": "distill acid 3",
+    "tier": 4,
+    "site": "distillery",
+    "class": "nutrition",
+    "points": 8,
+    "inputs": [
+      { "product": "labour", "amount": 60 },
+      { "product": "charcoal", "amount": 12 },
+      { "product": "salt", "amount": 10 },
+      { "product": "copper ore", "amount": 10 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "glassware", "amount": 1 },
+      { "product": "alembics", "amount": 0.7 }
+    ],
+    "outputs": [{ "product": "acid", "amount": 7 }]
+  },
   "distill spirits 1": {
     "name": "distill spirits 1",
     "tier": 2,
-    "site": "apothecary",
+    "site": "distillery",
     "class": "nutrition",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 70 },
-      { "product": "firewood", "amount": 4 },
-      { "product": "glassware", "amount": 1 },
-      { "product": "alembics", "amount": 0.3 },
-      { "product": "wine", "amount": 7 }
+      { "product": "labour", "amount": 90 },
+      { "product": "firewood", "amount": 6 },
+      { "product": "alembics", "amount": 0.4 },
+      { "product": "wine", "amount": 20 }
     ],
-    "outputs": [{ "product": "spirits", "amount": 30 }]
+    "outputs": [{ "product": "spirits", "amount": 40 }]
   },
   "distill spirits 2": {
     "name": "distill spirits 2",
     "tier": 3,
-    "site": "apothecary",
+    "site": "distillery",
     "class": "nutrition",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 70 },
-      { "product": "firewood", "amount": 4 },
-      { "product": "glassware", "amount": 1.5 },
+      { "product": "labour", "amount": 80 },
+      { "product": "firewood", "amount": 5 },
+      { "product": "glassware", "amount": 1 },
       { "product": "alembics", "amount": 0.4 },
-      { "product": "wine", "amount": 9 }
+      { "product": "wine", "amount": 18 }
     ],
-    "outputs": [{ "product": "spirits", "amount": 40 }]
+    "outputs": [{ "product": "spirits", "amount": 45 }],
+    "fallbacks": ["distill spirits 1"]
   },
   "distill spirits 2 (beer)": {
     "name": "distill spirits 2 (beer)",
     "tier": 3,
-    "site": "apothecary",
+    "site": "distillery",
     "class": "nutrition",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 75 },
-      { "product": "firewood", "amount": 5 },
-      { "product": "beer", "amount": 16 },
-      { "product": "glassware", "amount": 1.5 },
+      { "product": "labour", "amount": 95 },
+      { "product": "firewood", "amount": 7 },
+      { "product": "beer", "amount": 20 },
+      { "product": "glassware", "amount": 1 },
       { "product": "alembics", "amount": 0.4 }
     ],
-    "outputs": [{ "product": "spirits", "amount": 40 }]
+    "outputs": [{ "product": "spirits", "amount": 42 }]
   },
   "distill spirits 3": {
     "name": "distill spirits 3",
     "tier": 4,
-    "site": "apothecary",
+    "site": "distillery",
     "class": "nutrition",
     "points": 6,
     "inputs": [
-      { "product": "labour", "amount": 50 },
-      { "product": "charcoal", "amount": 6 },
-      { "product": "wine", "amount": 11 },
-      { "product": "protection", "amount": 10 },
+      { "product": "labour", "amount": 40 },
+      { "product": "charcoal", "amount": 4 },
+      { "product": "wine", "amount": 16 },
+      { "product": "protection", "amount": 5 },
+      { "product": "salt", "amount": 1 },
+      { "product": "slaked lime", "amount": 2 },
       { "product": "glassware", "amount": 2 },
       { "product": "alembics", "amount": 0.6 }
     ],
@@ -2338,18 +2787,58 @@
   "distill spirits 3 (beer)": {
     "name": "distill spirits 3 (beer)",
     "tier": 4,
-    "site": "apothecary",
+    "site": "distillery",
     "class": "nutrition",
     "points": 6,
     "inputs": [
-      { "product": "labour", "amount": 58 },
-      { "product": "charcoal", "amount": 7 },
-      { "product": "beer", "amount": 19 },
-      { "product": "protection", "amount": 10 },
+      { "product": "labour", "amount": 55 },
+      { "product": "charcoal", "amount": 6 },
+      { "product": "beer", "amount": 20 },
+      { "product": "protection", "amount": 5 },
+      { "product": "salt", "amount": 1 },
+      { "product": "slaked lime", "amount": 2 },
       { "product": "glassware", "amount": 2 },
       { "product": "alembics", "amount": 0.6 }
     ],
-    "outputs": [{ "product": "spirits", "amount": 50 }]
+    "outputs": [{ "product": "spirits", "amount": 48 }]
+  },
+  "distill spirits 4": {
+    "name": "distill spirits 4",
+    "tier": 4,
+    "site": "distillery",
+    "class": "nutrition",
+    "points": 7,
+    "inputs": [
+      { "product": "labour", "amount": 40 },
+      { "product": "charcoal", "amount": 4 },
+      { "product": "potash", "amount": 0.25 },
+      { "product": "wine", "amount": 16 },
+      { "product": "protection", "amount": 5 },
+      { "product": "salt", "amount": 1 },
+      { "product": "slaked lime", "amount": 2 },
+      { "product": "glassware", "amount": 2 },
+      { "product": "alembics", "amount": 0.6 }
+    ],
+    "outputs": [{ "product": "spirits", "amount": 51 }],
+    "fallbacks": ["distill spirits 3"]
+  },
+  "distill vinegar 1": {
+    "name": "distill vinegar 1",
+    "tier": 3,
+    "site": "distillery",
+    "upgrades": ["fermentory"],
+    "class": "nutrition",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 90 },
+      { "product": "firewood", "amount": 8 },
+      { "product": "casks", "amount": 4 },
+      { "product": "wine", "amount": 16 },
+      { "product": "cookware", "amount": 2 },
+      { "product": "glassware", "amount": 1 },
+      { "product": "alembics", "amount": 0.6 }
+    ],
+    "outputs": [{ "product": "acid", "amount": 5 }]
   },
   "dry fish 1": {
     "name": "dry fish 1",
@@ -2386,7 +2875,7 @@
     "inputs": [
       { "product": "labour", "amount": 15 },
       { "product": "casks", "amount": 1.5 },
-      { "product": "fish", "amount": 55 }
+      { "product": "fish", "amount": 56 }
     ],
     "outputs": [{ "product": "cured fish", "amount": 7 }],
     "fallbacks": ["dry fish 1"]
@@ -2400,7 +2889,7 @@
     "inputs": [
       { "product": "labour", "amount": 15 },
       { "product": "casks", "amount": 2 },
-      { "product": "fish", "amount": 58 }
+      { "product": "fish", "amount": 60 }
     ],
     "outputs": [{ "product": "cured fish", "amount": 7.5 }],
     "fallbacks": ["dry fish 1"]
@@ -2458,7 +2947,8 @@
       { "product": "dye", "amount": 6 },
       { "product": "cloth", "amount": 150 },
       { "product": "cookware", "amount": 4 },
-      { "product": "casks", "amount": 5 }
+      { "product": "casks", "amount": 4 },
+      { "product": "soap", "amount": 0.25 }
     ],
     "outputs": [{ "product": "dyed cloth", "amount": 150 }],
     "fallbacks": ["dye cloth 1"]
@@ -2472,10 +2962,11 @@
     "inputs": [
       { "product": "labour", "amount": 40 },
       { "product": "firewood", "amount": 5 },
-      { "product": "casks", "amount": 5 },
+      { "product": "casks", "amount": 4 },
       { "product": "dye", "amount": 6 },
       { "product": "cloth", "amount": 160 },
-      { "product": "cookware", "amount": 4 }
+      { "product": "cookware", "amount": 4 },
+      { "product": "soap", "amount": 0.5 }
     ],
     "outputs": [{ "product": "dyed cloth", "amount": 160 }],
     "fallbacks": ["dye cloth 1"]
@@ -2489,11 +2980,12 @@
     "inputs": [
       { "product": "labour", "amount": 40 },
       { "product": "firewood", "amount": 5 },
-      { "product": "casks", "amount": 5 },
+      { "product": "casks", "amount": 4 },
       { "product": "dye", "amount": 3 },
       { "product": "cloth", "amount": 170 },
       { "product": "cookware", "amount": 4 },
-      { "product": "premium dye", "amount": 0.5 }
+      { "product": "premium dye", "amount": 0.5 },
+      { "product": "soap", "amount": 0.5 }
     ],
     "outputs": [{ "product": "dyed cloth", "amount": 170 }],
     "fallbacks": ["dye cloth 3", "dye cloth 2", "dye cloth 1"]
@@ -2509,9 +3001,10 @@
       { "product": "labour", "amount": 40 },
       { "product": "firewood", "amount": 3 },
       { "product": "casks", "amount": 5 },
-      { "product": "cloth", "amount": 75 },
+      { "product": "cloth", "amount": 70 },
       { "product": "cookware", "amount": 4 },
-      { "product": "premium dye", "amount": 2 }
+      { "product": "premium dye", "amount": 2 },
+      { "product": "soap", "amount": 0.5 }
     ],
     "outputs": [{ "product": "premium cloth", "amount": 25 }]
   },
@@ -2520,9 +3013,9 @@
     "tier": 2,
     "site": "dyeworks",
     "class": "textile",
-    "points": 1.5,
+    "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 35 },
+      { "product": "labour", "amount": 40 },
       { "product": "firewood", "amount": 3 },
       { "product": "dye", "amount": 2 },
       { "product": "yarn", "amount": 100 },
@@ -2530,12 +3023,81 @@
     ],
     "outputs": [{ "product": "dyed yarn", "amount": 100 }]
   },
+  "dye yarn 2": {
+    "name": "dye yarn 2",
+    "tier": 3,
+    "site": "dyeworks",
+    "class": "textile",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 30 },
+      { "product": "firewood", "amount": 3 },
+      { "product": "casks", "amount": 3 },
+      { "product": "dye", "amount": 2.5 },
+      { "product": "yarn", "amount": 125 },
+      { "product": "cookware", "amount": 2 },
+      { "product": "soap", "amount": 0.25 }
+    ],
+    "outputs": [{ "product": "dyed yarn", "amount": 125 }],
+    "fallbacks": ["dye yarn 1"]
+  },
+  "dye yarn 3": {
+    "name": "dye yarn 3",
+    "tier": 4,
+    "site": "dyeworks",
+    "class": "textile",
+    "points": 8,
+    "inputs": [
+      { "product": "labour", "amount": 30 },
+      { "product": "firewood", "amount": 3 },
+      { "product": "casks", "amount": 3 },
+      { "product": "dye", "amount": 2.5 },
+      { "product": "yarn", "amount": 135 },
+      { "product": "cookware", "amount": 2 },
+      { "product": "soap", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "dyed yarn", "amount": 135 }],
+    "fallbacks": ["dye yarn 1"]
+  },
+  "embroider tapestries 1": {
+    "name": "embroider tapestries 1",
+    "tier": 3,
+    "site": "tapestry atelier",
+    "class": "textile",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 85 },
+      { "product": "dyed cloth", "amount": 30 },
+      { "product": "paper", "amount": 0.5 },
+      { "product": "dyed yarn", "amount": 10 },
+      { "product": "gold bars", "amount": 0.1 }
+    ],
+    "outputs": [{ "product": "tapestries", "amount": 1 }]
+  },
+  "embroider tapestries 2": {
+    "name": "embroider tapestries 2",
+    "tier": 4,
+    "site": "tapestry atelier",
+    "class": "textile",
+    "points": 12,
+    "inputs": [
+      { "product": "labour", "amount": 70 },
+      { "product": "dyed cloth", "amount": 6 },
+      { "product": "paper", "amount": 0.5 },
+      { "product": "dyed yarn", "amount": 11 },
+      { "product": "silver bars", "amount": 0.1 },
+      { "product": "gold bars", "amount": 0.15 },
+      { "product": "premium cloth", "amount": 4 }
+    ],
+    "outputs": [{ "product": "tapestries", "amount": 1.1 }],
+    "fallbacks": ["embroider tapestries 1"]
+  },
   "extract honey 1": {
     "name": "extract honey 1",
     "tier": 1,
     "site": "honey house",
     "class": "nutrition",
-    "points": 0.75,
+    "points": 0.25,
     "inputs": [
       { "product": "labour", "amount": 4.5 },
       { "product": "tools", "amount": 0.25 }
@@ -2548,7 +3110,7 @@
     "site": "honey house",
     "upgrades": ["comb press"],
     "class": "nutrition",
-    "points": 1,
+    "points": 0.4,
     "inputs": [
       { "product": "labour", "amount": 4.5 },
       { "product": "casks", "amount": 0.2 },
@@ -2563,7 +3125,7 @@
     "site": "honey house",
     "upgrades": ["comb press"],
     "class": "nutrition",
-    "points": 1.5,
+    "points": 0.5,
     "inputs": [
       { "product": "labour", "amount": 4 },
       { "product": "casks", "amount": 0.25 },
@@ -2631,7 +3193,7 @@
     "site": "fisher",
     "class": "maritime",
     "points": 1,
-    "inputs": [{ "product": "labour", "amount": 35 }],
+    "inputs": [{ "product": "labour", "amount": 30 }],
     "outputs": [{ "product": "fish", "amount": 25 }]
   },
   "fishing 2": {
@@ -2684,12 +3246,13 @@
     "tier": 2,
     "site": "flaying station",
     "class": "nutrition",
-    "points": 1.5,
+    "points": 0.5,
     "inputs": [
-      { "product": "labour", "amount": 11.5 },
-      { "product": "tools", "amount": 1 }
+      { "product": "labour", "amount": 22 },
+      { "product": "tools", "amount": 1 },
+      { "product": "salt", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "hides", "amount": 3 }]
+    "outputs": [{ "product": "hides", "amount": 5 }]
   },
   "flaying 2": {
     "name": "flaying 2",
@@ -2697,12 +3260,13 @@
     "site": "flaying station",
     "upgrades": ["skinning table"],
     "class": "nutrition",
-    "points": 2.5,
+    "points": 1,
     "inputs": [
-      { "product": "labour", "amount": 11.5 },
-      { "product": "tools", "amount": 2 }
+      { "product": "labour", "amount": 22 },
+      { "product": "tools", "amount": 1.5 },
+      { "product": "salt", "amount": 1 }
     ],
-    "outputs": [{ "product": "hides", "amount": 3.5 }]
+    "outputs": [{ "product": "hides", "amount": 5.5 }]
   },
   "flaying 3": {
     "name": "flaying 3",
@@ -2710,14 +3274,28 @@
     "site": "flaying station",
     "upgrades": ["skinning table"],
     "class": "nutrition",
-    "points": 3,
+    "points": 1,
     "inputs": [
-      { "product": "labour", "amount": 9.5 },
-      { "product": "tools", "amount": 1 },
-      { "product": "blades", "amount": 1 }
+      { "product": "labour", "amount": 21 },
+      { "product": "tools", "amount": 1.5 },
+      { "product": "potash", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "hides", "amount": 4 }],
-    "fallbacks": ["flaying 2", "flaying 1"]
+    "outputs": [{ "product": "hides", "amount": 5.5 }]
+  },
+  "flaying 4": {
+    "name": "flaying 4",
+    "tier": 4,
+    "site": "flaying station",
+    "upgrades": ["skinning table"],
+    "class": "nutrition",
+    "points": 1.25,
+    "inputs": [
+      { "product": "labour", "amount": 21 },
+      { "product": "potash", "amount": 0.25 },
+      { "product": "blades", "amount": 1 },
+      { "product": "salt", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "hides", "amount": 6 }]
   },
   "forge arms 1": {
     "name": "forge arms 1",
@@ -2791,7 +3369,7 @@
     "site": "smithy",
     "upgrades": ["steel anvil"],
     "class": "forging",
-    "points": 4,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 120 },
       { "product": "charcoal", "amount": 18 },
@@ -2806,9 +3384,9 @@
     "site": "smithy",
     "upgrades": ["grindstone"],
     "class": "forging",
-    "points": 4,
+    "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 100 },
+      { "product": "labour", "amount": 110 },
       { "product": "charcoal", "amount": 16 },
       { "product": "steel ingots", "amount": 32 },
       { "product": "grindstones", "amount": 0.1 },
@@ -2823,9 +3401,9 @@
     "site": "smithy",
     "upgrades": ["grindstone"],
     "class": "forging",
-    "points": 4,
+    "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 80 },
+      { "product": "labour", "amount": 90 },
       { "product": "charcoal", "amount": 16 },
       { "product": "harnesses", "amount": 0.2 },
       { "product": "ox power", "amount": 20 },
@@ -2892,7 +3470,7 @@
     "class": "forging",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 125 },
+      { "product": "labour", "amount": 130 },
       { "product": "charcoal", "amount": 6 },
       { "product": "tools", "amount": 2 },
       { "product": "steel ingots", "amount": 16 },
@@ -2909,7 +3487,7 @@
     "class": "forging",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 110 },
+      { "product": "labour", "amount": 115 },
       { "product": "charcoal", "amount": 6.5 },
       { "product": "tools", "amount": 2 },
       { "product": "harnesses", "amount": 0.2 },
@@ -3093,7 +3671,7 @@
     "class": "forging",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 70 },
+      { "product": "labour", "amount": 80 },
       { "product": "charcoal", "amount": 15 },
       { "product": "steel ingots", "amount": 25 },
       { "product": "bellows", "amount": 0.1 }
@@ -3108,8 +3686,8 @@
     "class": "forging",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 50 },
-      { "product": "charcoal", "amount": 16 },
+      { "product": "labour", "amount": 60 },
+      { "product": "charcoal", "amount": 15 },
       { "product": "harnesses", "amount": 0.2 },
       { "product": "ox power", "amount": 20 },
       { "product": "steel ingots", "amount": 27 },
@@ -3128,7 +3706,7 @@
     "inputs": [
       { "product": "labour", "amount": 60 },
       { "product": "charcoal", "amount": 19 },
-      { "product": "timber", "amount": 6.5 },
+      { "product": "timber", "amount": 7 },
       { "product": "harnesses", "amount": 0.2 },
       { "product": "ox power", "amount": 20 },
       { "product": "wrought iron", "amount": 5.5 },
@@ -3164,14 +3742,16 @@
     "class": "weaponry",
     "points": 8,
     "inputs": [
-      { "product": "labour", "amount": 150 },
+      { "product": "labour", "amount": 145 },
       { "product": "charcoal", "amount": 35 },
       { "product": "tools", "amount": 5 },
       { "product": "chisels", "amount": 5 },
       { "product": "dyed cloth", "amount": 5 },
       { "product": "light armour", "amount": 1.1 },
       { "product": "steel ingots", "amount": 42 },
-      { "product": "bellows", "amount": 0.1 }
+      { "product": "bellows", "amount": 0.1 },
+      { "product": "varnish", "amount": 1 },
+      { "product": "acid", "amount": 0.1 }
     ],
     "outputs": [{ "product": "plate armour", "amount": 1.1 }],
     "fallbacks": ["forge plate armour 1"]
@@ -3184,7 +3764,7 @@
     "class": "weaponry",
     "points": 8,
     "inputs": [
-      { "product": "labour", "amount": 140 },
+      { "product": "labour", "amount": 135 },
       { "product": "charcoal", "amount": 35 },
       { "product": "tools", "amount": 5 },
       { "product": "chisels", "amount": 5 },
@@ -3193,7 +3773,9 @@
       { "product": "steel ingots", "amount": 36 },
       { "product": "bellows", "amount": 0.1 },
       { "product": "premium garments", "amount": 1 },
-      { "product": "premium steel", "amount": 2 }
+      { "product": "premium steel", "amount": 2 },
+      { "product": "varnish", "amount": 1 },
+      { "product": "acid", "amount": 0.1 }
     ],
     "outputs": [{ "product": "plate armour", "amount": 1.2 }],
     "fallbacks": ["forge plate armour 2", "forge plate armour 1"]
@@ -3214,7 +3796,9 @@
       { "product": "light armour", "amount": 0.4 },
       { "product": "steel ingots", "amount": 8 },
       { "product": "bellows", "amount": 0.1 },
-      { "product": "premium steel", "amount": 8 }
+      { "product": "premium steel", "amount": 8 },
+      { "product": "varnish", "amount": 1 },
+      { "product": "acid", "amount": 0.1 }
     ],
     "outputs": [{ "product": "premium armour", "amount": 0.4 }]
   },
@@ -3234,7 +3818,9 @@
       { "product": "steel ingots", "amount": 8 },
       { "product": "bellows", "amount": 0.1 },
       { "product": "premium garments", "amount": 1 },
-      { "product": "premium steel", "amount": 10 }
+      { "product": "premium steel", "amount": 10 },
+      { "product": "varnish", "amount": 1 },
+      { "product": "acid", "amount": 0.1 }
     ],
     "outputs": [{ "product": "premium armour", "amount": 0.5 }]
   },
@@ -3288,11 +3874,11 @@
     "inputs": [
       { "product": "labour", "amount": 110 },
       { "product": "charcoal", "amount": 10 },
-      { "product": "steel ingots", "amount": 32 },
+      { "product": "steel ingots", "amount": 31 },
       { "product": "grindstones", "amount": 0.1 },
       { "product": "bellows", "amount": 0.1 }
     ],
-    "outputs": [{ "product": "swords", "amount": 5 }]
+    "outputs": [{ "product": "swords", "amount": 4.5 }]
   },
   "forge swords 2": {
     "name": "forge swords 2",
@@ -3307,10 +3893,10 @@
       { "product": "harnesses", "amount": 0.2 },
       { "product": "ox power", "amount": 20 },
       { "product": "grindstones", "amount": 0.1 },
-      { "product": "steel ingots", "amount": 35 },
+      { "product": "steel ingots", "amount": 33 },
       { "product": "bellows", "amount": 0.1 }
     ],
-    "outputs": [{ "product": "swords", "amount": 5.5 }],
+    "outputs": [{ "product": "swords", "amount": 5 }],
     "fallbacks": ["forge swords 1"]
   },
   "forge swords 3": {
@@ -3361,11 +3947,11 @@
     "class": "forging",
     "points": 1.25,
     "inputs": [
-      { "product": "labour", "amount": 55 },
+      { "product": "labour", "amount": 100 },
       { "product": "charcoal", "amount": 30 },
-      { "product": "iron ore", "amount": 20 }
+      { "product": "iron ore", "amount": 30 }
     ],
-    "outputs": [{ "product": "tools", "amount": 40 }]
+    "outputs": [{ "product": "tools", "amount": 64 }]
   },
   "forge tools 2": {
     "name": "forge tools 2",
@@ -3374,11 +3960,11 @@
     "class": "forging",
     "points": 2,
     "inputs": [
-      { "product": "labour", "amount": 60 },
-      { "product": "charcoal", "amount": 16 },
-      { "product": "wrought iron", "amount": 20 }
+      { "product": "labour", "amount": 93 },
+      { "product": "charcoal", "amount": 18 },
+      { "product": "wrought iron", "amount": 18 }
     ],
-    "outputs": [{ "product": "tools", "amount": 80 }]
+    "outputs": [{ "product": "tools", "amount": 93 }]
   },
   "forge tools 3": {
     "name": "forge tools 3",
@@ -3387,12 +3973,13 @@
     "class": "forging",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 75 },
+      { "product": "labour", "amount": 92 },
       { "product": "charcoal", "amount": 20 },
-      { "product": "steel ingots", "amount": 20 },
-      { "product": "timber", "amount": 4 }
+      { "product": "timber", "amount": 4 },
+      { "product": "wrought iron", "amount": 20 }
     ],
-    "outputs": [{ "product": "tools", "amount": 110 }]
+    "outputs": [{ "product": "tools", "amount": 105 }],
+    "fallbacks": ["forge tools 2"]
   },
   "forge tools 4": {
     "name": "forge tools 4",
@@ -3402,16 +3989,32 @@
     "class": "forging",
     "points": 3.5,
     "inputs": [
-      { "product": "labour", "amount": 75 },
-      { "product": "charcoal", "amount": 18 },
-      { "product": "timber", "amount": 3 },
+      { "product": "labour", "amount": 80 },
+      { "product": "charcoal", "amount": 15 },
+      { "product": "timber", "amount": 4 },
       { "product": "steel ingots", "amount": 23 },
+      { "product": "bellows", "amount": 0.1 }
+    ],
+    "outputs": [{ "product": "tools", "amount": 124 }]
+  },
+  "forge tools 5": {
+    "name": "forge tools 5",
+    "tier": 3,
+    "site": "smithy",
+    "upgrades": ["bellows"],
+    "class": "forging",
+    "points": 3.5,
+    "inputs": [
+      { "product": "labour", "amount": 70 },
+      { "product": "charcoal", "amount": 15 },
+      { "product": "timber", "amount": 4 },
       { "product": "harnesses", "amount": 0.1 },
       { "product": "ox power", "amount": 10 },
+      { "product": "steel ingots", "amount": 24 },
       { "product": "bellows", "amount": 0.1 }
     ],
     "outputs": [{ "product": "tools", "amount": 130 }],
-    "fallbacks": ["forge tools 3"]
+    "fallbacks": ["forge tools 4"]
   },
   "fulling cloth 1": {
     "name": "fulling cloth 1",
@@ -3430,11 +4033,12 @@
     "tier": 2,
     "site": "fulling house",
     "class": "textile",
-    "points": 2.25,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 55 },
       { "product": "raw cloth", "amount": 220 },
-      { "product": "clay", "amount": 10 }
+      { "product": "clay", "amount": 2 },
+      { "product": "potash", "amount": 1.5 }
     ],
     "outputs": [{ "product": "cloth", "amount": 220 }],
     "fallbacks": ["fulling cloth 1"]
@@ -3450,11 +4054,31 @@
       { "product": "labour", "amount": 25 },
       { "product": "ox power", "amount": 25 },
       { "product": "raw cloth", "amount": 300 },
-      { "product": "clay", "amount": 12 },
-      { "product": "gears", "amount": 0.25 }
+      { "product": "clay", "amount": 3 },
+      { "product": "gears", "amount": 0.25 },
+      { "product": "potash", "amount": 1.5 }
     ],
     "outputs": [{ "product": "cloth", "amount": 300 }],
     "fallbacks": ["fulling cloth 2", "fulling cloth 1"]
+  },
+  "fulling cloth 4": {
+    "name": "fulling cloth 4",
+    "tier": 4,
+    "site": "fulling house",
+    "upgrades": ["transmission"],
+    "class": "textile",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 25 },
+      { "product": "potash", "amount": 1.5 },
+      { "product": "gears", "amount": 0.25 },
+      { "product": "ox power", "amount": 25 },
+      { "product": "raw cloth", "amount": 315 },
+      { "product": "clay", "amount": 3 },
+      { "product": "soap", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "cloth", "amount": 320 }],
+    "fallbacks": ["fulling cloth 3", "fulling cloth 2", "fulling cloth 1"]
   },
   "furniture duty 1": {
     "name": "furniture duty 1",
@@ -3711,6 +4335,41 @@
     "outputs": [{ "product": "herbs", "amount": 9 }],
     "fallbacks": ["grow herbs 1"]
   },
+  "hammer alembics 1": {
+    "name": "hammer alembics 1",
+    "tier": 3,
+    "site": "coppersmith",
+    "upgrades": ["bickiron"],
+    "class": "crafting",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 100 },
+      { "product": "charcoal", "amount": 4 },
+      { "product": "tools", "amount": 2 },
+      { "product": "copper ingots", "amount": 28 },
+      { "product": "lead bars", "amount": 1 }
+    ],
+    "outputs": [{ "product": "alembics", "amount": 2.5 }]
+  },
+  "hammer alembics 2": {
+    "name": "hammer alembics 2",
+    "tier": 4,
+    "site": "coppersmith",
+    "upgrades": ["bickiron"],
+    "class": "crafting",
+    "points": 10,
+    "inputs": [
+      { "product": "labour", "amount": 82 },
+      { "product": "charcoal", "amount": 4 },
+      { "product": "tools", "amount": 2 },
+      { "product": "copper ingots", "amount": 30 },
+      { "product": "silver bars", "amount": 0.25 },
+      { "product": "tin ingots", "amount": 2 },
+      { "product": "lead bars", "amount": 1 }
+    ],
+    "outputs": [{ "product": "alembics", "amount": 3 }],
+    "fallbacks": ["hammer alembics 1"]
+  },
   "hammer nails 1": {
     "name": "hammer nails 1",
     "tier": 1,
@@ -3775,7 +4434,20 @@
     "points": 1,
     "inputs": [
       { "product": "labour", "amount": 48 },
-      { "product": "grain", "amount": 30 },
+      { "product": "grain", "amount": 32 },
+      { "product": "cattle", "amount": 0.05 }
+    ],
+    "outputs": [{ "product": "ox power", "amount": 80 }]
+  },
+  "harness ox 1 (seeds)": {
+    "name": "harness ox 1 (seeds)",
+    "tier": 1,
+    "site": "stable",
+    "class": "nutrition",
+    "points": 1,
+    "inputs": [
+      { "product": "labour", "amount": 48 },
+      { "product": "seeds", "amount": 45 },
       { "product": "cattle", "amount": 0.05 }
     ],
     "outputs": [{ "product": "ox power", "amount": 80 }]
@@ -3788,12 +4460,27 @@
     "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 48 },
-      { "product": "grain", "amount": 35 },
+      { "product": "grain", "amount": 36 },
       { "product": "harnesses", "amount": 1 },
       { "product": "cattle", "amount": 0.05 }
     ],
     "outputs": [{ "product": "ox power", "amount": 105 }],
     "fallbacks": ["harness ox 1"]
+  },
+  "harness ox 2 (seeds)": {
+    "name": "harness ox 2 (seeds)",
+    "tier": 1,
+    "site": "stable",
+    "class": "nutrition",
+    "points": 1.5,
+    "inputs": [
+      { "product": "labour", "amount": 48 },
+      { "product": "seeds", "amount": 52 },
+      { "product": "harnesses", "amount": 1 },
+      { "product": "cattle", "amount": 0.05 }
+    ],
+    "outputs": [{ "product": "ox power", "amount": 105 }],
+    "fallbacks": ["harness ox 1 (seeds)"]
   },
   "harness ox 3": {
     "name": "harness ox 3",
@@ -3803,13 +4490,29 @@
     "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 48 },
-      { "product": "grain", "amount": 40 },
+      { "product": "grain", "amount": 42 },
       { "product": "harnesses", "amount": 1 },
       { "product": "cattle", "amount": 0.05 },
       { "product": "rope", "amount": 0.25 }
     ],
     "outputs": [{ "product": "ox power", "amount": 125 }],
     "fallbacks": ["harness ox 2", "harness ox 1"]
+  },
+  "harness ox 3 (seeds)": {
+    "name": "harness ox 3 (seeds)",
+    "tier": 3,
+    "site": "stable",
+    "class": "nutrition",
+    "points": 2.5,
+    "inputs": [
+      { "product": "labour", "amount": 48 },
+      { "product": "seeds", "amount": 60 },
+      { "product": "harnesses", "amount": 1 },
+      { "product": "cattle", "amount": 0.05 },
+      { "product": "rope", "amount": 0.25 }
+    ],
+    "outputs": [{ "product": "ox power", "amount": 125 }],
+    "fallbacks": ["harness ox 2 (seeds)", "harness ox 1 (seeds)"]
   },
   "harness ox 4": {
     "name": "harness ox 4",
@@ -3819,13 +4522,21 @@
     "points": 5,
     "inputs": [
       { "product": "labour", "amount": 48 },
-      { "product": "grain", "amount": 40 },
+      { "product": "grain", "amount": 32 },
       { "product": "harnesses", "amount": 1 },
       { "product": "cattle", "amount": 0.05 },
-      { "product": "rope", "amount": 0.25 }
+      { "product": "rope", "amount": 0.25 },
+      { "product": "seeds", "amount": 16 }
     ],
     "outputs": [{ "product": "ox power", "amount": 130 }],
-    "fallbacks": ["harness ox 2", "harness ox 1"]
+    "fallbacks": [
+      "harness ox 3 (seeds)",
+      "harness ox 3",
+      "harness ox 2 (seeds)",
+      "harness ox 2",
+      "harness ox 1 (seeds)",
+      "harness ox 1"
+    ]
   },
   "herd sheep 1": {
     "name": "herd sheep 1",
@@ -3871,7 +4582,7 @@
     "inputs": [
       { "product": "labour", "amount": 35 },
       { "product": "beer", "amount": 15 },
-      { "product": "cured fish", "amount": 6 }
+      { "product": "cured fish", "amount": 5.5 }
     ],
     "prestige": 0.042
   },
@@ -3893,7 +4604,7 @@
     "inputs": [
       { "product": "labour", "amount": 35 },
       { "product": "wine", "amount": 15 },
-      { "product": "cured fish", "amount": 8 },
+      { "product": "cured fish", "amount": 7.5 },
       { "product": "cheese", "amount": 10 }
     ],
     "prestige": 0.068
@@ -3920,7 +4631,7 @@
       { "product": "wine", "amount": 15 },
       { "product": "cheese", "amount": 7.5 },
       { "product": "pies", "amount": 5 },
-      { "product": "candles", "amount": 1 }
+      { "product": "candles", "amount": 0.5 }
     ],
     "prestige": 0.07
   },
@@ -3931,7 +4642,7 @@
     "inputs": [
       { "product": "labour", "amount": 35 },
       { "product": "hop beer", "amount": 15 },
-      { "product": "cured fish", "amount": 8 },
+      { "product": "cured fish", "amount": 7.5 },
       { "product": "cheese", "amount": 10 }
     ],
     "prestige": 0.076
@@ -3958,7 +4669,7 @@
       { "product": "hop beer", "amount": 15 },
       { "product": "cheese", "amount": 5 },
       { "product": "pies", "amount": 5 },
-      { "product": "candles", "amount": 1.5 }
+      { "product": "candles", "amount": 0.75 }
     ],
     "prestige": 0.08
   },
@@ -3973,7 +4684,7 @@
       { "product": "ham", "amount": 2.5 },
       { "product": "stockfish", "amount": 2.5 },
       { "product": "cheese", "amount": 5 },
-      { "product": "candles", "amount": 4 },
+      { "product": "candles", "amount": 2 },
       { "product": "glassware", "amount": 1 }
     ],
     "prestige": 0.17
@@ -3991,7 +4702,7 @@
       { "product": "stockfish", "amount": 2 },
       { "product": "cheese", "amount": 2.5 },
       { "product": "pies", "amount": 2.5 },
-      { "product": "candles", "amount": 4 },
+      { "product": "candles", "amount": 2 },
       { "product": "glassware", "amount": 1 }
     ],
     "prestige": 0.17,
@@ -4011,7 +4722,7 @@
       { "product": "wine", "amount": 15 },
       { "product": "ham", "amount": 1 },
       { "product": "stockfish", "amount": 2.5 },
-      { "product": "candles", "amount": 4 },
+      { "product": "candles", "amount": 2 },
       { "product": "premium cheese", "amount": 5 },
       { "product": "glassware", "amount": 1 },
       { "product": "premium ham", "amount": 0.5 }
@@ -4032,7 +4743,7 @@
       { "product": "ham", "amount": 2 },
       { "product": "stockfish", "amount": 2 },
       { "product": "cheese", "amount": 2.5 },
-      { "product": "candles", "amount": 4 },
+      { "product": "candles", "amount": 2 },
       { "product": "sculptures", "amount": 0.1 },
       { "product": "glassware", "amount": 1 }
     ],
@@ -4057,7 +4768,7 @@
       { "product": "wine", "amount": 15 },
       { "product": "ham", "amount": 1 },
       { "product": "stockfish", "amount": 2 },
-      { "product": "candles", "amount": 4 },
+      { "product": "candles", "amount": 2 },
       { "product": "sculptures", "amount": 0.1 },
       { "product": "premium cheese", "amount": 7.5 },
       { "product": "premium ham", "amount": 1 },
@@ -4104,7 +4815,7 @@
       { "product": "labour", "amount": 480 },
       { "product": "jewellery", "amount": 40 },
       { "product": "glassware", "amount": 20 },
-      { "product": "candles", "amount": 32 },
+      { "product": "candles", "amount": 16 },
       { "product": "garments", "amount": 200 }
     ],
     "prestige": 1.9
@@ -4118,7 +4829,7 @@
       { "product": "garments", "amount": 200 },
       { "product": "jewellery", "amount": 50 },
       { "product": "glassware", "amount": 24 },
-      { "product": "candles", "amount": 40 },
+      { "product": "candles", "amount": 20 },
       { "product": "windows", "amount": 2 },
       { "product": "furniture", "amount": 40 },
       { "product": "tapestries", "amount": 1 },
@@ -4137,7 +4848,7 @@
       { "product": "jewellery", "amount": 50 },
       { "product": "glassware", "amount": 24 },
       { "product": "windows", "amount": 2 },
-      { "product": "candles", "amount": 40 },
+      { "product": "candles", "amount": 20 },
       { "product": "premium garments", "amount": 75 }
     ],
     "prestige": 3.4
@@ -4152,7 +4863,7 @@
       { "product": "coats", "amount": 75 },
       { "product": "jewellery", "amount": 60 },
       { "product": "glassware", "amount": 30 },
-      { "product": "candles", "amount": 70 },
+      { "product": "candles", "amount": 35 },
       { "product": "windows", "amount": 4 },
       { "product": "sculptures", "amount": 1 },
       { "product": "furniture", "amount": 40 },
@@ -4171,12 +4882,12 @@
       { "product": "furniture", "amount": 40 },
       { "product": "jewellery", "amount": 60 },
       { "product": "windows", "amount": 4 },
-      { "product": "candles", "amount": 70 },
+      { "product": "candles", "amount": 35 },
       { "product": "sculptures", "amount": 1 },
       { "product": "premium garments", "amount": 75 },
       { "product": "premium glassware", "amount": 10 }
     ],
-    "prestige": 5
+    "prestige": 5.2
   },
   "hold mass 4": {
     "name": "hold mass 4",
@@ -4189,7 +4900,7 @@
       { "product": "jewellery", "amount": 60 },
       { "product": "glassware", "amount": 30 },
       { "product": "windows", "amount": 4 },
-      { "product": "candles", "amount": 70 },
+      { "product": "candles", "amount": 35 },
       { "product": "sculptures", "amount": 1 },
       { "product": "tapestries", "amount": 2 },
       { "product": "bells", "amount": 0.5 },
@@ -4211,13 +4922,13 @@
       { "product": "jewellery", "amount": 60 },
       { "product": "bells", "amount": 0.5 },
       { "product": "windows", "amount": 4 },
-      { "product": "candles", "amount": 70 },
+      { "product": "candles", "amount": 35 },
       { "product": "sculptures", "amount": 1 },
       { "product": "premium garments", "amount": 75 },
       { "product": "books", "amount": 2 },
       { "product": "premium glassware", "amount": 10 }
     ],
-    "prestige": 6.5,
+    "prestige": 6.8,
     "fallbacks": ["hold mass 3 (premium)"]
   },
   "hold prayer 1": {
@@ -4249,7 +4960,7 @@
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "garments", "amount": 25 },
-      { "product": "candles", "amount": 5 },
+      { "product": "candles", "amount": 2.5 },
       { "product": "sculptures", "amount": 0.1 },
       { "product": "furniture", "amount": 5 }
     ],
@@ -4264,7 +4975,7 @@
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "garments", "amount": 20 },
-      { "product": "candles", "amount": 5 },
+      { "product": "candles", "amount": 2.5 },
       { "product": "sculptures", "amount": 0.1 },
       { "product": "tapestries", "amount": 0.2 },
       { "product": "bells", "amount": 0.05 },
@@ -4284,7 +4995,7 @@
       { "product": "tapestries", "amount": 0.2 },
       { "product": "furniture", "amount": 5 },
       { "product": "bells", "amount": 0.05 },
-      { "product": "candles", "amount": 5 },
+      { "product": "candles", "amount": 2.5 },
       { "product": "sculptures", "amount": 0.1 },
       { "product": "premium garments", "amount": 5 },
       { "product": "books", "amount": 0.2 }
@@ -4321,7 +5032,7 @@
       { "product": "labour", "amount": 120 },
       { "product": "garments", "amount": 35 },
       { "product": "jewellery", "amount": 3 },
-      { "product": "candles", "amount": 10 },
+      { "product": "candles", "amount": 5 },
       { "product": "furniture", "amount": 10 }
     ],
     "prestige": 0.31,
@@ -4352,7 +5063,7 @@
       { "product": "coats", "amount": 8 },
       { "product": "jewellery", "amount": 5 },
       { "product": "windows", "amount": 0.6 },
-      { "product": "candles", "amount": 10 },
+      { "product": "candles", "amount": 5 },
       { "product": "sculptures", "amount": 0.2 },
       { "product": "furniture", "amount": 10 }
     ],
@@ -4368,7 +5079,7 @@
       { "product": "coats", "amount": 4 },
       { "product": "jewellery", "amount": 4 },
       { "product": "windows", "amount": 0.6 },
-      { "product": "candles", "amount": 10 },
+      { "product": "candles", "amount": 5 },
       { "product": "sculptures", "amount": 0.2 },
       { "product": "tapestries", "amount": 0.5 },
       { "product": "bells", "amount": 0.1 },
@@ -4390,7 +5101,7 @@
       { "product": "jewellery", "amount": 4 },
       { "product": "bells", "amount": 0.1 },
       { "product": "windows", "amount": 0.6 },
-      { "product": "candles", "amount": 10 },
+      { "product": "candles", "amount": 5 },
       { "product": "sculptures", "amount": 0.2 },
       { "product": "premium garments", "amount": 5 },
       { "product": "books", "amount": 0.5 }
@@ -4414,7 +5125,7 @@
     "class": "weaponry",
     "points": 0.4,
     "inputs": [
-      { "product": "labour", "amount": 3.7 },
+      { "product": "labour", "amount": 3.8 },
       { "product": "arms", "amount": 0.1 }
     ],
     "outputs": [{ "product": "meat", "amount": 5 }],
@@ -4426,9 +5137,9 @@
     "site": "hunting lodge",
     "upgrades": ["curing chamber"],
     "class": "weaponry",
-    "points": 0.75,
+    "points": 0.6,
     "inputs": [
-      { "product": "labour", "amount": 4.2 },
+      { "product": "labour", "amount": 4.3 },
       { "product": "arms", "amount": 0.1 },
       { "product": "salt", "amount": 0.1 }
     ],
@@ -4440,9 +5151,9 @@
     "site": "hunting lodge",
     "upgrades": ["armsrack"],
     "class": "weaponry",
-    "points": 1.25,
+    "points": 0.8,
     "inputs": [
-      { "product": "labour", "amount": 3.4 },
+      { "product": "labour", "amount": 3.5 },
       { "product": "arms", "amount": 0.2 }
     ],
     "outputs": [{ "product": "meat", "amount": 6 }],
@@ -4547,7 +5258,7 @@
       { "product": "premium garments", "amount": 10 },
       { "product": "premium armour", "amount": 2 }
     ],
-    "prestige": 3.6
+    "prestige": 4
   },
   "jousting 3": {
     "name": "jousting 3",
@@ -4579,14 +5290,14 @@
       { "product": "premium swords", "amount": 15 },
       { "product": "premium armour", "amount": 2 }
     ],
-    "prestige": 3.8
+    "prestige": 4.2
   },
   "keep bees 1": {
     "name": "keep bees 1",
     "tier": 1,
     "site": "apiary",
     "class": "nutrition",
-    "points": 0.5,
+    "points": 0.25,
     "inputs": [
       { "product": "labour", "amount": 11 },
       { "product": "tools", "amount": 0.5 }
@@ -4599,7 +5310,7 @@
     "site": "apiary",
     "upgrades": ["beehives"],
     "class": "nutrition",
-    "points": 0.8,
+    "points": 0.3,
     "inputs": [
       { "product": "labour", "amount": 9 },
       { "product": "tools", "amount": 0.5 },
@@ -4614,7 +5325,7 @@
     "site": "apiary",
     "upgrades": ["rendering pots"],
     "class": "nutrition",
-    "points": 1.25,
+    "points": 0.5,
     "inputs": [
       { "product": "labour", "amount": 6.5 },
       { "product": "tools", "amount": 0.5 },
@@ -4631,7 +5342,7 @@
     "site": "apiary",
     "upgrades": ["rendering pots"],
     "class": "nutrition",
-    "points": 1.75,
+    "points": 0.75,
     "inputs": [
       { "product": "labour", "amount": 5.5 },
       { "product": "firewood", "amount": 0.5 },
@@ -4816,56 +5527,91 @@
     "tier": 1,
     "site": "cottage",
     "class": "mercantile",
-    "points": 0.5,
-    "outputs": [{ "product": "lodging", "amount": 4 }]
+    "points": 0.4,
+    "inputs": [{ "product": "timber", "amount": 1 }],
+    "outputs": [{ "product": "lodging", "amount": 3 }]
   },
   "let cottages 2": {
     "name": "let cottages 2",
     "tier": 1,
     "site": "cottage",
     "class": "mercantile",
-    "points": 0.75,
-    "inputs": [{ "product": "furniture", "amount": 0.15 }],
-    "outputs": [{ "product": "lodging", "amount": 5 }],
+    "points": 0.6,
+    "inputs": [
+      { "product": "furniture", "amount": 0.3 },
+      { "product": "timber", "amount": 1 }
+    ],
+    "outputs": [{ "product": "lodging", "amount": 4 }],
     "fallbacks": ["let cottages 1"]
+  },
+  "let cottages 3": {
+    "name": "let cottages 3",
+    "tier": 2,
+    "site": "cottage",
+    "class": "mercantile",
+    "points": 0.8,
+    "inputs": [
+      { "product": "timber", "amount": 1 },
+      { "product": "furniture", "amount": 0.3 },
+      { "product": "cookware", "amount": 0.1 }
+    ],
+    "outputs": [{ "product": "lodging", "amount": 4.5 }],
+    "fallbacks": ["let cottages 2", "let cottages 1"]
   },
   "let rowhouses 1": {
     "name": "let rowhouses 1",
     "tier": 1,
     "site": "rowhouse",
     "class": "mercantile",
-    "points": 1.5,
+    "points": 2,
     "inputs": [
-      { "product": "timber", "amount": 1 },
-      { "product": "tiles", "amount": 1 }
+      { "product": "timber", "amount": 2 },
+      { "product": "furniture", "amount": 3 }
     ],
-    "outputs": [{ "product": "lodging", "amount": 10 }]
+    "outputs": [{ "product": "lodging", "amount": 15 }]
   },
   "let rowhouses 2": {
     "name": "let rowhouses 2",
-    "tier": 3,
+    "tier": 2,
     "site": "rowhouse",
     "class": "mercantile",
-    "points": 2,
+    "points": 4,
     "inputs": [
-      { "product": "timber", "amount": 0.5 },
-      { "product": "furniture", "amount": 0.4 }
+      { "product": "timber", "amount": 2 },
+      { "product": "furniture", "amount": 2.5 },
+      { "product": "cookware", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "lodging", "amount": 13 }]
+    "outputs": [{ "product": "lodging", "amount": 16 }],
+    "fallbacks": ["let rowhouses 1"]
   },
   "let rowhouses 3": {
     "name": "let rowhouses 3",
+    "tier": 3,
+    "site": "rowhouse",
+    "class": "mercantile",
+    "points": 5,
+    "inputs": [
+      { "product": "timber", "amount": 2 },
+      { "product": "furniture", "amount": 2.5 },
+      { "product": "hinges", "amount": 0.05 },
+      { "product": "cookware", "amount": 0.5 }
+    ],
+    "outputs": [{ "product": "lodging", "amount": 17 }],
+    "fallbacks": ["let rowhouses 2", "let rowhouses 1"]
+  },
+  "let rowhouses 4": {
+    "name": "let rowhouses 4",
     "tier": 4,
     "site": "rowhouse",
     "class": "mercantile",
-    "points": 2.5,
+    "points": 6,
     "inputs": [
-      { "product": "timber", "amount": 0.5 },
-      { "product": "furniture", "amount": 0.4 },
-      { "product": "tiles", "amount": 1 },
-      { "product": "hinges", "amount": 0.1 }
+      { "product": "timber", "amount": 2 },
+      { "product": "furniture", "amount": 2.5 },
+      { "product": "hinges", "amount": 0.05 },
+      { "product": "cookware", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "lodging", "amount": 16 }],
+    "outputs": [{ "product": "lodging", "amount": 18 }],
     "fallbacks": ["let rowhouses 2", "let rowhouses 1"]
   },
   "logging 1": {
@@ -4897,7 +5643,7 @@
     "site": "logging camp",
     "upgrades": ["toolshed 2"],
     "class": "crafting",
-    "points": 0.6,
+    "points": 0.4,
     "inputs": [
       { "product": "labour", "amount": 1.7 },
       { "product": "axes", "amount": 0.05 }
@@ -4911,7 +5657,7 @@
     "site": "logging camp",
     "upgrades": ["toolshed 2"],
     "class": "crafting",
-    "points": 1,
+    "points": 0.6,
     "inputs": [
       { "product": "labour", "amount": 1.5 },
       { "product": "premium axes", "amount": 0.03 }
@@ -4939,34 +5685,6 @@
     "prestige": 0.02,
     "health": 2.5,
     "fallbacks": ["maintain 1"]
-  },
-  "make alembics 1": {
-    "name": "make alembics 1",
-    "tier": 3,
-    "site": "glass blower",
-    "class": "crafting",
-    "points": 4,
-    "inputs": [
-      { "product": "labour", "amount": 130 },
-      { "product": "firewood", "amount": 6 },
-      { "product": "tools", "amount": 2 },
-      { "product": "glass", "amount": 7 }
-    ],
-    "outputs": [{ "product": "alembics", "amount": 3 }]
-  },
-  "make alembics 2": {
-    "name": "make alembics 2",
-    "tier": 4,
-    "site": "glass blower",
-    "class": "crafting",
-    "points": 6,
-    "inputs": [
-      { "product": "labour", "amount": 130 },
-      { "product": "firewood", "amount": 6 },
-      { "product": "tools", "amount": 2 },
-      { "product": "glass", "amount": 6.5 }
-    ],
-    "outputs": [{ "product": "alembics", "amount": 3 }]
   },
   "make bellows 1": {
     "name": "make bellows 1",
@@ -5054,11 +5772,11 @@
     "class": "crafting",
     "points": 2,
     "inputs": [
-      { "product": "labour", "amount": 75 },
+      { "product": "labour", "amount": 90 },
       { "product": "firewood", "amount": 3 },
       { "product": "wax", "amount": 15 }
     ],
-    "outputs": [{ "product": "candles", "amount": 15 }]
+    "outputs": [{ "product": "candles", "amount": 8 }]
   },
   "make candles 2": {
     "name": "make candles 2",
@@ -5067,13 +5785,14 @@
     "class": "crafting",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 90 },
+      { "product": "labour", "amount": 85 },
       { "product": "firewood", "amount": 4 },
       { "product": "tools", "amount": 1 },
       { "product": "wax", "amount": 22 },
-      { "product": "thread", "amount": 1 }
+      { "product": "thread", "amount": 1 },
+      { "product": "cookware", "amount": 1 }
     ],
-    "outputs": [{ "product": "candles", "amount": 22 }],
+    "outputs": [{ "product": "candles", "amount": 11 }],
     "fallbacks": ["make candles 1"]
   },
   "make candles 3": {
@@ -5083,13 +5802,14 @@
     "class": "crafting",
     "points": 6,
     "inputs": [
-      { "product": "labour", "amount": 90 },
+      { "product": "labour", "amount": 85 },
       { "product": "firewood", "amount": 5 },
       { "product": "tools", "amount": 1.5 },
       { "product": "wax", "amount": 24 },
-      { "product": "thread", "amount": 1.5 }
+      { "product": "thread", "amount": 1.5 },
+      { "product": "cookware", "amount": 1 }
     ],
-    "outputs": [{ "product": "candles", "amount": 24 }],
+    "outputs": [{ "product": "candles", "amount": 12 }],
     "fallbacks": ["make candles 1"]
   },
   "make casks 1": {
@@ -5284,7 +6004,7 @@
     "tier": 2,
     "site": "jeweller",
     "class": "crafting",
-    "points": 3,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 110 },
       { "product": "charcoal", "amount": 2 },
@@ -5299,7 +6019,7 @@
     "site": "jeweller",
     "upgrades": ["crucible"],
     "class": "crafting",
-    "points": 4,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 110 },
       { "product": "charcoal", "amount": 5 },
@@ -5314,7 +6034,7 @@
     "tier": 3,
     "site": "jeweller",
     "class": "crafting",
-    "points": 6,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "charcoal", "amount": 1 },
@@ -5331,7 +6051,7 @@
     "site": "jeweller",
     "upgrades": ["crucible"],
     "class": "crafting",
-    "points": 7,
+    "points": 9,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "charcoal", "amount": 2 },
@@ -5348,7 +6068,7 @@
     "site": "jeweller",
     "upgrades": ["crucible"],
     "class": "crafting",
-    "points": 10,
+    "points": 15,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "charcoal", "amount": 2 },
@@ -5366,22 +6086,39 @@
     "tier": 2,
     "site": "leatherworks",
     "class": "crafting",
-    "points": 2.5,
+    "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 35 },
-      { "product": "firewood", "amount": 2.5 },
+      { "product": "labour", "amount": 40 },
+      { "product": "firewood", "amount": 3 },
       { "product": "tools", "amount": 1 },
       { "product": "cloth", "amount": 5 },
       { "product": "leather", "amount": 10 }
     ],
     "outputs": [{ "product": "light armour", "amount": 5 }]
   },
+  "make leather armour 2": {
+    "name": "make leather armour 2",
+    "tier": 3,
+    "site": "leatherworks",
+    "class": "crafting",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 35 },
+      { "product": "firewood", "amount": 3 },
+      { "product": "tools", "amount": 1 },
+      { "product": "wax", "amount": 2 },
+      { "product": "cloth", "amount": 6 },
+      { "product": "leather", "amount": 11 }
+    ],
+    "outputs": [{ "product": "light armour", "amount": 6 }],
+    "fallbacks": ["make leather armour 1"]
+  },
   "make maille 1": {
     "name": "make maille 1",
     "tier": 2,
     "site": "armoury",
     "class": "weaponry",
-    "points": 2.5,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 155 },
       { "product": "charcoal", "amount": 8 },
@@ -5396,7 +6133,7 @@
     "site": "armoury",
     "upgrades": ["bellows"],
     "class": "weaponry",
-    "points": 3,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 140 },
       { "product": "charcoal", "amount": 10 },
@@ -5412,7 +6149,7 @@
     "site": "armoury",
     "upgrades": ["steel anvil"],
     "class": "weaponry",
-    "points": 3,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 135 },
       { "product": "charcoal", "amount": 10 },
@@ -5437,7 +6174,7 @@
       { "product": "glassware", "amount": 2 },
       { "product": "alembics", "amount": 0.25 },
       { "product": "spirits", "amount": 20 },
-      { "product": "herbs", "amount": 4 }
+      { "product": "herbs", "amount": 4.5 }
     ],
     "outputs": [{ "product": "medicine", "amount": 8 }]
   },
@@ -5455,7 +6192,7 @@
       { "product": "glassware", "amount": 2 },
       { "product": "alembics", "amount": 0.25 },
       { "product": "spirits", "amount": 18 },
-      { "product": "herbs", "amount": 3.5 }
+      { "product": "herbs", "amount": 4 }
     ],
     "outputs": [{ "product": "medicine", "amount": 8 }],
     "fallbacks": ["make medicine 1"]
@@ -5467,14 +6204,15 @@
     "class": "nutrition",
     "points": 10,
     "inputs": [
-      { "product": "labour", "amount": 90 },
+      { "product": "labour", "amount": 75 },
       { "product": "firewood", "amount": 4 },
       { "product": "honey", "amount": 4 },
       { "product": "tar", "amount": 2 },
       { "product": "alembics", "amount": 0.25 },
       { "product": "spirits", "amount": 18 },
       { "product": "herbs", "amount": 3.5 },
-      { "product": "premium glassware", "amount": 1 }
+      { "product": "premium glassware", "amount": 1 },
+      { "product": "acid", "amount": 0.5 }
     ],
     "outputs": [{ "product": "medicine", "amount": 8.5 }]
   },
@@ -5512,10 +6250,11 @@
     "points": 1.75,
     "inputs": [
       { "product": "labour", "amount": 24 },
-      { "product": "wax", "amount": 0.5 },
-      { "product": "thread", "amount": 16 },
-      { "product": "tools", "amount": 0.5 },
-      { "product": "rope", "amount": 0.5 }
+      { "product": "wax", "amount": 0.25 },
+      { "product": "thread", "amount": 16.5 },
+      { "product": "tools", "amount": 0.6 },
+      { "product": "rope", "amount": 0.5 },
+      { "product": "varnish", "amount": 0.25 }
     ],
     "outputs": [{ "product": "nets", "amount": 5 }],
     "fallbacks": ["make nets 2", "make nets 1"]
@@ -5527,11 +6266,12 @@
     "class": "maritime",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 23 },
+      { "product": "labour", "amount": 24 },
       { "product": "blades", "amount": 0.5 },
-      { "product": "wax", "amount": 1 },
+      { "product": "wax", "amount": 0.5 },
       { "product": "thread", "amount": 18 },
-      { "product": "rope", "amount": 0.6 }
+      { "product": "rope", "amount": 0.6 },
+      { "product": "varnish", "amount": 1 }
     ],
     "outputs": [{ "product": "nets", "amount": 6 }],
     "fallbacks": ["make nets 2", "make nets 1"]
@@ -5543,7 +6283,7 @@
     "class": "crafting",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 55 },
+      { "product": "labour", "amount": 60 },
       { "product": "firewood", "amount": 5 },
       { "product": "casks", "amount": 1 },
       { "product": "tools", "amount": 2 },
@@ -5561,16 +6301,40 @@
     "class": "crafting",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 55 },
+      { "product": "labour", "amount": 50 },
       { "product": "firewood", "amount": 5 },
       { "product": "casks", "amount": 1 },
       { "product": "tools", "amount": 2 },
-      { "product": "flax fibres", "amount": 32 },
-      { "product": "cloth", "amount": 6 },
+      { "product": "flax fibres", "amount": 24 },
+      { "product": "cloth", "amount": 8 },
+      { "product": "cookware", "amount": 2 },
+      { "product": "slaked lime", "amount": 4 },
+      { "product": "potash", "amount": 1 },
+      { "product": "raw cloth", "amount": 6 }
+    ],
+    "outputs": [{ "product": "paper", "amount": 24 }],
+    "fallbacks": ["make paper 1"]
+  },
+  "make paper 3": {
+    "name": "make paper 3",
+    "tier": 4,
+    "site": "raghouse",
+    "upgrades": ["liming pots"],
+    "class": "crafting",
+    "points": 8,
+    "inputs": [
+      { "product": "labour", "amount": 50 },
+      { "product": "firewood", "amount": 5 },
+      { "product": "potash", "amount": 1 },
+      { "product": "casks", "amount": 1 },
+      { "product": "tools", "amount": 2 },
+      { "product": "flax fibres", "amount": 22 },
+      { "product": "raw cloth", "amount": 8 },
+      { "product": "cloth", "amount": 10 },
       { "product": "cookware", "amount": 2 },
       { "product": "slaked lime", "amount": 4 }
     ],
-    "outputs": [{ "product": "paper", "amount": 24 }],
+    "outputs": [{ "product": "paper", "amount": 25 }],
     "fallbacks": ["make paper 1"]
   },
   "make premium cheese 1": {
@@ -5772,17 +6536,87 @@
     "name": "make tallow candles 1",
     "tier": 1,
     "site": "chandlery",
-    "upgrades": ["rendering pots"],
+    "class": "crafting",
+    "points": 3,
+    "inputs": [
+      { "product": "labour", "amount": 90 },
+      { "product": "firewood", "amount": 5 },
+      { "product": "tallow", "amount": 14 }
+    ],
+    "outputs": [{ "product": "candles", "amount": 6.5 }]
+  },
+  "make tallow candles 2": {
+    "name": "make tallow candles 2",
+    "tier": 2,
+    "site": "chandlery",
     "class": "crafting",
     "points": 3,
     "inputs": [
       { "product": "labour", "amount": 80 },
-      { "product": "firewood", "amount": 8 },
+      { "product": "firewood", "amount": 6 },
       { "product": "tools", "amount": 1 },
-      { "product": "meat", "amount": 120 },
-      { "product": "cookware", "amount": 2 }
+      { "product": "thread", "amount": 1 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "tallow", "amount": 15 }
     ],
-    "outputs": [{ "product": "candles", "amount": 12 }]
+    "outputs": [{ "product": "candles", "amount": 7 }],
+    "fallbacks": ["make tallow candles 1"]
+  },
+  "make varnish 1": {
+    "name": "make varnish 1",
+    "tier": 2,
+    "site": "varnish kitchen",
+    "class": "nutrition",
+    "points": 2.5,
+    "inputs": [
+      { "product": "labour", "amount": 75 },
+      { "product": "firewood", "amount": 4 },
+      { "product": "seeds", "amount": 48 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "resin", "amount": 20 }
+    ],
+    "outputs": [{ "product": "varnish", "amount": 22 }]
+  },
+  "make varnish 2": {
+    "name": "make varnish 2",
+    "tier": 2,
+    "site": "varnish kitchen",
+    "upgrades": ["grooved bedstone"],
+    "class": "nutrition",
+    "points": 2.5,
+    "inputs": [
+      { "product": "labour", "amount": 60 },
+      { "product": "firewood", "amount": 6 },
+      { "product": "seeds", "amount": 55 },
+      { "product": "tools", "amount": 1 },
+      { "product": "ox power", "amount": 10 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "resin", "amount": 22 },
+      { "product": "spirits", "amount": 8 }
+    ],
+    "outputs": [{ "product": "varnish", "amount": 30 }],
+    "fallbacks": ["make varnish 1"]
+  },
+  "make varnish 3": {
+    "name": "make varnish 3",
+    "tier": 3,
+    "site": "varnish kitchen",
+    "upgrades": ["grooved bedstone"],
+    "class": "nutrition",
+    "points": 2.5,
+    "inputs": [
+      { "product": "labour", "amount": 50 },
+      { "product": "charcoal", "amount": 6 },
+      { "product": "seeds", "amount": 64 },
+      { "product": "tools", "amount": 1 },
+      { "product": "ox power", "amount": 10 },
+      { "product": "wax", "amount": 1 },
+      { "product": "cookware", "amount": 1 },
+      { "product": "lead bars", "amount": 2 },
+      { "product": "resin", "amount": 24 },
+      { "product": "spirits", "amount": 10 }
+    ],
+    "outputs": [{ "product": "varnish", "amount": 35 }]
   },
   "make windows 1": {
     "name": "make windows 1",
@@ -5790,7 +6624,7 @@
     "site": "glass blower",
     "upgrades": ["joining station"],
     "class": "crafting",
-    "points": 4,
+    "points": 6,
     "inputs": [
       { "product": "labour", "amount": 110 },
       { "product": "firewood", "amount": 4 },
@@ -5807,7 +6641,7 @@
     "site": "glass blower",
     "upgrades": ["joining station"],
     "class": "crafting",
-    "points": 6,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 90 },
       { "product": "firewood", "amount": 4 },
@@ -5827,7 +6661,7 @@
     "site": "glass blower",
     "upgrades": ["joining station"],
     "class": "crafting",
-    "points": 8,
+    "points": 10,
     "inputs": [
       { "product": "labour", "amount": 90 },
       { "product": "firewood", "amount": 4 },
@@ -5855,6 +6689,7 @@
     "name": "make wine 2",
     "tier": 2,
     "site": "vignoble",
+    "upgrades": ["toolshed 1"],
     "class": "nutrition",
     "points": 1.5,
     "inputs": [
@@ -5869,6 +6704,7 @@
     "name": "make wine 3",
     "tier": 3,
     "site": "vignoble",
+    "upgrades": ["toolshed 1"],
     "class": "nutrition",
     "points": 2.5,
     "inputs": [
@@ -5884,6 +6720,7 @@
     "name": "make wine 4",
     "tier": 4,
     "site": "vignoble",
+    "upgrades": ["toolshed 1"],
     "class": "nutrition",
     "points": 4,
     "inputs": [
@@ -5899,6 +6736,7 @@
     "name": "make wine 5",
     "tier": 4,
     "site": "vignoble",
+    "upgrades": ["toolshed 1"],
     "class": "nutrition",
     "points": 6,
     "inputs": [
@@ -5916,7 +6754,7 @@
     "tier": 2,
     "site": "malthouse",
     "class": "nutrition",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 80 },
       { "product": "firewood", "amount": 7 },
@@ -5929,7 +6767,7 @@
     "tier": 3,
     "site": "malthouse",
     "class": "nutrition",
-    "points": 5,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 80 },
       { "product": "firewood", "amount": 8 },
@@ -5945,13 +6783,13 @@
     "site": "malthouse",
     "upgrades": ["malt sieve"],
     "class": "nutrition",
-    "points": 7,
+    "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 65 },
+      { "product": "labour", "amount": 70 },
       { "product": "firewood", "amount": 8 },
       { "product": "grain", "amount": 150 },
       { "product": "tools", "amount": 5 },
-      { "product": "nets", "amount": 1 }
+      { "product": "canvas", "amount": 1 }
     ],
     "outputs": [{ "product": "malt", "amount": 120 }],
     "fallbacks": ["malting 2", "malting 1"]
@@ -5962,15 +6800,14 @@
     "site": "malthouse",
     "upgrades": ["steeping cistern"],
     "class": "nutrition",
-    "points": 10,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 60 },
       { "product": "charcoal", "amount": 10 },
-      { "product": "casks", "amount": 5 },
       { "product": "grain", "amount": 170 },
       { "product": "tools", "amount": 5 },
-      { "product": "nets", "amount": 1 },
-      { "product": "lead bars", "amount": 2 }
+      { "product": "lead bars", "amount": 2 },
+      { "product": "canvas", "amount": 2 }
     ],
     "outputs": [{ "product": "malt", "amount": 140 }]
   },
@@ -6016,8 +6853,9 @@
     "class": "nutrition",
     "points": 2,
     "inputs": [
-      { "product": "labour", "amount": 45 },
-      { "product": "grain", "amount": 190 }
+      { "product": "labour", "amount": 40 },
+      { "product": "grain", "amount": 190 },
+      { "product": "cloth", "amount": 2 }
     ],
     "outputs": [{ "product": "flour", "amount": 40 }]
   },
@@ -6028,13 +6866,12 @@
     "class": "nutrition",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 45 },
+      { "product": "labour", "amount": 40 },
       { "product": "grain", "amount": 225 },
-      { "product": "cloth", "amount": 4 },
-      { "product": "limestone", "amount": 0.5 }
+      { "product": "limestone", "amount": 0.5 },
+      { "product": "canvas", "amount": 1.5 }
     ],
-    "outputs": [{ "product": "flour", "amount": 50 }],
-    "fallbacks": ["milling 1"]
+    "outputs": [{ "product": "flour", "amount": 50 }]
   },
   "milling 3": {
     "name": "milling 3",
@@ -6044,21 +6881,20 @@
     "class": "nutrition",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 25 },
+      { "product": "labour", "amount": 40 },
       { "product": "grain", "amount": 325 },
       { "product": "grindstones", "amount": 0.4 },
       { "product": "sails", "amount": 0.1 },
       { "product": "gears", "amount": 1 }
     ],
-    "outputs": [{ "product": "flour", "amount": 80 }],
-    "fallbacks": ["milling 1"]
+    "outputs": [{ "product": "flour", "amount": 80 }]
   },
   "mine copper 1": {
     "name": "mine copper 1",
     "tier": 1,
     "site": "copper mine",
     "class": "forging",
-    "points": 1.5,
+    "points": 1,
     "inputs": [{ "product": "labour", "amount": 115 }],
     "outputs": [{ "product": "copper ore", "amount": 13 }]
   },
@@ -6068,7 +6904,7 @@
     "site": "copper mine",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 2.5,
+    "points": 1.25,
     "inputs": [
       { "product": "labour", "amount": 108 },
       { "product": "tools", "amount": 10 }
@@ -6082,7 +6918,7 @@
     "site": "copper mine",
     "upgrades": ["crane"],
     "class": "forging",
-    "points": 3,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 102 },
       { "product": "tools", "amount": 11 },
@@ -6097,7 +6933,7 @@
     "site": "copper mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 3,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "firewood", "amount": 18 },
@@ -6113,7 +6949,7 @@
     "site": "copper mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 95 },
       { "product": "firewood", "amount": 18 },
@@ -6128,7 +6964,7 @@
     "tier": 1,
     "site": "gold mine",
     "class": "forging",
-    "points": 1.25,
+    "points": 1,
     "inputs": [{ "product": "labour", "amount": 150 }],
     "outputs": [{ "product": "gold ore", "amount": 2 }]
   },
@@ -6138,7 +6974,7 @@
     "site": "gold mine",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 1.5,
+    "points": 1.25,
     "inputs": [
       { "product": "labour", "amount": 145 },
       { "product": "tools", "amount": 10 }
@@ -6200,7 +7036,7 @@
     "tier": 1,
     "site": "iron mine",
     "class": "forging",
-    "points": 1.25,
+    "points": 1,
     "inputs": [{ "product": "labour", "amount": 58 }],
     "outputs": [{ "product": "iron ore", "amount": 35 }]
   },
@@ -6210,7 +7046,7 @@
     "site": "iron mine",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 2,
+    "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "tools", "amount": 6 }
@@ -6224,7 +7060,7 @@
     "site": "iron mine",
     "upgrades": ["crane"],
     "class": "forging",
-    "points": 3,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 60 },
       { "product": "firewood", "amount": 16 },
@@ -6240,7 +7076,7 @@
     "site": "iron mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 3.5,
+    "points": 2.75,
     "inputs": [
       { "product": "labour", "amount": 60 },
       { "product": "firewood", "amount": 16 },
@@ -6256,7 +7092,7 @@
     "site": "iron mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 60 },
       { "product": "firewood", "amount": 16 },
@@ -6271,7 +7107,7 @@
     "tier": 1,
     "site": "lead mine",
     "class": "forging",
-    "points": 1.25,
+    "points": 1,
     "inputs": [{ "product": "labour", "amount": 100 }],
     "outputs": [{ "product": "lead ore", "amount": 36 }]
   },
@@ -6281,7 +7117,7 @@
     "site": "lead mine",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 1.75,
+    "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 86 },
       { "product": "tools", "amount": 3 }
@@ -6295,7 +7131,7 @@
     "site": "lead mine",
     "upgrades": ["crane"],
     "class": "forging",
-    "points": 2.5,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 76 },
       { "product": "tools", "amount": 5 },
@@ -6310,7 +7146,7 @@
     "site": "lead mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 3,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 72 },
       { "product": "firewood", "amount": 16 },
@@ -6326,7 +7162,7 @@
     "site": "lead mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 72 },
       { "product": "firewood", "amount": 16 },
@@ -6378,7 +7214,7 @@
     "tier": 1,
     "site": "silver mine",
     "class": "forging",
-    "points": 1.25,
+    "points": 1,
     "inputs": [{ "product": "labour", "amount": 150 }],
     "outputs": [{ "product": "silver ore", "amount": 12 }]
   },
@@ -6388,7 +7224,7 @@
     "site": "silver mine",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 1.5,
+    "points": 1.25,
     "inputs": [
       { "product": "labour", "amount": 140 },
       { "product": "tools", "amount": 12 }
@@ -6448,7 +7284,7 @@
     "tier": 1,
     "site": "tin mine",
     "class": "forging",
-    "points": 1.25,
+    "points": 1,
     "inputs": [{ "product": "labour", "amount": 100 }],
     "outputs": [{ "product": "tin ore", "amount": 18 }]
   },
@@ -6458,7 +7294,7 @@
     "site": "tin mine",
     "upgrades": ["toolshed 1"],
     "class": "forging",
-    "points": 1.75,
+    "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 86 },
       { "product": "tools", "amount": 3 }
@@ -6472,7 +7308,7 @@
     "site": "tin mine",
     "upgrades": ["crane"],
     "class": "forging",
-    "points": 2.5,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 82 },
       { "product": "tools", "amount": 5 },
@@ -6487,7 +7323,7 @@
     "site": "tin mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 3,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 75 },
       { "product": "firewood", "amount": 16 },
@@ -6503,7 +7339,7 @@
     "site": "tin mine",
     "upgrades": ["toolshed 2"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 75 },
       { "product": "firewood", "amount": 16 },
@@ -6580,7 +7416,7 @@
     "tier": 2,
     "site": "mint",
     "class": "crafting",
-    "points": 2.5,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 30 },
       { "product": "charcoal", "amount": 2 },
@@ -6596,7 +7432,7 @@
     "site": "mint",
     "upgrades": ["guard booth"],
     "class": "crafting",
-    "points": 4,
+    "points": 6,
     "inputs": [
       { "product": "labour", "amount": 25 },
       { "product": "protection", "amount": 25 },
@@ -6612,22 +7448,24 @@
     "site": "mint",
     "upgrades": ["guard booth"],
     "class": "crafting",
-    "points": 5,
+    "points": 7,
     "inputs": [
       { "product": "labour", "amount": 25 },
       { "product": "charcoal", "amount": 3 },
       { "product": "tools", "amount": 1.5 },
       { "product": "protection", "amount": 35 },
-      { "product": "gold bars", "amount": 1.64 }
+      { "product": "gold bars", "amount": 1.64 },
+      { "product": "acid", "amount": 0.1 }
     ],
-    "outputs": [{ "product": "money", "amount": 1700 }]
+    "outputs": [{ "product": "money", "amount": 1700 }],
+    "fallbacks": ["mint gold coins 3", "mint gold coins 2"]
   },
   "mint silver coins 1": {
     "name": "mint silver coins 1",
     "tier": 2,
     "site": "mint",
     "class": "crafting",
-    "points": 2.5,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "charcoal", "amount": 4 },
@@ -6643,9 +7481,9 @@
     "site": "mint",
     "upgrades": ["guard booth"],
     "class": "crafting",
-    "points": 4,
+    "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 25 },
+      { "product": "labour", "amount": 30 },
       { "product": "charcoal", "amount": 3 },
       { "product": "tools", "amount": 1 },
       { "product": "protection", "amount": 20 },
@@ -6659,15 +7497,17 @@
     "site": "mint",
     "upgrades": ["guard booth"],
     "class": "crafting",
-    "points": 5,
+    "points": 6,
     "inputs": [
       { "product": "labour", "amount": 25 },
       { "product": "charcoal", "amount": 4 },
       { "product": "tools", "amount": 1.5 },
       { "product": "protection", "amount": 30 },
-      { "product": "silver bars", "amount": 3.1 }
+      { "product": "silver bars", "amount": 3.1 },
+      { "product": "acid", "amount": 0.1 }
     ],
-    "outputs": [{ "product": "money", "amount": 1200 }]
+    "outputs": [{ "product": "money", "amount": 1200 }],
+    "fallbacks": ["mint silver coins 2", "mint silver coins 1"]
   },
   "nail duty 1": {
     "name": "nail duty 1",
@@ -6723,9 +7563,10 @@
       { "product": "furniture", "amount": 10 },
       { "product": "glassware", "amount": 10 },
       { "product": "herbs", "amount": 2 },
-      { "product": "medicine", "amount": 20 }
+      { "product": "medicine", "amount": 20 },
+      { "product": "paper", "amount": 5 }
     ],
-    "prestige": 0.65,
+    "prestige": 0.66,
     "health": 500
   },
   "nursing 3": {
@@ -6742,9 +7583,10 @@
       { "product": "medicine", "amount": 20 },
       { "product": "premium cloth", "amount": 10 },
       { "product": "premium garments", "amount": 5 },
-      { "product": "premium glassware", "amount": 5 }
+      { "product": "premium glassware", "amount": 5 },
+      { "product": "paper", "amount": 5 }
     ],
-    "prestige": 0.9,
+    "prestige": 1.1,
     "health": 600,
     "fallbacks": ["nursing 2"]
   },
@@ -6753,15 +7595,25 @@
     "tier": 1,
     "site": "guard camp",
     "class": "weaponry",
+    "points": 1,
+    "inputs": [{ "product": "labour", "amount": 70 }],
+    "outputs": [{ "product": "protection", "amount": 37 }]
+  },
+  "patrol 2": {
+    "name": "patrol 2",
+    "tier": 1,
+    "site": "guard camp",
+    "class": "weaponry",
     "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 70 },
       { "product": "arms", "amount": 3 }
     ],
-    "outputs": [{ "product": "protection", "amount": 62 }]
+    "outputs": [{ "product": "protection", "amount": 62 }],
+    "fallbacks": ["patrol 1"]
   },
-  "patrol 2": {
-    "name": "patrol 2",
+  "patrol 3": {
+    "name": "patrol 3",
     "tier": 2,
     "site": "guard camp",
     "class": "weaponry",
@@ -6770,10 +7622,10 @@
       { "product": "labour", "amount": 70 },
       { "product": "arms", "amount": 3.5 },
       { "product": "garments", "amount": 1 },
-      { "product": "light armour", "amount": 0.4 }
+      { "product": "light armour", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "protection", "amount": 85 }],
-    "fallbacks": ["patrol 1"]
+    "outputs": [{ "product": "protection", "amount": 86 }],
+    "fallbacks": ["patrol 2", "patrol 1"]
   },
   "prepare rigging 1": {
     "name": "prepare rigging 1",
@@ -6876,11 +7728,11 @@
     "points": 3,
     "inputs": [
       { "product": "labour", "amount": 150 },
-      { "product": "arms", "amount": 12.5 },
+      { "product": "arms", "amount": 12 },
       { "product": "garments", "amount": 1 },
       { "product": "light armour", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "protection", "amount": 200 }],
+    "outputs": [{ "product": "protection", "amount": 196 }],
     "fallbacks": ["protect 1"]
   },
   "protect 2": {
@@ -6893,9 +7745,10 @@
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "swords", "amount": 2 },
-      { "product": "garments", "amount": 5 }
+      { "product": "garments", "amount": 2 },
+      { "product": "light armour", "amount": 1 }
     ],
-    "outputs": [{ "product": "protection", "amount": 227 }]
+    "outputs": [{ "product": "protection", "amount": 230 }]
   },
   "protect 3": {
     "name": "protect 3",
@@ -6907,10 +7760,11 @@
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "swords", "amount": 2 },
-      { "product": "garments", "amount": 5 },
-      { "product": "light armour", "amount": 1.5 }
+      { "product": "garments", "amount": 2 },
+      { "product": "light armour", "amount": 2 },
+      { "product": "medicine", "amount": 0.25 }
     ],
-    "outputs": [{ "product": "protection", "amount": 268 }],
+    "outputs": [{ "product": "protection", "amount": 264 }],
     "fallbacks": ["protect 2"]
   },
   "protect 3 (plate)": {
@@ -6923,11 +7777,11 @@
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "swords", "amount": 2 },
-      { "product": "garments", "amount": 5 },
-      { "product": "plate armour", "amount": 0.25 }
+      { "product": "garments", "amount": 2 },
+      { "product": "plate armour", "amount": 0.25 },
+      { "product": "medicine", "amount": 0.25 }
     ],
-    "outputs": [{ "product": "protection", "amount": 328 }],
-    "fallbacks": ["protect 2"]
+    "outputs": [{ "product": "protection", "amount": 314 }]
   },
   "protect 4": {
     "name": "protect 4",
@@ -6939,10 +7793,37 @@
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "swords", "amount": 2 },
-      { "product": "coats", "amount": 1.5 },
-      { "product": "plate armour", "amount": 0.25 }
+      { "product": "coats", "amount": 1 },
+      { "product": "plate armour", "amount": 0.25 },
+      { "product": "medicine", "amount": 0.25 }
     ],
-    "outputs": [{ "product": "protection", "amount": 332 }]
+    "outputs": [{ "product": "protection", "amount": 326 }]
+  },
+  "render tallow 1": {
+    "name": "render tallow 1",
+    "tier": 2,
+    "site": "rendering house",
+    "class": "nutrition",
+    "points": 1.5,
+    "inputs": [
+      { "product": "labour", "amount": 19 },
+      { "product": "firewood", "amount": 8 },
+      { "product": "cookware", "amount": 0.4 }
+    ],
+    "outputs": [{ "product": "tallow", "amount": 4 }]
+  },
+  "render tallow 2": {
+    "name": "render tallow 2",
+    "tier": 3,
+    "site": "rendering house",
+    "class": "nutrition",
+    "points": 2.5,
+    "inputs": [
+      { "product": "labour", "amount": 17 },
+      { "product": "charcoal", "amount": 8 },
+      { "product": "cookware", "amount": 1 }
+    ],
+    "outputs": [{ "product": "tallow", "amount": 4.5 }]
   },
   "retting 1": {
     "name": "retting 1",
@@ -6991,9 +7872,9 @@
     "tier": 1,
     "site": "seedhouse",
     "class": "nutrition",
-    "points": 1,
+    "points": 0.1,
     "inputs": [{ "product": "labour", "amount": 11 }],
-    "outputs": [{ "product": "grain", "amount": 8 }]
+    "outputs": [{ "product": "seeds", "amount": 12 }]
   },
   "ripple flax 2": {
     "name": "ripple flax 2",
@@ -7001,12 +7882,26 @@
     "site": "seedhouse",
     "upgrades": ["toolshed 1"],
     "class": "nutrition",
-    "points": 1.5,
+    "points": 0.25,
     "inputs": [
-      { "product": "labour", "amount": 9 },
+      { "product": "labour", "amount": 9.5 },
       { "product": "tools", "amount": 1 }
     ],
-    "outputs": [{ "product": "grain", "amount": 9 }],
+    "outputs": [{ "product": "seeds", "amount": 13.2 }],
+    "fallbacks": ["ripple flax 1"]
+  },
+  "ripple flax 3": {
+    "name": "ripple flax 3",
+    "tier": 3,
+    "site": "seedhouse",
+    "upgrades": ["toolshed 1"],
+    "class": "nutrition",
+    "points": 0.3,
+    "inputs": [
+      { "product": "labour", "amount": 9.5 },
+      { "product": "tools", "amount": 1.25 }
+    ],
+    "outputs": [{ "product": "seeds", "amount": 14 }],
     "fallbacks": ["ripple flax 1"]
   },
   "salt fish 1": {
@@ -7016,7 +7911,7 @@
     "class": "nutrition",
     "points": 1,
     "inputs": [
-      { "product": "labour", "amount": 55 },
+      { "product": "labour", "amount": 56 },
       { "product": "salt", "amount": 10 },
       { "product": "fish", "amount": 190 }
     ],
@@ -7029,7 +7924,7 @@
     "class": "nutrition",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 50 },
+      { "product": "labour", "amount": 53 },
       { "product": "casks", "amount": 6 },
       { "product": "salt", "amount": 10 },
       { "product": "fish", "amount": 240 }
@@ -7044,7 +7939,7 @@
     "class": "nutrition",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 30 },
+      { "product": "labour", "amount": 35 },
       { "product": "casks", "amount": 8 },
       { "product": "salt", "amount": 12 },
       { "product": "fish", "amount": 250 },
@@ -7073,7 +7968,7 @@
     "class": "nutrition",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 55 },
+      { "product": "labour", "amount": 54 },
       { "product": "casks", "amount": 6 },
       { "product": "meat", "amount": 240 },
       { "product": "salt", "amount": 8 }
@@ -7118,11 +8013,10 @@
     "class": "crafting",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 60 },
+      { "product": "labour", "amount": 65 },
       { "product": "ox power", "amount": 25 },
-      { "product": "tools", "amount": 2 },
-      { "product": "logs", "amount": 60 },
-      { "product": "gears", "amount": 0.25 }
+      { "product": "tools", "amount": 3 },
+      { "product": "logs", "amount": 60 }
     ],
     "outputs": [{ "product": "timber", "amount": 68 }],
     "fallbacks": ["sawing 1"]
@@ -7193,7 +8087,8 @@
       { "product": "labour", "amount": 120 },
       { "product": "tools", "amount": 2 },
       { "product": "chisels", "amount": 5 },
-      { "product": "limestone", "amount": 12 }
+      { "product": "limestone", "amount": 12 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "sculptures", "amount": 0.4 }]
   },
@@ -7202,13 +8097,13 @@
     "tier": 2,
     "site": "cupel furnace",
     "class": "forging",
-    "points": 3,
+    "points": 2,
     "inputs": [
-      { "product": "labour", "amount": 75 },
+      { "product": "labour", "amount": 90 },
       { "product": "charcoal", "amount": 10 },
-      { "product": "tools", "amount": 4 }
+      { "product": "tools", "amount": 3 }
     ],
-    "outputs": [{ "product": "silver bars", "amount": 0.75 }]
+    "outputs": [{ "product": "silver bars", "amount": 0.8 }]
   },
   "separate silver 2": {
     "name": "separate silver 2",
@@ -7216,12 +8111,13 @@
     "site": "cupel furnace",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 75 },
-      { "product": "charcoal", "amount": 12 },
-      { "product": "tools", "amount": 5 },
-      { "product": "bellows", "amount": 0.25 }
+      { "product": "labour", "amount": 65 },
+      { "product": "charcoal", "amount": 10 },
+      { "product": "tools", "amount": 3 },
+      { "product": "bellows", "amount": 0.25 },
+      { "product": "acid", "amount": 0.5 }
     ],
     "outputs": [{ "product": "silver bars", "amount": 1 }],
     "fallbacks": ["separate silver 1"]
@@ -7232,15 +8128,17 @@
     "site": "cupel furnace",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 5,
+    "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 55 },
-      { "product": "charcoal", "amount": 13 },
-      { "product": "tools", "amount": 6 },
-      { "product": "protection", "amount": 25 },
-      { "product": "bellows", "amount": 0.25 }
+      { "product": "labour", "amount": 60 },
+      { "product": "charcoal", "amount": 10 },
+      { "product": "tools", "amount": 3 },
+      { "product": "protection", "amount": 15 },
+      { "product": "bellows", "amount": 0.25 },
+      { "product": "lead bars", "amount": 1 },
+      { "product": "acid", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "silver bars", "amount": 1.25 }],
+    "outputs": [{ "product": "silver bars", "amount": 1.2 }],
     "fallbacks": ["separate silver 2", "separate silver 1"]
   },
   "separate steel 1": {
@@ -7248,7 +8146,7 @@
     "tier": 2,
     "site": "steeling forge",
     "class": "forging",
-    "points": 3,
+    "points": 2,
     "inputs": [
       { "product": "labour", "amount": 30 },
       { "product": "charcoal", "amount": 6 },
@@ -7261,7 +8159,7 @@
     "tier": 3,
     "site": "steeling forge",
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 30 },
       { "product": "charcoal", "amount": 8 },
@@ -7275,7 +8173,7 @@
     "site": "steeling forge",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 28 },
       { "product": "charcoal", "amount": 10 },
@@ -7291,7 +8189,7 @@
     "site": "steeling forge",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 4,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 25 },
       { "product": "charcoal", "amount": 10.5 },
@@ -7320,7 +8218,8 @@
       { "product": "labour", "amount": 70 },
       { "product": "tools", "amount": 2 },
       { "product": "dyed cloth", "amount": 20 },
-      { "product": "leather", "amount": 5 }
+      { "product": "leather", "amount": 5 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "coats", "amount": 7 }]
   },
@@ -7335,7 +8234,8 @@
       { "product": "labour", "amount": 65 },
       { "product": "tools", "amount": 2 },
       { "product": "dyed cloth", "amount": 20 },
-      { "product": "belts", "amount": 4 }
+      { "product": "belts", "amount": 4 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "coats", "amount": 7 }]
   },
@@ -7352,7 +8252,8 @@
       { "product": "dyed cloth", "amount": 22 },
       { "product": "belts", "amount": 4 },
       { "product": "lead bars", "amount": 3 },
-      { "product": "charcoal", "amount": 1 }
+      { "product": "charcoal", "amount": 1 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "coats", "amount": 8 }],
     "fallbacks": ["sew coats 1 (belts)"]
@@ -7371,7 +8272,8 @@
       { "product": "dyed cloth", "amount": 24 },
       { "product": "belts", "amount": 4 },
       { "product": "tin ingots", "amount": 4 },
-      { "product": "lead bars", "amount": 2 }
+      { "product": "lead bars", "amount": 2 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "coats", "amount": 10 }]
   },
@@ -7380,7 +8282,7 @@
     "tier": 2,
     "site": "sewing shop",
     "class": "textile",
-    "points": 5,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 60 },
       { "product": "tools", "amount": 1 },
@@ -7395,10 +8297,10 @@
     "class": "textile",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 150 },
+      { "product": "labour", "amount": 155 },
       { "product": "raw cloth", "amount": 80 }
     ],
-    "outputs": [{ "product": "garments", "amount": 36 }]
+    "outputs": [{ "product": "garments", "amount": 35 }]
   },
   "sew garments 2": {
     "name": "sew garments 2",
@@ -7407,10 +8309,10 @@
     "class": "textile",
     "points": 2,
     "inputs": [
-      { "product": "labour", "amount": 150 },
+      { "product": "labour", "amount": 155 },
       { "product": "cloth", "amount": 80 }
     ],
-    "outputs": [{ "product": "garments", "amount": 40 }]
+    "outputs": [{ "product": "garments", "amount": 41 }]
   },
   "sew garments 3": {
     "name": "sew garments 3",
@@ -7421,10 +8323,10 @@
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "tools", "amount": 2 },
-      { "product": "cloth", "amount": 82 },
-      { "product": "leather", "amount": 6 }
+      { "product": "cloth", "amount": 81 },
+      { "product": "leather", "amount": 5 }
     ],
-    "outputs": [{ "product": "garments", "amount": 48 }],
+    "outputs": [{ "product": "garments", "amount": 47 }],
     "fallbacks": ["sew garments 2"]
   },
   "sew garments 3 (belts)": {
@@ -7434,12 +8336,12 @@
     "class": "textile",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 145 },
+      { "product": "labour", "amount": 146 },
       { "product": "tools", "amount": 2 },
-      { "product": "cloth", "amount": 80 },
-      { "product": "belts", "amount": 5 }
+      { "product": "cloth", "amount": 81 },
+      { "product": "belts", "amount": 4 }
     ],
-    "outputs": [{ "product": "garments", "amount": 48 }],
+    "outputs": [{ "product": "garments", "amount": 47 }],
     "fallbacks": ["sew garments 2"]
   },
   "sew garments 3 (dyed)": {
@@ -7449,12 +8351,12 @@
     "class": "textile",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 135 },
+      { "product": "labour", "amount": 146 },
       { "product": "tools", "amount": 2 },
       { "product": "dyed cloth", "amount": 54 },
-      { "product": "belts", "amount": 5 }
+      { "product": "belts", "amount": 4 }
     ],
-    "outputs": [{ "product": "garments", "amount": 48 }]
+    "outputs": [{ "product": "garments", "amount": 47 }]
   },
   "sew garments 4": {
     "name": "sew garments 4",
@@ -7464,27 +8366,14 @@
     "class": "textile",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 110 },
+      { "product": "labour", "amount": 134 },
       { "product": "tools", "amount": 3 },
-      { "product": "dyed cloth", "amount": 76 },
-      { "product": "leather", "amount": 8 }
+      { "product": "dyed cloth", "amount": 58 },
+      { "product": "paper", "amount": 2 },
+      { "product": "belts", "amount": 5 }
     ],
-    "outputs": [{ "product": "garments", "amount": 60 }]
-  },
-  "sew garments 4 (belts)": {
-    "name": "sew garments 4 (belts)",
-    "tier": 3,
-    "site": "sewing shop",
-    "upgrades": ["cutting table"],
-    "class": "textile",
-    "points": 4,
-    "inputs": [
-      { "product": "labour", "amount": 110 },
-      { "product": "tools", "amount": 3 },
-      { "product": "dyed cloth", "amount": 76 },
-      { "product": "belts", "amount": 6 }
-    ],
-    "outputs": [{ "product": "garments", "amount": 60 }]
+    "outputs": [{ "product": "garments", "amount": 52 }],
+    "fallbacks": ["sew garments 3 (dyed)"]
   },
   "sew garments 5": {
     "name": "sew garments 5",
@@ -7494,12 +8383,13 @@
     "class": "textile",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 105 },
-      { "product": "dyed cloth", "amount": 80 },
-      { "product": "belts", "amount": 6 },
-      { "product": "blades", "amount": 3 }
+      { "product": "labour", "amount": 130 },
+      { "product": "dyed cloth", "amount": 60 },
+      { "product": "belts", "amount": 5 },
+      { "product": "blades", "amount": 3 },
+      { "product": "paper", "amount": 2 }
     ],
-    "outputs": [{ "product": "garments", "amount": 64 }]
+    "outputs": [{ "product": "garments", "amount": 54 }]
   },
   "sew premium garments 1": {
     "name": "sew premium garments 1",
@@ -7512,10 +8402,11 @@
       { "product": "labour", "amount": 110 },
       { "product": "tools", "amount": 1 },
       { "product": "blades", "amount": 3 },
-      { "product": "dyed cloth", "amount": 50 },
-      { "product": "belts", "amount": 5 },
+      { "product": "dyed cloth", "amount": 46 },
+      { "product": "belts", "amount": 4 },
       { "product": "dyed yarn", "amount": 10 },
-      { "product": "gold bars", "amount": 0.1 }
+      { "product": "gold bars", "amount": 0.1 },
+      { "product": "paper", "amount": 2 }
     ],
     "outputs": [{ "product": "premium garments", "amount": 10 }]
   },
@@ -7527,16 +8418,17 @@
     "class": "textile",
     "points": 10,
     "inputs": [
-      { "product": "labour", "amount": 80 },
+      { "product": "labour", "amount": 100 },
       { "product": "tools", "amount": 1 },
       { "product": "blades", "amount": 3 },
       { "product": "dyed cloth", "amount": 6 },
-      { "product": "belts", "amount": 5 },
+      { "product": "belts", "amount": 4 },
       { "product": "dyed yarn", "amount": 10 },
       { "product": "jewellery", "amount": 0.1 },
       { "product": "silver bars", "amount": 0.1 },
       { "product": "gold bars", "amount": 0.1 },
-      { "product": "premium cloth", "amount": 10 }
+      { "product": "premium cloth", "amount": 10 },
+      { "product": "paper", "amount": 2 }
     ],
     "outputs": [{ "product": "premium garments", "amount": 12 }],
     "fallbacks": ["sew premium garments 1"]
@@ -7553,10 +8445,10 @@
       { "product": "tools", "amount": 1 },
       { "product": "blades", "amount": 1 },
       { "product": "wax", "amount": 2 },
-      { "product": "cloth", "amount": 25 },
       { "product": "thread", "amount": 10 },
       { "product": "rope", "amount": 0.5 },
-      { "product": "tar", "amount": 1 }
+      { "product": "canvas", "amount": 5.5 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "premium sails", "amount": 0.5 }]
   },
@@ -7568,15 +8460,15 @@
     "class": "maritime",
     "points": 12,
     "inputs": [
-      { "product": "labour", "amount": 80 },
+      { "product": "labour", "amount": 85 },
       { "product": "tools", "amount": 1 },
       { "product": "blades", "amount": 1 },
       { "product": "wax", "amount": 2 },
-      { "product": "cloth", "amount": 15 },
       { "product": "thread", "amount": 12 },
       { "product": "rope", "amount": 0.6 },
-      { "product": "tar", "amount": 1 },
-      { "product": "premium cloth", "amount": 2.4 }
+      { "product": "premium cloth", "amount": 2.4 },
+      { "product": "canvas", "amount": 3 },
+      { "product": "paper", "amount": 1 }
     ],
     "outputs": [{ "product": "premium sails", "amount": 0.6 }],
     "fallbacks": ["sew premium sails 1"]
@@ -7590,37 +8482,53 @@
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "blades", "amount": 1 },
-      { "product": "cloth", "amount": 32 },
       { "product": "thread", "amount": 10 },
       { "product": "rope", "amount": 0.5 },
+      { "product": "tar", "amount": 2 },
+      { "product": "cloth", "amount": 24 },
+      { "product": "tallow", "amount": 4 }
+    ],
+    "outputs": [{ "product": "sails", "amount": 0.9 }]
+  },
+  "sew sails 2": {
+    "name": "sew sails 2",
+    "tier": 3,
+    "site": "sail loft",
+    "class": "maritime",
+    "points": 4,
+    "inputs": [
+      { "product": "labour", "amount": 100 },
+      { "product": "blades", "amount": 1 },
+      { "product": "thread", "amount": 10 },
+      { "product": "rope", "amount": 0.5 },
+      { "product": "canvas", "amount": 8.5 },
       { "product": "tar", "amount": 2 }
     ],
     "outputs": [{ "product": "sails", "amount": 1 }]
   },
-  "sew sails 2": {
-    "name": "sew sails 2",
+  "sew sails 3": {
+    "name": "sew sails 3",
     "tier": 4,
     "site": "sail loft",
     "class": "maritime",
     "points": 6,
     "inputs": [
       { "product": "labour", "amount": 90 },
+      { "product": "canvas", "amount": 8.5 },
       { "product": "blades", "amount": 2 },
-      { "product": "wax", "amount": 2.5 },
-      { "product": "cloth", "amount": 36 },
+      { "product": "wax", "amount": 2 },
+      { "product": "paper", "amount": 1 },
       { "product": "thread", "amount": 12 },
-      { "product": "rope", "amount": 0.6 },
-      { "product": "tar", "amount": 2 }
+      { "product": "rope", "amount": 0.6 }
     ],
-    "outputs": [{ "product": "sails", "amount": 1.25 }],
-    "fallbacks": ["sew sails 1"]
+    "outputs": [{ "product": "sails", "amount": 1.25 }]
   },
   "shovel manure 1": {
     "name": "shovel manure 1",
     "tier": 1,
     "site": "manure pit",
     "class": "nutrition",
-    "points": 0.2,
+    "points": 0.15,
     "inputs": [{ "product": "labour", "amount": 0.75 }],
     "outputs": [{ "product": "manure", "amount": 5 }]
   },
@@ -7630,7 +8538,7 @@
     "site": "manure pit",
     "upgrades": ["compost bay"],
     "class": "nutrition",
-    "points": 0.4,
+    "points": 0.3,
     "inputs": [
       { "product": "labour", "amount": 0.75 },
       { "product": "tools", "amount": 0.05 }
@@ -7643,7 +8551,7 @@
     "tier": 1,
     "site": "muckery",
     "class": "nutrition",
-    "points": 0.4,
+    "points": 0.25,
     "inputs": [{ "product": "labour", "amount": 2 }],
     "outputs": [{ "product": "manure", "amount": 13 }]
   },
@@ -7653,7 +8561,7 @@
     "site": "muckery",
     "upgrades": ["compost bay"],
     "class": "nutrition",
-    "points": 0.8,
+    "points": 0.4,
     "inputs": [
       { "product": "labour", "amount": 2 },
       { "product": "tools", "amount": 0.2 }
@@ -7666,7 +8574,7 @@
     "tier": 1,
     "site": "skinning hut",
     "class": "nutrition",
-    "points": 0.3,
+    "points": 0.25,
     "inputs": [{ "product": "labour", "amount": 2.1 }],
     "outputs": [{ "product": "hides", "amount": 0.4 }]
   },
@@ -7675,7 +8583,7 @@
     "tier": 1,
     "site": "skinning hut",
     "class": "nutrition",
-    "points": 0.4,
+    "points": 0.3,
     "inputs": [
       { "product": "labour", "amount": 2 },
       { "product": "tools", "amount": 0.1 }
@@ -7689,7 +8597,7 @@
     "site": "skinning hut",
     "upgrades": ["skinning table"],
     "class": "nutrition",
-    "points": 0.6,
+    "points": 0.4,
     "inputs": [
       { "product": "labour", "amount": 1.5 },
       { "product": "tools", "amount": 0.1 },
@@ -7716,7 +8624,7 @@
     "tier": 1,
     "site": "smeltery",
     "class": "forging",
-    "points": 2,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 50 },
       { "product": "charcoal", "amount": 10 },
@@ -7732,7 +8640,7 @@
     "site": "smeltery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 2.5,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "charcoal", "amount": 12 },
@@ -7749,7 +8657,7 @@
     "site": "smeltery",
     "upgrades": ["transmission"],
     "class": "forging",
-    "points": 3,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 40 },
       { "product": "charcoal", "amount": 14 },
@@ -7765,11 +8673,11 @@
   "smelt gold 1": {
     "name": "smelt gold 1",
     "tier": 1,
-    "site": "smeltery",
+    "site": "bullion forge",
     "class": "forging",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 115 },
+      { "product": "labour", "amount": 120 },
       { "product": "charcoal", "amount": 12 },
       { "product": "tools", "amount": 3 },
       { "product": "protection", "amount": 25 },
@@ -7779,42 +8687,66 @@
   },
   "smelt gold 2": {
     "name": "smelt gold 2",
-    "tier": 3,
-    "site": "smeltery",
-    "upgrades": ["guard booth"],
+    "tier": 2,
+    "site": "bullion forge",
+    "upgrades": ["bellows"],
     "class": "forging",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "protection", "amount": 60 },
+      { "product": "labour", "amount": 110 },
+      { "product": "protection", "amount": 30 },
       { "product": "charcoal", "amount": 14 },
-      { "product": "gold ore", "amount": 7 },
-      { "product": "tools", "amount": 4 }
+      { "product": "gold ore", "amount": 6.7 },
+      { "product": "tools", "amount": 3 },
+      { "product": "potash", "amount": 2 }
     ],
-    "outputs": [{ "product": "gold bars", "amount": 2 }]
+    "outputs": [{ "product": "gold bars", "amount": 1.9 }],
+    "fallbacks": ["smelt gold 1"]
   },
   "smelt gold 3": {
     "name": "smelt gold 3",
-    "tier": 4,
-    "site": "smeltery",
+    "tier": 3,
+    "site": "bullion forge",
     "upgrades": ["guard booth"],
     "class": "forging",
     "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 80 },
-      { "product": "charcoal", "amount": 16 },
-      { "product": "tools", "amount": 5 },
-      { "product": "protection", "amount": 70 },
-      { "product": "gold ore", "amount": 7.5 }
+      { "product": "labour", "amount": 55 },
+      { "product": "charcoal", "amount": 14 },
+      { "product": "tools", "amount": 3 },
+      { "product": "protection", "amount": 60 },
+      { "product": "gold ore", "amount": 7 },
+      { "product": "potash", "amount": 2 },
+      { "product": "acid", "amount": 0.25 }
     ],
-    "outputs": [{ "product": "gold bars", "amount": 2.2 }]
+    "outputs": [{ "product": "gold bars", "amount": 2 }],
+    "fallbacks": ["smelt gold 2", "smelt gold 1"]
+  },
+  "smelt gold 4": {
+    "name": "smelt gold 4",
+    "tier": 4,
+    "site": "bullion forge",
+    "upgrades": ["guard booth"],
+    "class": "forging",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 50 },
+      { "product": "charcoal", "amount": 14 },
+      { "product": "potash", "amount": 2 },
+      { "product": "tools", "amount": 3 },
+      { "product": "protection", "amount": 60 },
+      { "product": "gold ore", "amount": 7.5 },
+      { "product": "acid", "amount": 1 }
+    ],
+    "outputs": [{ "product": "gold bars", "amount": 2.2 }],
+    "fallbacks": ["smelt gold 2", "smelt gold 1"]
   },
   "smelt iron 1": {
     "name": "smelt iron 1",
     "tier": 1,
     "site": "bloomery",
     "class": "forging",
-    "points": 2,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "charcoal", "amount": 85 },
@@ -7827,7 +8759,7 @@
     "tier": 2,
     "site": "bloomery",
     "class": "forging",
-    "points": 2.5,
+    "points": 3.5,
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "charcoal", "amount": 85 },
@@ -7843,7 +8775,7 @@
     "site": "bloomery",
     "upgrades": ["finery hearth"],
     "class": "forging",
-    "points": 3,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "charcoal", "amount": 90 },
@@ -7859,7 +8791,7 @@
     "site": "bloomery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 3.5,
+    "points": 4,
     "inputs": [
       { "product": "labour", "amount": 150 },
       { "product": "charcoal", "amount": 90 },
@@ -7876,7 +8808,7 @@
     "site": "bloomery",
     "upgrades": ["transmission"],
     "class": "forging",
-    "points": 4,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "charcoal", "amount": 85 },
@@ -7900,7 +8832,7 @@
     "site": "bloomery",
     "upgrades": ["transmission"],
     "class": "forging",
-    "points": 6,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 100 },
       { "product": "charcoal", "amount": 90 },
@@ -7925,7 +8857,7 @@
     "tier": 1,
     "site": "smeltery",
     "class": "forging",
-    "points": 2,
+    "points": 1.5,
     "inputs": [
       { "product": "labour", "amount": 50 },
       { "product": "charcoal", "amount": 8 },
@@ -7938,7 +8870,7 @@
     "tier": 1,
     "site": "smeltery",
     "class": "forging",
-    "points": 2.5,
+    "points": 2.25,
     "inputs": [
       { "product": "labour", "amount": 50 },
       { "product": "charcoal", "amount": 9 },
@@ -7954,7 +8886,7 @@
     "site": "smeltery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 2.5,
+    "points": 3.5,
     "inputs": [
       { "product": "labour", "amount": 50 },
       { "product": "charcoal", "amount": 10 },
@@ -7971,7 +8903,7 @@
     "site": "smeltery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 3,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "charcoal", "amount": 11 },
@@ -7989,7 +8921,7 @@
     "site": "smeltery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 4,
+    "points": 8,
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "charcoal", "amount": 12 },
@@ -8004,11 +8936,11 @@
   "smelt silver 1": {
     "name": "smelt silver 1",
     "tier": 1,
-    "site": "smeltery",
+    "site": "bullion forge",
     "class": "forging",
-    "points": 2.5,
+    "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 115 },
+      { "product": "labour", "amount": 120 },
       { "product": "charcoal", "amount": 14 },
       { "product": "tools", "amount": 2 },
       { "product": "silver ore", "amount": 33 }
@@ -8018,32 +8950,56 @@
   "smelt silver 2": {
     "name": "smelt silver 2",
     "tier": 2,
-    "site": "smeltery",
+    "site": "bullion forge",
+    "upgrades": ["bellows"],
     "class": "forging",
-    "points": 3,
+    "points": 4,
     "inputs": [
-      { "product": "labour", "amount": 115 },
+      { "product": "labour", "amount": 110 },
       { "product": "charcoal", "amount": 15 },
       { "product": "tools", "amount": 4 },
-      { "product": "silver ore", "amount": 36 }
+      { "product": "silver ore", "amount": 36 },
+      { "product": "potash", "amount": 2 }
     ],
-    "outputs": [{ "product": "silver bars", "amount": 4.5 }]
+    "outputs": [{ "product": "silver bars", "amount": 4.4 }],
+    "fallbacks": ["smelt silver 1"]
   },
   "smelt silver 3": {
     "name": "smelt silver 3",
     "tier": 3,
-    "site": "smeltery",
+    "site": "bullion forge",
     "upgrades": ["guard booth"],
     "class": "forging",
-    "points": 3,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 90 },
       { "product": "charcoal", "amount": 15 },
       { "product": "tools", "amount": 4 },
       { "product": "protection", "amount": 25 },
-      { "product": "silver ore", "amount": 38 }
+      { "product": "silver ore", "amount": 37 },
+      { "product": "potash", "amount": 2 },
+      { "product": "acid", "amount": 0.25 }
     ],
-    "outputs": [{ "product": "silver bars", "amount": 5 }],
+    "outputs": [{ "product": "silver bars", "amount": 4.8 }],
+    "fallbacks": ["smelt silver 2", "smelt silver 1"]
+  },
+  "smelt silver 4": {
+    "name": "smelt silver 4",
+    "tier": 4,
+    "site": "bullion forge",
+    "upgrades": ["guard booth"],
+    "class": "forging",
+    "points": 6,
+    "inputs": [
+      { "product": "labour", "amount": 78 },
+      { "product": "charcoal", "amount": 15 },
+      { "product": "potash", "amount": 2 },
+      { "product": "tools", "amount": 4 },
+      { "product": "protection", "amount": 25 },
+      { "product": "silver ore", "amount": 38 },
+      { "product": "acid", "amount": 1 }
+    ],
+    "outputs": [{ "product": "silver bars", "amount": 5.1 }],
     "fallbacks": ["smelt silver 2", "smelt silver 1"]
   },
   "smelt tin 1": {
@@ -8051,7 +9007,7 @@
     "tier": 1,
     "site": "smeltery",
     "class": "forging",
-    "points": 1.5,
+    "points": 2.5,
     "inputs": [
       { "product": "labour", "amount": 75 },
       { "product": "charcoal", "amount": 10 },
@@ -8064,7 +9020,7 @@
     "tier": 1,
     "site": "smeltery",
     "class": "forging",
-    "points": 2,
+    "points": 3,
     "inputs": [
       { "product": "labour", "amount": 75 },
       { "product": "charcoal", "amount": 10 },
@@ -8080,7 +9036,7 @@
     "site": "smeltery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 2.5,
+    "points": 5,
     "inputs": [
       { "product": "labour", "amount": 75 },
       { "product": "charcoal", "amount": 12 },
@@ -8097,7 +9053,7 @@
     "site": "smeltery",
     "upgrades": ["bellows"],
     "class": "forging",
-    "points": 4,
+    "points": 6,
     "inputs": [
       { "product": "labour", "amount": 75 },
       { "product": "charcoal", "amount": 14 },
@@ -8117,7 +9073,7 @@
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "firewood", "amount": 2 },
-      { "product": "fish", "amount": 120 }
+      { "product": "fish", "amount": 122 }
     ],
     "outputs": [{ "product": "cured fish", "amount": 15 }]
   },
@@ -8131,7 +9087,7 @@
       { "product": "labour", "amount": 45 },
       { "product": "firewood", "amount": 3 },
       { "product": "casks", "amount": 3 },
-      { "product": "fish", "amount": 160 }
+      { "product": "fish", "amount": 165 }
     ],
     "outputs": [{ "product": "cured fish", "amount": 20 }],
     "fallbacks": ["smoke fish 1"]
@@ -8143,13 +9099,13 @@
     "class": "nutrition",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 45 },
-      { "product": "firewood", "amount": 3.2 },
-      { "product": "casks", "amount": 3.2 },
+      { "product": "labour", "amount": 42 },
+      { "product": "firewood", "amount": 3 },
+      { "product": "casks", "amount": 3 },
       { "product": "fish", "amount": 168 },
       { "product": "herbs", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "cured fish", "amount": 22 }],
+    "outputs": [{ "product": "cured fish", "amount": 21 }],
     "fallbacks": ["smoke fish 2", "smoke fish 1"]
   },
   "smoke ham 1": {
@@ -8193,7 +9149,7 @@
     "inputs": [
       { "product": "labour", "amount": 45 },
       { "product": "firewood", "amount": 2 },
-      { "product": "meat", "amount": 120 }
+      { "product": "meat", "amount": 118 }
     ],
     "outputs": [{ "product": "cured meat", "amount": 15 }]
   },
@@ -8219,13 +9175,13 @@
     "class": "nutrition",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 45 },
-      { "product": "firewood", "amount": 3.2 },
-      { "product": "casks", "amount": 3.2 },
-      { "product": "meat", "amount": 168 },
+      { "product": "labour", "amount": 42 },
+      { "product": "firewood", "amount": 3 },
+      { "product": "casks", "amount": 3 },
+      { "product": "meat", "amount": 162 },
       { "product": "herbs", "amount": 0.5 }
     ],
-    "outputs": [{ "product": "cured meat", "amount": 22 }],
+    "outputs": [{ "product": "cured meat", "amount": 21 }],
     "fallbacks": ["smoke meat 2", "smoke meat 1"]
   },
   "smoke premium ham 1": {
@@ -8297,7 +9253,7 @@
       { "product": "labour", "amount": 75 },
       { "product": "fleece", "amount": 12 }
     ],
-    "outputs": [{ "product": "yarn", "amount": 45 }]
+    "outputs": [{ "product": "yarn", "amount": 48 }]
   },
   "spin yarn 2": {
     "name": "spin yarn 2",
@@ -8395,7 +9351,7 @@
     "site": "logging camp",
     "upgrades": ["toolshed 1"],
     "class": "crafting",
-    "points": 0.4,
+    "points": 0.3,
     "inputs": [
       { "product": "labour", "amount": 3.1 },
       { "product": "tools", "amount": 0.25 }
@@ -8409,7 +9365,7 @@
     "site": "logging camp",
     "upgrades": ["toolshed 2"],
     "class": "crafting",
-    "points": 0.7,
+    "points": 0.5,
     "inputs": [
       { "product": "labour", "amount": 2.6 },
       { "product": "axes", "amount": 0.15 }
@@ -8423,7 +9379,7 @@
     "site": "logging camp",
     "upgrades": ["toolshed 2"],
     "class": "crafting",
-    "points": 0.7,
+    "points": 0.6,
     "inputs": [
       { "product": "labour", "amount": 2.5 },
       { "product": "premium axes", "amount": 0.06 }
@@ -8469,14 +9425,15 @@
     "class": "crafting",
     "points": 5,
     "inputs": [
-      { "product": "labour", "amount": 65 },
+      { "product": "labour", "amount": 60 },
       { "product": "tools", "amount": 2 },
       { "product": "salt", "amount": 5 },
       { "product": "hides", "amount": 20 },
-      { "product": "slaked lime", "amount": 6 }
+      { "product": "slaked lime", "amount": 6 },
+      { "product": "soap", "amount": 0.25 }
     ],
     "outputs": [{ "product": "leather", "amount": 20 }],
-    "fallbacks": ["tan hides 1"]
+    "fallbacks": ["tan hides 2", "tan hides 1"]
   },
   "trap fish 1": {
     "name": "trap fish 1",
@@ -8533,7 +9490,7 @@
     "tier": 2,
     "site": "hunting lodge",
     "class": "weaponry",
-    "points": 1,
+    "points": 0.3,
     "inputs": [
       { "product": "labour", "amount": 0.7 },
       { "product": "tools", "amount": 0.1 },
@@ -8542,6 +9499,50 @@
     ],
     "outputs": [{ "product": "hides", "amount": 0.35 }],
     "fallbacks": ["trapping 1"]
+  },
+  "weave canvas 1": {
+    "name": "weave canvas 1",
+    "tier": 2,
+    "site": "canvas weavery",
+    "class": "textile",
+    "points": 3,
+    "inputs": [
+      { "product": "labour", "amount": 95 },
+      { "product": "thread", "amount": 60 }
+    ],
+    "outputs": [{ "product": "canvas", "amount": 14 }]
+  },
+  "weave canvas 2": {
+    "name": "weave canvas 2",
+    "tier": 3,
+    "site": "canvas weavery",
+    "upgrades": ["treadle loom"],
+    "class": "textile",
+    "points": 5,
+    "inputs": [
+      { "product": "labour", "amount": 65 },
+      { "product": "thread", "amount": 100 },
+      { "product": "varnish", "amount": 4 },
+      { "product": "looms", "amount": 0.2 }
+    ],
+    "outputs": [{ "product": "canvas", "amount": 24 }],
+    "fallbacks": ["weave canvas 1"]
+  },
+  "weave canvas 3": {
+    "name": "weave canvas 3",
+    "tier": 4,
+    "site": "canvas weavery",
+    "upgrades": ["treadle loom"],
+    "class": "textile",
+    "points": 8,
+    "inputs": [
+      { "product": "labour", "amount": 65 },
+      { "product": "thread", "amount": 105 },
+      { "product": "varnish", "amount": 4 },
+      { "product": "looms", "amount": 0.2 }
+    ],
+    "outputs": [{ "product": "canvas", "amount": 25 }],
+    "fallbacks": ["weave canvas 1"]
   },
   "weave cloth 1": {
     "name": "weave cloth 1",
@@ -8562,7 +9563,7 @@
     "class": "textile",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 70 },
+      { "product": "labour", "amount": 75 },
       { "product": "thread", "amount": 50 }
     ],
     "outputs": [{ "product": "cloth", "amount": 50 }]
@@ -8574,10 +9575,10 @@
     "class": "textile",
     "points": 1.5,
     "inputs": [
-      { "product": "labour", "amount": 70 },
+      { "product": "labour", "amount": 75 },
       { "product": "yarn", "amount": 50 }
     ],
-    "outputs": [{ "product": "raw cloth", "amount": 56 }]
+    "outputs": [{ "product": "raw cloth", "amount": 57 }]
   },
   "weave cloth 3": {
     "name": "weave cloth 3",
@@ -8587,11 +9588,11 @@
     "class": "textile",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 40 },
-      { "product": "thread", "amount": 100 },
-      { "product": "looms", "amount": 0.25 }
+      { "product": "labour", "amount": 60 },
+      { "product": "thread", "amount": 90 },
+      { "product": "looms", "amount": 0.2 }
     ],
-    "outputs": [{ "product": "cloth", "amount": 100 }],
+    "outputs": [{ "product": "cloth", "amount": 90 }],
     "fallbacks": ["weave cloth 2"]
   },
   "weave cloth 3 (yarn)": {
@@ -8602,11 +9603,11 @@
     "class": "textile",
     "points": 2.5,
     "inputs": [
-      { "product": "labour", "amount": 40 },
-      { "product": "yarn", "amount": 100 },
-      { "product": "looms", "amount": 0.25 }
+      { "product": "labour", "amount": 60 },
+      { "product": "yarn", "amount": 90 },
+      { "product": "looms", "amount": 0.2 }
     ],
-    "outputs": [{ "product": "raw cloth", "amount": 113 }],
+    "outputs": [{ "product": "raw cloth", "amount": 103 }],
     "fallbacks": ["weave cloth 2 (yarn)"]
   },
   "weave cloth 4": {
@@ -8617,12 +9618,13 @@
     "class": "textile",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 40 },
-      { "product": "thread", "amount": 110 },
-      { "product": "looms", "amount": 0.25 }
+      { "product": "labour", "amount": 60 },
+      { "product": "thread", "amount": 95 },
+      { "product": "looms", "amount": 0.2 },
+      { "product": "tools", "amount": 2 }
     ],
-    "outputs": [{ "product": "cloth", "amount": 110 }],
-    "fallbacks": ["weave cloth 2"]
+    "outputs": [{ "product": "cloth", "amount": 95 }],
+    "fallbacks": ["weave cloth 3", "weave cloth 2"]
   },
   "weave cloth 4 (yarn)": {
     "name": "weave cloth 4 (yarn)",
@@ -8632,60 +9634,109 @@
     "class": "textile",
     "points": 3,
     "inputs": [
-      { "product": "labour", "amount": 40 },
-      { "product": "yarn", "amount": 110 },
-      { "product": "looms", "amount": 0.25 }
+      { "product": "labour", "amount": 60 },
+      { "product": "yarn", "amount": 95 },
+      { "product": "looms", "amount": 0.2 },
+      { "product": "tools", "amount": 2 }
     ],
-    "outputs": [{ "product": "raw cloth", "amount": 125 }],
-    "fallbacks": ["weave cloth 2 (yarn)"]
+    "outputs": [{ "product": "raw cloth", "amount": 109 }],
+    "fallbacks": ["weave cloth 3 (yarn)", "weave cloth 2 (yarn)"]
   },
   "weave tapestries 1": {
     "name": "weave tapestries 1",
     "tier": 3,
-    "site": "tapestry weaver",
-    "class": "textile",
-    "points": 5,
-    "inputs": [
-      { "product": "labour", "amount": 75 },
-      { "product": "dyed yarn", "amount": 40 },
-      { "product": "thread", "amount": 60 }
-    ],
-    "outputs": [{ "product": "tapestries", "amount": 1 }]
-  },
-  "weave tapestries 2": {
-    "name": "weave tapestries 2",
-    "tier": 3,
-    "site": "tapestry weaver",
+    "site": "tapestry atelier",
     "upgrades": ["treadle loom"],
     "class": "textile",
     "points": 6,
     "inputs": [
-      { "product": "labour", "amount": 50 },
-      { "product": "dyed yarn", "amount": 50 },
-      { "product": "thread", "amount": 70 },
+      { "product": "labour", "amount": 80 },
+      { "product": "dyed yarn", "amount": 30 },
+      { "product": "thread", "amount": 5 },
       { "product": "gold bars", "amount": 0.1 },
-      { "product": "looms", "amount": 0.25 }
+      { "product": "looms", "amount": 0.2 }
     ],
-    "outputs": [{ "product": "tapestries", "amount": 1.5 }],
-    "fallbacks": ["weave tapestries 1"]
+    "outputs": [{ "product": "tapestries", "amount": 0.9 }]
   },
-  "weave tapestries 3": {
-    "name": "weave tapestries 3",
+  "weave tapestries 2": {
+    "name": "weave tapestries 2",
     "tier": 4,
-    "site": "tapestry weaver",
+    "site": "tapestry atelier",
     "upgrades": ["treadle loom"],
     "class": "textile",
     "points": 12,
     "inputs": [
-      { "product": "labour", "amount": 40 },
-      { "product": "dyed yarn", "amount": 60 },
-      { "product": "thread", "amount": 80 },
-      { "product": "silver bars", "amount": 0.1 },
-      { "product": "gold bars", "amount": 0.1 },
-      { "product": "looms", "amount": 0.25 }
+      { "product": "labour", "amount": 70 },
+      { "product": "dyed yarn", "amount": 30 },
+      { "product": "thread", "amount": 5 },
+      { "product": "gold bars", "amount": 0.15 },
+      { "product": "looms", "amount": 0.2 },
+      { "product": "paper", "amount": 0.5 },
+      { "product": "silver bars", "amount": 0.1 }
     ],
-    "outputs": [{ "product": "tapestries", "amount": 1.8 }],
-    "fallbacks": ["weave tapestries 2", "weave tapestries 1"]
+    "outputs": [{ "product": "tapestries", "amount": 1 }],
+    "fallbacks": ["weave tapestries 1"]
+  },
+  "weave tiretaine 1": {
+    "name": "weave tiretaine 1",
+    "tier": 2,
+    "site": "weavery",
+    "class": "textile",
+    "points": 2,
+    "inputs": [
+      { "product": "labour", "amount": 85 },
+      { "product": "tools", "amount": 2 },
+      { "product": "yarn", "amount": 50 },
+      { "product": "thread", "amount": 10 }
+    ],
+    "outputs": [{ "product": "raw cloth", "amount": 70 }],
+    "fallbacks": ["weave cloth 2 (yarn)"]
+  },
+  "weave tiretaine 2": {
+    "name": "weave tiretaine 2",
+    "tier": 3,
+    "site": "weavery",
+    "upgrades": ["treadle loom"],
+    "class": "textile",
+    "points": 2.5,
+    "inputs": [
+      { "product": "labour", "amount": 55 },
+      { "product": "tools", "amount": 2 },
+      { "product": "yarn", "amount": 75 },
+      { "product": "thread", "amount": 15 },
+      { "product": "looms", "amount": 0.2 }
+    ],
+    "outputs": [{ "product": "raw cloth", "amount": 105 }],
+    "fallbacks": [
+      "weave tiretaine 1",
+      "weave cloth 4 (yarn)",
+      "weave cloth 3 (yarn)",
+      "weave cloth 2 (yarn)"
+    ]
+  },
+  "weave tiretaine 3": {
+    "name": "weave tiretaine 3",
+    "tier": 4,
+    "site": "weavery",
+    "upgrades": ["treadle loom"],
+    "class": "textile",
+    "points": 3,
+    "inputs": [
+      { "product": "labour", "amount": 55 },
+      { "product": "tools", "amount": 2 },
+      { "product": "yarn", "amount": 48 },
+      { "product": "dyed yarn", "amount": 20 },
+      { "product": "thread", "amount": 16 },
+      { "product": "looms", "amount": 0.2 }
+    ],
+    "outputs": [{ "product": "raw cloth", "amount": 110 }],
+    "fallbacks": [
+      "weave tiretaine 2",
+      "weave tiretaine 1",
+      "weave cloth 4 (yarn)",
+      "weave cloth 3 (yarn)",
+      "weave cloth 2 (yarn)"
+    ]
   },
   "yoke ox 1": {
     "name": "yoke ox 1",
