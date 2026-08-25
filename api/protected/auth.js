@@ -23,9 +23,7 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
-    res
-      .status(200)
-      .json({ accessToken: token, userId: "admin", email: email });
+    res.status(200).json({ accessToken: token, userId: "admin", email: email });
   }
 
   if (!email || !password) {
@@ -36,13 +34,13 @@ router.post("/login", async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid email" });
     }
 
     // Compare the provided password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     // Generate a JWT token
@@ -97,7 +95,7 @@ router.put(
     auth, // This middleware ensures the user is authenticated
     check("currentPassword", "Current password is required").exists(),
     check("newPassword", "New password must be at least 8 characters").isLength(
-      { min: 8 }
+      { min: 8 },
     ),
   ],
   async (req, res) => {
@@ -134,12 +132,12 @@ router.put(
       console.error(err.message);
       res.status(500).send("Server error");
     }
-  }
+  },
 );
 
 // POST /api/auth/
 router.post("/", async (req, res) => {
-  const token = req.cookies.token;
+  const token = req.cookies?.token || null;
 
   if (!token) {
     return res.status(401).json({ message: "No token, please log in" });

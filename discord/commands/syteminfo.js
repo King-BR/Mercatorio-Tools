@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("systeminfo")
     .setDescription("Get system information."),
+
   /**
    * System Information Command
    * @param {import("discord.js").Client} client
@@ -46,9 +47,9 @@ module.exports = {
           1024 /
           1024
         ).toFixed(2)} GB used, ${(data.mem.free / 1024 / 1024 / 1024).toFixed(
-          2
+          2,
         )} GB free)`,
-      }
+      },
     );
 
     await interaction.reply({ embeds: [embed] });

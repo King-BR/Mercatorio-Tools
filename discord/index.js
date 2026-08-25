@@ -1,7 +1,10 @@
 const fs = require("fs");
 const path = require("path");
+const config = require("./config.json");
+const utils = require("./utils.js");
 const Discord = require("discord.js");
 const client = new Discord.Client({
+  allowedMentions: { parse: ["users", "roles"] },
   partials: [
     Discord.Partials.Message,
     Discord.Partials.User,
@@ -18,16 +21,8 @@ const client = new Discord.Client({
     Discord.GatewayIntentBits.DirectMessageReactions,
   ],
 });
-const config = require("./config.json");
 
 client.login(process.env.DISCORD_TOKEN);
-
-// Create event handler
-fs.readdirSync(path.join(__dirname, "events")).forEach((file) => {
-  const event = require(path.join(__dirname, "events", file));
-  const eventName = file.split(".")[0];
-  client.on(eventName, event.bind(null, client));
-});
 
 // Create command handler
 client.commands = new Discord.Collection();
@@ -45,10 +40,52 @@ for (const file of commandFiles) {
     commands.push(command.data.toJSON());
   } else {
     console.log(
-      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+    );
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
     );
   }
 }
+
+console.log(`Loaded ${commands.length} commands.`);
+
+// Create event handler
+client.events = new Discord.Collection();
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+
+  if (!event.name || !event.execute) {
+    console.log(
+      `[WARNING] The event at ${filePath} is missing a required "name" or "execute" property.`,
+    );
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `[WARNING] The event at ${filePath} is missing a required "name" or "execute" property.`,
+    );
+    continue;
+  }
+
+  client.events.set(event.name, event);
+
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(client, ...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(client, ...args));
+  }
+}
+
+console.log(`Loaded ${eventFiles.length} events.`);
 
 // Construct and prepare an instance of the REST module
 const rest = new Discord.REST().setToken(process.env.DISCORD_TOKEN);
@@ -56,16 +93,16 @@ const rest = new Discord.REST().setToken(process.env.DISCORD_TOKEN);
 (async () => {
   try {
     console.log(
-      `Started refreshing ${commands.length} application (/) commands.`
+      `Started refreshing ${commands.length} application (/) commands.`,
     );
 
     const data = await rest.put(
       Discord.Routes.applicationGuildCommands(config.clientId, config.guildId),
-      { body: commands }
+      { body: commands },
     );
 
     console.log(
-      `Successfully reloaded ${data.length} application (/) commands.`
+      `Successfully reloaded ${data.length} application (/) commands.`,
     );
   } catch (error) {
     console.error(error);
@@ -78,64 +115,4 @@ module.exports = {
    * @type {Discord.Client}
    */
   client,
-
-  /**
-   * Send a message to a channel
-   * @param {Discord.Snowflake} id
-   * @param {string} message
-   */
-  sendDiscordMessage: function (id, message) {
-    client.channels
-      .fetch(id)
-      .then((channel) => {
-        if (channel.isSendable()) {
-          channel.send(message).catch((error) => {
-            client.channels.fetch(config.errorChannelId).then((channel) => {
-              channel.send(
-                `**Error sending message to channel with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
-              );
-            });
-          });
-        } else {
-          client.channels.fetch(config.errorChannelId).then((channel) => {
-            channel.send(
-              `**Error sending message to channel with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\nChannel is not sendable.`
-            );
-          });
-        }
-      })
-      .catch((error) => {
-        client.channels.fetch(config.errorChannelId).then((channel) => {
-          channel.send(
-            `**Error sending message to channel with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
-          );
-        });
-      });
-  },
-
-  /**
-   * Send a private message to a user
-   * @param {Discord.Snowflake} id
-   * @param {string} message
-   */
-  sendDMMessage: function (id, message) {
-    client.users
-      .fetch(id)
-      .then((user) => {
-        user.send(message).catch((error) => {
-          client.channels.fetch(config.errorChannelId).then((channel) => {
-            channel.send(
-              `**Error sending DM to user ${user.tag}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
-            );
-          });
-        });
-      })
-      .catch((error) => {
-        client.channels.fetch(config.errorChannelId).then((channel) => {
-          channel.send(
-            `**Error fetching user with ID ${id}**\n\n> Message:\n${message}\n\n> Error:\n${error}`
-          );
-        });
-      });
-  },
 };

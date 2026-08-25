@@ -20,7 +20,7 @@ const app = express();
 const port = 3001;
 
 // Initialize discord bot
-// const client = require("./discord/index.js");
+const client = require("./discord/index.js");
 
 app.use(cors());
 app.use(express.json());
@@ -35,19 +35,19 @@ const pagesFiles = pagesFolder.filter((file) => file.endsWith(".html"));
 pagesFiles.forEach((file) => {
   app.use(
     `/${file.replace(".html", "")}`,
-    express.static(path.join(__dirname, "public", file))
+    express.static(path.join(__dirname, "public", file)),
   );
 });
 
 const dashboardFolder = fs.readdirSync(
-  path.join(__dirname, "public", "dashboard")
+  path.join(__dirname, "public", "dashboard"),
 );
 const dashboardFiles = dashboardFolder.filter((file) => file.endsWith(".html"));
 
 dashboardFiles.forEach((file) => {
   app.use(
     `/dashboard/${file.replace(".html", "")}`,
-    express.static(path.join(__dirname, "public", "dashboard", file))
+    express.static(path.join(__dirname, "public", "dashboard", file)),
   );
 });
 
@@ -55,7 +55,7 @@ dashboardFiles.forEach((file) => {
 const apiFolder = fs.readdirSync(path.join(__dirname, "api"));
 const apiFiles = apiFolder.filter((file) => file.endsWith(".js"));
 const apiProtectedFolder = fs.readdirSync(
-  path.join(__dirname, "api", "protected")
+  path.join(__dirname, "api", "protected"),
 );
 
 apiFiles.forEach((file) => {
