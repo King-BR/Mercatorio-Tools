@@ -60,7 +60,7 @@ module.exports = {
         });
         presenceIndex++;
 
-        console.log(`Presence updated to: ${presence.name} (${presence.type})`);
+        //console.log(`Presence updated to: ${presence.name} (${presence.type})`);
       }
     }, 60 * 1000);
 
