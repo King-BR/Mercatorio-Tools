@@ -63,8 +63,6 @@ const NotificationSchema = new mongoose.Schema(
       type: [ConditionSchema],
       required: true,
     },
-    _createdAt: { type: Date, default: Date.now },
-    _updatedAt: { type: Date, default: Date.now },
   },
   {
     collection: "Notifications-merc_tools",
