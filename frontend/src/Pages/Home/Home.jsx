@@ -10,7 +10,7 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
 
-  const filteredTools = useMemo(() => {
+  const filteredTools = () => {
     const searchTerm = search.trim().toLowerCase();
 
     return tools.filter((tool) => {
@@ -36,7 +36,7 @@ function Home() {
 
       return searchableText.includes(searchTerm);
     });
-  }, [selectedCategory, search]);
+  };
 
   const featuredTools = tools.filter((tool) => tool.featured);
 
