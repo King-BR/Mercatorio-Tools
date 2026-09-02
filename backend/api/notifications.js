@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const UsersDB = require("../models/users.js");
+const UsersDB = require("../models/user.js");
 const NotificationsDB = require("../models/notification.js");
 
 const router = express.Router();
