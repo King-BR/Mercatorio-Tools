@@ -25,32 +25,6 @@ const client = require("./discord/index.js");
 app.use(cors());
 app.use(express.json());
 
-// Serve main page
-app.use(express.static(path.join(__dirname, "public")));
-
-// Serve pages dynamically
-const pagesFolder = fs.readdirSync(path.join(__dirname, "public"));
-const pagesFiles = pagesFolder.filter((file) => file.endsWith(".html"));
-
-pagesFiles.forEach((file) => {
-  app.use(
-    `/${file.replace(".html", "")}`,
-    express.static(path.join(__dirname, "public", file)),
-  );
-});
-
-const dashboardFolder = fs.readdirSync(
-  path.join(__dirname, "public", "dashboard"),
-);
-const dashboardFiles = dashboardFolder.filter((file) => file.endsWith(".html"));
-
-dashboardFiles.forEach((file) => {
-  app.use(
-    `/dashboard/${file.replace(".html", "")}`,
-    express.static(path.join(__dirname, "public", "dashboard", file)),
-  );
-});
-
 // Import API routes
 const apiFolder = fs.readdirSync(path.join(__dirname, "api"));
 const apiFiles = apiFolder.filter((file) => file.endsWith(".js"));

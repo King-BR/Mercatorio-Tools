@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
 const toolSchema = new mongoose.Schema(
   {
-    id: { type: ObjectId, auto: true },
+    slug: { type: String },
     name: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
@@ -12,6 +12,9 @@ const toolSchema = new mongoose.Schema(
     status: { type: String, required: true },
     functional: { type: Boolean, required: true },
     featured: { type: Boolean, required: true },
+    external: { type: Boolean, required: true },
+    creator: { type: String, required: true },
+    manteiner: { type: String },
     tags: { type: [String], required: true },
   },
   {
@@ -20,5 +23,12 @@ const toolSchema = new mongoose.Schema(
   },
 );
 
+toolSchema.pre("save", function (next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name.toLowerCase().replace(/\s+/g, "-");
+  }
+  next();
+});
+
 const ToolsDB = mongoose.model("Tools", toolSchema);
-export default ToolsDB;
+module.exports = ToolsDB;

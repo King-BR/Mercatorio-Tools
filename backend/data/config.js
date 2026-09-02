@@ -43,4 +43,7 @@ module.exports = {
 
   // transports, money and buildings list
   business_url: `${this.base_url}/businesses/{businessID}`,
+
+  // recipes
+  recipes_url: `${this.base_url}/config/recipes`,
 };
