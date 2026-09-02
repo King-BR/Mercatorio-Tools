@@ -1,0 +1,575 @@
+.production-planner {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(30, 90, 150, 0.18),
+      transparent 35%
+    ),
+    #07111f;
+
+  color: #e8f1ff;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.production-sidebar {
+  width: 330px;
+  min-width: 330px;
+
+  height: 100%;
+
+  overflow-y: auto;
+
+  padding: 24px;
+
+  background: linear-gradient(180deg, #0b1a2c 0%, #081525 100%);
+
+  border-right: 1px solid rgba(100, 170, 230, 0.14);
+
+  box-sizing: border-box;
+}
+
+.sidebar-section {
+  margin-bottom: 24px;
+}
+
+.sidebar-section h2 {
+  margin: 0 0 8px;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sidebar-description {
+  margin: 0;
+
+  color: #8fa7c2;
+
+  line-height: 1.5;
+}
+
+.sidebar-section label,
+.recipe-selector label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #a9bdd4;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sidebar-section input,
+.recipe-selector select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
+  border: 1px solid rgba(100, 170, 230, 0.18);
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #101f32;
+
+  color: #e8f1ff;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.sidebar-section input:focus,
+.recipe-selector select:focus {
+  border-color: #3182ce;
+
+  background: #13263d;
+}
+
+.source-options {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 8px;
+}
+
+.source-options button {
+  padding: 10px;
+
+  border: 1px solid rgba(100, 170, 230, 0.18);
+
+  border-radius: 8px;
+
+  background: #101f32;
+
+  color: #91a9c3;
+
+  cursor: pointer;
+}
+
+.source-options button:hover {
+  background: #152b43;
+}
+
+.source-options button.active {
+  border-color: #3182ce;
+
+  background: #12375a;
+
+  color: #dcebff;
+}
+
+.calculate-button {
+  width: 100%;
+
+  margin-top: 8px;
+
+  padding: 13px 16px;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  background: linear-gradient(135deg, #1769aa, #245ca6);
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 24px rgba(20, 100, 180, 0.2);
+
+  transition:
+    transform 0.15s,
+    filter 0.15s;
+}
+
+.calculate-button:hover {
+  filter: brightness(1.12);
+
+  transform: translateY(-1px);
+}
+
+.info-box {
+  margin-bottom: 20px;
+
+  padding: 14px;
+
+  border: 1px solid rgba(60, 140, 220, 0.2);
+
+  border-radius: 9px;
+
+  background: rgba(20, 70, 120, 0.15);
+
+  color: #9db4cc;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+.info-box strong {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #dcecff;
+}
+
+.info-box p {
+  margin: 0;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.production-main {
+  display: flex;
+
+  flex: 1;
+
+  min-width: 0;
+
+  height: 100%;
+
+  flex-direction: column;
+}
+
+.production-toolbar {
+  display: flex;
+
+  align-items: center;
+
+  min-height: 74px;
+
+  padding: 15px 24px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid rgba(100, 170, 230, 0.12);
+
+  background: rgba(6, 17, 31, 0.85);
+
+  backdrop-filter: blur(10px);
+}
+
+.production-toolbar h1 {
+  margin: 0 0 3px;
+
+  font-size: 20px;
+}
+
+.production-toolbar p {
+  margin: 0;
+
+  color: #7f96af;
+
+  font-size: 13px;
+}
+
+.production-graph {
+  flex: 1;
+
+  min-height: 0;
+
+  position: relative;
+
+  background: #081423;
+}
+
+.react-flow__background {
+  background: #081423;
+}
+
+.react-flow__controls {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.react-flow__controls button {
+  background: #102237;
+
+  border-color: rgba(100, 170, 230, 0.15);
+
+  color: #dbeaff;
+}
+
+.react-flow__minimap {
+  background: #081525 !important;
+  border: 1px solid #243b53 !important;
+  border-radius: 8px;
+}
+
+.react-flow__minimap svg {
+  display: block;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(0, 0, 0, 0.45);
+}
+
+.react-flow__minimap-node {
+  stroke: none;
+}
+
+/* =========================================================
+   NODES
+   ========================================================= */
+
+.production-node {
+  min-width: 210px;
+
+  border: 1px solid rgba(90, 160, 220, 0.2);
+
+  border-radius: 10px;
+
+  background: linear-gradient(180deg, #12253b, #0d1c2d);
+
+  color: #e5effb;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.product-node {
+  padding: 14px;
+}
+
+.product-buy {
+  border-color: rgba(220, 170, 70, 0.45);
+
+  background: linear-gradient(180deg, #302b1c, #201f1a);
+}
+
+.product-raw {
+  border-color: rgba(100, 160, 210, 0.3);
+}
+
+.node-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.node-title {
+  font-weight: 700;
+
+  font-size: 14px;
+}
+
+.source-badge {
+  padding: 3px 6px;
+
+  border-radius: 5px;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+}
+
+.source-badge.produce {
+  background: #123b5d;
+
+  color: #6bb8ff;
+}
+
+.source-badge.buy {
+  background: #493c19;
+
+  color: #e4bd58;
+}
+
+.source-badge.raw {
+  background: #263342;
+
+  color: #aabbd0;
+}
+
+.node-value {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 12px;
+
+  color: #8fa8c2;
+
+  font-size: 11px;
+}
+
+.node-value strong {
+  color: #e1edfb;
+}
+
+.node-subvalue {
+  margin-top: 5px;
+
+  color: #728aa4;
+
+  font-size: 10px;
+
+  text-align: right;
+}
+
+/* Recipe node */
+
+.recipe-node {
+  min-width: 250px;
+
+  padding: 14px;
+}
+
+.recipe-node-title {
+  margin-bottom: 5px;
+
+  font-weight: 700;
+
+  font-size: 14px;
+
+  color: #e5f2ff;
+}
+
+.recipe-node-runs {
+  margin-bottom: 12px;
+
+  color: #7395b6;
+
+  font-size: 11px;
+}
+
+.recipe-node-section {
+  padding-top: 9px;
+
+  margin-top: 9px;
+
+  border-top: 1px solid rgba(100, 170, 230, 0.1);
+}
+
+.recipe-node-section strong {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #7db9ea;
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+}
+
+.recipe-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 3px 0;
+
+  color: #a6bad0;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.production-summary {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 90px;
+
+  overflow-x: auto;
+
+  padding: 12px 18px;
+
+  box-sizing: border-box;
+
+  border-top: 1px solid rgba(100, 170, 230, 0.12);
+
+  background: #091725;
+}
+
+.summary-card {
+  display: flex;
+
+  min-width: 110px;
+
+  flex-direction: column;
+
+  padding: 9px 12px;
+
+  border: 1px solid rgba(100, 170, 230, 0.12);
+
+  border-radius: 8px;
+
+  background: #0e2033;
+}
+
+.summary-card span {
+  color: #7088a0;
+
+  font-size: 10px;
+}
+
+.summary-card strong {
+  margin-top: 3px;
+
+  color: #dbeaff;
+
+  font-size: 14px;
+}
+
+.summary-card small {
+  margin-top: 2px;
+
+  color: #8ba4be;
+}
+
+.summary-list {
+  min-width: 200px;
+
+  padding: 8px 12px;
+
+  border-left: 1px solid rgba(100, 170, 230, 0.12);
+}
+
+.summary-list h3 {
+  margin: 0 0 5px;
+
+  color: #7894ae;
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+}
+
+.summary-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 2px 0;
+
+  color: #a8bdd3;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   ERRORS
+   ========================================================= */
+
+.error-panel {
+  position: absolute;
+
+  top: 90px;
+
+  right: 20px;
+
+  z-index: 10;
+
+  max-width: 400px;
+
+  padding: 12px 15px;
+
+  border: 1px solid rgba(220, 80, 80, 0.3);
+
+  border-radius: 8px;
+
+  background: #321c22;
+
+  color: #ffb3b3;
+
+  font-size: 12px;
+}

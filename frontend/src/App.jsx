@@ -1,7 +1,17 @@
-import Home from "./pages/Home/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Home from "./Pages/Home/Home";
+import ProductionPlanner from "./Pages/ProductionPlanner/ProductionPlanner";
 
 function App() {
-  return <Home />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/production-planner" element={<ProductionPlanner />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
