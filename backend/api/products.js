@@ -6,14 +6,22 @@ const router = express.Router();
 
 // GET /api/products
 router.get("/", (req, res) => {
-  // WIP
-  res.status(501).json({ message: "Not implemented" });
-});
+  try {
+    var recipes = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "../data/recipes.json")),
+    );
 
-// GET /api/products/:id
-router.get("/:id", (req, res) => {
-  // WIP
-  res.status(501).json({ message: "Not implemented" });
+    var products = new Set(["prestige", "health"]);
+
+    recipes.forEach((recipe) => {
+      recipe.inputs.forEach((input) => products.add(input.product));
+      recipe.outputs.forEach((output) => products.add(output.product));
+    });
+
+    res.json(Array.from(products));
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;

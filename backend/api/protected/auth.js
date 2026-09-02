@@ -24,6 +24,7 @@ router.post("/login", async (req, res) => {
     });
 
     res.status(200).json({ accessToken: token, userId: "admin", email: email });
+    return;
   }
 
   if (!email || !password) {

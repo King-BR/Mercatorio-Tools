@@ -25,7 +25,16 @@ async function getRecipes(force = false) {
 
     try {
       // get recipes from api
-      var newRecipes = await (await fetch(config.recipes_url)).json();
+      const newRecipes = await (
+        await fetch(config.recipes_url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.MERC_API_TOKEN}`,
+            "X-Merc-User": `${process.env.MERC_API_USER}`,
+          },
+        })
+      ).json();
 
       // save recipes to local file
       fs.writeFileSync(
@@ -77,7 +86,9 @@ async function getRecipes(force = false) {
 // GET /api/recipes
 router.get("/", async (req, res) => {
   try {
-    const recipes = await getRecipes();
+    const force = req.query.force === "true";
+    const recipes = await getRecipes(force);
+
     res.json(recipes);
   } catch (error) {
     console.error("Error fetching recipes:", error);
@@ -88,35 +99,56 @@ router.get("/", async (req, res) => {
 // Get recipe by name
 // GET /api/recipes/:name
 router.get("/:name", async (req, res) => {
-  const recipes = await getRecipes();
-  const recipe = recipes.get(req.params.name.toLowerCase());
-  if (recipe) {
-    res.json(recipe);
-  } else {
-    res.status(404).json({ message: "Recipe not found" });
+  try {
+    const force = req.query.force === "true";
+    const recipes = await getRecipes(force);
+    const recipe = recipes.get(req.params.name.toLowerCase());
+    if (recipe) {
+      res.json(recipe);
+    } else {
+      res.status(404).json({ message: "Recipe not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 // Get recipes by input product
 // GET /api/recipes/input/:product
-router.get("/input/:product", (req, res) => {
-  const recipes = Array.from(cache.values());
-  const product = req.params.product.toLowerCase();
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.inputs.some((input) => input.product.toLowerCase() === product),
-  );
-  res.json(filteredRecipes);
+router.get("/input/:product", async (req, res) => {
+  try {
+    const force = req.query.force === "true";
+    const recipesMap = await getRecipes(force);
+    const recipes = Array.from(recipesMap.values());
+    const product = req.params.product.toLowerCase();
+    const filteredRecipes = recipes.filter((recipe) =>
+      recipe.inputs.some((input) => input.product.toLowerCase() === product),
+    );
+
+    res.json(filteredRecipes);
+  } catch (error) {
+    console.error("Error fetching recipes by input product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // Get recipes by output product
 // GET /api/recipes/output/:product
-router.get("/output/:product", (req, res) => {
-  const recipes = Array.from(cache.values());
-  const product = req.params.product.toLowerCase();
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.outputs.some((output) => output.product.toLowerCase() === product),
-  );
-  res.json(filteredRecipes);
+router.get("/output/:product", async (req, res) => {
+  try {
+    const force = req.query.force === "true";
+    const recipesMap = await getRecipes(force);
+    const recipes = Array.from(recipesMap.values());
+    const product = req.params.product.toLowerCase();
+    const filteredRecipes = recipes.filter((recipe) =>
+      recipe.outputs.some((output) => output.product.toLowerCase() === product),
+    );
+    res.json(filteredRecipes);
+  } catch (error) {
+    console.error("Error fetching recipes by output product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 module.exports = router;
