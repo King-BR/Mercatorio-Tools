@@ -17,7 +17,7 @@ function ToolGrid({ tools, featured = false }) {
   return (
     <div className={`tool-grid ${featured ? "featured-grid" : ""}`}>
       {tools.map((tool) => (
-        <ToolCard key={tool.id} tool={tool} featured={featured} />
+        <ToolCard key={tool.slug} tool={tool} featured={featured} />
       ))}
     </div>
   );

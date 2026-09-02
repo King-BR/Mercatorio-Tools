@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-import { categories, tools } from "../../data/tools";
+import { categories, tools } from "../../data/tools.js";
 
 import ToolGrid from "../../components/ToolGrid/ToolGrid";
 
@@ -10,7 +10,7 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
 
-  const filteredTools = () => {
+  const filteredTools = useMemo(() => {
     const searchTerm = search.trim().toLowerCase();
 
     return tools.filter((tool) => {
@@ -36,7 +36,7 @@ function Home() {
 
       return searchableText.includes(searchTerm);
     });
-  };
+  }, [search, selectedCategory]);
 
   const featuredTools = tools.filter((tool) => tool.featured);
 
