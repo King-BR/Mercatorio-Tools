@@ -1,4 +1,4 @@
 # Mercatorio-Tools
-Public tools made by me for the Mercatorio game
+Index of public tools made by the Mercatorio community
 
 https://mercatorio-tools.tech
