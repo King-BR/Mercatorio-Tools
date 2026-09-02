@@ -4,43 +4,47 @@ const {
   operators: { all: operatorsEnum },
 } = require("../data/fields.js");
 
-const ConditionSchema = new mongoose.Schema({
-  field: {
-    type: String,
-    required: true,
-  },
-  operator: {
-    type: String,
-    required: true,
-    enum: operatorsEnum,
-  },
-  valueType: {
-    type: String,
-    enum: ["constant", "field"],
-    default: "constant",
-  },
-  value: {
-    type: Union,
-    of: [Number, Boolean, String],
-  },
-  aggregation: {
-    type: String,
-    enum: [null, "average", "min", "max", "sum", "count"],
-    default: null,
-  },
-  timeWindow: {
-    amount: Number,
-    unit: {
+const ConditionSchema = new mongoose.Schema(
+  {
+    field: {
       type: String,
-      enum: ["hours", "days", "weeks", "months"],
+      required: true,
+    },
+    operator: {
+      type: String,
+      required: true,
+      enum: operatorsEnum,
+    },
+    valueType: {
+      type: String,
+      enum: ["constant", "field"],
+      default: "constant",
+    },
+    value: {
+      type: Union,
+      of: [Number, Boolean, String],
+    },
+    aggregation: {
+      type: String,
+      enum: [null, "average", "min", "max", "sum", "count"],
+      default: null,
+    },
+    timeWindow: {
+      amount: Number,
+      unit: {
+        type: String,
+        enum: ["hours", "days", "weeks", "months"],
+      },
     },
   },
-});
+  {
+    _id: false,
+  },
+);
 
 const NotificationSchema = new mongoose.Schema(
   {
-    _id: { type: ObjectId, auto: true },
-    creatorId: { type: String, required: true },
+    creatorId: { type: ObjectId, required: true },
     message: { type: String, required: true },
     period: {
       type: [String],
@@ -67,18 +71,6 @@ const NotificationSchema = new mongoose.Schema(
   {
     collection: "Notifications-merc_tools",
     timestamps: true,
-    toJSON: {
-      transform: function (doc, ret) {
-        delete ret.__v;
-        return ret;
-      },
-    },
-    toObject: {
-      transform: function (doc, ret) {
-        delete ret.__v;
-        return ret;
-      },
-    },
   },
 );
 
