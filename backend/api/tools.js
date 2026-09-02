@@ -1,5 +1,5 @@
 const ToolsDB = require("../models/tools.js");
-
+const auth = require("../middleware/auth.js");
 const express = require("express");
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const newTool = new ToolsDB(req.body);
     const savedTool = await newTool.save();
@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const updatedTool = await ToolsDB.findByIdAndUpdate(
       req.params.id,
@@ -50,7 +50,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deletedTool = await ToolsDB.findByIdAndDelete(req.params.id);
     if (!deletedTool) {
