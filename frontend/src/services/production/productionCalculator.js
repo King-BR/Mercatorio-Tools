@@ -9,8 +9,8 @@ function cloneMap(map) {
 }
 
 /*
- * Calcula quantas vezes uma receita precisa ser executada
- * para produzir a quantidade desejada de determinado produto.
+ * Calculate the number of times a recipe needs to be executed
+ * to produce the desired amount of a specific product.
  */
 function calculateRecipeRuns(recipe, product, requiredAmount) {
   const output = getRecipeOutput(recipe, product);
@@ -23,7 +23,7 @@ function calculateRecipeRuns(recipe, product, requiredAmount) {
 }
 
 /*
- * Calcula uma linha de produção inteira.
+ * Calculate an entire production line.
  *
  * options:
  *
@@ -65,9 +65,9 @@ export function calculateProduction(recipes, recipeIndex, options) {
   };
 
   /*
-   * Controle de produtos que estão sendo resolvidos.
+   * Control of products that are being resolved.
    *
-   * Isso evita ciclos como:
+   * This prevents cycles like:
    *
    * A -> B -> C -> A
    */
@@ -83,18 +83,18 @@ export function calculateProduction(recipes, recipeIndex, options) {
      * LABOUR
      * =====================================================
      *
-     * Esta é a regra especial solicitada.
+     * This is a special rule.
      *
-     * Se labour for input:
+     * If labour is an input:
      *
      *     BUY
      *
-     * Se labour for o produto final:
+     * If labour is the final product:
      *
-     *     pode produzir
+     *     PRODUCE
      *
-     * Nunca expandimos labour automaticamente quando
-     * ele aparece como dependência.
+     * We never automatically expand labour when
+     * it appears as a dependency.
      */
     if (productName === "labour" && context.isInput) {
       addToMap(result.purchases, "labour", requiredAmount);
@@ -117,7 +117,7 @@ export function calculateProduction(recipes, recipeIndex, options) {
     }
 
     /*
-     * Verifica se o usuário escolheu comprar.
+     * Check if the user chose to buy.
      */
     const source = productSources[productName];
 
@@ -142,7 +142,7 @@ export function calculateProduction(recipes, recipeIndex, options) {
     }
 
     /*
-     * Verifica se já existe um ciclo.
+     * Check if a cycle already exists.
      */
     if (resolving.has(productName)) {
       result.errors.push({
@@ -157,8 +157,8 @@ export function calculateProduction(recipes, recipeIndex, options) {
     let selectedRecipeId = source?.recipeId;
 
     /*
-     * Se nenhuma receita foi selecionada,
-     * usa a receita do alvo ou a primeira disponível.
+     * If no recipe was selected,
+     * use the target's recipe or the first available one.
      */
     if (!selectedRecipeId) {
       selectedRecipeId = context.recipeId;
@@ -171,7 +171,7 @@ export function calculateProduction(recipes, recipeIndex, options) {
     }
 
     /*
-     * Produto sem receita.
+     * Product without a recipe.
      */
     if (!selectedRecipeId) {
       result.rawInputs[productName] =
@@ -219,7 +219,7 @@ export function calculateProduction(recipes, recipeIndex, options) {
     const runs = calculateRecipeRuns(recipe, productName, requiredAmount);
 
     /*
-     * Registra a receita.
+     * Register the recipe.
      */
     if (!result.recipes[selectedRecipeId]) {
       result.recipes[selectedRecipeId] = {
@@ -234,7 +234,7 @@ export function calculateProduction(recipes, recipeIndex, options) {
     result.recipes[selectedRecipeId].runs += runs;
 
     /*
-     * Registra produto produzido.
+     * Register produced product.
      */
     if (!result.products[productName]) {
       result.products[productName] = {
@@ -251,13 +251,13 @@ export function calculateProduction(recipes, recipeIndex, options) {
     result.products[productName].produced += output.amount * runs;
 
     /*
-     * Marca produto como sendo resolvido.
+     * Mark product as being resolved.
      */
     resolving.add(productName);
 
     /*
      * =====================================================
-     * INPUTS
+     * INPUTS (Ingredients)
      * =====================================================
      */
     if (Array.isArray(recipe.inputs)) {
@@ -284,10 +284,10 @@ export function calculateProduction(recipes, recipeIndex, options) {
 
     /*
      * =====================================================
-     * OUTPUTS
+     * OUTPUTS (Products)
      * =====================================================
      *
-     * A receita pode produzir vários produtos.
+     * The recipe can produce multiple products.
      */
     if (Array.isArray(recipe.outputs)) {
       for (const recipeOutput of recipe.outputs) {
@@ -304,12 +304,12 @@ export function calculateProduction(recipes, recipeIndex, options) {
         );
 
         /*
-         * Se esse output não for o produto que
-         * estamos tentando satisfazer, ele é
-         * inicialmente considerado excedente.
+         * If this output is not the product we
+         * are trying to satisfy, it is
+         * initially considered surplus.
          *
-         * Uma etapa futura pode consumir esse
-         * excedente em outra receita.
+         * A future step may consume this
+         * surplus in another recipe.
          */
         if (recipeOutput.product !== productName) {
           addToMap(result.surplus, recipeOutput.product, outputAmount);
@@ -321,9 +321,9 @@ export function calculateProduction(recipes, recipeIndex, options) {
   }
 
   /*
-   * O target é diferente de um input.
+   * The target is different from an input.
    *
-   * Isso faz labour poder ser produzido.
+   * This allows labour to be produced.
    */
   resolveProduct(product, amount, {
     isInput: false,

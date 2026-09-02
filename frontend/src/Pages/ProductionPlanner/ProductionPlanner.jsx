@@ -20,7 +20,7 @@ import "./ProductionPlanner.css";
 export default function ProductionPlanner() {
   const recipeIndex = buildRecipeIndex(recipes);
 
-  const products = Object.keys(recipeIndex.productRecipes).sort();
+  const products = recipeIndex.products.sort();
 
   const [product, setProduct] = useState(products[0] || "");
 
@@ -114,6 +114,7 @@ export default function ProductionPlanner() {
         recipes={recipes}
         recipeIndex={recipeIndex}
         product={product}
+        products={products}
         amount={amount}
         recipeId={recipeId}
         productSources={productSources}

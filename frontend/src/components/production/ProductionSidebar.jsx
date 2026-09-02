@@ -1,11 +1,16 @@
-import { getRecipesForProduct } from "../../services/production/recipeIndex";
+import {
+  getRecipesForProduct,
+  getProducts,
+} from "../../services/production/recipeIndex";
 
 import RecipeSelector from "./RecipeSelector";
+import ProductSelector from "./ProductSelector";
 
 export default function ProductionSidebar({
   recipes,
   recipeIndex,
   product,
+  products,
   amount,
   recipeId,
   productSources,
@@ -16,6 +21,7 @@ export default function ProductionSidebar({
   onCalculate,
 }) {
   const recipeIds = product ? getRecipesForProduct(recipeIndex, product) : [];
+  products = getProducts(recipeIndex);
 
   const source = productSources[product] || {
     type: "produce",
@@ -34,12 +40,10 @@ export default function ProductionSidebar({
       </div>
 
       <div className="sidebar-section">
-        <label>Target product</label>
-
-        <input
-          value={product}
-          onChange={(event) => onProductChange(event.target.value)}
-          placeholder="e.g. bronze ingots"
+        <ProductSelector
+          products={products}
+          selectedProduct={product}
+          onChange={onProductChange}
         />
       </div>
 

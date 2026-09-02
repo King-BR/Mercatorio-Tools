@@ -59,14 +59,7 @@ export default function ProductionGraph({ nodes, edges }) {
   console.log("GRAPH EDGES:", edges);
 
   console.log(
-    nodes.map((node) => ({
-      id: node.id,
-      type: node.type,
-      hidden: node.hidden,
-      position: node.position,
-      width: node.width,
-      height: node.height,
-    })),
+    nodes.map((node) => node),
   );
 
   return (
@@ -85,32 +78,26 @@ export default function ProductionGraph({ nodes, edges }) {
 
         <MiniMap
           nodeColor={(node) => {
-            switch (node.type) {
-              case "recipe":
-                return "#2563eb";
-
-              case "product":
-                if (node.data?.source === "buy") {
-                  return "#f59e0b";
-                }
-
-                if (node.data?.source === "raw") {
-                  return "#64748b";
-                }
-
-                return "#22c55e";
-
-              default:
-                return "#ffffff";
+            if (node.type === "recipe") {
+              return "#2563eb";
             }
+
+            if (node.type === "product") {
+              if (node.data?.source === "buy") {
+                return "#f59e0b";
+              }
+
+              if (node.data?.source === "raw") {
+                return "#64748b";
+              }
+
+              return "#22c55e";
+            }
+
+            return "#ffffff";
           }}
           nodeStrokeWidth={0}
           maskColor="rgba(0, 0, 0, 0.5)"
-          style={{
-            width: 200,
-            height: 150,
-            background: "#FCFCFC",
-          }}
         />
       </ReactFlow>
     </div>
