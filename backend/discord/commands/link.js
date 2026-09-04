@@ -1,34 +1,103 @@
-const { SlashCommandBuilder } = require("discord.js");
-const jwt = require("jsonwebtoken");
+const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+
+const API_URL =
+  process.env.MERCTOOLS_API_URL || "https://mercatorio-tools.tech";
+
+const API_KEY = process.env.MERCTOOLS_API_KEY;
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("link")
     .setDescription(
-      "Link your discord account to your Mercatorio Tools account.",
+      "Link your discord account to your Mercatorio Tools account",
+    )
+    .addStringOption((option) =>
+      option
+        .setName("code")
+        .setDescription("Link code displayed on Mercatorio Tools")
+        .setRequired(true),
     ),
 
-  /**
-   * Link Command
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").ChatInputCommandInteraction} interaction
-   */
-  async execute(client, interaction) {
-    const userId = interaction.user.id;
-    const token = jwt.sign({ discordId: userId }, process.env.JWT_SECRET, {
-      expiresIn: "5m",
-    });
+  async execute(interaction) {
+    const code = interaction.options
+      .getString("code", true)
+      .trim()
+      .toUpperCase();
 
-    const linkUrl = `${process.argv.includes("debug") ? process.env.DEBUG_BASE_URL : process.env.BASE_URL}/link?discordId=${userId}&token=${token}`;
+    const discordID = interaction.user.id;
 
-    await interaction.reply(
-      `Click [here](${linkUrl}) to connect your account. The link will expire in 5 minutes.`,
-    );
+    if (!API_KEY) {
+      console.error("MERCTOOLS_API_KEY is not configured.");
 
-    if (process.argv.includes("debug")) {
-      console.log(
-        `Link command executed by user ${interaction.user.tag} (${userId}).`,
-      );
+      return interaction.reply({
+        content:
+          "The bot is not configured correctly. Please try again later.",
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+
+    try {
+      const response = await fetch(`${MERCTOOLS_URL}/api/auth/discord/link`, {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+
+        body: JSON.stringify({
+          code,
+          discordID,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return interaction.reply({
+            content: "Invalid link code.",
+            flags: MessageFlags.Ephemeral,
+          });
+        }
+
+        if (response.status === 400) {
+          return interaction.reply({
+            content:
+              "This link code has expired. Generate a new code on Mercatorio Tools.",
+            flags: MessageFlags.Ephemeral,
+          });
+        }
+
+        if (response.status === 409) {
+          return interaction.reply({
+            content:
+              "This Discord account is already linked to another Mercatorio Tools account.",
+            flags: MessageFlags.Ephemeral,
+          });
+        }
+
+        console.error("Error linking Discord:", response.status, data);
+
+        return interaction.reply({
+          content: "Could not link your account. Please try again later.",
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+
+      return interaction.reply({
+        content:
+          "Your Discord account has been successfully linked to Mercatorio Tools!",
+        flags: MessageFlags.Ephemeral,
+      });
+    } catch (error) {
+      console.error("Error making link request:", error);
+
+      return interaction.reply({
+        content:
+          "An error occurred while trying to link your account. Please try again later.",
+        flags: MessageFlags.Ephemeral,
+      });
     }
   },
 };
