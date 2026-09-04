@@ -1,0 +1,442 @@
+.account-page {
+  min-height: 100vh;
+  background: #07111f;
+  color: #e8eef7;
+  padding: 40px 20px;
+}
+
+.account-container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.account-header {
+  margin-bottom: 32px;
+}
+
+.account-header h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+.account-header p {
+  margin: 0;
+  color: #91a0b5;
+}
+
+.account-section {
+  background: #0c1a2b;
+  border: 1px solid #1a2c43;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.section-header {
+  margin-bottom: 22px;
+}
+
+.section-header h2 {
+  margin: 0 0 7px;
+  font-size: 20px;
+}
+
+.section-header p {
+  margin: 0;
+  color: #91a0b5;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+
+  background: #081522;
+  border: 1px solid #233850;
+  border-radius: 8px;
+
+  color: #dce6f3;
+  font-size: 14px;
+}
+
+.form-group input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.form-group small {
+  color: #718198;
+  font-size: 12px;
+}
+
+/* Discord */
+
+.discord-unlinked,
+.discord-linked {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.discord-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.discord-info strong {
+  font-size: 15px;
+}
+
+.discord-info span {
+  color: #91a0b5;
+  font-size: 14px;
+}
+
+.discord-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.discord-status div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.discord-status span {
+  color: #91a0b5;
+  font-size: 13px;
+}
+
+.discord-id {
+  padding: 10px 12px;
+
+  background: #081522;
+  border: 1px solid #1a2c43;
+  border-radius: 7px;
+
+  color: #8292a8;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+/* Código */
+
+.discord-link-code {
+  padding: 20px;
+
+  background: #081522;
+  border: 1px solid #1d3855;
+  border-radius: 10px;
+}
+
+.code-label {
+  margin-bottom: 10px;
+
+  color: #91a0b5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.code-container {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.discord-code {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  padding: 12px 14px;
+
+  background: #0d2034;
+  border: 1px solid #294966;
+  border-radius: 8px;
+
+  color: #e8eef7;
+
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.copy-button {
+  padding: 0 16px;
+
+  background: #162b42;
+  border: 1px solid #294966;
+  border-radius: 8px;
+
+  color: #d9e6f5;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.copy-button:hover {
+  background: #1c3855;
+}
+
+.discord-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin-top: 16px;
+}
+
+.discord-instructions p {
+  margin: 0;
+
+  color: #91a0b5;
+  font-size: 13px;
+}
+
+.discord-instructions code {
+  width: fit-content;
+
+  padding: 8px 12px;
+
+  background: #050d16;
+  border: 1px solid #1a2c43;
+  border-radius: 6px;
+
+  color: #b9d5f2;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.code-expiration {
+  color: #718198;
+  font-size: 12px;
+}
+
+/* Notificações */
+
+.notification-options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 14px;
+
+  background: #081522;
+  border: 1px solid #1a2c43;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.checkbox-option:hover {
+  border-color: #294966;
+}
+
+.checkbox-option input {
+  width: 17px;
+  height: 17px;
+
+  margin-top: 2px;
+
+  accent-color: #3b82f6;
+}
+
+.checkbox-option input:disabled {
+  cursor: not-allowed;
+}
+
+.checkbox-option > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox-option strong {
+  font-size: 14px;
+}
+
+.checkbox-option span {
+  color: #8190a5;
+  font-size: 13px;
+}
+
+/* Segurança */
+
+.security-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.security-item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.security-item span {
+  color: #8190a5;
+  font-size: 13px;
+}
+
+/* Botões */
+
+.primary-button,
+.secondary-button {
+  border-radius: 8px;
+  padding: 10px 16px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.primary-button {
+  width: fit-content;
+
+  background: #2563eb;
+  border: 1px solid #3b82f6;
+
+  color: white;
+}
+
+.primary-button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.secondary-button {
+  width: fit-content;
+
+  background: #14263b;
+  border: 1px solid #294966;
+
+  color: #d8e4f2;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #1b344e;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled,
+.copy-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Mensagens */
+
+.success-message,
+.error-message {
+  padding: 12px 15px;
+
+  border-radius: 8px;
+
+  margin-bottom: 15px;
+
+  font-size: 14px;
+}
+
+.success-message {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #86efac;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+/* Ações */
+
+.account-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-button {
+  min-width: 160px;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .account-page {
+    padding: 25px 14px;
+  }
+
+  .account-section {
+    padding: 18px;
+  }
+
+  .code-container {
+    flex-direction: column;
+  }
+
+  .copy-button {
+    min-height: 42px;
+  }
+
+  .discord-code {
+    justify-content: center;
+  }
+
+  .security-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .security-item .secondary-button {
+    width: 100%;
+  }
+
+  .account-actions {
+    justify-content: stretch;
+  }
+
+  .save-button {
+    width: 100%;
+  }
+}

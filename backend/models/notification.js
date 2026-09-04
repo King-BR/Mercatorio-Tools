@@ -1,0 +1,77 @@
+const mongoose = require("mongoose");
+const { ObjectId, Union } = mongoose.Schema.Types;
+const {
+  operators: { all: operatorsEnum },
+} = require("../data/fields.js");
+
+const ConditionSchema = new mongoose.Schema(
+  {
+    field: {
+      type: String,
+      required: true,
+    },
+    operator: {
+      type: String,
+      required: true,
+      enum: operatorsEnum,
+    },
+    valueType: {
+      type: String,
+      enum: ["constant", "field"],
+      default: "constant",
+    },
+    value: {
+      type: Union,
+      of: [Number, Boolean, String],
+    },
+    aggregation: {
+      type: String,
+      enum: [null, "average", "min", "max", "sum", "count"],
+      default: null,
+    },
+    timeWindow: {
+      amount: Number,
+      unit: {
+        type: String,
+        enum: ["hours", "days", "weeks", "months"],
+      },
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+const NotificationSchema = new mongoose.Schema(
+  {
+    creatorId: { type: ObjectId, required: true },
+    message: { type: String, required: true },
+    period: {
+      type: [String],
+      enum: ["early", "mid", "late", "custom"],
+      required: true,
+    },
+    minutes: {
+      type: [Number],
+      required: function () {
+        return this.period.includes("custom");
+      },
+      validate: {
+        validator: function (v) {
+          return v.every((minute) => minute >= 5 && minute <= 59);
+        },
+        message: "Minutes must be between 5 and 59",
+      },
+    },
+    conditions: {
+      type: [ConditionSchema],
+      required: true,
+    },
+  },
+  {
+    collection: "Notifications-merc_tools",
+    timestamps: true,
+  },
+);
+
+module.exports = mongoose.model("Notification", NotificationSchema);
