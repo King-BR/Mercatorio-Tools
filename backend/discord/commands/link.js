@@ -1,9 +1,6 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
-const API_URL =
-  process.env.MERCTOOLS_API_URL || "https://mercatorio-tools.tech";
-
-const API_KEY = process.env.MERCTOOLS_API_KEY;
+const API_KEY = process.env.ADMIN_MERCTOOLS_KEY;
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -27,29 +24,31 @@ module.exports = {
     const discordID = interaction.user.id;
 
     if (!API_KEY) {
-      console.error("MERCTOOLS_API_KEY is not configured.");
+      console.error("ADMIN_MERCTOOLS_KEY is not configured.");
 
       return interaction.reply({
-        content:
-          "The bot is not configured correctly. Please try again later.",
+        content: "The bot is not configured correctly. Please try again later.",
         flags: MessageFlags.Ephemeral,
       });
     }
 
     try {
-      const response = await fetch(`${MERCTOOLS_URL}/api/auth/discord/link`, {
-        method: "POST",
+      const response = await fetch(
+        `${process.env.MERCTOOLS_URL}/api/auth/discord/link`,
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${API_KEY}`,
+          },
+
+          body: JSON.stringify({
+            code,
+            discordID,
+          }),
         },
-
-        body: JSON.stringify({
-          code,
-          discordID,
-        }),
-      });
+      );
 
       const data = await response.json().catch(() => ({}));
 
