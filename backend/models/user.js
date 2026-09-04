@@ -20,9 +20,18 @@ const ApiKeySchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema(
   {
-    email: { type: String, required: true, unique: true },
+    username: { type: String, unique: true },
+    email: { type: String, unique: true },
     password: { type: String, required: true },
     discordID: { type: String, required: false },
+    discordLinkCode: {
+      type: String,
+      default: null,
+    },
+    discordLinkCodeExpiresAt: {
+      type: Date,
+      default: null,
+    },
     apiKeys: { type: [ApiKeySchema], default: [] },
     isAdmin: { type: Boolean, default: false },
     notifications: [{ type: ObjectId }],
@@ -40,6 +49,10 @@ const UserSchema = new mongoose.Schema(
     toJSON: {
       transform: function (doc, ret) {
         delete ret.password;
+        delete ret.discordLinkCode;
+        delete ret.discordLinkCodeExpiresAt;
+
+        ret.email = ret.email?.substring(0, 4) + "**************";
 
         ret.apiKeys = ret.apiKeys.map((apiKey) => {
           var apiKeyJson = apiKey.toObject();
@@ -57,6 +70,10 @@ const UserSchema = new mongoose.Schema(
     toObject: {
       transform: function (doc, ret) {
         delete ret.password;
+        delete ret.discordLinkCode;
+        delete ret.discordLinkCodeExpiresAt;
+
+        ret.email = ret.email?.substring(0, 4) + "**************";
 
         ret.apiKeys = ret.apiKeys.map((apiKey) => {
           var apiKeyJson = apiKey.toObject();
