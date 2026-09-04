@@ -73,6 +73,15 @@ function ToolCard({ tool, featured = false }) {
             Coming soon
           </button>
         )}
+        {tool.sourceCode && (
+          <button
+            className="tool-button"
+            onClick={() => window.open(tool.sourceCode, "_blank")}
+          >
+            View source code
+            <span>→</span>
+          </button>
+        )}
       </div>
     </article>
   );

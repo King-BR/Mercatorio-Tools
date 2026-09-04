@@ -9,6 +9,7 @@ const toolSchema = new mongoose.Schema(
     category: { type: String, required: true },
     icon: { type: String, required: true },
     url: { type: String, required: true },
+    sourceCode: { type: String },
     status: { type: String, required: true },
     functional: { type: Boolean, required: true },
     featured: { type: Boolean, required: true },
