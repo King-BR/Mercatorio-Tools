@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
@@ -24,21 +25,16 @@ const client = require("./discord/index.js");
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+
+app.set("trust proxy", 1);
 
 // Import API routes
 const apiFolder = fs.readdirSync(path.join(__dirname, "api"));
 const apiFiles = apiFolder.filter((file) => file.endsWith(".js"));
-const apiProtectedFolder = fs.readdirSync(
-  path.join(__dirname, "api", "protected"),
-);
 
 apiFiles.forEach((file) => {
   const route = require(`./api/${file}`);
-  app.use(`/api/${file.replace(".js", "")}`, route);
-});
-
-apiProtectedFolder.forEach((file) => {
-  const route = require(`./api/protected/${file}`);
   app.use(`/api/${file.replace(".js", "")}`, route);
 });
 
