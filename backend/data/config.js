@@ -31,19 +31,23 @@
  * }
  */
 
-module.exports = {
-  base_url: "https://play.mercatorio.io/api",
-  base_transport_url: `${this.base_url}/transports`,
-  transport_url: `${this.base_transport_url}/{transportID}`,
-  travel_url: `${this.base_transport_url}/{transportID}/travel`,
-  player_url: `${this.base_url}/player`,
+const base_url = `${process.env.GAME_URL}/api`;
+const base_transport_url = `${base_url}/transports`;
+const base_building_url = `${base_url}/buildings`;
 
-  base_building_url: `${this.base_url}/buildings`,
-  building_url: `${this.base_building_url}/{buildingID}`,
+module.exports = {
+  base_url: base_url,
+  base_transport_url: base_transport_url,
+  transport_url: `${base_transport_url}/{transportID}`,
+  travel_url: `${base_transport_url}/{transportID}/travel`,
+  player_url: `${base_url}/player`,
+
+  base_building_url,
+  building_url: `${base_building_url}/{buildingID}`,
 
   // transports, money and buildings list
-  business_url: `${this.base_url}/businesses/{businessID}`,
+  business_url: `${base_url}/businesses/{businessID}`,
 
   // recipes
-  recipes_url: `${this.base_url}/config/recipes`,
+  recipes_url: `${base_url}/config/recipes`,
 };
