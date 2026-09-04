@@ -15,7 +15,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const redirectPath = location.state?.from?.pathname || "/Account";
+  const redirectPath = location.state?.from?.pathname || "/account";
 
   async function handleSubmit(event) {
     event.preventDefault();
