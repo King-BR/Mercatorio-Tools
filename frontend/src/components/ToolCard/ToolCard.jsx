@@ -28,9 +28,9 @@ function ToolCard({ tool, featured = false }) {
 
     // if tool is external open in new tab
     if (tool.external) {
-      window.open(tool.url, "_blank");
+      window.open(tool.url, "_blank", "noopener,noreferrer");
     } else {
-      window.location.href += tool.url;
+      window.location.assign(tool.url);
     }
   };
 
