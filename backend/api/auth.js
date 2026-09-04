@@ -399,6 +399,17 @@ router.post("/discord/link-code", auth, async (req, res) => {
   }
 });
 
+/*
+ * ==========================================
+ * LINK DISCORD ACCOUNT
+ * ==========================================
+ *
+ * POST /api/auth/discord/link
+ *
+ * Body parameters:
+ * - code: The Discord link code generated for the user
+ * - discordID: The Discord ID to link
+ */
 router.post("/discord/link", auth, admin, async (req, res) => {
   try {
     const { code, discordID } = req.body;
@@ -463,7 +474,16 @@ router.post("/discord/link", auth, admin, async (req, res) => {
   }
 });
 
-// generate MERCTOOLS api key
+/*
+ * ==========================================
+ * GENERATE MERCTOOLS API KEY
+ * ==========================================
+ *
+ * POST /api/auth/key/new
+ *
+ * Body parameters:
+ * - permissions: An array of permissions for the API key (optional)
+ */
 router.post("/key/new", auth, async (req, res) => {
   try {
     const apiKey = "MTKEY-" + crypto.randomBytes(16).toString("hex");
