@@ -66,62 +66,55 @@ function userResponse(user) {
  */
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { emailOrUsername, password } = req.body;
 
     /*
      * Basic validation
      */
-
-    if (!email || !password) {
+    if (!emailOrUsername || !password) {
       return res.status(400).json({
-        message: "Email and password are required",
-      });
-    }
-
-    const normalizedEmail = email.trim().toLowerCase();
-
-    if (!normalizedEmail) {
-      return res.status(400).json({
-        message: "Invalid email",
+        message: "Username/email and password are required",
       });
     }
 
     /*
-     * Password validation
+     * Find the user
      */
+    var existingUser = null;
 
-    if (password.length < 8) {
-      return res.status(400).json({
-        message: "Password must contain at least 8 characters",
+    if (emailOrUsername) {
+      existingUser = await UsersDB.findOne({
+        email: emailOrUsername,
       });
     }
 
-    /*
-     * Check if the user already exists
-     */
-
-    const existingUser = await UsersDB.findOne({
-      email: normalizedEmail,
-    });
+    if (emailOrUsername && !existingUser) {
+      existingUser = await UsersDB.findOne({
+        username: emailOrUsername,
+      });
+    }
 
     if (existingUser) {
       return res.status(409).json({
-        message: "An account with this email already exists",
+        message: "An account with this email or username already exists",
       });
     }
 
     /*
      * Create the password hash
      */
-
     const passwordHash = await bcrypt.hash(password, 12);
 
     /*
      * Create the user
      */
-
     const user = new UsersDB({
-      email: normalizedEmail,
+      email: emailOrUsername.includes("@")
+        ? emailOrUsername.trim().toLowerCase()
+        : undefined,
+      username: !emailOrUsername.includes("@")
+        ? emailOrUsername.trim()
+        : undefined,
       password: passwordHash,
     });
 
@@ -130,7 +123,6 @@ router.post("/register", async (req, res) => {
     /*
      * Automatically authenticate after registration
      */
-
     setAuthCookie(res, user);
 
     res.status(201).json({
@@ -467,6 +459,50 @@ router.post("/discord/link", auth, admin, async (req, res) => {
 
     res.status(500).json({
       message: "Server error",
+    });
+  }
+});
+
+// generate MERCTOOLS api key
+router.post("/key/new", auth, async (req, res) => {
+  try {
+    const apiKey = "MTKEY-" + crypto.randomBytes(16).toString("hex");
+
+    // Save the generated API key to the user's record
+    const user = await UsersDB.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    const perms = [];
+
+    if (req.body.permissions && Array.isArray(req.body.permissions)) {
+      perms.push(...req.body.permissions.map((p) => p.toUpperCase()));
+    }
+
+    if (perms.length === 0) {
+      perms.push("READ");
+    }
+
+    user.apiKeys.push({
+      key: apiKey,
+      keyType: "MERCTOOLS",
+      permissions: perms,
+    });
+
+    await user.save();
+
+    res.json({
+      apiKey,
+    });
+  } catch (err) {
+    console.error("Generate MERCTOOLS API key error:", err);
+
+    res.status(500).json({
+      message: "Server error",
+      error: err,
     });
   }
 });

@@ -7,12 +7,12 @@ const ApiKeySchema = new mongoose.Schema(
     keyType: {
       type: String,
       required: true,
-      enum: ["merctools", "game"],
+      enum: ["MERCTOOLS", "GAME"],
     },
     permissions: {
       type: [String],
-      default: ["read"],
-      enum: ["read", "write", "admin"],
+      default: ["READ"],
+      enum: ["READ", "WRITE", "ADMIN"],
     },
   },
   { _id: false, timestamps: true },
