@@ -1,0 +1,440 @@
+{
+  "tenants": [
+    {
+      "cost": 0,
+      "bonus": 2
+    },
+    {
+      "cost": 5,
+      "bonus": 2
+    },
+    {
+      "cost": 10,
+      "bonus": 2
+    },
+    {
+      "cost": 20,
+      "bonus": 2
+    },
+    {
+      "cost": 30,
+      "bonus": 2
+    },
+    {
+      "cost": 100,
+      "bonus": 5
+    },
+    {
+      "cost": 150,
+      "bonus": 5
+    },
+    {
+      "cost": 200,
+      "bonus": 5
+    },
+    {
+      "cost": 250,
+      "bonus": 5
+    },
+    {
+      "cost": 300,
+      "bonus": 5
+    },
+    {
+      "cost": 350,
+      "bonus": 5
+    },
+    {
+      "cost": 400,
+      "bonus": 5
+    },
+    {
+      "cost": 450,
+      "bonus": 5
+    },
+    {
+      "cost": 1000,
+      "bonus": 10
+    },
+    {
+      "cost": 1200,
+      "bonus": 10
+    },
+    {
+      "cost": 1400,
+      "bonus": 10
+    },
+    {
+      "cost": 1600,
+      "bonus": 10
+    },
+    {
+      "cost": 1800,
+      "bonus": 10
+    },
+    {
+      "cost": 2000,
+      "bonus": 10
+    },
+    {
+      "cost": 2200,
+      "bonus": 10
+    },
+    {
+      "cost": 2400,
+      "bonus": 10
+    },
+    {
+      "cost": 5000,
+      "bonus": 20
+    },
+    {
+      "cost": 6000,
+      "bonus": 20
+    },
+    {
+      "cost": 7000,
+      "bonus": 20
+    },
+    {
+      "cost": 8000,
+      "bonus": 20
+    },
+    {
+      "cost": 10000,
+      "bonus": 20
+    },
+    {
+      "cost": 12000,
+      "bonus": 20
+    },
+    {
+      "cost": 14000,
+      "bonus": 20
+    },
+    {
+      "cost": 16000,
+      "bonus": 20
+    },
+    {
+      "cost": 18000,
+      "bonus": 20
+    },
+    {
+      "cost": 20000,
+      "bonus": 20
+    }
+  ],
+  "management": [
+    {
+      "cost": 0,
+      "bonus": 8
+    },
+    {
+      "cost": 25,
+      "bonus": 2
+    },
+    {
+      "cost": 100,
+      "bonus": 2
+    },
+    {
+      "cost": 250,
+      "bonus": 2
+    },
+    {
+      "cost": 500,
+      "bonus": 2
+    },
+    {
+      "cost": 1000,
+      "bonus": 2
+    },
+    {
+      "cost": 2000,
+      "bonus": 2
+    },
+    {
+      "cost": 3000,
+      "bonus": 2
+    },
+    {
+      "cost": 5000,
+      "bonus": 2
+    },
+    {
+      "cost": 7500,
+      "bonus": 2
+    },
+    {
+      "cost": 10000,
+      "bonus": 2
+    },
+    {
+      "cost": 15000,
+      "bonus": 2
+    },
+    {
+      "cost": 20000,
+      "bonus": 2
+    }
+  ],
+  "transports": [
+    {
+      "cost": 0,
+      "bonus": 2
+    },
+    {
+      "cost": 10,
+      "bonus": 1
+    },
+    {
+      "cost": 25,
+      "bonus": 1
+    },
+    {
+      "cost": 50,
+      "bonus": 1
+    },
+    {
+      "cost": 100,
+      "bonus": 1
+    },
+    {
+      "cost": 250,
+      "bonus": 1
+    },
+    {
+      "cost": 500,
+      "bonus": 1
+    },
+    {
+      "cost": 1000,
+      "bonus": 1
+    },
+    {
+      "cost": 2000,
+      "bonus": 1
+    },
+    {
+      "cost": 3000,
+      "bonus": 1
+    },
+    {
+      "cost": 5000,
+      "bonus": 1
+    },
+    {
+      "cost": 7500,
+      "bonus": 1
+    },
+    {
+      "cost": 10000,
+      "bonus": 1
+    }
+  ],
+  "prestige_management": [
+    {
+      "cost": 0,
+      "bonus": 2
+    },
+    {
+      "cost": 100,
+      "bonus": 1
+    },
+    {
+      "cost": 250,
+      "bonus": 1
+    },
+    {
+      "cost": 500,
+      "bonus": 1
+    },
+    {
+      "cost": 1000,
+      "bonus": 1
+    },
+    {
+      "cost": 2000,
+      "bonus": 1
+    },
+    {
+      "cost": 3000,
+      "bonus": 1
+    },
+    {
+      "cost": 5000,
+      "bonus": 1
+    },
+    {
+      "cost": 10000,
+      "bonus": 1
+    }
+  ],
+  "cargo_slots": [
+    {
+      "cost": 50,
+      "bonus": 1
+    },
+    {
+      "cost": 100,
+      "bonus": 1
+    },
+    {
+      "cost": 250,
+      "bonus": 1
+    },
+    {
+      "cost": 500,
+      "bonus": 1
+    },
+    {
+      "cost": 750,
+      "bonus": 1
+    },
+    {
+      "cost": 1000,
+      "bonus": 1
+    },
+    {
+      "cost": 1500,
+      "bonus": 1
+    },
+    {
+      "cost": 2000,
+      "bonus": 1
+    },
+    {
+      "cost": 2500,
+      "bonus": 1
+    },
+    {
+      "cost": 3000,
+      "bonus": 1
+    },
+    {
+      "cost": 5000,
+      "bonus": 1
+    },
+    {
+      "cost": 7500,
+      "bonus": 1
+    },
+    {
+      "cost": 10000,
+      "bonus": 1
+    }
+  ],
+  "apprentices": [
+    {
+      "cost": 50,
+      "bonus": 1
+    },
+    {
+      "cost": 250,
+      "bonus": 1
+    },
+    {
+      "cost": 1000,
+      "bonus": 1
+    },
+    {
+      "cost": 2500,
+      "bonus": 1
+    },
+    {
+      "cost": 5000,
+      "bonus": 1
+    },
+    {
+      "cost": 7500,
+      "bonus": 1
+    },
+    {
+      "cost": 10000,
+      "bonus": 1
+    }
+  ],
+  "luxuries": [
+    {
+      "cost": 5,
+      "bonus": 1
+    },
+    {
+      "cost": 50,
+      "bonus": 1
+    },
+    {
+      "cost": 250,
+      "bonus": 1
+    },
+    {
+      "cost": 500,
+      "bonus": 1
+    },
+    {
+      "cost": 1000,
+      "bonus": 1
+    },
+    {
+      "cost": 2000,
+      "bonus": 1
+    }
+  ],
+  "scale_luxuries": [
+    {
+      "cost": 500,
+      "bonus": 1
+    },
+    {
+      "cost": 1500,
+      "bonus": 1
+    },
+    {
+      "cost": 3000,
+      "bonus": 1
+    }
+  ],
+  "contracts": [
+    {
+      "cost": 0,
+      "bonus": 40
+    },
+    {
+      "cost": 25,
+      "bonus": 0
+    },
+    {
+      "cost": 50,
+      "bonus": 20
+    },
+    {
+      "cost": 100,
+      "bonus": 20
+    },
+    {
+      "cost": 200,
+      "bonus": 20
+    },
+    {
+      "cost": 500,
+      "bonus": 50
+    },
+    {
+      "cost": 1000,
+      "bonus": 50
+    },
+    {
+      "cost": 1500,
+      "bonus": 50
+    },
+    {
+      "cost": 2000,
+      "bonus": 50
+    },
+    {
+      "cost": 5000,
+      "bonus": 100
+    }
+  ]
+}

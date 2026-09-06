@@ -1,0 +1,77 @@
+[
+  {
+    "type": "handcart",
+    "category": 2,
+    "tier": 1,
+    "capacity": 40,
+    "slots": 8,
+    "speed": 1,
+    "journey_duration": 4,
+    "effective_days": 25,
+    "moves": 2000,
+    "range": 500
+  },
+  {
+    "type": "tumbrel",
+    "category": 2,
+    "tier": 1,
+    "capacity": 80,
+    "slots": 14,
+    "speed": 2,
+    "journey_duration": 6,
+    "effective_days": 25,
+    "moves": 4000,
+    "range": 1000
+  },
+  {
+    "type": "snekkja",
+    "category": 1,
+    "tier": 1,
+    "capacity": 250,
+    "slots": 12,
+    "speed": 3,
+    "journey_duration": 2,
+    "effective_days": 12,
+    "catches": "fish",
+    "moves": 3000,
+    "range": 800,
+    "fishing_range": 250,
+    "catchment_radius": 9
+  },
+  {
+    "type": "cog",
+    "category": 1,
+    "tier": 2,
+    "capacity": 800,
+    "slots": 18,
+    "speed": 4,
+    "journey_duration": 3,
+    "effective_days": 12,
+    "moves": 4000,
+    "range": 1400
+  },
+  {
+    "type": "hulk",
+    "category": 1,
+    "tier": 2,
+    "capacity": 1400,
+    "slots": 24,
+    "speed": 4,
+    "journey_duration": 5,
+    "effective_days": 16,
+    "moves": 5600,
+    "range": 2400
+  },
+  {
+    "type": "premium cog",
+    "category": 1,
+    "tier": 2,
+    "capacity": 1000,
+    "slots": 30,
+    "speed": 5,
+    "journey_duration": 4,
+    "effective_days": 16,
+    "moves": 6000,
+    "range": 1500
+  }
+]

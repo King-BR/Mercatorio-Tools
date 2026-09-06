@@ -1,0 +1,1807 @@
+[
+  {
+    "name": "labour",
+    "type": "service",
+    "unit": "day",
+    "classes": [
+      "weaponry",
+      "forging",
+      "crafting",
+      "textile",
+      "nutrition",
+      "maritime",
+      "mercantile"
+    ],
+    "price": {
+      "low": 0.8,
+      "typical": 2,
+      "high": 4
+    }
+  },
+  {
+    "name": "protection",
+    "type": "service",
+    "unit": "patrol",
+    "classes": ["nutrition", "crafting", "forging", "weaponry"],
+    "price": {
+      "low": 1.5,
+      "typical": 3.5,
+      "high": 8
+    }
+  },
+  {
+    "name": "porterage",
+    "type": "service",
+    "unit": "delivery",
+    "classes": ["mercantile"],
+    "price": {
+      "low": 0.1,
+      "typical": 0.4,
+      "high": 1.4
+    }
+  },
+  {
+    "name": "ox power",
+    "type": "service",
+    "unit": "day",
+    "classes": [
+      "weaponry",
+      "forging",
+      "crafting",
+      "textile",
+      "nutrition",
+      "mercantile"
+    ],
+    "price": {
+      "low": 1,
+      "typical": 2.5,
+      "high": 6
+    }
+  },
+  {
+    "name": "lodging",
+    "type": "service",
+    "unit": "unit",
+    "classes": ["mercantile"],
+    "price": {
+      "low": 2,
+      "typical": 5,
+      "high": 8
+    }
+  },
+  {
+    "name": "firewood",
+    "type": "commodity",
+    "unit": "cartload",
+    "weight": 1260,
+    "classes": ["forging", "crafting", "textile", "nutrition", "mercantile"],
+    "size": 30,
+    "price": {
+      "low": 0.8,
+      "typical": 2,
+      "high": 12
+    }
+  },
+  {
+    "name": "charcoal",
+    "type": "commodity",
+    "unit": "quarter",
+    "weight": 160,
+    "classes": ["weaponry", "forging", "crafting", "textile", "nutrition"],
+    "size": 8,
+    "price": {
+      "low": 0.4,
+      "typical": 2,
+      "high": 10
+    }
+  },
+  {
+    "name": "timber",
+    "type": "commodity",
+    "unit": "stack",
+    "weight": 700,
+    "classes": ["weaponry", "forging", "crafting", "maritime", "mercantile"],
+    "size": 15,
+    "price": {
+      "low": 2,
+      "typical": 7.2,
+      "high": 16
+    }
+  },
+  {
+    "name": "logs",
+    "type": "commodity",
+    "unit": "log",
+    "weight": 980,
+    "classes": ["forging", "crafting", "maritime"],
+    "size": 20,
+    "price": {
+      "low": 1,
+      "typical": 4,
+      "high": 8
+    }
+  },
+  {
+    "name": "casks",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 12,
+    "classes": ["nutrition", "textile", "crafting", "forging", "maritime"],
+    "size": 2,
+    "price": {
+      "low": 2,
+      "typical": 5,
+      "high": 20
+    }
+  },
+  {
+    "name": "grindstones",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1000,
+    "classes": ["weaponry", "forging", "crafting", "nutrition"],
+    "size": 30,
+    "price": {
+      "low": 50,
+      "typical": 200,
+      "high": 400
+    }
+  },
+  {
+    "name": "sculptures",
+    "type": "commodity",
+    "unit": "sculpture",
+    "weight": 600,
+    "classes": ["forging", "crafting"],
+    "size": 30,
+    "price": {
+      "low": 800,
+      "typical": 1600,
+      "high": 3000
+    }
+  },
+  {
+    "name": "grain",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 56,
+    "classes": ["nutrition", "mercantile"],
+    "size": 2,
+    "calories": 86000,
+    "price": {
+      "low": 1,
+      "typical": 3,
+      "high": 10
+    }
+  },
+  {
+    "name": "flour",
+    "type": "commodity",
+    "unit": "sack",
+    "weight": 280,
+    "classes": ["nutrition"],
+    "size": 8,
+    "calories": 460000,
+    "price": {
+      "low": 8,
+      "typical": 17,
+      "high": 50
+    }
+  },
+  {
+    "name": "malt",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 56,
+    "classes": ["nutrition"],
+    "size": 2,
+    "calories": 80000,
+    "price": {
+      "low": 2,
+      "typical": 6,
+      "high": 20
+    }
+  },
+  {
+    "name": "bread",
+    "type": "commodity",
+    "unit": "basket",
+    "weight": 28,
+    "classes": ["nutrition", "mercantile"],
+    "size": 3,
+    "calories": 33600,
+    "price": {
+      "low": 1.5,
+      "typical": 2.5,
+      "high": 7
+    }
+  },
+  {
+    "name": "beer",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 80,
+    "classes": ["nutrition", "mercantile"],
+    "size": 2,
+    "calories": 13600,
+    "price": {
+      "low": 1.5,
+      "typical": 3.5,
+      "high": 8
+    }
+  },
+  {
+    "name": "flax fibres",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 56,
+    "classes": ["textile", "crafting"],
+    "size": 2,
+    "price": {
+      "low": 1.5,
+      "typical": 6,
+      "high": 15
+    }
+  },
+  {
+    "name": "cloth",
+    "type": "commodity",
+    "unit": "yard",
+    "weight": 1,
+    "classes": ["crafting", "textile", "nutrition", "maritime", "mercantile"],
+    "size": 1,
+    "price": {
+      "low": 4,
+      "typical": 8,
+      "high": 18
+    }
+  },
+  {
+    "name": "garments",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["weaponry", "textile", "mercantile"],
+    "size": 1,
+    "price": {
+      "low": 10,
+      "typical": 24,
+      "high": 40
+    }
+  },
+  {
+    "name": "hides",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 40,
+    "classes": ["weaponry", "crafting", "nutrition"],
+    "size": 2,
+    "price": {
+      "low": 4,
+      "typical": 12,
+      "high": 30
+    }
+  },
+  {
+    "name": "leather",
+    "type": "commodity",
+    "unit": "yard",
+    "weight": 25,
+    "classes": ["crafting", "textile"],
+    "size": 2,
+    "price": {
+      "low": 10,
+      "typical": 24,
+      "high": 50
+    }
+  },
+  {
+    "name": "tools",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 6,
+    "classes": [
+      "weaponry",
+      "forging",
+      "crafting",
+      "textile",
+      "nutrition",
+      "maritime"
+    ],
+    "size": 1,
+    "price": {
+      "low": 2,
+      "typical": 5,
+      "high": 20
+    }
+  },
+  {
+    "name": "arms",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 10,
+    "classes": ["weaponry"],
+    "size": 2,
+    "price": {
+      "low": 10,
+      "typical": 24,
+      "high": 50
+    }
+  },
+  {
+    "name": "mouldboards",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 32,
+    "classes": ["forging", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 20,
+      "typical": 40,
+      "high": 100
+    }
+  },
+  {
+    "name": "ploughs",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 100,
+    "classes": ["crafting", "textile", "nutrition"],
+    "size": 10,
+    "price": {
+      "low": 30,
+      "typical": 80,
+      "high": 160
+    }
+  },
+  {
+    "name": "salt",
+    "type": "commodity",
+    "unit": "gallon",
+    "weight": 8,
+    "classes": ["weaponry", "forging", "crafting", "nutrition"],
+    "size": 1,
+    "price": {
+      "low": 1.5,
+      "typical": 4,
+      "high": 12
+    }
+  },
+  {
+    "name": "cheese",
+    "type": "commodity",
+    "unit": "wheel",
+    "weight": 12,
+    "classes": ["nutrition"],
+    "size": 1,
+    "calories": 20000,
+    "price": {
+      "low": 2,
+      "typical": 6,
+      "high": 14
+    }
+  },
+  {
+    "name": "milk",
+    "type": "service",
+    "unit": "cask",
+    "weight": 80,
+    "classes": ["nutrition"],
+    "size": 2,
+    "price": {
+      "low": 1,
+      "typical": 2,
+      "high": 3.5
+    }
+  },
+  {
+    "name": "meat",
+    "type": "service",
+    "unit": "stone",
+    "weight": 8,
+    "classes": ["nutrition", "weaponry"],
+    "size": 1,
+    "calories": 8000,
+    "price": {
+      "low": 1,
+      "typical": 2.2,
+      "high": 5
+    }
+  },
+  {
+    "name": "cured meat",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 64,
+    "classes": ["weaponry", "nutrition", "mercantile"],
+    "size": 2,
+    "calories": 64000,
+    "price": {
+      "low": 10,
+      "typical": 24.5,
+      "high": 40
+    }
+  },
+  {
+    "name": "fish",
+    "type": "service",
+    "unit": "stone",
+    "weight": 8,
+    "classes": ["nutrition", "maritime"],
+    "size": 1,
+    "calories": 8000,
+    "price": {
+      "low": 1,
+      "typical": 2.2,
+      "high": 5
+    }
+  },
+  {
+    "name": "cured fish",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 64,
+    "classes": ["nutrition", "maritime", "mercantile"],
+    "size": 2,
+    "calories": 64000,
+    "price": {
+      "low": 10,
+      "typical": 25.5,
+      "high": 40
+    }
+  },
+  {
+    "name": "cattle",
+    "type": "commodity",
+    "unit": "animal",
+    "weight": 550,
+    "classes": ["nutrition"],
+    "size": 20,
+    "price": {
+      "low": 50,
+      "typical": 100,
+      "high": 200
+    }
+  },
+  {
+    "name": "manure",
+    "type": "commodity",
+    "unit": "cartload",
+    "weight": 1400,
+    "classes": ["nutrition"],
+    "size": 20,
+    "price": {
+      "low": 0.1,
+      "typical": 0.5,
+      "high": 2
+    }
+  },
+  {
+    "name": "iron ore",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 80,
+    "classes": ["nutrition", "forging"],
+    "size": 5,
+    "price": {
+      "low": 1.5,
+      "typical": 4,
+      "high": 8
+    }
+  },
+  {
+    "name": "wrought iron",
+    "type": "commodity",
+    "unit": "stone",
+    "weight": 14,
+    "classes": ["forging", "weaponry", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 5,
+      "typical": 12.5,
+      "high": 28
+    }
+  },
+  {
+    "name": "steel ingots",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["weaponry", "forging", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 5,
+      "typical": 15,
+      "high": 30
+    }
+  },
+  {
+    "name": "nails",
+    "type": "commodity",
+    "unit": "bag",
+    "weight": 1,
+    "classes": ["forging", "crafting", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 1,
+      "typical": 6,
+      "high": 20
+    }
+  },
+  {
+    "name": "copper ore",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 80,
+    "classes": ["nutrition", "forging"],
+    "size": 5,
+    "price": {
+      "low": 10,
+      "typical": 20,
+      "high": 40
+    }
+  },
+  {
+    "name": "copper ingots",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["weaponry", "forging", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 3,
+      "typical": 13,
+      "high": 30
+    }
+  },
+  {
+    "name": "gold ore",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 80,
+    "classes": ["forging", "crafting"],
+    "size": 5,
+    "price": {
+      "low": 90,
+      "typical": 160,
+      "high": 240
+    }
+  },
+  {
+    "name": "gold bars",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["textile", "crafting", "forging", "weaponry"],
+    "size": 1,
+    "price": {
+      "low": 750,
+      "typical": 825,
+      "high": 900
+    }
+  },
+  {
+    "name": "donations",
+    "type": "service",
+    "unit": "blessing",
+    "price": {
+      "low": 1,
+      "typical": 1,
+      "high": 1
+    }
+  },
+  {
+    "name": "clay",
+    "type": "commodity",
+    "unit": "cartload",
+    "weight": 1400,
+    "classes": ["forging", "textile"],
+    "size": 40,
+    "price": {
+      "low": 0.5,
+      "typical": 2.5,
+      "high": 12
+    }
+  },
+  {
+    "name": "bricks",
+    "type": "commodity",
+    "unit": "stack",
+    "weight": 720,
+    "classes": ["forging", "crafting"],
+    "size": 20,
+    "price": {
+      "low": 0.5,
+      "typical": 5,
+      "high": 15
+    }
+  },
+  {
+    "name": "tiles",
+    "type": "commodity",
+    "unit": "stack",
+    "weight": 300,
+    "classes": ["forging"],
+    "size": 10,
+    "price": {
+      "low": 0.3,
+      "typical": 3,
+      "high": 12
+    }
+  },
+  {
+    "name": "limestone",
+    "type": "commodity",
+    "unit": "stack",
+    "weight": 1120,
+    "classes": ["forging", "crafting", "nutrition"],
+    "size": 40,
+    "price": {
+      "low": 2,
+      "typical": 18,
+      "high": 50
+    }
+  },
+  {
+    "name": "slaked lime",
+    "type": "commodity",
+    "unit": "sack",
+    "weight": 50,
+    "classes": ["nutrition", "crafting", "forging"],
+    "size": 3,
+    "price": {
+      "low": 1.5,
+      "typical": 5,
+      "high": 20
+    }
+  },
+  {
+    "name": "handcart",
+    "type": "special",
+    "unit": "cart",
+    "weight": 1500,
+    "classes": ["crafting", "mercantile"],
+    "price": {
+      "low": 200,
+      "typical": 450,
+      "high": 700
+    }
+  },
+  {
+    "name": "tumbrel",
+    "type": "special",
+    "unit": "wagon",
+    "weight": 2000,
+    "classes": ["crafting", "mercantile"],
+    "price": {
+      "low": 600,
+      "typical": 1300,
+      "high": 1900
+    }
+  },
+  {
+    "name": "snekkja",
+    "type": "special",
+    "unit": "ship",
+    "weight": 3000,
+    "classes": ["maritime"],
+    "price": {
+      "low": 1800,
+      "typical": 2600,
+      "high": 3800
+    }
+  },
+  {
+    "name": "cog",
+    "type": "special",
+    "unit": "ship",
+    "weight": 6000,
+    "classes": ["maritime"],
+    "price": {
+      "low": 7000,
+      "typical": 10000,
+      "high": 16000
+    }
+  },
+  {
+    "name": "hulk",
+    "type": "special",
+    "unit": "ship",
+    "weight": 12000,
+    "classes": ["maritime"],
+    "price": {
+      "low": 10000,
+      "typical": 24000,
+      "high": 25000
+    }
+  },
+  {
+    "name": "premium cog",
+    "type": "special",
+    "unit": "item",
+    "weight": 8000,
+    "classes": ["maritime"],
+    "price": {
+      "low": 12000,
+      "typical": 18000,
+      "high": 28000
+    }
+  },
+  {
+    "name": "wine",
+    "type": "commodity",
+    "unit": "gallon",
+    "classes": ["nutrition"],
+    "size": 1,
+    "price": {
+      "low": 3,
+      "typical": 6,
+      "high": 10
+    }
+  },
+  {
+    "name": "wool",
+    "type": "commodity",
+    "unit": "sack",
+    "weight": 19,
+    "classes": ["crafting", "textile"],
+    "size": 1,
+    "price": {
+      "low": 5,
+      "typical": 10,
+      "high": 25
+    }
+  },
+  {
+    "name": "thread",
+    "type": "commodity",
+    "unit": "hank",
+    "weight": 1,
+    "classes": ["textile", "crafting", "forging", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 1,
+      "typical": 5,
+      "high": 20
+    }
+  },
+  {
+    "name": "rope",
+    "type": "commodity",
+    "unit": "coil",
+    "weight": 20,
+    "classes": ["maritime", "weaponry", "crafting", "nutrition"],
+    "size": 2,
+    "price": {
+      "low": 20,
+      "typical": 80,
+      "high": 240
+    }
+  },
+  {
+    "name": "nets",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 15,
+    "classes": ["weaponry", "nutrition", "maritime"],
+    "size": 2,
+    "price": {
+      "low": 10,
+      "typical": 40,
+      "high": 160
+    }
+  },
+  {
+    "name": "silver bars",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["forging", "crafting", "textile"],
+    "size": 1,
+    "price": {
+      "low": 150,
+      "typical": 285,
+      "high": 400
+    }
+  },
+  {
+    "name": "lead ore",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 100,
+    "classes": ["forging"],
+    "size": 5,
+    "price": {
+      "low": 1.5,
+      "typical": 6,
+      "high": 24
+    }
+  },
+  {
+    "name": "lead bars",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 4,
+    "classes": ["nutrition", "textile", "crafting", "forging"],
+    "size": 1,
+    "price": {
+      "low": 4,
+      "typical": 10,
+      "high": 30
+    }
+  },
+  {
+    "name": "resin",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 80,
+    "classes": ["nutrition", "forging"],
+    "size": 2,
+    "price": {
+      "low": 1,
+      "typical": 3,
+      "high": 10
+    }
+  },
+  {
+    "name": "tar",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 80,
+    "classes": ["forging", "crafting", "nutrition", "maritime"],
+    "size": 2,
+    "price": {
+      "low": 2.5,
+      "typical": 10,
+      "high": 30
+    }
+  },
+  {
+    "name": "glass ingots",
+    "type": "commodity",
+    "unit": "block",
+    "weight": 10,
+    "classes": ["forging", "crafting"],
+    "size": 2,
+    "price": {
+      "low": 15,
+      "typical": 60,
+      "high": 120
+    }
+  },
+  {
+    "name": "glassware",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["crafting", "nutrition"],
+    "size": 1,
+    "price": {
+      "low": 12.5,
+      "typical": 50,
+      "high": 120
+    }
+  },
+  {
+    "name": "windows",
+    "type": "commodity",
+    "unit": "sheet",
+    "weight": 10,
+    "classes": ["crafting"],
+    "size": 5,
+    "price": {
+      "low": 250,
+      "typical": 600,
+      "high": 1200
+    }
+  },
+  {
+    "name": "alembics",
+    "type": "commodity",
+    "unit": "beaker",
+    "weight": 4,
+    "classes": ["crafting", "nutrition"],
+    "size": 2,
+    "price": {
+      "low": 100,
+      "typical": 250,
+      "high": 500
+    }
+  },
+  {
+    "name": "spirits",
+    "type": "commodity",
+    "unit": "pint",
+    "weight": 2,
+    "classes": ["nutrition", "crafting", "weaponry"],
+    "size": 1,
+    "price": {
+      "low": 4,
+      "typical": 10,
+      "high": 30
+    }
+  },
+  {
+    "name": "herbs",
+    "type": "commodity",
+    "unit": "bag",
+    "weight": 4,
+    "classes": ["crafting", "nutrition"],
+    "size": 1,
+    "price": {
+      "low": 15,
+      "typical": 40,
+      "high": 100
+    }
+  },
+  {
+    "name": "medicine",
+    "type": "commodity",
+    "unit": "pint",
+    "weight": 2,
+    "classes": ["nutrition", "weaponry"],
+    "size": 1,
+    "price": {
+      "low": 25,
+      "typical": 100,
+      "high": 200
+    }
+  },
+  {
+    "name": "wheels",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["forging", "crafting", "maritime", "mercantile"],
+    "size": 2,
+    "price": {
+      "low": 3,
+      "typical": 24,
+      "high": 48
+    }
+  },
+  {
+    "name": "furniture",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 20,
+    "classes": ["crafting", "mercantile"],
+    "size": 4,
+    "price": {
+      "low": 5,
+      "typical": 14,
+      "high": 40
+    }
+  },
+  {
+    "name": "cookware",
+    "type": "commodity",
+    "unit": "pot",
+    "weight": 3,
+    "classes": ["forging", "crafting", "textile", "nutrition", "mercantile"],
+    "size": 1,
+    "price": {
+      "low": 7,
+      "typical": 20,
+      "high": 50
+    }
+  },
+  {
+    "name": "jewellery",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["textile", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 25,
+      "typical": 75,
+      "high": 150
+    }
+  },
+  {
+    "name": "pickaxes",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 3,
+    "classes": ["forging", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 3,
+      "typical": 12,
+      "high": 48
+    }
+  },
+  {
+    "name": "axes",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 3,
+    "classes": ["forging", "crafting", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 4,
+      "typical": 16,
+      "high": 64
+    }
+  },
+  {
+    "name": "swords",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["weaponry"],
+    "size": 2,
+    "price": {
+      "low": 60,
+      "typical": 160,
+      "high": 500
+    }
+  },
+  {
+    "name": "hop beer",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 80,
+    "classes": ["nutrition"],
+    "size": 2,
+    "price": {
+      "low": 3,
+      "typical": 8,
+      "high": 16
+    }
+  },
+  {
+    "name": "flax plants",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 56,
+    "classes": ["nutrition", "textile", "crafting"],
+    "size": 2,
+    "price": {
+      "low": 0.4,
+      "typical": 1.5,
+      "high": 6
+    }
+  },
+  {
+    "name": "dye",
+    "type": "commodity",
+    "unit": "bottle",
+    "weight": 1,
+    "classes": ["nutrition", "textile", "crafting", "forging"],
+    "size": 1,
+    "price": {
+      "low": 10,
+      "typical": 50,
+      "high": 120
+    }
+  },
+  {
+    "name": "dyed cloth",
+    "type": "commodity",
+    "unit": "yard",
+    "weight": 1,
+    "classes": ["weaponry", "crafting", "textile"],
+    "size": 1,
+    "price": {
+      "low": 4,
+      "typical": 12,
+      "high": 24
+    }
+  },
+  {
+    "name": "coats",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["weaponry", "textile"],
+    "size": 1,
+    "price": {
+      "low": 25,
+      "typical": 80,
+      "high": 160
+    }
+  },
+  {
+    "name": "yarn",
+    "type": "commodity",
+    "unit": "hank",
+    "weight": 1,
+    "classes": ["textile"],
+    "size": 1,
+    "price": {
+      "low": 1,
+      "typical": 5,
+      "high": 12
+    }
+  },
+  {
+    "name": "ham",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 64,
+    "classes": ["nutrition"],
+    "size": 2,
+    "price": {
+      "low": 50,
+      "typical": 80,
+      "high": 140
+    }
+  },
+  {
+    "name": "stockfish",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 64,
+    "classes": ["maritime"],
+    "size": 2,
+    "price": {
+      "low": 50,
+      "typical": 80,
+      "high": 140
+    }
+  },
+  {
+    "name": "blades",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["forging", "crafting", "textile", "nutrition", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 3.5,
+      "typical": 14,
+      "high": 40
+    }
+  },
+  {
+    "name": "chisels",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["weaponry", "forging", "crafting", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 2.5,
+      "typical": 8,
+      "high": 20
+    }
+  },
+  {
+    "name": "scythes",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 4,
+    "classes": ["crafting", "textile", "nutrition"],
+    "size": 2,
+    "price": {
+      "low": 6,
+      "typical": 24,
+      "high": 48
+    }
+  },
+  {
+    "name": "harnesses",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["nutrition", "crafting", "forging", "weaponry"],
+    "size": 2,
+    "price": {
+      "low": 20,
+      "typical": 40,
+      "high": 80
+    }
+  },
+  {
+    "name": "belts",
+    "type": "commodity",
+    "unit": "bundle",
+    "weight": 2,
+    "classes": ["crafting", "textile"],
+    "size": 2,
+    "price": {
+      "low": 12,
+      "typical": 30,
+      "high": 60
+    }
+  },
+  {
+    "name": "light armour",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 8,
+    "classes": ["weaponry", "crafting", "textile"],
+    "size": 3,
+    "price": {
+      "low": 30,
+      "typical": 80,
+      "high": 240
+    }
+  },
+  {
+    "name": "pasties",
+    "type": "commodity",
+    "unit": "basket",
+    "weight": 40,
+    "classes": ["nutrition"],
+    "size": 3,
+    "price": {
+      "low": 6,
+      "typical": 15,
+      "high": 28
+    }
+  },
+  {
+    "name": "butter",
+    "type": "commodity",
+    "unit": "tub",
+    "weight": 84,
+    "classes": ["nutrition", "textile"],
+    "size": 3,
+    "price": {
+      "low": 40,
+      "typical": 80,
+      "high": 150
+    }
+  },
+  {
+    "name": "pies",
+    "type": "commodity",
+    "unit": "basket",
+    "weight": 40,
+    "classes": ["nutrition"],
+    "size": 3,
+    "price": {
+      "low": 10,
+      "typical": 20,
+      "high": 35
+    }
+  },
+  {
+    "name": "honey",
+    "type": "commodity",
+    "unit": "gallon",
+    "weight": 8,
+    "classes": ["nutrition"],
+    "size": 1,
+    "price": {
+      "low": 2,
+      "typical": 8,
+      "high": 24
+    }
+  },
+  {
+    "name": "wax",
+    "type": "commodity",
+    "unit": "gallon",
+    "weight": 8,
+    "classes": ["forging", "crafting", "nutrition", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 10,
+      "typical": 24,
+      "high": 75
+    }
+  },
+  {
+    "name": "candles",
+    "type": "commodity",
+    "unit": "bundle",
+    "weight": 12,
+    "classes": ["crafting"],
+    "size": 1,
+    "price": {
+      "low": 32,
+      "typical": 72,
+      "high": 200
+    }
+  },
+  {
+    "name": "sails",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 10,
+    "classes": ["nutrition", "maritime"],
+    "size": 10,
+    "price": {
+      "low": 200,
+      "typical": 600,
+      "high": 1200
+    }
+  },
+  {
+    "name": "bellows",
+    "type": "commodity",
+    "unit": "unit",
+    "weight": 50,
+    "classes": ["weaponry", "forging", "crafting"],
+    "size": 5,
+    "price": {
+      "low": 75,
+      "typical": 200,
+      "high": 300
+    }
+  },
+  {
+    "name": "spinning wheels",
+    "type": "commodity",
+    "unit": "unit",
+    "weight": 40,
+    "classes": ["crafting", "textile"],
+    "size": 5,
+    "price": {
+      "low": 100,
+      "typical": 240,
+      "high": 400
+    }
+  },
+  {
+    "name": "looms",
+    "type": "commodity",
+    "unit": "unit",
+    "weight": 80,
+    "classes": ["crafting", "textile"],
+    "size": 10,
+    "price": {
+      "low": 120,
+      "typical": 600,
+      "high": 850
+    }
+  },
+  {
+    "name": "gears",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["forging", "crafting", "textile", "nutrition", "maritime"],
+    "size": 2,
+    "price": {
+      "low": 40,
+      "typical": 60,
+      "high": 100
+    }
+  },
+  {
+    "name": "tackles",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 25,
+    "classes": ["forging", "maritime"],
+    "size": 4,
+    "price": {
+      "low": 120,
+      "typical": 200,
+      "high": 300
+    }
+  },
+  {
+    "name": "hinges",
+    "type": "commodity",
+    "unit": "bag",
+    "weight": 4,
+    "classes": ["forging", "crafting", "mercantile"],
+    "size": 2,
+    "price": {
+      "low": 20,
+      "typical": 40,
+      "high": 80
+    }
+  },
+  {
+    "name": "lathes",
+    "type": "commodity",
+    "unit": "unit",
+    "weight": 60,
+    "classes": ["crafting", "maritime"],
+    "size": 10,
+    "price": {
+      "low": 80,
+      "typical": 200,
+      "high": 360
+    }
+  },
+  {
+    "name": "fleece",
+    "type": "commodity",
+    "unit": "sack",
+    "weight": 19,
+    "classes": ["textile"],
+    "size": 1,
+    "price": {
+      "low": 4,
+      "typical": 8,
+      "high": 20
+    }
+  },
+  {
+    "name": "raw cloth",
+    "type": "commodity",
+    "unit": "yard",
+    "weight": 1,
+    "classes": ["textile", "crafting", "mercantile"],
+    "size": 1,
+    "price": {
+      "low": 3,
+      "typical": 7,
+      "high": 16
+    }
+  },
+  {
+    "name": "dyed yarn",
+    "type": "commodity",
+    "unit": "hank",
+    "weight": 1,
+    "classes": ["textile"],
+    "size": 1,
+    "price": {
+      "low": 3,
+      "typical": 7.5,
+      "high": 20
+    }
+  },
+  {
+    "name": "silver ore",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 80,
+    "classes": ["forging"],
+    "size": 5,
+    "price": {
+      "low": 15,
+      "typical": 25,
+      "high": 40
+    }
+  },
+  {
+    "name": "tin ore",
+    "type": "commodity",
+    "unit": "peck",
+    "weight": 50,
+    "classes": ["forging"],
+    "size": 3,
+    "price": {
+      "low": 6,
+      "typical": 20,
+      "high": 18
+    }
+  },
+  {
+    "name": "tin ingots",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["forging", "crafting", "textile"],
+    "size": 1,
+    "price": {
+      "low": 15,
+      "typical": 24,
+      "high": 40
+    }
+  },
+  {
+    "name": "bronze ingots",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["forging", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 12,
+      "typical": 18,
+      "high": 24
+    }
+  },
+  {
+    "name": "bells",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 400,
+    "classes": ["forging"],
+    "size": 20,
+    "price": {
+      "low": 2500,
+      "typical": 4000,
+      "high": 6000
+    }
+  },
+  {
+    "name": "plate armour",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 20,
+    "classes": ["weaponry"],
+    "size": 8,
+    "price": {
+      "low": 1000,
+      "typical": 1200,
+      "high": 2000
+    }
+  },
+  {
+    "name": "tapestries",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 20,
+    "classes": ["textile"],
+    "size": 5,
+    "price": {
+      "low": 500,
+      "typical": 720,
+      "high": 1200
+    }
+  },
+  {
+    "name": "potash",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 56,
+    "classes": ["nutrition", "textile", "crafting", "forging"],
+    "size": 2,
+    "price": {
+      "low": 3,
+      "typical": 14,
+      "high": 20
+    }
+  },
+  {
+    "name": "tallow",
+    "type": "commodity",
+    "unit": "stone",
+    "weight": 14,
+    "classes": ["nutrition", "textile", "crafting", "maritime"],
+    "size": 2,
+    "price": {
+      "low": 10,
+      "typical": 18,
+      "high": 32
+    }
+  },
+  {
+    "name": "canvas",
+    "type": "commodity",
+    "unit": "bundle",
+    "weight": 16,
+    "classes": ["nutrition", "textile", "maritime"],
+    "size": 2,
+    "price": {
+      "low": 16,
+      "typical": 36,
+      "high": 80
+    }
+  },
+  {
+    "name": "rigging",
+    "type": "commodity",
+    "unit": "increment",
+    "weight": 30,
+    "classes": ["maritime"],
+    "size": 4,
+    "price": {
+      "low": 150,
+      "typical": 280,
+      "high": 400
+    }
+  },
+  {
+    "name": "premium swords",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["weaponry"],
+    "size": 2,
+    "price": {
+      "low": 250,
+      "typical": 400,
+      "high": 600
+    }
+  },
+  {
+    "name": "premium garments",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["textile", "weaponry"],
+    "size": 1,
+    "price": {
+      "low": 50,
+      "typical": 120,
+      "high": 150
+    }
+  },
+  {
+    "name": "premium cheese",
+    "type": "commodity",
+    "unit": "wheel",
+    "weight": 1,
+    "classes": ["nutrition"],
+    "size": 1,
+    "price": {
+      "low": 15,
+      "typical": 25,
+      "high": 40
+    }
+  },
+  {
+    "name": "premium glassware",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["crafting", "nutrition"],
+    "size": 1,
+    "price": {
+      "low": 50,
+      "typical": 150,
+      "high": 175
+    }
+  },
+  {
+    "name": "premium steel",
+    "type": "commodity",
+    "unit": "ingot",
+    "weight": 1,
+    "classes": ["forging", "weaponry"],
+    "size": 1,
+    "price": {
+      "low": 20,
+      "typical": 50,
+      "high": 100
+    }
+  },
+  {
+    "name": "premium sails",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 10,
+    "classes": ["maritime"],
+    "size": 10,
+    "price": {
+      "low": 800,
+      "typical": 1200,
+      "high": 1600
+    }
+  },
+  {
+    "name": "paper",
+    "type": "commodity",
+    "unit": "quire",
+    "weight": 4,
+    "classes": ["textile", "crafting", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 10,
+      "typical": 20,
+      "high": 50
+    }
+  },
+  {
+    "name": "books",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 2,
+    "classes": ["crafting"],
+    "size": 1,
+    "price": {
+      "low": 300,
+      "typical": 600,
+      "high": 1000
+    }
+  },
+  {
+    "name": "premium ham",
+    "type": "commodity",
+    "unit": "cask",
+    "weight": 2,
+    "classes": ["nutrition"],
+    "size": 2,
+    "price": {
+      "low": 120,
+      "typical": 200,
+      "high": 350
+    }
+  },
+  {
+    "name": "premium dye",
+    "type": "commodity",
+    "unit": "bottle",
+    "weight": 1,
+    "classes": ["crafting", "textile"],
+    "size": 1,
+    "price": {
+      "low": 100,
+      "typical": 250,
+      "high": 450
+    }
+  },
+  {
+    "name": "premium cloth",
+    "type": "commodity",
+    "unit": "yard",
+    "weight": 1,
+    "classes": ["textile", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 30,
+      "typical": 60,
+      "high": 80
+    }
+  },
+  {
+    "name": "premium axes",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 1,
+    "classes": ["forging", "crafting", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 20,
+      "typical": 40,
+      "high": 60
+    }
+  },
+  {
+    "name": "premium armour",
+    "type": "commodity",
+    "unit": "item",
+    "weight": 20,
+    "classes": ["weaponry"],
+    "size": 8,
+    "price": {
+      "low": 1500,
+      "typical": 2500,
+      "high": 3500
+    }
+  },
+  {
+    "name": "seeds",
+    "type": "commodity",
+    "unit": "bushel",
+    "weight": 56,
+    "classes": ["nutrition"],
+    "size": 2,
+    "price": {
+      "low": 2,
+      "typical": 2,
+      "high": 15
+    }
+  },
+  {
+    "name": "varnish",
+    "type": "commodity",
+    "unit": "gallon",
+    "weight": 10,
+    "classes": ["nutrition", "textile", "crafting", "weaponry", "maritime"],
+    "size": 1,
+    "price": {
+      "low": 8,
+      "typical": 16,
+      "high": 30
+    }
+  },
+  {
+    "name": "soap",
+    "type": "commodity",
+    "unit": "block",
+    "weight": 10,
+    "classes": ["nutrition", "textile", "crafting"],
+    "size": 1,
+    "price": {
+      "low": 28,
+      "typical": 64,
+      "high": 150
+    }
+  },
+  {
+    "name": "acid",
+    "type": "commodity",
+    "unit": "bottle",
+    "classes": ["nutrition", "textile", "crafting", "forging", "weaponry"],
+    "size": 1,
+    "price": {
+      "low": 40,
+      "typical": 96,
+      "high": 220
+    }
+  }
+]

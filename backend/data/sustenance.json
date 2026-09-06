@@ -1,0 +1,288 @@
+[
+  {
+    "category": "basic food",
+    "size": 1,
+    "penalty": -0.1,
+    "products": [
+      {
+        "product": "grain",
+        "volume": 2,
+        "score": 0.1
+      },
+      {
+        "product": "flour",
+        "volume": 0.5,
+        "score": 0.2
+      },
+      {
+        "product": "bread",
+        "volume": 3,
+        "score": 0.3
+      },
+      {
+        "product": "pasties",
+        "volume": 2,
+        "score": 1.3
+      },
+      {
+        "product": "pies",
+        "volume": 2,
+        "score": 1.5
+      }
+    ]
+  },
+  {
+    "category": "heating",
+    "size": 1,
+    "penalty": -0.1,
+    "products": [
+      {
+        "product": "firewood",
+        "volume": 2,
+        "score": 0.1
+      },
+      {
+        "product": "charcoal",
+        "volume": 2,
+        "score": 0.1
+      }
+    ]
+  },
+  {
+    "category": "clothing",
+    "size": 1,
+    "penalty": -0.1,
+    "products": [
+      {
+        "product": "wool",
+        "volume": 1,
+        "score": 0.2
+      },
+      {
+        "product": "cloth",
+        "volume": 2,
+        "score": 0.4
+      },
+      {
+        "product": "dyed cloth",
+        "volume": 2,
+        "score": 0.7
+      },
+      {
+        "product": "garments",
+        "volume": 1.5,
+        "score": 1.2
+      },
+      {
+        "product": "coats",
+        "volume": 1,
+        "score": 2
+      },
+      {
+        "product": "premium cloth",
+        "volume": 1.5,
+        "score": 2.5
+      },
+      {
+        "product": "premium garments",
+        "volume": 1,
+        "score": 5
+      }
+    ]
+  },
+  {
+    "category": "drink",
+    "size": 1,
+    "penalty": -0.1,
+    "products": [
+      {
+        "product": "milk",
+        "volume": 2,
+        "score": 0.1
+      },
+      {
+        "product": "beer",
+        "volume": 3,
+        "score": 0.4
+      },
+      {
+        "product": "wine",
+        "volume": 3,
+        "score": 0.7
+      },
+      {
+        "product": "hop beer",
+        "volume": 3,
+        "score": 1
+      }
+    ]
+  },
+  {
+    "category": "household",
+    "size": 1,
+    "penalty": 0,
+    "products": [
+      {
+        "product": "furniture",
+        "volume": 1,
+        "score": 0.4
+      },
+      {
+        "product": "cookware",
+        "volume": 1,
+        "score": 0.6
+      },
+      {
+        "product": "glassware",
+        "volume": 0.75,
+        "score": 1
+      },
+      {
+        "product": "premium glassware",
+        "volume": 0.75,
+        "score": 4
+      }
+    ]
+  },
+  {
+    "category": "fine food",
+    "size": 2,
+    "penalty": 0,
+    "products": [
+      {
+        "product": "meat",
+        "volume": 5,
+        "score": 0.3
+      },
+      {
+        "product": "fish",
+        "volume": 5,
+        "score": 0.3
+      },
+      {
+        "product": "cheese",
+        "volume": 2,
+        "score": 0.4
+      },
+      {
+        "product": "cured meat",
+        "volume": 1,
+        "score": 0.7
+      },
+      {
+        "product": "cured fish",
+        "volume": 1,
+        "score": 0.8
+      },
+      {
+        "product": "ham",
+        "volume": 1,
+        "score": 2
+      },
+      {
+        "product": "stockfish",
+        "volume": 1,
+        "score": 2.2
+      },
+      {
+        "product": "premium cheese",
+        "volume": 2,
+        "score": 2
+      },
+      {
+        "product": "premium ham",
+        "volume": 0.5,
+        "score": 4
+      }
+    ]
+  },
+  {
+    "category": "gear",
+    "size": 2,
+    "penalty": 0,
+    "products": [
+      {
+        "product": "arms",
+        "volume": 0.5,
+        "score": 0.4
+      },
+      {
+        "product": "swords",
+        "volume": 0.5,
+        "score": 2
+      },
+      {
+        "product": "light armour",
+        "volume": 0.2,
+        "score": 0.5
+      },
+      {
+        "product": "plate armour",
+        "volume": 0.2,
+        "score": 5
+      },
+      {
+        "product": "premium swords",
+        "volume": 0.5,
+        "score": 8
+      },
+      {
+        "product": "premium armour",
+        "volume": 0.1,
+        "score": 10
+      }
+    ]
+  },
+  {
+    "category": "luxury",
+    "size": 0,
+    "penalty": 0,
+    "products": [
+      {
+        "product": "donations",
+        "volume": 40,
+        "score": 1
+      },
+      {
+        "product": "jewellery",
+        "volume": 1,
+        "score": 2
+      },
+      {
+        "product": "paper",
+        "volume": 5,
+        "score": 2
+      },
+      {
+        "product": "candles",
+        "volume": 1.5,
+        "score": 3
+      },
+      {
+        "product": "soap",
+        "volume": 2,
+        "score": 3.5
+      },
+      {
+        "product": "medicine",
+        "volume": 1,
+        "score": 3
+      },
+      {
+        "product": "windows",
+        "volume": 0.25,
+        "score": 4
+      },
+      {
+        "product": "tapestries",
+        "volume": 0.25,
+        "score": 4
+      },
+      {
+        "product": "books",
+        "volume": 0.35,
+        "score": 5
+      }
+    ]
+  }
+]

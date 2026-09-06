@@ -1,0 +1,510 @@
+{
+  "alloy smelter": {
+    "text": "A facility for melting and mixing metals to create alloys like bronze using high-temperature furnaces.",
+    "upgrades": {
+      "plunging cage": "A heavy iron rod ending in a perforated bell or cage. As a metal with a much lower melting point than copper, tin is stuffed inside the cage and forcefully plunged to the bottom of the molten metal, forcing them to melt upwards through the liquid rather than burning off on the surface."
+    }
+  },
+  "apiary": {
+    "text": "The apiary keeps bees that collect pollen from a neighbouring flax farm or pasture. They turn the pollen in to honey and wax that can be collected by a beekeeper wearing the appropriate protection.",
+    "upgrades": {}
+  },
+  "apothecary": {
+    "text": "The apothecary produces and sells medicines and remedies for various ailments, as well as distilled spirits and other tonics. It uses stills made up of glass alembics for the distillation process, which functions by heating a liquid and collecting the vapour that is released and condensing back into a liquid form. This technique is used to extract the essential oils and compounds from plants, wood tar, and other natural ingredients.",
+    "upgrades": {
+      "tincture press": "A wooden screw press used to squeeze high-potency medicinal juices and liquid tinctures out of steeped herbal and spirit mashes"
+    }
+  },
+  "arena": {
+    "text": "A public venue for jousting and spectacles, serving as a source of entertainment and prestige for the owner.",
+    "upgrades": {}
+  },
+  "armoury": {
+    "text": "A secure facility for producing and storing armour, where steel plates are shaped and assembled.",
+    "upgrades": {}
+  },
+  "bakery": {
+    "text": "The bakery produces bread, an important staple in the diet of all tiers of the population. Dough is made from grain, yeast and water, left to rise, then shaped into loaves or rolls and heated over a fire or in an oven. Once the bread is baked, it is removed from the oven and left to cool on racks. Upgrading to the stone oven gives a huge boost to the capacity of the bakery.",
+    "upgrades": {}
+  },
+  "bloomery": {
+    "text": "The bloomery is a type of furnace used for smelting iron ore, named from the resulting “bloom” it produces. Iron ore is heated by burning charcoal in the bloomery furnace, potentially using large bellows to increase the air-flow and temperature of the fire.\n\nAfter the fire has melted out the impurities of the iron ore, a bloom is left in the furnace. The workers of the bloomery hammer the bloom into the wrought iron which is the usual output of the bloomery.",
+    "upgrades": {}
+  },
+  "boardinghouse": {
+    "text": "Provides basic lodging and sustenance for tenant labourers in return for manual work.",
+    "upgrades": {}
+  },
+  "brewery": {
+    "text": "The brewery produces beer from malted grains and water, often using additional ingredients, like hops, for improved flavour or preservation. The grain is soaked in water to begin the process of germination, which transforms the starches in the grains into sugars. Once the grains have begun to sprout, they are dried and roasted to create malt.\n\nThe malt is mixed with water to create a sugary liquid known as wort, which is boiled with the hops, left to cool, and then transferred to a fermentation vessel where yeast is added to start the fermentation. The yeast consumes the sugars in the wort, converting them into alcohol and carbon dioxide. This process typically takes several days to complete, after which the beer is transferred to wooden casks for delivery.",
+    "upgrades": {}
+  },
+  "brickworks": {
+    "text": "The brickworks is a vital part of the construction industry, producing bricks and tiles for various construction projects. With bricks and tiles being heavy and expensive to transport, it would be common to find local brickworks in most towns. The brick-making process starts with the collection of clay which is mixed with water to create a malleable material known as \"slip.\" The slip is then poured into moulds, which shape the clay into bricks or tiles.\n\nOnce the clay has been moulded, it is left to weather for several days. After drying, the bricks or tiles are placed into a kiln, where they are burned at high temperatures to achieve the required hardness.\n\nConstruction costs are kept down by relying on burning bricks from clay found on-site when building the main kiln.",
+    "upgrades": {}
+  },
+  "bullion forge": {
+    "text": "A high-security forge for smelting and refining precious metals into standardised bars or ingots.",
+    "upgrades": {}
+  },
+  "burner hut": {
+    "text": "The burner hut is the workplace of the wood burner, who collects wood from the surrounding forest to burn into charcoal or potash.",
+    "upgrades": {}
+  },
+  "butchery": {
+    "text": "The butchery is where animals are slaughtered and cut into slabs of meat ready for cooking, typically to be sold fresh or salted for long-term preservation. Various animals can be brought to the butchery, where they are slaughtered in a humane and efficient manner.\n\nAfter the animal has been killed, it is bled and the skin and fur are removed. The animal is then divided into various cuts of meat, including the loins, hams, and shoulders. These cuts are then trimmed and cleaned. For salted meat, the cuts are packed in salt to preserve them for long-term storage. The salt draws out moisture from the meat, preventing the growth of bacteria and making it safe for consumption even after extended periods of time.\n\n    Unsalted meat is not suitable for transportation or long-term storage.",
+    "upgrades": {
+      "carcass hoists": "A system of overhead timber beams, iron hooks, and ropes to hoist heavy animal carcasses."
+    }
+  },
+  "canvas weavery": {
+    "text": "The canvas weavery produces heavy, durable textiles designed for industrial and maritime use. The workshop employs robust looms capable of maintaining high tension on thick threads of hemp or flax, which are interlaced in a dense tabby weave. This process requires significant physical effort, as each new weft thread must be forcefully beaten with a heavy wooden batten to ensure the fabric remains windproof and water-resistant.\n\nThe resulting canvas is essential for the construction of sails, wagon covers, and industrial sacks. Its inherent rot-resistance and strength make it a vital commodity for trade and transportation over both land and sea.",
+    "upgrades": {}
+  },
+  "carburising forge": {
+    "text": "The carburising forge specialises in carburising wrought iron, turning it into steel. This is a time and energy consuming process requiring repeated heatings together with a carbon source like charcoal, followed by hammerings of the iron, in a process to get the desired carbon content throughout the resulting steel ingot.",
+    "upgrades": {}
+  },
+  "carding house": {
+    "text": "The carding house is a dry, well-lit chamber. Sacks of scoured fleece sit near the hearth to keep natural oils supple. Low benches line the windows to catch the light. Dust and fine wool-hairs hang in the air, settling upon the trestle tables where the cards are worked.",
+    "upgrades": {}
+  },
+  "carpentry": {
+    "text": "The carpentry shop is where carpenters and woodworkers craft a variety of items, such as casks, furniture, carts, and ploughs. The primary material used is wood timber, though iron can be used for various fittings. The carpenters may use a variety of hand tools, such as saws, chisels, and planes, to shape the wood into the desired form.\n\nFor items such as casks or barrels, the carpenters may use iron hoops or fittings to reinforce the wooden structure and make it more durable. These hoops would be carefully fitted and secured to the wooden frame, ensuring a tight and secure fit.\n\nFor furniture, carts or ploughs, the carpenters would use a combination of joints and fasteners to hold the pieces together. These joints might include dovetails, mortise and tenon joints, or lap joints, which would be carefully crafted to ensure a strong and durable connection.",
+    "upgrades": {}
+  },
+  "porter shed": {
+    "text": "A small shelter functioning as a base of operation for local delivery services, bringing finished goods into the markets and warehouses of the town, as well as suppling the surrounding industries with supplies and raw materials..",
+    "upgrades": {}
+  },
+  "portage yard": {
+    "text": "A hub for organizing and dispatching delivery services between production sites and the markets and warehouses of the town.",
+    "upgrades": {}
+  },
+  "cathedral": {
+    "text": "The cathedral is a place of worship that comes in under the\n        administration of the local clergy, and will be open to all inhabitants of\n        the town. The construction of one offers you a large instant increase in\n        prestige, and operation of it can offer a continous prestige boost",
+    "upgrades": {}
+  },
+  "ceramic kiln": {
+    "text": "A specialized furnace for firing clay into durable bricks, tiles, and cookware.",
+    "upgrades": {}
+  },
+  "chandlery": {
+    "text": "A workshop for producing candles by dipping wicks into melted wax or tallow.",
+    "upgrades": {}
+  },
+  "chapel": {
+    "text": "The chapel is a place of worship that comes in under the\n        administration of the local clergy, and will be open to all inhabitants of\n        the town. The construction of one offers you a large instant increase in\n        prestige, and operation of it can offer a continous prestige boost",
+    "upgrades": {}
+  },
+  "charcoal kiln": {
+    "text": "A kiln where wood is stacked and burned in a low-oxygen environment to produce charcoal.",
+    "upgrades": {}
+  },
+  "church": {
+    "text": "The church is a place of worship that comes in under the\n        administration of the local clergy, and will be open to all inhabitants of\n        the town. The construction of one offers you a large instant increase in\n        prestige, and operation of it can offer a continous prestige boost",
+    "upgrades": {}
+  },
+  "clay pit": {
+    "text": "A site for extracting clay-rich soil used for bricks, tiles, and ceramics.",
+    "upgrades": {}
+  },
+  "cooperage": {
+    "text": "A workshop where coopers craft barrels, casks, and other staved wooden vessels.",
+    "upgrades": {}
+  },
+  "copper mine": {
+    "text": "The copper mine produces raw copper ore. Once purified by smelting, copper can be used for everything from weapons to household items to coins. The mine is dug out at a site of an underground copper vein.\n\nThe process of extracting copper from the earth is challenging and time-consuming. Miners would use a variety of tools, including picks, shovels, and hammers, to break up the rock and extract the copper ore, which is then hammered into smaller pieces to separate the ore from the rock.\n\nA technique for speeding up the extraction is known as fire-setting. This is the process of  heating the rock around the copper vein to a high temperature and then quickly cooling it with water. The heat and sudden change in temperature would cause the rock to crack and break apart, making it easier to extract the ore.",
+    "upgrades": {}
+  },
+  "coppersmith": {
+    "text": "The coppersmith works with copper, producing a variety of items, such as cookware and tools. Copper is a relatively soft metal which can be shaped into a wide range of shapes by simple hammering. When necessary, a product or item being worked can be made stronger by the process of annealing, heating then quenching in water so the metal rapidly cools. The finished products are polished or sharpened as needed, and potentially fitted with wooden handles or grips.",
+    "upgrades": {}
+  },
+  "cottage": {
+    "text": "Cottages are the basic type of dwelling for the commoners in the town as well as those working the surrounding without living on their farms. Even some of the gentry might live here while working up to building their own house.\n\nThe cottages are typically small and simple, with one or two rooms and a thatched roof. The tenants would live, cook, and sleep in the same space, often shared with any animals they kept. The fireplace would be a central feature of the room, providing heat and light for cooking and other activities.",
+    "upgrades": {}
+  },
+  "cupel furnace": {
+    "text": "The cupel furnace processes the slag and leftovers from the smeltery to separate out small amounts of silver.",
+    "upgrades": {}
+  },
+  "dairy": {
+    "text": "A facility for processing milk into butter and cheese, housing churns and storage vessels.",
+    "upgrades": {}
+  },
+  "distillery": {
+    "text": "The distiller operates a range of copper and glass stills to produce concentrated spirits, pungent vinegars, and potent acids from fermented mashes or mineral salts. By heating a base substance within an alembic or retort, volatile vapours are driven off, captured, and subsequently cooled within a condenser to return to a liquid state. This high-purity output is collected in bottles or casks for use in medicine, industry, or the preservation of goods.\n\nThe workshop must be well-ventilated to manage the heat of the furnaces and the concentrated fumes released during the process. Skilled distillers must carefully regulate the temperature of the stills to separate the desired essences from the raw materials effectively.",
+    "upgrades": {
+      "masonry stillage": "Brick chambers built to securely house copper boiling vessels and support glass alembics to improve heat distribution and protect the alembics from direct flame."
+    }
+  },
+  "dye boiler": {
+    "text": "The dye boiler boils organic materials in large cauldrons to extract and concentrate colouring compounds.",
+    "upgrades": {}
+  },
+  "dyeworks": {
+    "text": "A workshop for dyeing textiles in vats of concentrated pigments.",
+    "upgrades": {}
+  },
+  "farmstead": {
+    "text": "The farmstead is a small farm able to provide for a single peasant household. Peasants are subsistence farmers, meaning they are just able to provide for their own needs and other than rent payments for the land they are on, they generally don't participate in the overall economy. The rent is usually paid in the form of labour, with the tenant household providing a part-time worker that can be assigned to other operations.",
+    "upgrades": {}
+  },
+  "fishing shack": {
+    "text": "A small waterfront structure used by fishermen to store nets, bait, and tools.",
+    "upgrades": {}
+  },
+  "flax farm": {
+    "text": "The flax farm grows the flax plant, which is a crucial source of both flax seeds, used for food and medicine, and linen thread, used for clothing and textiles.\n\nThe farmers may prepare the soil by ploughing and harrowing the land. Once the land is prepared, the flax seeds are sown in rows, with a spacing of approximately 4-6 inches between each seed. The seeds are then covered with a light layer of soil and watered. As the flax plants grow, they require regular weeding to ensure that they have access to enough nutrients and moisture. Once the flax plants reach a height of around 2-3 feet, they are ready for harvest.\n\nThe first step in harvesting the flax is to remove the seeds. The farmer will use a tool known as a flax comb to separate the seeds from the plant. The seeds are then collected and used for food or medicinal purposes. Next, the remaining flax stalks are left to dry in the sun. Once they have dried, the stalks are retted, a process that involves soaking the stalks in water to soften the fibres. After retting, the stalks are beaten with a tool known as a flax break to remove the outer layer of the plant, revealing the inner fibres, which are used for spinning flax thread.",
+    "upgrades": {}
+  },
+  "flaying station": {
+    "text": "A site for the initial processing of animal carcasses obtained from a nearby butchery, removing skins for the tanner.",
+    "upgrades": {}
+  },
+  "foundry": {
+    "text": "The foundry refines metals such as copper, lead, and gold from their ores. The raw ore is crushed and ground into a fine powder which is heated in a furnace to a high temperature, where the metal begins to separate from the other materials in the ore. The metal is then extracted and poured into moulds, where it cools and solidifies into ingots or bars that are easily transportable and workable.",
+    "upgrades": {}
+  },
+  "fulling house": {
+    "text": "A mill where raw cloth is beaten and cleaned to shrink and thicken the fabric.",
+    "upgrades": {}
+  },
+  "glass blower": {
+    "text": "The glass blower's workshop is where glass is heated and shaped into a variety of items. The glass is heated and inflated with a blowpipe. Then, while the glass is still malleable, various tools, such as pincers or shears, are used to shape the glass into the desired shape. The glass is then left to slowly cool and harden in this shape.\n\nTo create windows, the glass blower would use a different technique known as \"crown glass.\" In this process, the glass blower would blow a large bubble of molten glass, which would then be cut and flattened into a circular disc. The disc would then be reheated and spun around rapidly, causing it to flatten out further and form a circular sheet of glass. These circular sheets of glass could then be cut to size and fixed to a timber frame using thin strips of lead.",
+    "upgrades": {}
+  },
+  "glass house": {
+    "text": "A workshop where sand, wood ash, and limestone are melted into raw glass.",
+    "upgrades": {}
+  },
+  "glasshouse": {
+    "text": "The glasshouse melts locally occurring sand into raw glass, sometimes called forest glass. Wood ash and limestone are mixed with the sand to respectively lower the melting point and strengthen the glass by avoiding crystallisation upon cooling. The result is strong and workable glass which subsequently can be blown into various items by a glass blower.",
+    "upgrades": {}
+  },
+  "gold camp": {
+    "text": "A temporary settlement for workers collecting gold from surface deposits or shallow pits.",
+    "upgrades": {}
+  },
+  "gold mine": {
+    "text": "The gold mine produces raw gold ore, which once purified can be used for jewellery and gold coins. The mine is dug out at a site of an underground gold vein.\n\nThe process of extracting gold from the earth is challenging and time-consuming. Miners would use a variety of tools, including picks, shovels, and hammers, to break up the rock and extract the gold ore, which is then hammered into smaller pieces to separate the ore from the rock.\n\nA technique for speeding up the extraction is known as fire-setting. This is the process of  heating the rock around the gold vein to a high temperature and then quickly cooling it with water. The heat and sudden change in temperature would cause the rock to crack and break apart, making it easier to extract the ore.",
+    "upgrades": {}
+  },
+  "grain farm": {
+    "text": "The grain farm grows the primary food staple, grain, which directly or indirectly feeds most of the population.\n\nIn preparation of the planting, the farmers may plough the field or use manure to increase the yield of the land. After the seeds have been sown, and the grain plants have had time to fully grow, it is harvested using sickles or scythes. The harvested grain is then threshed by beating it with flails, causing the grain seeds to separate from the husks so they can be more efficiently stored or transported.",
+    "upgrades": {}
+  },
+  "grain farm-manure pit": {
+    "text": "The manure pit allows the farm to receive manure which\n        can be used to improve the yield of the crops",
+    "upgrades": {}
+  },
+  "grain farm-toolshed": {
+    "text": "The toolshed holds tools that allow for more\n        efficient operation of the grain farm",
+    "upgrades": {}
+  },
+  "guard camp": {
+    "text": "The guard camp is a small, often temporary, camp for armed guards patrolling the streets and districts of the town.",
+    "upgrades": {}
+  },
+  "guardhouse": {
+    "text": "The guardhouse serves as a base of operation for armed guards providing protection for the town centre as well as the surrounding districts in the domain of the town. Businesses dealing with particularly valuable items, like gold or coins, may also hire the guards to secure and protect their operation.\n\nGuards stationed at the guardhouse would typically patrol the town, keeping a watchful eye out for any suspicious activity. They might also stand watch at specific locations, such as the gates or the market square, to deter potential troublemakers.",
+    "upgrades": {}
+  },
+  "herb garden": {
+    "text": "A cultivated plot for growing herbs used in cooking, medicine, and dyeing.",
+    "upgrades": {}
+  },
+  "hjell": {
+    "text": "The hjell, or fish flake, uses the cold, dry air or northern climates for drying fish. This method preserves the fish without the need for salt, enabling storage and transportation.",
+    "upgrades": {}
+  },
+  "honey house": {
+    "text": "The honey house is a cool, shadowed stone cell to deter the swarm. Shelves hold rows of sealed ceramic jars and beeswax cakes. A central hearth warms the air just enough to make the honey flow. Sticky residue coats the wooden press, and the scent of clover and old wax clings to the walls.",
+    "upgrades": {}
+  },
+  "hospital": {
+    "text": "The hospital provides nursing and care for infirm or sick townspeople. Either by luck or\n\tdivine acts, some patients occasionally get better. In any case, anyone funding the construction and \n\toperation of a hospital are bound to be well perceived by the population of the town.",
+    "upgrades": {}
+  },
+  "hunting lodge": {
+    "text": "The lodge is a timber-framed hall situated within a cleared laund. It serves as a temporary station for the hounds and the hunt-master. Trestles hold skinning knives and leather leashes. A wide hearth dominates the central room to dry wet cloaks and roast the liver. Outside, a stone-walled kennel keeps the pack secured, while a stable provides stalls for the tired palfreys.",
+    "upgrades": {}
+  },
+  "iron camp": {
+    "text": "A site for collecting surface iron ore, often found in bogs or shallow deposits.",
+    "upgrades": {}
+  },
+  "iron mine": {
+    "text": "The iron mine produces raw iron ore. Iron is a strong metal with many uses, though the hardness, high melting point and rapid oxidation makes it more challenging to work with. The mine is dug out at a site of an underground iron vein.\n\nThe process of extracting iron from the earth is challenging and time-consuming. Miners would use a variety of tools, including picks, shovels, and hammers, to break up the rock and extract the iron ore, which is then hammered into smaller pieces to separate the ore from the rock.\n\nA technique for speeding up the extraction is known as fire-setting. This is the process of heating the rock around the iron vein to a high temperature and then quickly cooling it with water. The heat and sudden change in temperature would cause the rock to crack and break apart, making it easier to extract the ore.",
+    "upgrades": {}
+  },
+  "jeweller": {
+    "text": "The jeweller will craft precious jewellery from valuable metals and gemstones, creating beautiful and intricate pieces that are highly prized by the most prestigious townspeople.\n\nThe jeweller would typically work with a range of materials, including gold, silver, and precious gemstones. They would use specialised tools and techniques to shape and polish these materials, creating delicate and intricate designs that would be used to adorn rings, necklaces, and other pieces of jewellery.\n\nThe jeweller would also work closely with their clients, discussing their preferences and suggesting designs that would suit their individual tastes. They would take great care to ensure that each piece was crafted to the highest standards of quality, using only the finest materials and techniques.",
+    "upgrades": {}
+  },
+  "lead mine": {
+    "text": "The lead mine produces raw lead ore, which can be purified into a malleable and easily workable metal. The mine is dug out at a site of an underground lead vein.\n\nThe process of extracting lead from the earth is challenging and time-consuming. Miners would use a variety of tools, including picks, shovels, and hammers, to break up the rock and extract the lead ore, which is then hammered into smaller pieces to separate the ore from the rock.\n\nA technique for speeding up the extraction is known as fire-setting. This is the process of  heating the rock around the lead vein to a high temperature and then quickly cooling it with water. The heat and sudden change in temperature would cause the rock to crack and break apart, making it easier to extract the ore.",
+    "upgrades": {}
+  },
+  "leatherworks": {
+    "text": "The leatherworks is a workshop for crafting leather into various goods like bellows, harnesses, and protective gear.",
+    "upgrades": {}
+  },
+  "lime kiln": {
+    "text": "In the lime kiln crushed limestone is stacked and heated until it cracks and crumbles, producing caustic quicklime, which can be slaked into mortar.",
+    "upgrades": {}
+  },
+  "logging camp": {
+    "text": "The logging camp serves as a base for loggers felling trees or collecting firewood from the surrounding forest. They may use a variety of tools, including axes, saws, and wedges, to fell the trees or collect the firewood. In some instances the loggers may further cut the lumber logs into timber for direct use in construction.\n\nThe loggers will usually attempt to thin out the forest in a sustainable manner, leaving trees time to regrow, though there may be times when they instead opt to clearcut the forest, in order to free up the land or to satisfy urgent demand for the resulting materials.",
+    "upgrades": {}
+  },
+  "logging camp-toolshed": {
+    "text": "The toolshed holds tools that allow for more\n        efficient operation of the logging camp",
+    "upgrades": {}
+  },
+  "machine workshop": {
+    "text": "A facility for the assembly and maintenance of wooden machinery.",
+    "upgrades": {}
+  },
+  "malthouse": {
+    "text": "The malthouse offers the capacity to malt grains at a large scale, allowing breweries to focus on the brewing step of the beer making process. The malting process starts by soaking the grains in water, which encourages them to germinate. This process activates enzymes within the grain that convert starches into sugars. The grains are then dried, which stops the germination process and preserves the sugars.\n\nThe malthouse is equipped with large bins, known as malting floors, where the grains are spread out to germinate. These floors are usually made of wood or stone and are carefully designed to allow for proper drainage and air circulation. Once the grains have germinated, they are spread out on the floor to dry, which can take several days.\n\nDuring the drying process, the grains are often stirred or turned to ensure that they dry evenly. Once the grains are dry, they are known as malt and are ready to be used in the brewing process.\n\nMalt is a key ingredient in beer, providing the sugars that yeast ferments into alcohol. The malthouse would typically produce large quantities of malt, potentially supplying multiple breweries.",
+    "upgrades": {
+      "malt sieve": "The malt sieve is used to separate the dried malt from dust and malt culms, improving the quality and reducing spoilage and bitter tastes"
+    }
+  },
+  "manor": {
+    "text": "A grand residence for the local nobility, serving as a center of authority and social standing.",
+    "upgrades": {}
+  },
+  "mansion": {
+    "text": "A country-side residence for your household. An impressive compound that is sure to increase your households standing. It provides a significant one-time prestige bonus upon completion, and you can entertain friends there for additional prestige.",
+    "upgrades": {}
+  },
+  "manure pit": {
+    "text": "A pit for the collection and aging of animal waste for use as fertilizer.",
+    "upgrades": {}
+  },
+  "markethall": {
+    "text": "A covered structure providing a centralized location for the organized trade of goods.",
+    "upgrades": {}
+  },
+  "masonry": {
+    "text": "A workshop where stone is cut and shaped for construction and decorative use.",
+    "upgrades": {}
+  },
+  "milking bay": {
+    "text": "The bay is a timber lean-to at the pasture’s edge, floored with packed stone and rushes. A stout rail provides a tethering point to settle the beast. The air smells of damp earth and clover. A low stone wall keeps the wind from the lanterns during the winter dark.",
+    "upgrades": {}
+  },
+  "mint": {
+    "text": "The mint offers to mint precious metals, such as gold, silver or copper, into the coins that serve as the currency in all trade and commerce.\n\nThe minting process starts with the raw metal, which is melted down and cast into bars of a standardised weight. These bars are then heated until they are soft enough to be struck with a hammer, at which point they are flattened into thin sheets.\n\nThe thin sheets of metal are then cut into circular shapes using a stamp, which imprints a design onto the coin. Once the coins have been stamped, they are inspected for quality and weighed to ensure that they meet the required standards. Any coins that are found to be too light or too heavy are melted down and recycled, thus ensuring that the coins delivered from the mint can serve as a trusted medium of exchange or store of value.",
+    "upgrades": {}
+  },
+  "monastery": {
+    "text": "Monks at the monastery performs the prestigious task of inscribing religious books.",
+    "upgrades": {}
+  },
+  "muckery": {
+    "text": "The muckery collects and processes town waste and manure into fertilizer.",
+    "upgrades": {}
+  },
+  "nailworks": {
+    "text": "The nailer heats a square iron rod within a charcoal forge. Once the metal glows cherry-red, the smith hammers the tip on the anvil to form a four-sided taper. A small nick is cut into the rod, and the glowing shank is snapped off into a hole within the nail-heading tool.\n\nWith the shank secured, the smith delivers heavy blows to the protruding metal, flattening it into a rose-head. The finished nail is then ejected into a cooling bucket.",
+    "upgrades": {}
+  },
+  "net maker": {
+    "text": "The net maker's workshop produces nets for fishing and other purposes.\n\nThe net maker starts by selecting the appropriate thread or cord for the type of net being made. The threads or cords are then tied together using a variety of knotting techniques. As the net begins to take shape, the net maker will periodically check it to ensure that the knots are holding tight and that the net is taking on the desired shape.",
+    "upgrades": {}
+  },
+  "outpost": {
+    "text": "The outpost is a fortified base guarding an extended town perimeter. When built on the outskirts of the town domain it allows the owner to claim and use land farther from the town center at a range of 3.7 miles (30 tiles) from the outpost. Two outpost can be chained to further extend the town domain range. Guards operating from the outpost can assist in the protection of the town.\n\n\tOutposts will significantly increase the protection requirement of the town, and once it's ready a special tax is levied to pay for this. If you sell or give up land supported by the outpost to others, you will not be able to remove your outpost unless that land has another outpost to support it. Territory near other towns is not claimable if it's already claimed by that town, or the shortest path back to your town is blocked by territory claimed by the other town.",
+    "upgrades": {}
+  },
+  "park": {
+    "text": "A nice park will improve the looks of the town. You get a one-time prestige bonus upon completing it, as well as continous prestige for keeping it maintained.",
+    "upgrades": {}
+  },
+  "pasture": {
+    "text": "The pasture is an open area of land that is enclosed by a fence or wall where animals like sheep or cattle can graze. Cattle are kept in the pasture during the day and are then herded back to a sheltered area at night.\n\nThe pasture can provide wool from shearing of sheep or meat from the cattle. Oxen can also be used for their strength, by yoking them with a harness to provide ox power for farming or industry.",
+    "upgrades": {}
+  },
+  "pulleyworks": {
+    "text": "A specialised workshop for producing tackles and pulleys used for lifting heavy loads.",
+    "upgrades": {}
+  },
+  "quarry": {
+    "text": "The quarry is an open-pit mine from which limestone is extracted, and it is an essential resource for building materials, lime production, and other uses.\n\nThe first step in operating a limestone quarry is to locate a suitable site. This typically involves surveying the land to identify areas where limestone deposits are located. Once a suitable site has been found, the quarry can begin operations.\n\nWorkers use tools like pickaxes, hammers and wedges to extract blocks of limestone. The limestone extracted from the quarry has many uses. One of the most common uses is in building materials, such as for the construction of churches, castles, and other large structures. Limestone can also be used in the production of lime, which is an important ingredient in mortar and a source of calcium for various industrial processes.",
+    "upgrades": {}
+  },
+  "raghouse": {
+    "text": "The raghouse boils old rags and various textiles to separate out the textile fibres, which are pressed and dried to become sheets of paper.",
+    "upgrades": {}
+  },
+  "rendering house": {
+    "text": "The rendering house boils down and renders animal fats obtained from the nearby butchery into a greasy slurry called tallow.",
+    "upgrades": {}
+  },
+  "resin camp": {
+    "text": "The resin camp is the base for collection of resin from nearby trees. The resin is harvested by making small cuts in the bark of the tree, which allows the resin to flow out and be collected in a container. The resin is then heated to drive out the water and get the desired viscousity, and can also be mixed with charcoal to create wood tar, which is used as a sealant or a preservative, or sometimes taken as medicine in the form of tar water.",
+    "upgrades": {}
+  },
+  "retting pit": {
+    "text": "A water-filled pit used to soak flax or hemp stalks to release their fibers.",
+    "upgrades": {}
+  },
+  "ropewalk": {
+    "text": "A long building where fibers are twisted into ropes.",
+    "upgrades": {}
+  },
+  "rowhouse": {
+    "text": "Dense urban housing where multiple dwellings share common walls.",
+    "upgrades": {}
+  },
+  "sail loft": {
+    "text": "A large workspace for designing, cutting, and sewing heavy canvas sails.",
+    "upgrades": {}
+  },
+  "salt mine": {
+    "text": "The salt mine extracts salt from underground deposits. Salt is crucial for the preservation of meat, fish, and other perishable goods.\n\nDepending on the type of deposit the salt would either be cut out in lumps with tools like pickaxes, or by using a process known as brine extraction, which involves pumping water into the mine and allowing it to dissolve the salt. The resulting brine is then pumped to the surface, where it is boiled down to produce salt crystals.\n\nOnce the salt has been extracted, it is transported out of the mine using carts or wagons pulled by horses or oxen.",
+    "upgrades": {}
+  },
+  "saltery": {
+    "text": "The saltery salts perishable food to preserve it. The salted food can be stored and transported.",
+    "upgrades": {}
+  },
+  "sawmill": {
+    "text": "The sawmill processes logs of lumber into timber boards for use in wood industries or for construction of buildings and ships.\n\nThe sawmill can operate human powered saws, or use pairs of oxen powering a saw blade via a system of gears and pulleys. When the logs arrive at the sawmill, they are first inspected and sorted by size and quality. The logs are then placed onto a carriage, which is guided along a track by workers. The carriage moves the log towards the saw blade, which cuts the log into boards.\n\nOnce the boards have been cut, they are stacked for drying. The drying process typically takes several weeks, during which time the boards are exposed to air to remove excess moisture. Wood scraps or timber culled due to poor quality can be collected and sold as firewood.",
+    "upgrades": {}
+  },
+  "seedhouse": {
+    "text": "The seedhouse allows for rippling of flax plants to extract the seeds before the plants are processed into fibres.",
+    "upgrades": {}
+  },
+  "sewing shop": {
+    "text": "The sewing shop produces a wide range of garments and textiles from various fabrics. The shop consists of a large workspace with several workstations, each equipped with tools and materials to produce the garments.\n\nThe garment production requires a variety of fabrics, thread, buttons, and other materials necessary for garment construction. Depending on the complexity of the garment, the sewing process can take anywhere from a few hours to several days. Once the garment is complete, it is inspected for quality and any necessary adjustments are made. In addition to producing custom-made garments for individual customers, the sewing shop may also produce clothing for sale to the general public. These garments may be sold in the shop itself, at local markets, or at larger fairs and festivals.",
+    "upgrades": {}
+  },
+  "shipyard": {
+    "text": "The shipyard produces the ships necessary for transportation, trade and fishing. The shipyard is mostly an open-air space, situated close to a body of water, where ships can be built and repaired.\n\nThe first step in building a ship is to select the appropriate wood for the vessel. Oak is the most common wood used for shipbuilding, as it is strong, durable, and resistant to rot. Once the wood is selected, it is cut and shaped to the appropriate size and shape for the ship's hull.\n\nThe shipyard workers begin the construction of the ship by laying the keel, or backbone of the ship, and building up the frames and planking around it. This is a time-consuming and physically demanding process, requiring the use of a variety of tools, including axes, saws, hammers, and chisels.\n\nOnce the hull is complete, the shipyard workers would add the decks, masts, and rigging necessary to turn the hull into a functioning vessel. This requires the use of specialised tools and techniques, as well as a thorough understanding of maritime navigation and engineering.\n\nThe finished ship is then launched into the water, where it would undergo sea trials to ensure that it is seaworthy and can handle the demands of the open ocean. The ship is then outfitted with the necessary supplies, including food, water, and equipment, to make it ready for its maiden voyage.",
+    "upgrades": {}
+  },
+  "silver mine": {
+    "text": "An underground operation for extracting silver ore from deep veins.",
+    "upgrades": {}
+  },
+  "skinning hut": {
+    "text": "The hut is a drafty, open-sided structure to dissipate the scent of blood. Rough-hewn poles support the weight of suspended carcasses. The floor is covered in coarse salt and sawdust to soak up the offal. Sharpening stones sit upon a heavy bench alongside tubs of brine. Outside, several stretching frames lean against the walls, holding various skins taut against the wind to cure.",
+    "upgrades": {}
+  },
+  "slab yard": {
+    "text": "The slabyard collects slabs and off-cuttings from a nearby sawmill and process this scrap into firewood.",
+    "upgrades": {}
+  },
+  "smeltery": {
+    "text": "A facility for extracting metals from ores through high-heat processing into refined ingots.",
+    "upgrades": {
+      "refining kettle": "Impure molten metal is transferred to a cauldron with a fire underneath to keep the metal liquid. It is agitated by stirring with raw, high-humidity wood, releasing steam that bubbles up through it. Impurities float to the top and are skimmed off."
+    }
+  },
+  "smithy": {
+    "text": "The smithy is the workplace of the blacksmith, and has the tools and equipment required to work wrought iron, a malleable and durable metal, into a wide variety of useful objects.\n\nThe first step in the blacksmithing process is to heat the wrought iron in a forge until it becomes red hot and pliable. The blacksmith then uses a hammer and an anvil to shape the metal into the desired form, using various techniques such as hammering, twisting, and bending.\n\nOne of the most common items produced by the blacksmith is nails, which are used for construction and other purposes. The blacksmith takes a length of wrought iron wire and hammers it into a point at one end, then cuts it off and shapes the head at the other end.\n\nAnother important product of the blacksmith is the plough mouldboard, which is used for agriculture. The blacksmith creates a mouldboard by heating a sheet of wrought iron until it is red hot, then hammering it into the desired shape on the anvil.\n\nThe blacksmith can also work with steel, a form of wrought iron that has a higher carbon content, giving it extra hardness, suitable for heads of hammers or the cutting edge of knives and swords. Working with steel is challenging and time-consuming, but the high quality and strength of the resulting items makes it well worth the effort.",
+    "upgrades": {}
+  },
+  "smokery": {
+    "text": "A building where meat and fish are preserved by suspension in smoke from slow-burning fires.",
+    "upgrades": {}
+  },
+  "soapery": {
+    "text": "A workshop where soap is produced by reacting fats with caustic lye in boiling vats.",
+    "upgrades": {}
+  },
+  "spinnery": {
+    "text": "The spinnery spins thread or yarn from flax fibres or wool using a drop spindle or a spinning wheel.",
+    "upgrades": {}
+  },
+  "square": {
+    "text": "An open public space in the town center for gatherings, markets, and social interaction.",
+    "upgrades": {}
+  },
+  "stable": {
+    "text": "The stable houses work-animals for use in agriculture, transportation or to power machinery. When not out working the animals stay here to rest or be groomed and fed. As the stable doesn't grow any food, a considerable amount of feed needs to be supplied from elsewhere.",
+    "upgrades": {}
+  },
+  "steeling forge": {
+    "text": "The iron blooms produced at the bloomery consist of iron with varying carbon content. Iron with too high carbon content to be used as wrought iron will be removed with the slag. Some of that higher carbon iron will fit the properties desired from steel. At the steeling forge these pieces of the bloom are separated from the bloom and forge-welded to form high quality steel, without reducing the useable wrought iron content of the bloom.",
+    "upgrades": {}
+  },
+  "storehouse": {
+    "text": "The storehouse serves as a storage facility for goods that are produced, purchased from the local market, or imported. The goods are stacked on shelves or stored in large containers, such as barrels or sacks.\n\nThe storehouse is a unique starting-building that can not be constructed or expanded. It can however be upgraded into the larger warehouse at a reduced cost, and after the upgrade is completed it will operate like a regular warehouse.\n\nIn addition to the storage of goods, the storehouse can function as a hub for chained production by various production buildings with the same owner, allowing outputs from one building to be passed as inputs to another, without needing to pass via the town’s market.\n\nThe storehouse also serves a key role in import and exports, with the trade route being funded by the storehouse operating funds, delivering imports there, and collecting goods to export from there.",
+    "upgrades": {}
+  },
+  "tannery": {
+    "text": "In the (often foul smelling) tannery animal hides are preserved and strengthened into leather using tanning liquors.",
+    "upgrades": {}
+  },
+  "tapestry atelier": {
+    "text": "A high-end workshop for producing intricate tapestries, wither by weaving them on vertical looms or embroidering patterns onto high-quality cloth.",
+    "upgrades": {}
+  },
+  "tapestry weaver": {
+    "text": "The atelier is a hall with large windows for clear light. Massive oak frames stand upright, bearing the warp's tension. Bundles of tread and fabric hang from wall-pegs, sorted by shade. The air is quiet, save for the rhythmic strike of combs and the hum of loom-strings.",
+    "upgrades": {}
+  },
+  "tar kiln": {
+    "text": "The tar kiln is a kiln built for heating a mixture of charcoal and resin into wood tar, which is used as a sealant or a preservative, or sometimes taken as medicine in the form of tar water.",
+    "upgrades": {}
+  },
+  "tin mine": {
+    "text": "A mining site dedicated to the extraction of tin ore from underground deposits.",
+    "upgrades": {}
+  },
+  "toolworks": {
+    "text": "The toolworks specialises in producing high-quality tools or assembling them from parts obtain from other production buildings.",
+    "upgrades": {}
+  },
+  "townhall": {
+    "text": "The administrative center of the town, managing civic affairs and record-keeping.",
+    "upgrades": {}
+  },
+  "townhouse": {
+    "text": "A town residence for your household. This impressive building is sure to increase your standing and grants a significant one-time prestige bonus when completed. In addition to this you can entertain your friends in the townhouse for further prestige gains.",
+    "upgrades": {}
+  },
+  "townroad": {
+    "text": "A well-maintained thoroughfare facilitating the movement of carts and pedestrians.",
+    "upgrades": {}
+  },
+  "varnish kitchen": {
+    "text": "A facility for preparing varnish by dissolving resins into solvents over controlled heat.",
+    "upgrades": {}
+  },
+  "vignoble": {
+    "text": "The vignoble, or vineyard, grows grapes and ferments them into wine.",
+    "upgrades": {}
+  },
+  "warehouse": {
+    "text": "The warehouse serves as a storage facility for goods that are produced, purchased from the local market, or imported. It is a large, open building with high ceilings and ample space for storing goods. The goods are stacked on shelves or stored in large containers, such as barrels or sacks.\n\nIn addition to the storage of goods, the warehouse can function as a hub for chained production by various production buildings with the same owner, allowing outputs from one building to be passed as inputs to another, without needing to pass via the town’s market.\n\nThe warehouse also serves a key role in import and exports, with the trade route being funded by the warehouse operating funds, delivering imports there, and collecting goods to export from there.",
+    "upgrades": {}
+  },
+  "watermill": {
+    "text": "The watermill utilises the flow of a river or stream to power machinery that grinds grain into flour. A large water wheel, constructed from rot-resistant timber, is rotated by the force of the flowing water. This movement is transferred via a heavy axle and a system of wooden cogwheels to turn millstones or drive other machinery.\n\nTo operate the mill, a sluice gate is adjusted to regulate the volume of water entering the millrace, thereby controlling the speed of the wheel. When grinding, grain is fed from a hopper into the center of the rotating runner stone, which crushes the grains against the stationary bedstone. Unlike windmills, which depend on the unpredictable nature of the wind, the watermill provides a continuous and reliable source of power.",
+    "upgrades": {}
+  },
+  "weaponsmith": {
+    "text": "A smithy dedicated to the forging of swords, spearheads, and other implements of war.",
+    "upgrades": {}
+  },
+  "weavery": {
+    "text": "The weavery produces cloth from thread or directly from fibres. \nThread or yarn is wound onto bobbins and taken to the loom. The loom is a mechanism that assists weaving thread into cloth. It sets up a warp, the series of parallel threads that run the length of the fabric. The weaver then uses a shuttle to weave the weft, which is the series of threads that run perpendicular to the warp. This process involves passing the shuttle back and forth between the warp threads, using a combination of foot pedals and hand levers to control the tension and movement of the threads. Once the weaving is complete, the cloth may pass through a range of processes, such as washing, bleaching, dyeing, and ironing, designed to improve the appearance and durability of the fabric. When the process is complete, the resulting cloth is ready for use in a wide variety of applications, from clothing to furnishings to industrial materials.",
+    "upgrades": {}
+  },
+  "windmill": {
+    "text": "The windmill processes grain into flour. It uses the power of the wind to turn its blades, which in turn rotate a large stone or a set of stones that grind the grains into flour.\n\nWorkers would bring sacks of grains to the windmill to be ground into flour. The grains would be poured into a hopper, which would feed them into the grinding mechanism. The grinding mechanism usually consisted of two large circular stones, one fixed in place and the other rotating on top of it. The grains would be crushed between these stones, with the resulting flour falling into a collection tray below. The windmill requires a skilled miller to operate it, who would adjust the distance between the grinding stones and the flow of grain into the hopper to produce the desired quality of flour. The windmill needs to be oriented towards the prevailing wind direction to ensure optimal power generation.",
+    "upgrades": {}
+  },
+  "woodshed": {
+    "text": "The woodshed is the base of workers collecting branches and bushes not utilised by the main operation of the host building for the purpose of firewood.",
+    "upgrades": {}
+  }
+}

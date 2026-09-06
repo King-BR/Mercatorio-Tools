@@ -50,4 +50,7 @@ module.exports = {
 
   // recipes
   recipes_url: `${base_url}/config/recipes`,
+
+  // cache duration data (2 hours)
+  cacheDuration: 2 * 60 * 60 * 1000,
 };

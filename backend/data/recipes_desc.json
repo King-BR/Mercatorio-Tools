@@ -1,0 +1,851 @@
+{
+  "alloy bronze": {
+    "text": "Bronze is produced by melting copper and tin together in a high-temperature crucible. The proportions are carefully regulated to achieve the desired hardness and corrosion resistance, after which the molten alloy is cast into standardized ingots for further use.",
+    "inputs": {
+      "tin ingots": "Tin is added to the molten copper to increase the hardness and durability of the resulting bronze.",
+      "copper ingots": "Refined copper provides the base material for the alloy, offering excellent castability and resistance to corrosion.",
+      "wrought iron": "A heavy iron rod with a plunging cage is used to plunge the solid tin to the bottom of the molten copper, reducing the amount that burns off due to high temperature of the liquid.",
+      "potash": "Alkaline ashes lower the melting point of the slag, making it easier to separate from the bronze."
+    }
+  },
+  "bake bread": {
+    "text": "Baking grains or flour into bread increases both the flavour and digestability, letting more of the nutrients and callories to come to use.",
+    "inputs": {
+      "grain": "Grain is ground in to flour with a hand-mill before getting baked into bread",
+      "flour": "Getting ground flour from the miller allows the baker to dedicate all focus to the baking, improving efficiency."
+    }
+  },
+  "bake pasties": {
+    "text": "Pasties are made by wrapping puff pastry dough around a meat stew and baking it. The puff pastry butter dough is made by mixing flour, butter and water, and repeatedly flattening and folding it. After the puff pastry is made, the meat stew is placed on the pastry, which is folded over and crimped around the edges. The pastie is then baked in a stone oven."
+  },
+  "bake pies": {
+    "text": "A seasoned filling of meat or fruit is wrapped in a sturdy pastry dough. The edges are crimped to seal in the juices, and the dish is then baked in a masonry oven. This method of cooking provides a substantial and portable meal."
+  },
+  "baking duty": {
+    "text": "Bread is demanded by commoners and gentry alike, and can be made at home with simple ingredients. If you have your own farm, rolling the grain into bread before selling it allow you to capture more of the value yourself."
+  },
+  "bind garments": {
+    "text": "Nålbinding is a technique for making different kinds of garments from yarn. A needle is used to pass the working string of yarn through loops to bind a product without using knots.",
+    "inputs": {
+      "wool": "Carded wool fibres are spun and bound by the nålbinder.",
+      "fleece": "Raw fleece directly from the animals are carded and spun before the nålbinding takes place."
+    }
+  },
+  "blow glassware": {
+    "text": "To make glassware raw glass is heated and inflated with a blowpipe. Then, while the glass is still malleable, various tools are used to shape the glass into the shape of the desired glassware. The glassware is then left to slowly cool and harden in this shape.",
+    "inputs": {
+      "cookware": "Ready made pots for sitting inside the furnace holding the molten glass.",
+      "tools": "Blowpipes, jacks (tongs for shaping) and other tools wear down with use and need to be replaced.",
+      "dye": "Adding various dyes in the crucible to get deliberate colors like blue or amber instead of relying on the natural colour of the glass.",
+      "gold bars": "The best glassblowers may ornate their glassware with thin strips of gold."
+    }
+  },
+  "boil dye": {
+    "text": "Dye is boiled by putting dye material in a pot of water, which is then heated to extract the dye compounds and concentrate them into solution with the water."
+  },
+  "border patrol": {
+    "text": "Outposts extend the town domain and increases its protection need. Guards based at the outpost can be hired to protect the town, or specific building and production recipes. Guards are uniformed, armoured and armed with a variety of weapons."
+  },
+  "brew mead": {
+    "text": "Brew honey beer from honey and water. Raw honey contains small amounts of wild yeast, which will grow as the mixture is set to ferment, breaking down the sugar in the honey and turning it into alcohol."
+  },
+  "brew beer": {
+    "text": "Brew beer from malted grains and water. Malt is mixed with water to create a sugary liquid known as wort, which is boiled with the hops, left to cool, and then transferred to a fermentation vessel where its left to ferment for several days, turning the sugars of the malt into alcohol.",
+    "inputs": {
+      "grain": "The grain is soaked in water to begin the process of germination, which transforms the starches in the grains into sugars. Once the grains have begun to sprout, they are dried and roasted to create the malt needed for the brewing process.",
+      "malt": "Malt from the malthouse is delivered at the brewery, ready for use.",
+      "casks": "The resulting beer is poured into casks for storage or transportation."
+    }
+  },
+  "breed cattle": {
+    "text": "With food from the pasture and shelter in the cowshed, the herd of cattle will gradually multiply."
+  },
+  "build handcart": {
+    "text": "Handcarts are simple and small vehicles, but they are very useful for land transportation. Their low cost of production and maintenance makes them very reliable for entrepreneurs with small funds. They can carry all types of goods, which makes them very versatile. The making of handcarts is very light on materials, given their simplistic nature. A few pieces of timber are enough to create this vehicle, as it's a small one, but that doesn't mean it isn't a complicated one. Due to its intricate details it requires a moderate amount of work to produce, but its usefulness is unrivaled."
+  },
+  "build tumbrel": {
+    "text": "Tumbrels are built on a strong timber base, which supports in carrying a large amount of goods. Then, wheels are carefully attached to the main part to enable the movement. This process requires precision and quality tools, otherwise the wheels might get stuck."
+  },
+  "build cog": {
+    "text": "Build the broad beamed and deep drafted cog from heavy timber beams and planks. High sides are raised to protect cargo from the sea, and a single mast is stepped to carry a large square sail, resulting in a robust vessel for long-distance trade."
+  },
+  "build snekkja": {
+    "text": "Lay a strong keel and build the hull with overlapping planks in the clinker style. Once the mast is stepped and the rigging secured, this agile vessel is ready for coastal trade and fishing."
+  },
+  "burn bricks": {
+    "text": "Clay is shaped into bricks and fired in the ceramic kiln. Once hardened in the fire, they make a strong and sturdy construction material."
+  },
+  "coaling": {
+    "text": "Charcoal is made by heating wood in an environment deprived of oxygen, typically by covering a stack of wood with earth, while leaving some small holes to control the airflow. The resulting charcoal consists of the carbon from the wood with moisture removed, giving a fuel that burns very efficiently and at high temperature."
+  },
+  "burn charcoal": {
+    "text": "Charcoal is made by heating wood in an environment deprived of oxygen, typically by covering a stack of wood with earth, while leaving some small holes to control the airflow. The resulting charcoal consists of the carbon from the wood with moisture removed, giving a fuel that burns very efficiently and at high temperature."
+  },
+  "burn cookware": {
+    "text": "Clay cookware is made by molding the clay into the desired shape and control the fire of the kiln to be at a constant temperature. The pottery is decorared while the clay is still wet, usually with grooved lines, thumbed - applied strips or stamping"
+  },
+  "burn glass": {
+    "text": "At the glasshouse locally occurring sand is melted into raw glass, sometimes called forest glass. Wood ash and limestone are mixed with the sand to respectively lower the melting point and strengthen the glass by avoiding crystallisation upon cooling. The result is strong and workable glass which subsequently can be blown into various items by a glass blower."
+  },
+  "burn lime": {
+    "text": "The reason why lime makes a solid structure on being combined with water and sand seems to be this: that rocks, like all other bodies, are composed of the four elements. Those which contain a large proportion of air are soft; of water, are tough from the moisture; of earth, hard; and of fire, more brittle. Therefore, if limestone, without being burned, is merely pounded up small and then mixed with sand and so put into the work, the mass does not solidify nor can it hold together. But if the stone is thrown into the kiln, it loses its former property of solidity by exposure to the great heat of the fire, and so with its strength burnt out and exhausted it is left with its pores open and empty, Hence, the moisture and air in the body of the stone being burned out and set free, and only a residuum of heat being left, lying in it, if the stone is then immersed in water, the moisture, before the water can feel the influence of the fire, makes its way into the open pores; then the stone begins to get hot, and finally, after it cools off, the heat is rejected from the body of the lime. Consequently, limestone when taken out of the kiln cannot be as heavy as when it was thrown in, but on being weighed, though its bulk remains the same as before, it is found to have lost about a third of its weight owing to the boiling out of the water. Therefore, its pores being thus opened and its texture rendered loose, it readily mixes with sand, and hence the two materials cohere as they dry, unite with the rubble, and make a solid structure."
+  },
+  "burn potash": {
+    "text": "Potash is produced by burning large quantities of hardwood in a controlled manner to produce ash. This ash is then leached with water in large wooden vats to dissolve the soluble potassium salts. The resulting lye is collected and boiled down in heavy iron pots until only a dry, white residue remains. This caustic substance is indispensable for the manufacture of fine glass, the scouring of raw textiles, and the regulation of dye baths.",
+    "inputs": {
+      "cookware": "Pots or ceramic vessels are required to boil the caustic lye solution without contaminating the resulting salt."
+    }
+  },
+  "burn tar": {
+    "text": "Tar burning, usually starts by collecting resin or resin - rich pine wood. In the case of wood it is stacked in a kiln or pit, covered with soil or turf, and slowly burned in a controlled, low - oxygen environment. This slow - burning causes the resin to melt and seep out of the wood without fully combusting. As the resin heats, it turns into tar, which trickles down through channels into a container placed beneath the kiln. The collected tar is then stored for use in waterproofing ships, sealing wooden structures, making medicines or other applications."
+  },
+  "burn tiles": {
+    "text": "Tiles are made by firing pieces of prepared clay in a kiln at a brickwork. The high heat needed for clay to fire into ceramic means that large quantities of firewood must be burned produce a batch of tiles. Additionally, a large amount of labour is needed to prepare the tiles, assemble the kiln, and remove the tiles once fired. Tiles are most often embellished by pressing a design into them, such that the design is either raised or sunken into the tile."
+  },
+  "butcher cattle": {
+    "text": "Cattle are large animals predominantly made of meat. The butcher extracts this meat in a humane fashion, providing a tasty dietary addition."
+  },
+  "card wool": {
+    "text": "The carder draws the fleece between two spiked wooden boards. These metal teeth tease tangled locks into a smooth, parallel web. Repeated strokes align the fibers, removing remaining grit. The worker then rolls the thin sheet into a soft rolag, ready for the distaff.",
+    "inputs": {
+      "canvas": "The carded wool is stuffed into large sacks made from strong canvas."
+    }
+  },
+  "porterage": {
+    "text": "Buildings outside the town centre requires their products carted into town, either to be sold on the market or delivered to the owners warehouse.",
+    "inputs": {
+      "handcart": "Replacing handcarts in part or whole by professionally made ones instead of performing local repairs and maintenance.",
+      "tumbrel": "Replacing tumbrels in part or whole by professionally made ones instead of performing local repairs and maintenance."
+    }
+  },
+  "porterage service": {
+    "text": "Buildings outside the town centre requires their products carted into town, either to be sold on the market or delivered to the owners warehouse.",
+    "inputs": {
+      "handcart": "Replacing handcarts in part or whole by professionally made ones instead of performing local repairs and maintenance."
+    }
+  },
+  "cast bells": {
+    "text": "Large bells are cast from a bronze alloy of copper and tin. Molten metal is poured into complex clay moulds within a casting pit. Once the metal has solidified and cooled, the mould is broken away to reveal the resonant bell, which is then cleaned and polished.",
+    "inputs": {
+      "potash": "Alkaline ashes reduce the surface tension of the molten metal, helping it flow smoothly into all corners of the mold.",
+      "limestone": "Calcium carbonate acts as a flux, keeping the molten metal from oxidizing and allowing impurities to be skimmed off before pouring.",
+      "copper ingots": "A copper layer is brazed into the iron surface to improve the acustic properties and resonance of the bell."
+    }
+  },
+  "cast cookware": {
+    "text": "Sturdy cookware is cast from copper or bronze. The metal is melted and poured into moulds, then cooled and finished. Tin may be applied to the inner surface to prevent corrosion and ensure the safety of the food being prepared.",
+    "inputs": {
+      "potash": "Alkaline ashes reduce the surface tension of the molten metal, helping it flow smoothly into all corners of the mold."
+    }
+  },
+  "cast sculptures": {
+    "text": "Casting sculptures from liquid metal is a process almost as old as chiseling them out of materials like stone or wood, dating back to ancient times. A very common form of casting is the so - called “lost - wax casting”. A rough shape resembling the desired sculpture is modeled out of clay. Then a thick layer of wax is applied to the clay body. The actual design with all its details is then carved out of the hardened wax, which is much easier to work than wood or stone. Once the shaping is done another layer of clay is added on top of the wax. Heating the mold in a furnace will cause the wax to liquefy and flow out while the clay hardens, leaving behind a cavity into which the molten metal can be poured. Once the metal has solidified the outer clay shell is removed, revealing the cast sculpture. The final touches include a cleanup and brushing of the metal."
+  },
+  "churn butter": {
+    "text": "Butter is churned from milk, which is poured into shallow vessels to let the cream float to the surface, where it might be skimmed off. The cream has to be slightly sour and slightly warm. Using one of the upstanding wooden churns, lift the plunger to just above the surface to gather air and whisp the cream until the fat modules gather. After the cream was churned, the butter and the buttermilk would be separated through a straining cloth and the butter would be paddled and pressed, to remove the residue of milk. Finally, it would be washed in cold water and salted."
+  },
+  "collect gold": {
+    "text": "Gold is collected from the top layer of an underlying gold vein."
+  },
+  "collect iron": {
+    "text": "Iron is present near the surface and in bogs due to the underlying iron deposit, allowing workers to collect small amounts without digging down to the deposit itself."
+  },
+  "craft arms": {
+    "text": "Craft simple arms and weapons by hammering and assembling relatively soft metals and wood components. Typically no match for stronger iron or steel weapons but may occasionally be an attractive alternative."
+  },
+  "craft belts": {
+    "text": "The leatherworker cuts leather into strips that are stiched up and provided with a fastening mechanism to become belts."
+  },
+  "craft furniture": {
+    "text": "Carpenters craft furniture, primarily from wood. Items produced include tables, chairs and stools, shelves, cabinets, and many other large items used in daily living. Some pieces of furniture, such as chairs or beds, may include upholstery and padding made from soft textile materials. A skilled carpenter ensures the crafted furniture is functional, stable, comfortable, and aesthetically pleasing."
+  },
+  "craft gears": {
+    "text": "Crafting gears involves assembling a central hub with thick spokes connected to a segmented wooden rim. Each individual cog is mortised into the rim and shaped for precise engagement, allowing for the efficient transmission of power within the town's machinery."
+  },
+  "craft lathes": {
+    "text": "Lathes consist of a timber frame equipped with a drive mechanism and a steady rest. This essential engine allows artisan and craftsmen to rotate workpieces at high speed, enabling the use of chisels to turn symmetrical forms from wood or metal."
+  },
+  "craft looms": {
+    "text": "The carpenter builds the main frame from several wooden beams. Half of the yarn is tied in many parallel strips between two horizontal beams, the warp beam and the cloth beam. These threads are called warp threads and stay mostly static while the weaver uses a shuttle to interweave the other half of the yarn – called weft threads."
+  },
+  "craft ploughs": {
+    "text": "Ploughs are made of heavy chunks of wood cut into shape, with handles. If possible, an iron point is attached, called plough - share. It is heavy enough to require a strong animal, like an ox, to be pulled. An improved design adds a mould - board behind the plough - share, which turns the furrow over as it slices into the ground. It gives the opportunity to utilise heavier soil, as well as providing better drainage."
+  },
+  "craft scythes": {
+    "text": "Crafting a scythe requires attaching a sharp, long, curved steel blade to a wooden snaith, a long shaft with strong grips, while ensuring that the scythe is well balanced to facilitate the sweeping motion necessary for efficient reaping."
+  },
+  "craft spinning wheels": {
+    "text": "Spinning wheels are crafted from wood, which is carefully shaped and assembled, creating the wheel, spindle, and drive band. As the wheel is turned, it draws fibers from a prepared distaff, twisting them into fine thread. Each spinning wheel is unique, often adorned with intricate carvings that reflect the artisan's skill. Once completed, these spinning wheels become indispensable tools for weavers and householders, enabling them to produce yarn for textiles, essential for clothing, household linens, and trade within the bustling medieval market."
+  },
+  "craft tools": {
+    "text": "Craft simple tools by hammering and assembling relatively soft metals and wood components."
+  },
+  "craft wheels": {
+    "text": "Using various wood carving tools, carpenters carve multiple spokes for a wheel, and the wheel's wooden rim made of segments called \"felloes\" - one for each spoke. The spokes are joined with their felloes, and inserted in the central hub, which will house the cart's axle. This forms the frame of the wheel.",
+    "inputs": {
+      "wrought iron": "An iron rim is drawn out, either by forge and hammer or by passing it repeatedly between heavy metal rollers. The ends of the rim are heated and hammered together, forming a full circle. The whole rim is then heated, causing it to expand, and fitted around the wooden frame of the wheel, contracting tightly as it cools. This process allows for the construction of large and durable wheels."
+    }
+  },
+  "cured fish": {
+    "text": "Fresh fish spoils rapidly and isn't suited for storage or transportation. Curing the fish by smoking, drying or salting preserves the fish and allows for storage or transportation to customers in other towns."
+  },
+  "cured meat": {
+    "text": "Meat is cured by smoking or by packing in salt to draw out moisture, preventing spoilage and making it last for months. These methods are crucial for surviving harsh winters or long journeys when fresh food is scarce. Cured meat is a prized commodity, traded far and wide, and often kept in storage for feasts, armies, or travelers passing through distant lands."
+  },
+  "cut bricks": {
+    "text": "Cut stones into bricks for use in construction. This is labour intensive work and only economical if burning of bricks from clay is not possible."
+  },
+  "cut firewood": {
+    "text": "Cut down trees and chop them into firewood. This can be done at a sustainable pace, leaving the forest time to recover, or the forest can be cleared out for temporarily much higher yield. Once the forest is cut down, it will require a long time to regrow before more firewood can be collected."
+  },
+  "cut grindstones": {
+    "text": "Stone is quarried and cut into circular slabs with a central bore and an abrasive surface of consistent grit."
+  },
+  "split timber": {
+    "text": "Woodsmen select the best trees, using hand axes and saws to fell them. Felled logs are then split by placing the wedges along the length of the log and strike them with a maul. The powerful blows from the maul drive the wedges deeper into the log, gradually forcing it to split along the grain. In cases where initial splitting is needed, a felling axe may be used to create guiding cracks before the wedges take over. To further refine the split timber, the logs are shaped and smoothed. The lumberjacks use an adze or a hewing axe to trim and round the timber to the desired dimensions. Additionally, the bark may be removed using a drawknife."
+  },
+  "delivery duty": {
+    "text": "Buildings outside the town centre requires their products carted into town, either to be sold on the market or delivered to the owners warehouse. Providing delivery services is a basic but often lucrative business to get into."
+  },
+  "dig clay": {
+    "text": "The clay rich soil is extracted at the clay pit. Clay can be burned into cookware or bricks at the ceramic kiln."
+  },
+  "distill spirits": {
+    "text": "Distill spirits from an alcoholic mixture, wine or beer, by heating it to evaporate the alcohol and separating it via condensation in a glass still. The resulting spirits is collected in glass bottles for storage or transportation.",
+    "inputs": {
+      "beer": "Beer has a lower alcohol content than wine, requiring more of it and slightly reducing the efficiency of the distillation.",
+      "salt": "Adding salt raises the boiling point of water but not of alcohol, allowing for a more efficient distillation process.",
+      "potash": "Potash is used to counteract acidity if some of the wine used has gone sour."
+    }
+  },
+  "distill acid": {
+    "text": "The production of strong mineral acids involves the dry distillation of mineral salts within an alembic retort. By subjecting these substances to intense heat, acidic vapors are forced out and subsequently condensed into a potent, corrosive liquid. This substance is a vital tool for the master craftsman, essential for refining precious metals and regulating the chemical balance of dye baths.",
+    "inputs": {
+      "salt": "Salt can be treated to release acidic vapors, which when condensed form a sharp and effective acid for various industrial uses."
+    }
+  },
+  "distill vinegar": {
+    "text": "Vinegar is produced through the oxidation of alcoholic liquids, where acetous fermentation transforms the alcohol into acetic acid. Distilling this liquid in a glass still concentrates the acidity, yielding a clear and pungent solution that is highly resistant to spoilage and useful for both culinary and chemical applications.",
+    "inputs": {
+      "wine": "The high alcohol content and complex profile of wine produce a robust vinegar with a sharp, clean acidity.",
+      "beer": "While less alcoholic than wine, beer can be fermented into a milder vinegar, though the process requires more careful monitoring of the acetous conversion.",
+      "spirits": "Using spirits as a base allows for the production of a highly concentrated and pure vinegar."
+    }
+  },
+  "dry fish": {
+    "text": "Freshly caught fish are split and hung in the open air, allowing the wind and sun to naturally remove moisture. This process concentrates the flavour and preserves the flesh, creating a stable product that can endure long journeys and winter storage."
+  },
+  "dry stockfish": {
+    "text": "Stockfish is produced by hanging unsalted whitefish on wooden racks, or hjells, to dry in the cold coastal winds. Over several weeks, the fish becomes hard and durable, preserved entirely by the unique climate. The resulting product is light for transport and remains edible for years, serving as a vital staple for trade and sustenance."
+  },
+  "dye cloth": {
+    "text": "Cloth is dyed by submerging it in dye baths, agitated for even colouring, and often subjected to multiple dips to achieve deeper shades. After dyeing, the cloth is thoroughly rinsed to remove excess dye and then hung to dry, often in the sunlight to help set the colour.",
+    "inputs": {
+      "soap": "The cloth is washed both before and after the dyeing process, first to remove grease and other impurities, later to remove excess dye and other residue from the process.",
+      "potash": "Potash is used to increase the pH level in the bath to achieve a wider variety of colours.",
+      "acid": "Acid is used to reduce the pH level in the bath to achieve a wider variety of colours."
+    }
+  },
+  "dye premium cloth": {
+    "text": "Cloth is dyed by submerging it in dye baths, agitated for even colouring, and often subjected to multiple dips to achieve deeper shades. After dyeing, the cloth is thoroughly rinsed to remove excess dye and then hung to dry, often in the sunlight to help set the colour.",
+    "inputs": {
+      "soap": "The cloth is washed both before and after the dyeing process, first to remove grease and other impurities, later to remove excess dye and other residue from the process.",
+      "potash": "Potash is used to increase the pH level in the bath to achieve a wider variety of colours.",
+      "acid": "Acid is used to reduce the pH level in the bath to achieve a wider variety of colours."
+    }
+  },
+  "dye yarn": {
+    "text": "Yarn is dyed by submerging it in dye baths, agitated for even colouring, and often subjected to multiple dips to achieve deeper shades. After dyeing, the yarn is thoroughly rinsed to remove excess dye and then hung to dry, often in the sunlight to help set the colour.",
+    "inputs": {
+      "soap": "The yarn is washed both before and after the dyeing process, first to remove grease and other impurities, later to remove excess dye and other residue from the process.",
+      "potash": "Potash is used to increase the pH level in the bath to achieve a wider variety of colours.",
+      "acid": "Acid is used to reduce the pH level in the bath to achieve a wider variety of colours."
+    }
+  },
+  "extract stone": {
+    "text": "Stone extracted from the quarry provides a strong construction material useful for large building or when extra strength is required. It can also be crushed and used for its chemical properties."
+  },
+  "extract honey": {
+    "text": "After the wax has been removed the combs are placed in a wicker basket or a linen bag and crushed. The honey drips through the weave by the pull of gravity into a stone crock. This first run is the virgin honey. The remains are pressed under a heavy board to extract the rest."
+  },
+  "feast": {
+    "text": "Invite your neighbours over for a big feast, boosting your prestige"
+  },
+  "flaying": {
+    "text": "Animal carcasses are processed at the flaying station to remove the skins. The hide is carefully separated from the fat and muscle using sharp knives, taking care not to damage the grain, and then prepared for the tanning process."
+  },
+  "forge arms": {
+    "text": "Forging of arms begins with selecting iron or steel, which is heated in the forge until it reaches a malleable state. The forge, often powered by bellows, generates the intense heat required to soften the metal. Using long - handled tongs, the blacksmith removes the heated metal from the forge and places it on the anvil. With precise hammer strikes, the blacksmith shapes the metal into the desired form, whether it’s a sword, spearhead, or axe blade. As the metal cools, it must be reheated multiple times to maintain its workability. The blacksmith alternates between hammering and reheating, gradually refining the shape of the weapon. Different weapons require distinct forging techniques; for instance, a sword is elongated for balance and sharpness, while a mace head is thickened for impact. Once the rough weapon shape is formed, it enters the heat treatment stage. The weapon is reheated, then quenched in water or oil to harden the metal. This rapid cooling strengthens the weapon but can make it brittle. To correct this, the weapon is tempered by reheating it to a lower temperature, balancing hardness with flexibility. After tempering, the weapon undergoes further refinement. The blacksmith sharpens edges on grindstones, smooths surfaces, and ensures the weapon’s dimensions and weight are optimal for combat. If the weapon requires a handle, such as an axe or spear, it is fitted with a hardwood handle, typically made from materials like ash or oak."
+  },
+  "forge axes": {
+    "text": "Axes are forged by heating steel and shaping it with several hammer blows into the profile of an axe. It starts with a steel ingot. The process involves forging the blade as well as the eye(hole). The eye is made using the horn of the anvil, and will later receive the haft / handle. The blade is made by forge - welding a steel bit into the edge of the head and grinding it for sharpness."
+  },
+  "forge mouldboards": {
+    "text": "The forging of a mouldboard involves heating a thick sheet of wrought iron until it reaches a glowing, malleable state. The blacksmith then uses heavy hammer blows on the anvil to curve the iron into its characteristic shape, designed to slice through the earth and turn the furrow as it follows the ploughshare.",
+    "inputs": {
+      "bellows": "Stoking the forge with bellows ensures the fire remains hot enough to keep the iron at a workable temperature.",
+      "ox power": "In more advanced workshops, the strength of oxen is harnessed to power heavy machinery, such as trip hammers or bellows, increasing the forge's output."
+    }
+  },
+  "forge blades": {
+    "text": "Sharp blades are made by heating and shaping steel and iron by repeated hammer blows. After the right shape and quality of the metal has been achieved, a grindstone is used to give them a sharp cutting edge."
+  },
+  "forge chisels": {
+    "text": "The chisel is one of the most simple yet versatile tools. How multifaceted this sharp blade with a handle truly is, shows in its use in both woodworking and stone masonry. Chipping away rock by placing the sharp edge of the chisel on the material and firmly striking it with a hammer or mallet puts an immense strain on the tool. Keeping it sharp during use is only possible by using durable steel along with hardening the tool during the forging process by heating and rapidly cooling it repeatedly in a process called tempering"
+  },
+  "forge hinges": {
+    "text": "Hinges are forged by heating iron bars until malleable, then hammering them into flat straps and circular pivots. These components are joined to create a mechanism that allows doors, shutters, and heavy bellows to swing freely while supporting significant weight."
+  },
+  "forge pickaxes": {
+    "text": "Forging of high - quality pickaxes from steel. This involves heating the metal and hammering it into the desired shape: two pointy ends which allow one to \"pick\" away at rock, and an \"eye\" in the middle which is used to attach the pickaxe head to a wooden handle. The handle can be secured using different methods - one unique example is heating the steel eye, causing it to expand, and placing it on a tight - fitting handle while still hot. The steel contracts as it cools, gripping the handle tightly and securely."
+  },
+  "forge pickaxes 3": {
+    "text": "Forging of high - quality pickaxes from steel and iron. This involves heating the metal and hammering it into the desired shape: two pointy ends which allow one to \"pick\" away at rock, and an \"eye\" in the middle which is used to attach the pickaxe head to a wooden handle.  In this recipe, iron makes up the internal bulk of the tool, with an external layer of steel. This allows for more efficient manufacture, requiring less steel, while maintaining the improved durability that steel provides to the tool."
+  },
+  "forge swords": {
+    "text": "Forging a sword requires heating and hammering steel to create a long, balanced blade. The metal is tempered to achieve a sharp edge while remaining flexible, before a hilt and pommel are fitted for a secure grip."
+  },
+  "forge plate armour": {
+    "text": "Steel plates are heated in a forge until malleable, then shaped and curved with hammers to fit the contours of the body. Multiple plates are articulated and joined with rivets and leather straps to provide maximum protection while allowing for movement."
+  },
+  "forge tools": {
+    "text": "The process of forging metal tools begins by heating the charcoal in a furnace using bellows to achieve the high temperatures needed to forge the metal. Once the furnace reaches the appropriate heat, the metal is placed in the fire until it becomes malleable. The blacksmith using tongs and a hammer shapes the malleable metal on an anvil, forming it into the metal part of a desired tool. After shaping, the tool head is quenched in water to cool and harden the material. The tool is then sharpened with a grindstone to achieve a precise edge. Finally, a wooden handle or haft is crafted and securely attached to the tool, often with bindings or rivets, completing the process."
+  },
+  "fulling cloth": {
+    "text": "Raw cloth is beaten and cleaned in vats of water mixed with fuller's earth or potash to shrink and thicken the fabric. This process removes natural oils and interlocks the fibres, resulting in a durable and soft material suitable for tailoring."
+  },
+  "furniture duty": {
+    "text": "Operating a small furniture business out of your own household allows you to cover your own needs as well as those of other gentry or commoners. Look into providing your own timber to keep costs down."
+  },
+  "gather firewood": {
+    "text": "Gather fallen branches and bushes that aren't used by the host building."
+  },
+  "gather resin": {
+    "text": "Wood resin is gather from live trees by making a cut near the base of the trunk and collecting the resin as it slowly flows out. When done carefully this does not harm the tree."
+  },
+  "grow flax": {
+    "text": "Cultivating flax in the open fields requires careful sowing and regular weeding to ensure a bountiful harvest. Once matured, the plants are pulled or cut to preserve the integrity of the long fibres found within the stalks.",
+    "inputs": {
+      "tools": "The use of iron tools allows for more efficient soil preparation and weeding, improving the overall yield.",
+      "ploughs": "Utilising a plough to turn the soil before sowing ensures better drainage and nutrient access for the growing flax.",
+      "ox power": "Harnessing the strength of oxen to pull the plough significantly reduces the physical burden on the farm labourers.",
+      "scythes": "Sharp scythes enable a swift harvest once the flax plants have reached their full height."
+    }
+  },
+  "grow grain 1": {
+    "text": "Grow grain in the fields of the farm."
+  },
+  "grow grain 2": {
+    "text": "Grow grains in the fields of the farm with the help of tools to reduce labour need and improve yields."
+  },
+  "grow grain": {
+    "text": "Grow grains in the fields of the farm, using tools and ploughs pulled by oxen. The ploughing of fields will greatly increase the yield."
+  },
+  "grow herbs": {
+    "text": "Cultivating aromatic and medicinal plants in the sheltered beds of a garden. The herbs are tended and harvested for use in cooking, medicine, and dyeing.",
+    "inputs": {
+      "tools": "Iron trowels and weeding forks allow for more precise care of delicate seedlings, improving the yield.",
+      "manure": "Enriching the soil with manure encourages more vigorous growth and potent essence in the herbs."
+    }
+  },
+  "hammer nails": {
+    "text": "Forging nails from iron is simple, but gruelling work. A bar of iron is heated in the forge, and hammered into a thin and tapered shape. The nail is separated from the iron bar, and the head of the nail is shaped with the help of the anvil's edges or holes. Finally, the nail is refined and sharpened more precisely. This process must be repeated for each nail, making hammering of nails a particularly labour intensive process."
+  },
+  "harness ox": {
+    "text": "Harness up oxen kept at a stable to allow them to pull carts or ploughs, or to power machinery."
+  },
+  "herd sheep": {
+    "text": "Shepherds manage flocks, guiding them to lush pastures and protecting them from threats. Regular shearing provides wool, which is spun into warm, durable textiles for clothing and trade. Sheep also produce milk, used to make cheese and other dairy products."
+  },
+  "hold mass": {
+    "text": "In the grand cathedral, filled with the scent of incense and the glow of candles illuminating the high stone arches, the mass begins with the ringing of bells, drawing a large crowd of parishioners and aristocrats. The priest, wearing ornate vestments, approaches the altar. Noble families, dressed in fine clothes, are seated at the front, quietly observing the ritual though they are careful not to disturb the sanctity of the mass. At the same time commoners fill the back pews, standing or kneeling when prompted. The priest is leading the mass using a book of hymns and chants, choir, and music until they perform a final blessing so people will leave the cathedral being spiritually fulfilled."
+  },
+  "hold prayer": {
+    "text": "In the chapel, the prayer begins with the priest leading the congregation in prayers in the morning and in the evening. The small church is filled with parishioners, who stand or kneel as the priest recites some common prayers, asking for God’s protection, good harvests, and forgiveness of sins. Occasionally, a small choir may join in with the priest. The people listens, as they don't understand much, but follow along with devotion. The prayer ends with a blessing, and the people quietly leave, hoping for divine favor in their daily lives."
+  },
+  "hold sermon": {
+    "text": "Before the sermon the bell rings, calling the peasants and townsfolk to gather. Once everyone is seated, the priest steps to the pulpit and opens with a prayer. He then begins his sermon, usually reading a passage from the Bible in Latin, which few peasants fully understand. Afterward, he provides moral guidance, explaining how to live virtuously, though this can sometimes confuse the audience. Many people nod along respectfully, but you might catch a few blank stares—especially when the lessons feel too abstract or distant from their everyday lives. The sermon ends with a final prayer, and the villagers leave the church, often chatting among themselves about what they think the priest meant."
+  },
+  "hunting": {
+    "text": "Hunters quitely lay wait or patrol the surrounding woods looking for suitable prey to hunt. Once caught the prey is slaughtered for its meat, providing a valuable source of nutrition for those who can afford it."
+  },
+  "jousting": {
+    "text": "Jousting is a noble sport that hails from heavy cavalry tactics that utilizes lances to create devastating blows to enemy infantry formations. Over time it has become a way for noblemen to show their skill and courage in arenas, where the duel typically consist of riding at high speed towards each other with lances, until one combatant has been unhorsed. Sometimes the duel continues on foot with shorter range weapons like swords or maces until a combatant is incapacitated. This practice has become less common over the history of the sport as the rules has been refined and courtly ideals of chivalry has been  incorporated into this noble sport."
+  },
+  "keep bees": {
+    "text": "The bee is the wisest and cleverest of all animals and the closest to man in intelligence; its works is truly divine and of the greatest use to mankind. Its social life resembles that of the best regulated cities. In their excursions bees follow a leader and obey instructions. They bring back sticky secretions from flowers and trees and spread them like ointment on their floors and doorways. Some are employed in making honey and some in other tasks. The bee is extremely clean, settling on nothing that is bad-smelling or impure; it is not greedy; it will not approach flesh or blood or fat but only things of sweet flavour. It does not spoil the work of others, but fiercely defends its own work against those who try to spoil it. Aware of its own weakness, it makes the entrance to its home narrow and winding, so that those entering in large numbers to do harm are easily destroyed by the guardian bees."
+  },
+  "knight duty": {
+    "text": "The lands and buildings of the town needs protecting, and you'll be well compensated for aiding the town in this protection"
+  },
+  "let cottages": {
+    "text": "Cottages can be let out to rent paying tenants. All commoners and some of the gentry will be in the market for this as long as they can afford it."
+  },
+  "logging": {
+    "text": "Lumberjacks identify trees with straight trunks and minimal branching, which are ideal for conversion into timber, while less ideal trees are designated for charcoal burning or other crafts. Once a tree is chosen, the process of felling begins. The felling of the tree is accomplished using axes and saws. Large, heavy axes are employed to chop through the tree's base, while saws, often with two men operating them in tandem, are used to complete the cut and guide the tree's fall. This task requires considerable strength and coordination, ensuring the tree falls in the desired direction to minimize damage to the surrounding environment and facilitate easier processing. After felling, the tree is trimmed of its branches, a process known as limbing. This is done using a smaller axe or a billhook—a specialized tool with a curved blade designed for efficient branch removal. The trunk is then cut into manageable sections called logs, based on the intended use and length required."
+  },
+  "malting": {
+    "text": "The malting process starts by soaking the grains in water, which encourages them to germinate. This process activates enzymes within the grain that convert starches into sugars. The grains are then dried, which stops the germination process and preserves the sugars. Once the grains have germinated, they are spread out on the floor to dry, which can take several days. During the drying process, the grains are often stirred or turned to ensure that they dry evenly. Once the grains are dry, they are known as malt and are ready to be used in the brewing process. Malt is a key ingredient in beer, providing the sugars that yeast ferments into alcohol.",
+    "inputs": {
+      "canvas": "The finished malt is poured into large sacks made from strong canvas."
+    }
+  },
+  "blow alembics": {
+    "text": "Glass alembics are distilling equipment made by a glassblower or potter at their workshop. The alembic consists of three parts: a cucurbit, a cap, and a receiver. The cucurbit is a pot that hangs over the fire and contains the liquid to be boiled. The cap is an upside-down bowl with a spout that covers the cucurbit. As the liquid in the cucurbit boils, it touches the walls of the cap, condenses, and runs down the spout. The distilled liquid then collects in the receiver. Alembics are made of glass or ceramic because these materials can resist the high heat of distillation while not reacting with the liquid being distilled."
+  },
+  "make bellows": {
+    "text": "The process of bellow-making takes place in the leatherworks and begins with the selection of strong, flexible leather, usually from the hides of cows or goats. The leather must be durable and capable of forming an airtight seal. Before it is cut, the leather is soaked in water to soften it, making it more pliable. Once the leather is ready, the bellows-maker lays it out and marks the pieces required to create the chamber of the bellows. With sharp knives, the leather is carefully cut, ensuring that each piece is sized properly to allow smooth expansion and contraction. The next step involves crafting the wooden components. Two sturdy wooden boards form the top and bottom panels of the bellows. The top board is shaped with a handle which allows the user to open and close the bellows. A hole is then drilled into the lower board to accommodate the nozzle, through which air will be expelled into the fire. Once the wooden boards are prepared, the leatherworker attaches the leather to them using nails. Taking care to avoid gaps, as any air escaping will reduce the bellows’ effectiveness."
+  },
+  "make bricks": {
+    "text": "Bricks are shaped from clay found at the brickworks site and left to dry in the sun, before being fired in the kiln. Once hardened in the fire, they make a strong and sturdy construction material."
+  },
+  "make candles": {
+    "text": "Chandlers make candles by repeatedly dipping a wick into a pool of melted wax.",
+    "inputs": {
+      "thread": "A piece of thread is used as a wick in the candle.",
+      "wax": "Beeswax produces clear light and a pleasant honey-like smell"
+    }
+  },
+  "make cheese": {
+    "text": "Cheese is a valuable addition to the diet for most people. It is made in a fermentory near the sheep pasture, where the milk from the sheeps is fermented into cheese. This will typically not interfer with the wool production of the pasture."
+  },
+  "make flax fibres": {
+    "text": "Production of flax fibres involves first sowing and growing the flax plants in the fields. Once matured, the plants are pulled or cut to preserve the integrity of the long fibres found within the stalks, then soaked in water and left to rot in a process called retting. While the plants rot away the fibres inside remain intact and can be extracted.",
+    "inputs": {
+      "tools": "The use of iron tools allows for more efficient soil preparation and weeding, improving the overall yield."
+    }
+  },
+  "make harnesses": {
+    "text": "Harnesses are made from shaped wood covered in leather, with leather straps to attach it firmly but comfortably to work-animals, thus allowing the animal to more easily pull its load."
+  },
+  "make jewellery": {
+    "text": "Equal parts art and craft, the jeweller’s trade centers around creating personal adornments that satisfy the client’s aesthetic tastes and desire for prestige. To begin, the jeweller hammers gold or copper ingots into small pieces. The metal pieces are then soldered to other pieces or used to gild a base for the jewellery. Next, the jeweller exercises artistic freedom to embellish the piece. For instance, stones such as rubies, emeralds, coral, or pearls can be fitted onto the gold base. The stones are not faceted, but rather polished into a rounded cut known as a cabouchon cut. Alternatively, techniques like filigree (adorning the piece with thin strips of metal) or enameling (melting coloureded glass onto the piece) can be used to achieve artistic effects."
+  },
+  "make leather armour": {
+    "text": "Leather armour is made from cuir bouilli, or boiled leather. This tough and rigid leather offers good protection against many types of weapons, while being light and relatively comfortable to wear."
+  },
+  "make medicine": {
+    "text": "A mixture of herbs and tar water solved in spirits produce a foul tasting liquid that can mend any ailment."
+  },
+  "make nets": {
+    "text": "Tie some knots of the right kind on a string of thread and you end up with a net, useful for, among other things, catching fish."
+  },
+  "make paper": {
+    "text": "Make paper using the fibers of recycled cloth rags."
+  },
+  "make rope": {
+    "text": "Strands of flax thread are twisted together to form high-tensile cords. By braiding multiple plies, the rope-maker creates a strong and flexible line essential for rigging ships, hauling heavy loads, and securing goods."
+  },
+  "make steel": {
+    "text": "Producing steel involves smelting iron with charcoal at very high temperatures, forming an iron-carbon alloy. This results in a metal which is harder, but more brittle than iron. Additional treatments such as annealing, quenching, and tempering can further improve the material's properties. Producing steel is a labour-intensive process, thus animals are used to power machines such as bellows and trip hammers. Steel is used in the production of high-quality tools. The improved hardness makes them more resistant to wear, and gives sharp tools and weapons a more durable edge."
+  },
+  "make tackles": {
+    "text": "Tackles are made from wooden pulley blocks and high-tensile rope. The mechanical advantage of multiple lines allows for the lifting of immense loads in quarries, mines, and construction sites."
+  },
+  "make tallow candles": {
+    "text": "Chandlers make candles by repeatedly dipping a wick into a pool of melted tallow. Tallow is plentiful and cheap, but produces a smoky flame and acrid smell. Tallow candles are used by the vast majority of people.",
+    "inputs": {
+      "thread": "A piece of thread is used as a wick in the candle."
+    }
+  },
+  "make tools": {
+    "text": "Assemble tools from iron or steel components fastened on wooden handles."
+  },
+  "make varnish": {
+    "text": "Varnish is prepared by dissolving wood resin into a solvent or oil under gentle heat. The mixture is carefully stirred until the resin is fully incorporated, resulting in a thick, clear liquid that hardens upon exposure to air. When applied to wood or canvas, varnish creates a durable, water-resistant layer that protects the material from the elements and enhances its natural appearance.",
+    "inputs": {
+      "resin": "The natural secretions of forest trees provide the essential body and binding properties of the varnish.",
+      "spirits": "Using spirits as a solvent allows the resin to dissolve more readily and ensures a faster drying time for the finished varnish."
+    }
+  },
+  "make windows": {
+    "text": "Window making is the process of assembling glass pieces into windows. The process begins by drawing a design, which could be utilitarian or ornamental in nature, onto a sheet. Then, the window maker cuts sheets of glass into the appropriate shape and size and lays them over the corresponding spot in the design. Using putty and molten lead, the window maker connects the pieces into a single assembly. The whole assembly is then put into an iron frame to hold it together and allow it to be moved and installed."
+  },
+  "make wine": {
+    "text": "Wine is made from the fermentation of crushed grapes. Start by picking the grapes, then crushing them. This was usually done by treading on them in a large tub, allowing the juice to drain into a waiting basin. The typical wine press used a basket made of wood staves, kept together by metal rings. In the mechanical version, a heavy disc pressed down towards the bottom, forcing the juice out of the grapes. The grape juice was then poured into casks and stored without preservatives."
+  },
+  "milking": {
+    "text": "The milker sits upon a low stool, steadying a wooden pail beneath the udder. With hands softened by tallow, the worker applies a rhythmic pull and squeeze to the teats. The first jets are discarded to clear the ducts. The remaining milk flows in a steady stream, frothing against the staves. Once the vessel is heavy, the milk is carried immediately to the dairy to prevent the summer heat from turning it sour."
+  },
+  "milling": {
+    "text": "Use wind-powered millstones to mill grain seeds into flour."
+  },
+  "mine copper": {
+    "text": "Copper mining involves finding ore deposits, usually in shallow veins near the surface. Miners dig open pits or small shafts using basic tools like picks, hammers, and shovels to reach the copper ore. They carefully break the rock apart and load the pieces into baskets or carts for transport. To maintain safety as they go deeper, they reinforce the tunnels with wooden supports to prevent collapses. Ventilation shafts are sometimes created to allow fresh air to circulate within the mines. The ore is then brought to the surface, ready for transport to the next stage of processing. This process relies on careful excavation and the effective use of simple tools to access and extract copper from the earth.",
+    "inputs": {
+      "firewood": "Creating large fires next to the stone surface being mined will cause it to crack and become easier to break down."
+    }
+  },
+  "mine gold": {
+    "text": "Gold is mined from veins of gold ores, dug into and supported by systems of timber supports to prevent cave-ins disasters. Workers use pickaxes and other tools to extract the ore and wooden carts to bring it to the surface. Guards are posted near the mine workings to ensure that no one sabotages the mining process or makes off with nuggets of precious gold ore.",
+    "inputs": {
+      "firewood": "Creating large fires next to the stone surface being mined will cause it to crack and become easier to break down."
+    }
+  },
+  "mine iron": {
+    "text": "Mining iron begins with finding ore deposits, usually near the surface or in shallow veins. Miners dig shallow open pits or mine shafts, using basic tools such as picks, hammers, and shovels to break apart the rock. They work methodically, chipping away at the ore and loading the pieces into baskets or carts. As miners go deeper, they use wooden supports to stabilize the tunnels and ensure safety, preventing collapses. They also create simple ventilation shafts to allow fresh air into the mines. The extracted ore is then transported to the surface, where it is gathered for further processing. This entire process relies on manual labor and a careful approach to safely extract as much iron ore as possible from the ground.",
+    "inputs": {
+      "firewood": "Creating large fires next to the stone surface being mined will cause it to crack and become easier to break down."
+    }
+  },
+  "mine lead": {
+    "text": "Mining lead ore, most commonly galena, is one of the most dangerous and unhealthy occupations one can pursue. In addition to the common dangers of any mining work like flooding, cave-ins and suffocation due to bad ventilation, the lead is inherently poisonous causing illness. Breaking the ore out of the surrounding rock with simple tools or pickaxes and moving it out of the mine is backbreaking work. Still, many take the risk, as the possibility of a lucky find promises a better life. The rich underground ore deposits are usually found by following veins from surface outcroppings, particularly in vertical fissures.",
+    "inputs": {
+      "firewood": "Creating large fires next to the stone surface being mined will cause it to crack and become easier to break down."
+    }
+  },
+  "mine salt": {
+    "text": "Mining of rock salt involves digging tunnels and shafts deep into the earth to access underground salt deposits. Miners use simple tools such as picks and hammers to break apart large chunks of rock salt. These chunks are then hauled to the surface, often using wooden carts or baskets carried by workers. The mining process requires significant manual labor, as miners work in dark, narrow tunnels, chipping away at the salt with limited lighting. Once the rock salt reaches the surface, it undergoes basic processing to remove impurities, which may involve crushing the salt into smaller pieces and sometimes washing it with water to dissolve any unwanted minerals. The resulting salt is then left to dry before being stored or transported to markets for trade"
+  },
+  "mine silver": {
+    "text": "Mining of silver ore from underground veins. Workers use various tools, like pickaxes and hammers, to extract the ore from vertical fissures in the earth. The ore is then transported to the surface for smelting and refining.",
+    "inputs": {
+      "firewood": "Creating large fires next to the stone surface being mined will cause it to crack and become easier to break down."
+    }
+  },
+  "mine tin": {
+    "text": "Extract tin ore from underground deposits using tools like picks, hammers, and shovels. The ore is broken into smaller pieces and brought to the surface for further processing.",
+    "inputs": {
+      "firewood": "Creating large fires next to the stone surface being mined will cause it to crack and become easier to break down."
+    }
+  },
+  "mint copper coins": {
+    "text": "Copper coins are minted by hand by engravers. By placing a heated square piece of blank copper between the two halves of a die, called a pile and trussel, these were then struck with a hammer to imprint the design, after which the coin was trimmed by hand to make it circular.",
+    "inputs": {
+      "protection": "Guards are posted to keep both raw materials and minted coins secure, allowing the engravers to focus on the production of coins."
+    }
+  },
+  "mint gold coins": {
+    "text": "Gold coins are minted by hand by engravers. By placing a heated square piece of blank gold between the two halves of a die, called a pile and trussel, these were then struck with a hammer to imprint the design, after which the coin was trimmed by hand to make it circular.",
+    "inputs": {
+      "protection": "Guards are posted to keep both raw materials and minted coins secure, allowing the engravers to focus on the production of coins."
+    }
+  },
+  "mint silver coins": {
+    "text": "Silver coins are minted by hand by engravers. By placing a heated square piece of blank silver between the two halves of a die, called a pile and trussel, these were then struck with a hammer to imprint the design, after which the coin was trimmed by hand to make it circular.",
+    "inputs": {
+      "protection": "Guards are posted to keep both raw materials and minted coins secure, allowing the engravers to focus on the production of coins."
+    }
+  },
+  "nail duty": {
+    "text": "Forging nails from iron is simple, but gruelling work. A bar of iron is heated in the forge, and hammered into a thin and tapered shape. The nail is separated from the iron bar, and the head of the nail is shaped with the help of the anvil's edges or holes. Finally, the nail is refined and sharpened more precisely. This process must be repeated for each nail, making hammering of nails a particularly labour intensive process. This can be done in your own household, but may be one of the more challenging household duties to get into."
+  },
+  "net duty": {
+    "text": "Tie some knots of the right kind on a string of thread and you end up with a net, useful for, among other things, catching fish."
+  },
+  "nursing": {
+    "text": "Nursing poor and wealthy alike through bad health and illness is a prestigious act that also contributes to reduced mortality and increased population growth in the town. A town is considered 100% healthy if the total output of health points is equal to or higher than its population."
+  },
+  "patrol": {
+    "text": "Armed guards hired to protect the town in general or specific valuable buildings and production. A variety of weapons, armours and uniforms are used by guards at different levels."
+  },
+  "yoke plough": {
+    "text": "a pair of oxen yoked to a plough can help plough the soil to improve farming yields"
+  },
+  "yoke ox": {
+    "text": "Yoke the oxen to allow them to pull carts or ploughs, or to power machinery."
+  },
+  "retting": {
+    "text": "Retting is used to separate the fibres from the rest of the plant material. After threshing out the linseeds, the plants are left in water for a longer period, allowing the softer parts to rot away. The fibres are then extracted and cleaned."
+  },
+  "render tallow": {
+    "text": "Tallow is rendered by boiling raw animal fat in a large cauldron of water. As the fat melts, it rises to the surface, leaving behind the solid impurities known as cracklings. The liquid fat is then skimmed off and strained through a fine cloth to produce a clean, hard tallow upon cooling. This substance is a versatile staple of the household, serving as a primary fuel for candles, a lubricant for machinery, and a protective coating for leather.",
+    "inputs": {
+      "potash": "An alkaline agent that forces the fat to emulsify with a large quantity of water.",
+      "slaked lime": "An alkaline agent that forces the fat to emulsify with a large quantity of water.",
+      "cookware": "Large cauldrons are used to boil the fat and water, ensuring an even heat for the rendering process."
+    }
+  },
+  "shear sheep": {
+    "text": "Shearing off the woollen fleece of the sheep on the pasture provides a steady supply of wool. The sheep are not harmed by the process and the wool grows back after some time."
+  },
+  "salt fish": {
+    "text": "Freshly caught fish are gutted and packed into sturdy casks with layers of coarse salt. The salt draws out moisture, arresting decay and preserving the flesh for storage and long-distance transport."
+  },
+  "sawing": {
+    "text": "Sawing refines raw logs into usable timber for crafting, buildings, carts, and ships. Logs from logging camps are hauled to the sawmill and cut into useable boards of timber.",
+    "inputs": {
+      "ox power": "The power of oxen is used to drive the sawblade for improved throughput and reduced need for human labour",
+      "gears": "Gears transfer the power of the oxen to the sawblade. As they wear down they are replaced in whole or part by fresh gears.",
+      "harnesses": "Proper harnesses allows the oxen to put more power to work and reduced the need for frequent breaks."
+    }
+  },
+  "sculpting": {
+    "text": "The artisan uses finely tempered chisels and mallets to remove material from a block of stone. Gradually the sculptor reveals intricate figures and patterns, transforming raw material into ornamental works of art."
+  },
+  "separate silver": {
+    "text": "Process the leftover from the smeltery in a cupel furnace to separate out small amounts of silver. Cupellation is a refining process in metallurgy in which ores are treated under very high temperatures and subjected to controlled operations to separate noble metals, like silver, from base metals present in the ore. The process is based on the principle that precious metals typically oxidise at much higher temperatures than base metals.",
+    "inputs": {
+      "acid": "In the refining stages of smelting, powerful acids are used to selectively dissolve base metals and impurities, effectively separating out the silver content."
+    }
+  },
+  "separate steel": {
+    "text": "The iron blooms produced at the bloomery consist of iron with varying carbon content. Iron with too high carbon content to be used as wrought iron will be removed with the slag. Some of that higher carbon iron will fit the properties desired from steel. At the steeling forge these pieces of the bloom are separated from the bloom and forge-welded to form high quality steel, without reducing the useable wrought iron content of the bloom. Steel is used in the production of high-quality tools. The improved hardness makes them more resistant to wear, and gives sharp tools and weapons a more durable edge."
+  },
+  "service": {
+    "text": "Tenants of farmsteads work in service of the farmstead owner as payment for living there. Once the farmstead is built, this labour is free with the exception of the tax on the land."
+  },
+  "labouring": {
+    "text": "Tenant workers housed in the boardinghouse provide labour in return for basic necessities."
+  },
+  "sew coats": {
+    "text": "Sewing coats with both leather and dyed cloth involves a specialized process. Artisans carefully select a suitable pattern for combining these materials. High-quality leather and cloth are chosen for the coat. Using a cutting table, pattern pieces are carefully cut from the selected materials. Seamstresses and tailors meticulously sew the leather and cloth pieces together, employing specialized needles and thread. Stress areas receive additional reinforcement for durability. Details like collars, cuffs, and pockets are seamlessly integrated into the design. Finishing touches are applied to the raw edges to ensure a polished appearance. A final inspection guarantees the coat meets quality standards for both craftsmanship and durability."
+  },
+  "sew gambeson": {
+    "text": "Gambesons are heavy cloth garments made by quilting together multiple layers of cloth, often stuffed with additional materials for additional protection."
+  },
+  "sew garments": {
+    "text": "Sewing garments begins with selecting and cutting fabric according to a pattern. The pieces are then pinned or basted together to ensure proper alignment. Using a needle and thread, the seams are stitched by hand, securing the fabric pieces. Special attention is given to details like hems, cuffs, and collars, which are carefully folded and sewn for a clean finish. Throughout the process, the garment is frequently fitted and adjusted to ensure a proper fit. Finally, the finished garment is pressed and any loose threads are trimmed, ensuring a polished and wearable piece."
+  },
+  "skinning": {
+    "text": "The carcass is hung by the hocks from a timber beam. The skinner makes a long incision from the brisket to the tail, then circles the legs. Using a blunt-edged fleshing knife, the worker peels the hide away from the fat and muscle, taking care not to pierce the grain. Any remaining meat is scraped clean from the inner surface. The pelt is then stretched upon a wooden frame to dry before being sent to the tanner."
+  },
+  "smelt copper 1": {
+    "text": "Smelting copper involves subjecting crushed ore to intense heat within specialized furnaces, called foundries. This arduous and meticulous process yields copper ingots."
+  },
+  "smelt copper": {
+    "text": "Smelting copper involves subjecting crushed ore to intense heat within specialized furnaces, called foundries. This process utilises oxen power to power bellows to control the fire in the foundries, which in turn help in smelting a higher quantity of copper ingots"
+  },
+  "smelt gold": {
+    "text": "A variety of processes exists to extract gold from its ore. The most basic method involves crushing the ore, and manually separating gold-containing particles from rock, then smelting them. Cuppelation is another common method of purifying gold: crushed gold ore is mixed with molten lead; once the gold melts, it separates into a layer on top of the lead, which can then be skimmed off. Another, less common method involves adding mercury to the ore, which dissolves the gold, and then heating the mercury to make it evaporate. The pure gold is cast into bars, which are used to produce very high-value items, including coins and jewellery.",
+    "inputs": {
+      "acid": "In the refining stages of smelting, powerful acids are used to selectively dissolve base metals and impurities."
+    }
+  },
+  "smelt lead": {
+    "text": "Due to the low melting temperature of lead, smelting it from its ore is a comparatively simple process. The most basic setup to extract the metal simply requires dropping the ore into a fire and collecting the solidified chunks from the ashes after the fire has burned out. However, a significant amount of metal is lost during this process mostly as slag, requiring the ore to be quite rich in lead. The most prominent lead ore is galena, which often also contains notable amounts of silver."
+  },
+  "smelt iron": {
+    "text": "The iron smelting process starts with the pre-heating of the furnace. Once the furnace is pre-heated it is filled up with burning charcoal. On the top of this is added one layer of iron ore and one layer of charcoal alternately. After a long time, the slag is tapped from the furnace through a slag-tapping hole built into the breast wall of the furnace. The slag contains non-iron substances from the iron ore and some iron that could not be reduced from the ore. It is important to note that the iron stays in a solid state throughout the smelting process. The iron bloom is formed in the hearth of the furnace. The structure of the iron bloom is sponge-like and it contains some slag. The smelting process ends when the iron bloom gets as big as the breast wall of the furnace so that it can be removed by breaking the breast wall only. This way, the furnace can be used again with a new breast wall. After the iron bloom is removed, it is compressed on a log with a wooden hammer and forge-weld into usable iron",
+    "inputs": {
+      "limestone": "Calcium carbonate acts as a flux, binding with the silica impurities in the ore. It melts into a glassy, liquid slag that floats on top of the heavier liquid iron, protecting it from oxidation and allowing it to be skimmed off."
+    }
+  },
+  "smelt silver": {
+    "text": "Silver ore is crushed and smelted to separate the silver content from impurities in the ore.",
+    "inputs": {
+      "acid": "In the refining stages of smelting, powerful acids are used to selectively dissolve base metals and impurities."
+    }
+  },
+  "smelt tin": {
+    "text": "Refine tin ore into pure tin ingots by heating it in a furnace. The intense heat separates the metal from the surrounding rock, allowing the molten tin to be collected and cast into manageable bars for trade or further alloying."
+  },
+  "smoke fish": {
+    "text": "Freshly caught fish are hung over a slow-burning fire, where the smoke dries them out and preserves their flavor. This technique keeps fish edible for weeks, making it a valuable source of food in times when fresh catches are scarce. Smoked fish is often traded or stored for winter, ensuring a reliable food supply even when rivers and seas freeze over."
+  },
+  "smoke ham": {
+    "text": "Chunks of meat are salted and then hung over a smoky fire, often with aromatic herbs like rosemary, thyme, or juniper berries added to the mix. As the smoke rises, it infuses the meat with rich, savory flavors, while the herbs add subtle, earthy notes. This process not only preserves the ham for months but creates a delicacy that’s sought after in markets and savored at feasts."
+  },
+  "smoke meat": {
+    "text": "The smoke from a nearby fire will not only give the meat a different flavour, but also help to preserve it. It also holds anti-bacterial and anti-fungal properties (and keeps the flies off). Ashes were placed over the embers to extinguish any flames, which produced an ideal smoky environment to preserve meat. If the temperature is too hot, you’ll cook the meat instead of preserving it. Using different types of wood will also create different kinds of flavour. Experimenting with various herbs and spices could also improve the flavour of cured meats."
+  },
+  "spin yarn": {
+    "text": "Raw and unorganized wool fibres are drawn out and twisted tightly together to create a continuous, strong yarn.",
+    "inputs": {
+      "spinning wheel": "The spinning wheel, operated with a foot pedal, increases the spinning efficiency massively. As they are worn down, they will be replaced with fresh ones in part or whole."
+    }
+  },
+  "spin thread": {
+    "text": "Raw and unorganized flax fibres are drawn out and twisted tightly together to create a continuous, strong thread.",
+    "inputs": {
+      "spinning wheel": "The spinning wheel, operated with a foot pedal, increases the spinning efficiency massively. As they are worn down, they will be replaced with fresh ones in part or whole."
+    }
+  },
+  "spinning duty": {
+    "text": "Spinning of fibers into string can easily be done out of your own household, providing a crucial input for your own weaveries or for sale at the market. The raw, unorganized fibres are simultaneously drawn out and tightly twisted together to create a continuous, strong yarn or thread.",
+    "inputs": {
+      "flax fibres": "The fibres are used as the input for the spinning process. Look into getting your own flax fibre supply to keep the cost down.",
+      "wool": "Carded wool fibres are used as the input for the spinning process. Look into getting your own wool supply to keep the cost down.",
+      "fleece": "Raw fleece directly from the animals are carded and spun. Look into getting your own fleece supply or switch to using carded wool to keep the cost down."
+    }
+  },
+  "binding duty": {
+    "text": "By using the nålbinding technique you can produce different kinds of garments out of your own household. A needle is used to pass the working string of yarn through loops to bind a product without using knots.",
+    "inputs": {
+      "wool": "Carded wool fibres are spun and bound by the nålbinder.",
+      "fleece": "Raw fleece directly from the animals are carded and spun before the nålbinding takes place. Look into getting your own fleece supply or switch to using carded wool or spun yarn to keep the cost down."
+    }
+  },
+  "tan hides": {
+    "text": "Hides, typically from cattle or deer, are soaked in water to remove blood and dirt, then treated with salt and potentially lime to loosen the hair, which is scraped off with knives. The hides are then soaked in a tanning solution made from oak bark or other sources of tannin, which preserves and strengthens the leather. This process can take months and results in durable leather used for making shoes, belts, armour, saddles, and other essential items in medieval life."
+  },
+  "trapping": {
+    "text": "Trapping provides hides by catching small animals like rabbits, foxes, and beavers. Once an animal is caught, hunters carefully remove the animal from the trap to avoid damaging the hide. The next step is skinning, which begins by making incisions around the animal’s legs and along its belly. The hide is then carefully peeled away from the body, using a knife to cut away any connective tissue. After the hide is removed, it undergoes cleaning to remove any remaining fat, flesh, or blood. This can be done by scraping the hide with a blunt tool. Once cleaned, the hide is stretched and secured on a wooden frame or pegged to the ground to dry. Drying helps preserve the hide and makes it easier to handle during further processing."
+  },
+  "weave canvas": {
+    "text": "Canvas is built on a tabby weave, the simplest but strongest interlacing method. The crosswise thread (the weft) goes simply over one warp thread, under the next, over the next, and so on. To make the canvas windproof and water-resistant, the weave had to be incredibly dense. A heavy wooden \"beater\" is used to beat the new weft thread tightly against the woven cloth.",
+    "inputs": {
+      "looms": "The loom improves the efficiency of the weaving process tremendously. The warp threads are stretched vertically on the loom, while the horizontal threads are woven through them. The weaver passes a shuttle carrying the horizontal thread back and forth across the vertical threads, creating the fabric.",
+      "varnish": "Painting or soaking the canvas in varnish will result in a waterproff layer, further expanding the various uses this material has."
+    }
+  },
+  "weave cloth": {
+    "text": "Weaving is the process of interlacing two distinct sets of strings at right angles to create a cohesive two-dimensional strip of cloth. The warp consist of strings tied up on a frame, while the weft is passed between the elements of the warp. Between each passing of the weft, the strings of the warp are moved such that the next pass will be passed over the strings the previous pass went under and vice versa.",
+    "inputs": {
+      "looms": "The loom improves the efficiency of the weaving process tremendously. The warp threads are stretched vertically on the loom, while the horizontal threads are woven through them. The weaver passes a shuttle carrying the horizontal thread back and forth across the vertical threads, creating the fabric. By adjusting the tension and pattern, intricate designs can be woven into the cloth.",
+      "yarn": "Wool yarn gives a looser result than tighter threads, often called raw cloth, which requires additional processing to be useful.",
+      "thread": "Weaving with linen threads results in a soft linen fabric."
+    }
+  },
+  "weave tiretaine": {
+    "text": "Weaving a tiretaine will combine woolen yarn and thread, using thread for the warp and yarn for the weft. These are then interlaced at right angles to create a cohesive two-dimensional strip of cloth. The warp is tied up on a frame, while the weft is passed between the threads of the warp. Between each passing of the weft, the threads of the warp are moved such that the next pass will be passed over the threads the previous pass went under and vice versa.",
+    "inputs": {
+      "looms": "The loom improves the efficiency of the weaving process tremendously. The warp threads are stretched vertically on the loom, while the horizontal threads are woven through them. The weaver passes a shuttle carrying the horizontal thread back and forth across the vertical threads, creating the fabric. By adjusting the tension and pattern, intricate designs can be woven into the cloth.",
+      "thread": "Strong threads are tied up tighly in a frame or on a loom to provide the warp for the weaving process.",
+      "yarn": "Wool yarn makes up the weft passed between the warp over the course of the weaving process."
+    }
+  },
+  "weave tapestries": {
+    "text": "The tapestry weaver works at a vertical loom, interlacing dyed wool wefts through the linen warp. Guided by a painted cartoon, the worker beats the weft tight with a wooden comb. Only the reverse faces the maker. Each pass builds the scene, obscuring the warp in a dense, ribbed web.",
+    "inputs": {
+      "paper": "The worker draws the desired pattern on paper and uses this to guide the weaving process."
+    }
+  },
+  "embroider tapestries": {
+    "text": "Intricate patterns are embroidered onto the high quality cloth guided by a painted cartoon",
+    "inputs": {
+      "paper": "The worker draws the desired pattern on paper, which layed over the cloth aids in guiding the work."
+    }
+  },
+  "handcart": {
+    "text": "Operation and maintenance of handcarts"
+  },
+  "handcart renew": {
+    "text": "Operation of handcarts relying on new handcarts from a producer for spare parts and replacements."
+  },
+  "tumbrel": {
+    "text": "Operation and maintenance of tumbrel carts."
+  },
+  "tumbrel renew": {
+    "text": "Operation of tumbrel carts, relying on new tumbrels from a producer for spare parts and replacements."
+  },
+  "snekkja": {
+    "text": "Operation and maintenance of snekkja ships."
+  },
+  "snekkja renew": {
+    "text": "Operation of snekkja ships, relying on new snekkjas from a producer for spare parts and replacements."
+  },
+  "cog": {
+    "text": "Operation and maintenance of cog ships."
+  },
+  "cog renew": {
+    "text": "Operation of cog ships, relying on new cogs from a producer for spare parts and replacements."
+  },
+  "hulk": {
+    "text": "Operation and maintenance of hulk ships."
+  },
+  "hulk renew": {
+    "text": "Operation of hulk ships, relying on new hulks from a producer for spare parts and replacements."
+  },
+  "premium cog": {
+    "text": "Operation and maintenance of premium cog ships."
+  },
+  "premium cog renew": {
+    "text": "Operation of premium cog ships, relying on new premium cogs from a producer for spare parts and replacements."
+  },
+  "make casks": {
+    "text": "Casks and barrels are assembled by coopers using sturdy wooden staves, bound tightly together with iron or wooden hoops. The natural swelling of the damp wood ensures a watertight seal, making these vessels essential for the storage and long-distance transport of liquids such as beer, wine, and salted provisions."
+  },
+  "knit garments": {
+    "text": "Knitting utilizes long wooden or bone needles to interlock loops of spun yarn into a flexible, continuous fabric. This method produces warm, form-fitting garments that provide excellent insulation against harsh winter drafts, serving as essential clothing for commoners and gentry alike."
+  },
+  "fishing": {
+    "text": "Fishermen cast nets and set lines from small boats or coastal shacks to draw a harvest from the sea. This arduous toil provides a vital source of fresh protein for the parish, though the catch must be consumed quickly or cured before spoilage sets in.",
+    "inputs": {
+      "timber": "Timber is used to keep the fishing boats in good repair.",
+      "tar": "The boat's tar coating wears off over time and needs to be replaced."
+    }
+  },
+  "maintain": {
+    "text": "Significant work is needed to keep the park looking good and adding to the beauty of the town."
+  },
+  "hold feast": {
+    "text": "Hosting a feast requires the provision of plentiful food and drink for guests drawn from the local community. Such gatherings are a tangible demonstration of surplus and generosity, elevating the household's standing and securing the goodwill of the parish."
+  },
+  "hold banquet": {
+    "text": "The grand banquet is an opulent display of excess, reserved for the upper echelons of the nobility and high gentry. By presenting exotic dishes, premium vintages, and elaborate entertainment, the host projects undeniable wealth and generosity, resulting in an elevation of their social standing."
+  },
+  "craft cookware": {
+    "text": "Essential for both the humble hearth and the industrial kitchen, cookware is crafted by working copper into robust vessels. These pots and cauldrons are designed to withstand repeated exposure to open flame, efficiently transferring heat for boiling, stewing, and rendering.",
+    "inputs": {
+      "tin ingots": "A tin coating protects the copper from reacting with the content, extending the lifetime of the vessels and avoiding contamination. Tin can also be used to solder copper elements together and seal joints.",
+      "silver bars": "A silver lining improves both the function and aesthetics of the cookware. Silver can also be used to solder copper elements together and seal joints.",
+      "lead bars": "Lead is melted and mixed with tin or silver to lower the melting point and make it easier to work with, both for soldering and coating."
+    }
+  },
+  "salt meat": {
+    "text": "Cuts of fresh meat are packed into sturdy timber casks with generous layers of coarse salt. The salt rapidly draws out moisture, halting the putrefaction of the flesh and transforming the perishable meat into a durable provision suited for long winters or arduous maritime journeys."
+  },
+  "brew hop beer": {
+    "text": "The addition of hops to the boiling malt wort introduces a sharp, bitter balance to the sweet liquid."
+  },
+  "build hulk": {
+    "text": "The hulk is a massive, broad-beamed vessel built with overlapping timber planks in the clinker fashion. Its high, rounded sides maximize cargo space, while its sturdy masts carry the large square sails necessary to drive this heavy workhorse of maritime trade across open waters."
+  },
+  "sew sails": {
+    "text": "Within the wide floors of the sail loft, heavy canvas is cut and stitched into massive sails. The workers use thick thread and specialized leather palms to drive needles through the dense weave, heavily reinforcing the seams to withstand the tearing force of coastal gales."
+  },
+  "trap fish": {
+    "text": "Woven from pliable willow or reeds, fish traps are staked in tidal shallows and river currents. The funneled entrances guide the fish into a holding chamber from which they cannot navigate an escape, providing a steady and reliable yield of fresh fish with little ongoing exertion."
+  },
+  "let rowhouses": {
+    "text": "Rowhouses are let out, providing dense and efficient housing for the growing population of urban commoners and craftsmen. By sharing common walls, these timber-framed dwellings conserve heat and building materials, offering an affordable residence close to the markets and workshops."
+  },
+  "protect": {
+    "text": "Armed guards and constables are hired to protect the town's valuable assets and maintain order within the parish. Equipped with sturdy armour and sharp weapons, they patrol the streets and secure the storehouses against theft and disruption, ensuring that trade and production continue unimpeded."
+  },
+  "prepare rigging": {
+    "text": "Rigging is prepared by systematically cutting and splicing heavy rope to form the intricate network of lines required for a ship. The standing rigging is secured to support the masts, while tackles and blocks are assembled into the running rigging, providing the sailors with the mechanical advantage needed to hoist and trim the massive sails."
+  },
+  "make maille": {
+    "text": "Thousands of small iron or steel rings are meticulously linked and riveted together to form a flexible mesh of maille armour. This dense, heavy fabric of metal offers excellent protection against slashing blows while maintaining enough flexibility for the wearer to move unhindered in combat."
+  },
+  "shovel manure": {
+    "text": "Manure is collected from the stables and sheds where livestock are kept, then shovelled into carts or pits for aging. This nutrient-rich waste is a vital resource for the parish farms, as working it into the soil replenishes exhausted fields and significantly improves the yield of upcoming harvests."
+  },
+  "shovel muck": {
+    "text": "Manure and muck are collected from the stables and sheds where livestock are kept, then shovelled into carts or pits for aging. This nutrient-rich waste is a vital resource for the parish farms, as working it into the soil replenishes exhausted fields and significantly improves the yield of upcoming harvests."
+  },
+  "ripple flax": {
+    "text": "Rippling is the process of drawing dried flax stalks through a heavy comb-like tool, or ripple, to detach the seed bolls from the stems. This must be done prior to retting to prevent the seeds from rotting in the water. The collected seeds are saved for sowing or oil crushing, while the clean stalks are prepared for further fibre processing.",
+    "inputs": {
+      "tools": "Iron-toothed ripples allow for swifter and more thorough extraction of the seeds from the flax stalks, reducing the labour required."
+    }
+  },
+  "collect slabs": {
+    "text": "Slabs are the rounded, bark-covered outer cuts of logs discarded during squaring at the sawmill. By collecting these waste pieces from the yard and sawing them down, labourers can produce a cheap supply of firewood without the need to fell additional trees.",
+    "inputs": {
+      "tools": "Iron saws and axes enable the labourers to cut and split the awkward, bark-covered slabs much faster and with greater ease."
+    }
+  },
+  "inscribe books": {
+    "text": "Scribes copy and ornament manuscripts by hand. Each page is inscribed and bound between protective covers, producing enduring volumes of knowledge and devotion that elevate the standing of the monastery.",
+    "inputs": {
+      "gold bars": "Beaten gold leaf is applied by the illuminator to initial letters and borders to catch the light.",
+      "premium dye": "Vibrant and rare pigments are used to illustrate elaborate miniatures and margins.",
+      "leather": "Tanned leather hides are wrapped around wooden boards to create a durable, protective cover.",
+      "paper": "Individual sheets of paper are folded and sewn together to form the body of the book.",
+      "thread": "Strong linen thread is used to sew the folded sheets of paper into individual gatherings or signatures."
+    }
+  },
+  "hammer alembics": {
+    "text": "Alembics are specialized distillation vessels crafted by coppersmiths from sheets of hammered copper. The coppersmith shapes the spherical cucurbit and the helm, using solder to join the components into a vapour-tight seal. These vessels are essential for the distillation of spirits, perfumes, and chemical acids.",
+    "inputs": {
+      "copper ingots": "Refined copper is hammered into thin, malleable sheets to form the body and neck of the alembic.",
+      "lead bars": "Lead is melted and mixed with tin or silver to lower the melting point and make it easier to work with, both for soldering and coating.",
+      "tin ingots": "Tin is alloyed with lead to formulate a low-melting-point solder that flows easily into the seams of the copper joints.",
+      "silver bars": "Silver is used to line or ornament the alembics, preventing copper corrosion from reactive distillates, and can also be used as a solder to seal joints."
+    }
+  },
+  "boil soap": {
+    "text": "Soap is produced by boiling tallow and potash lye in large cauldrons, initiating the saponification process that turns fat into cleanser. Once boiled, the thick soap is poured into moulds or casks to cool, solidify, and age. The resulting blocks are sliced into bars, offering a highly sought-after commodity for laundry, scouring wool, and personal cleanliness.",
+    "inputs": {
+      "tallow": "Rendered animal fat provides the greasy base that chemically reacts with the alkali to form solid soap.",
+      "potash": "Wood-ash potash acts as the caustic alkaline agent necessary to saponify the fat into soap.",
+      "flax plants": "Flax flowers are added for colouring and scent.",
+      "herbs": "Aromatic herbs are infused during boiling to scent the soap, masking the odour of the tallow and appealing to gentry clients.",
+      "dye": "Adding colouring agents produces decorative, marbled soaps that command a higher standing.",
+      "casks": "The hot liquid soap is poured into casks to cool, cure, and harden into bulk blocks for transport."
+    }
+  }
+}

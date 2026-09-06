@@ -1,0 +1,907 @@
+[
+  {
+    "name": "handcart 1",
+    "tier": 1,
+    "site": "handcart",
+    "class": "mercantile",
+    "points": 1,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "name": "handcart 2",
+    "tier": 1,
+    "site": "handcart",
+    "class": "mercantile",
+    "points": 1.25,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 22
+      },
+      {
+        "product": "wheels",
+        "amount": 0.1
+      }
+    ],
+    "fallbacks": ["handcart 1"]
+  },
+  {
+    "name": "handcart 2 (protected)",
+    "tier": 1,
+    "site": "handcart",
+    "class": "mercantile",
+    "points": 1.25,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 19
+      },
+      {
+        "product": "protection",
+        "amount": 1
+      },
+      {
+        "product": "wheels",
+        "amount": 0.1
+      }
+    ],
+    "fallbacks": ["handcart 2", "handcart 1"]
+  },
+  {
+    "name": "handcart renew",
+    "tier": 1,
+    "site": "handcart",
+    "class": "mercantile",
+    "points": 1.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 18
+      },
+      {
+        "product": "handcart",
+        "amount": 0.01
+      }
+    ],
+    "fallbacks": ["handcart 1"]
+  },
+  {
+    "name": "tumbrel 1",
+    "tier": 1,
+    "site": "tumbrel",
+    "class": "mercantile",
+    "points": 1.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 25
+      },
+      {
+        "product": "wheels",
+        "amount": 0.2
+      },
+      {
+        "product": "ox power",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "name": "tumbrel 2",
+    "tier": 2,
+    "site": "tumbrel",
+    "class": "mercantile",
+    "points": 2.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 20
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "wheels",
+        "amount": 0.25
+      },
+      {
+        "product": "ox power",
+        "amount": 22
+      }
+    ],
+    "fallbacks": ["tumbrel 1"]
+  },
+  {
+    "name": "tumbrel 1 (protected)",
+    "tier": 1,
+    "site": "tumbrel",
+    "class": "mercantile",
+    "points": 1.75,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 20
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "wheels",
+        "amount": 0.2
+      },
+      {
+        "product": "ox power",
+        "amount": 25
+      }
+    ],
+    "fallbacks": ["tumbrel 1"]
+  },
+  {
+    "name": "tumbrel renew",
+    "tier": 1,
+    "site": "tumbrel",
+    "class": "mercantile",
+    "points": 1.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 15
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "ox power",
+        "amount": 20
+      },
+      {
+        "product": "tumbrel",
+        "amount": 0.01
+      }
+    ]
+  },
+  {
+    "name": "snekkja 1",
+    "tier": 1,
+    "site": "snekkja",
+    "class": "maritime",
+    "points": 1.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 50
+      },
+      {
+        "product": "timber",
+        "amount": 0.25
+      },
+      {
+        "product": "cloth",
+        "amount": 1.6
+      },
+      {
+        "product": "tar",
+        "amount": 0.5
+      }
+    ]
+  },
+  {
+    "name": "snekkja 2",
+    "tier": 1,
+    "site": "snekkja",
+    "class": "maritime",
+    "points": 1.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 50
+      },
+      {
+        "product": "timber",
+        "amount": 0.25
+      },
+      {
+        "product": "canvas",
+        "amount": 0.2
+      },
+      {
+        "product": "tar",
+        "amount": 0.5
+      }
+    ]
+  },
+  {
+    "name": "snekkja 3",
+    "tier": 1,
+    "site": "snekkja",
+    "class": "maritime",
+    "points": 1.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 43
+      },
+      {
+        "product": "timber",
+        "amount": 0.25
+      },
+      {
+        "product": "canvas",
+        "amount": 0.2
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "rope",
+        "amount": 0.05
+      },
+      {
+        "product": "tar",
+        "amount": 0.5
+      }
+    ],
+    "fallbacks": ["snekkja 2"]
+  },
+  {
+    "name": "snekkja 4",
+    "tier": 2,
+    "site": "snekkja",
+    "class": "maritime",
+    "points": 3,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 36
+      },
+      {
+        "product": "timber",
+        "amount": 0.25
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "rope",
+        "amount": 0.05
+      },
+      {
+        "product": "tackles",
+        "amount": 0.01
+      },
+      {
+        "product": "sails",
+        "amount": 0.02
+      },
+      {
+        "product": "tar",
+        "amount": 0.5
+      }
+    ]
+  },
+  {
+    "name": "snekkja 4 (premium)",
+    "tier": 2,
+    "site": "snekkja",
+    "class": "maritime",
+    "points": 4,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 30
+      },
+      {
+        "product": "timber",
+        "amount": 0.25
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "rope",
+        "amount": 0.05
+      },
+      {
+        "product": "tackles",
+        "amount": 0.01
+      },
+      {
+        "product": "tar",
+        "amount": 0.5
+      },
+      {
+        "product": "premium sails",
+        "amount": 0.01
+      }
+    ]
+  },
+  {
+    "name": "snekkja renew",
+    "tier": 1,
+    "site": "snekkja",
+    "class": "maritime",
+    "points": 2.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 30
+      },
+      {
+        "product": "protection",
+        "amount": 2
+      },
+      {
+        "product": "snekkja",
+        "amount": 0.01
+      }
+    ]
+  },
+  {
+    "name": "cog 1",
+    "tier": 1,
+    "site": "cog",
+    "class": "maritime",
+    "points": 2,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 85
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "canvas",
+        "amount": 1
+      },
+      {
+        "product": "rope",
+        "amount": 0.5
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "name": "cog 2",
+    "tier": 1,
+    "site": "cog",
+    "class": "maritime",
+    "points": 2.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 84
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "rigging",
+        "amount": 0.25
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "name": "cog 2 (protected)",
+    "tier": 1,
+    "site": "cog",
+    "class": "maritime",
+    "points": 2.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 75
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 4
+      },
+      {
+        "product": "rigging",
+        "amount": 0.25
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      }
+    ],
+    "fallbacks": ["cog 2"]
+  },
+  {
+    "name": "cog 3",
+    "tier": 2,
+    "site": "cog",
+    "class": "maritime",
+    "points": 4,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 60
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 4
+      },
+      {
+        "product": "rope",
+        "amount": 0.1
+      },
+      {
+        "product": "tackles",
+        "amount": 0.02
+      },
+      {
+        "product": "sails",
+        "amount": 0.1
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "name": "cog 3 (premium)",
+    "tier": 2,
+    "site": "cog",
+    "class": "maritime",
+    "points": 5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 55
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 4
+      },
+      {
+        "product": "rope",
+        "amount": 0.1
+      },
+      {
+        "product": "tackles",
+        "amount": 0.02
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      },
+      {
+        "product": "premium sails",
+        "amount": 0.03
+      }
+    ]
+  },
+  {
+    "name": "cog renew",
+    "tier": 1,
+    "site": "cog",
+    "class": "maritime",
+    "points": 3,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 55
+      },
+      {
+        "product": "protection",
+        "amount": 4
+      },
+      {
+        "product": "cog",
+        "amount": 0.008
+      }
+    ]
+  },
+  {
+    "name": "hulk 1",
+    "tier": 1,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 3,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 100
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "canvas",
+        "amount": 4
+      },
+      {
+        "product": "rope",
+        "amount": 1
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "name": "hulk 2",
+    "tier": 1,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 3.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 80
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "rope",
+        "amount": 1
+      },
+      {
+        "product": "sails",
+        "amount": 0.25
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "name": "hulk 3",
+    "tier": 1,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 3.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 75
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 6
+      },
+      {
+        "product": "rigging",
+        "amount": 0.75
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      }
+    ]
+  },
+  {
+    "name": "hulk 4",
+    "tier": 2,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 75
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 6
+      },
+      {
+        "product": "rope",
+        "amount": 0.25
+      },
+      {
+        "product": "tackles",
+        "amount": 0.1
+      },
+      {
+        "product": "sails",
+        "amount": 0.25
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      }
+    ],
+    "fallbacks": ["hulk 2"]
+  },
+  {
+    "name": "hulk 4 (premium)",
+    "tier": 2,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 6,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 60
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 6
+      },
+      {
+        "product": "rope",
+        "amount": 0.25
+      },
+      {
+        "product": "tackles",
+        "amount": 0.1
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      },
+      {
+        "product": "premium sails",
+        "amount": 0.1
+      }
+    ]
+  },
+  {
+    "name": "hulk 5",
+    "tier": 3,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 6,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 70
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 6
+      },
+      {
+        "product": "rope",
+        "amount": 0.25
+      },
+      {
+        "product": "tackles",
+        "amount": 0.1
+      },
+      {
+        "product": "sails",
+        "amount": 0.25
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      }
+    ],
+    "fallbacks": ["hulk 2"]
+  },
+  {
+    "name": "hulk 5 (premium)",
+    "tier": 3,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 7,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 55
+      },
+      {
+        "product": "timber",
+        "amount": 1
+      },
+      {
+        "product": "protection",
+        "amount": 6
+      },
+      {
+        "product": "rope",
+        "amount": 0.25
+      },
+      {
+        "product": "tackles",
+        "amount": 0.1
+      },
+      {
+        "product": "tar",
+        "amount": 4
+      },
+      {
+        "product": "premium sails",
+        "amount": 0.1
+      }
+    ]
+  },
+  {
+    "name": "hulk renew",
+    "tier": 1,
+    "site": "hulk",
+    "class": "maritime",
+    "points": 5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 70
+      },
+      {
+        "product": "protection",
+        "amount": 6
+      },
+      {
+        "product": "hulk",
+        "amount": 0.008
+      }
+    ]
+  },
+  {
+    "name": "premium cog 1",
+    "tier": 1,
+    "site": "premium cog",
+    "class": "maritime",
+    "points": 3.5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 80
+      },
+      {
+        "product": "timber",
+        "amount": 0.5
+      },
+      {
+        "product": "tackles",
+        "amount": 0.2
+      },
+      {
+        "product": "sails",
+        "amount": 0.2
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      }
+    ]
+  },
+  {
+    "name": "premium cog 2",
+    "tier": 1,
+    "site": "premium cog",
+    "class": "maritime",
+    "points": 4,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 80
+      },
+      {
+        "product": "timber",
+        "amount": 0.5
+      },
+      {
+        "product": "protection",
+        "amount": 3
+      },
+      {
+        "product": "rigging",
+        "amount": 0.25
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      },
+      {
+        "product": "premium sails",
+        "amount": 0.05
+      }
+    ]
+  },
+  {
+    "name": "premium cog 3",
+    "tier": 2,
+    "site": "premium cog",
+    "class": "maritime",
+    "points": 5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 60
+      },
+      {
+        "product": "timber",
+        "amount": 0.5
+      },
+      {
+        "product": "protection",
+        "amount": 3
+      },
+      {
+        "product": "rope",
+        "amount": 0.5
+      },
+      {
+        "product": "tackles",
+        "amount": 0.2
+      },
+      {
+        "product": "tar",
+        "amount": 2
+      },
+      {
+        "product": "premium sails",
+        "amount": 0.06
+      }
+    ]
+  },
+  {
+    "name": "premium cog renew",
+    "tier": 2,
+    "site": "premium cog",
+    "class": "maritime",
+    "points": 5,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 50
+      },
+      {
+        "product": "protection",
+        "amount": 3
+      },
+      {
+        "product": "premium cog",
+        "amount": 0.008
+      }
+    ]
+  }
+]
