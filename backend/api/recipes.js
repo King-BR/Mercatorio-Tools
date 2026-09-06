@@ -89,28 +89,10 @@ router.get("/", async (req, res) => {
     const force = req.query.force === "true";
     const recipes = await getRecipes(force);
 
-    res.json(recipes);
+    res.json(Array.from(recipes.values()));
   } catch (error) {
     console.error("Error fetching recipes:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-// Get recipe by name
-// GET /api/recipes/:name
-router.get("/:name", async (req, res) => {
-  try {
-    const force = req.query.force === "true";
-    const recipes = await getRecipes(force);
-    const recipe = recipes.get(req.params.name.toLowerCase());
-    if (recipe) {
-      res.json(recipe);
-    } else {
-      res.status(404).json({ message: "Recipe not found" });
-    }
-  } catch (error) {
-    console.error("Error fetching recipe:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
@@ -129,7 +111,7 @@ router.get("/input/:product", async (req, res) => {
     res.json(filteredRecipes);
   } catch (error) {
     console.error("Error fetching recipes by input product:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
@@ -147,7 +129,7 @@ router.get("/output/:product", async (req, res) => {
     res.json(filteredRecipes);
   } catch (error) {
     console.error("Error fetching recipes by output product:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 

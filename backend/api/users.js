@@ -11,8 +11,8 @@ router.get("/", auth, admin, async (req, res) => {
     const usersJson = users.map((user) => user.toJSON());
 
     res.json(usersJson);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
@@ -26,8 +26,8 @@ router.get("/:id", auth, admin, async (req, res) => {
     }
 
     res.json(user.toJSON());
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 });
 

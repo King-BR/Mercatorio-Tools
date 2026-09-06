@@ -1,17 +1,20 @@
 const ToolsDB = require("../models/tools.js");
 const auth = require("../middleware/auth.js");
+const admin = require("../middleware/admin.js");
 const express = require("express");
 const router = express.Router();
 
+// GET /api/tools
 router.get("/", async (req, res) => {
   try {
     const tools = await ToolsDB.find();
     res.status(200).json(tools);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
+// GET /api/tools/:id
 router.get("/:id", async (req, res) => {
   try {
     const tool = await ToolsDB.findById(req.params.id);
@@ -20,21 +23,23 @@ router.get("/:id", async (req, res) => {
     }
     res.status(200).json(tool);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
-router.post("/", auth, async (req, res) => {
+// POST /api/tools
+router.post("/", auth, admin, async (req, res) => {
   try {
     const newTool = new ToolsDB(req.body);
     const savedTool = await newTool.save();
     res.status(201).json(savedTool);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
-router.put("/:id", auth, async (req, res) => {
+// PUT /api/tools/:id
+router.put("/:id", auth, admin, async (req, res) => {
   try {
     const updatedTool = await ToolsDB.findByIdAndUpdate(
       req.params.id,
@@ -46,11 +51,12 @@ router.put("/:id", auth, async (req, res) => {
     }
     res.status(200).json(updatedTool);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
-router.delete("/:id", auth, async (req, res) => {
+// DELETE /api/tools/:id
+router.delete("/:id", auth, admin, async (req, res) => {
   try {
     const deletedTool = await ToolsDB.findByIdAndDelete(req.params.id);
     if (!deletedTool) {
@@ -58,7 +64,7 @@ router.delete("/:id", auth, async (req, res) => {
     }
     res.status(200).json({ message: "Tool deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
