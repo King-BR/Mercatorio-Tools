@@ -1,4 +1,4 @@
-var categoriesArray = [
+export const categories = [
   {
     id: "all",
     name: "All",
@@ -28,29 +28,3 @@ var categoriesArray = [
     name: "Automation",
   },
 ];
-
-var toolsCache = null;
-var cacheDuration = 60 * 60 * 1000; // Cache duration in milliseconds (1 hour)
-var lastCacheTime = null;
-
-async function getTools() {
-  await updateCache();
-
-  return toolsCache;
-}
-
-async function updateCache() {
-  if (Date.now() - lastCacheTime < cacheDuration) return;
-
-  lastCacheTime = Date.now();
-
-  try {
-    const response = await fetch("api/tools");
-    toolsCache = await response.json();
-  } catch (error) {
-    console.error(`Error fetching tools data:\n${error}`);
-  }
-}
-
-export var tools = await getTools();
-export var categories = categoriesArray;

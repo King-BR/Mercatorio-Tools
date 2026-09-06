@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import recipes from "../../data/recipes.json";
-
 import {
   buildRecipeIndex,
   getRecipesForProduct,
@@ -18,6 +16,7 @@ import ProductionSidebar from "../../components/production/ProductionSidebar";
 import "./ProductionPlanner.css";
 
 export default function ProductionPlanner() {
+  const [recipes, setRecipes] = useState([]);
   const recipeIndex = buildRecipeIndex(recipes);
 
   const products = recipeIndex.products.sort();

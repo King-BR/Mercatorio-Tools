@@ -1,9 +1,12 @@
-export function buildRecipeIndex(recipes) {
+import { getRecipes, getProducts } from "../api";
+
+export async function buildRecipeIndex() {
+  const recipes = await getRecipes();
+  const products = await getProducts();
   const productRecipes = {};
   const recipeProducts = {};
-  const products = new Set();
 
-  for (const [recipeId, recipe] of Object.entries(recipes)) {
+  for (const recipe of recipes) {
     if (!recipe || !Array.isArray(recipe.outputs)) {
       continue;
     }
@@ -12,30 +15,16 @@ export function buildRecipeIndex(recipes) {
       continue;
     }
 
-    recipeProducts[recipeId] = recipe.outputs.map((output) => ({
+    recipeProducts[recipe.name] = recipe.outputs.map((output) => ({
       product: output.product,
       amount: Number(output.amount) || 0,
     }));
-
-    for (const output of recipe.outputs) {
-      if (!output?.product) {
-        continue;
-      }
-
-      if (!productRecipes[output.product]) {
-        productRecipes[output.product] = [];
-      }
-
-      productRecipes[output.product].push(recipeId);
-
-      if (!products.has(output.product)) products.add(output.product);
-    }
   }
 
   return {
     productRecipes,
     recipeProducts,
-    products: Array.from(products),
+    products,
   };
 }
 

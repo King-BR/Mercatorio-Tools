@@ -1,12 +1,20 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
-import { categories, tools } from "../../data/tools.js";
+import { categories } from "../../data/tools.js";
+
+import { getTools } from "../../services/api.js";
 
 import ToolGrid from "../../components/ToolGrid/ToolGrid";
 
 import "./Home.css";
 
 function Home() {
+  const [tools, setTools] = useState([]);
+
+  useEffect(() => {
+    getTools().then(setTools);
+  }, []);
+
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
 
