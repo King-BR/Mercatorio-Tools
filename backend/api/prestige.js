@@ -22,8 +22,9 @@ function getPrestigeBoard() {
         "utf8",
       ),
     );
-    data.forEach((item) => {
-      prestigeBoardData.set(item.category.toLowerCase(), item);
+
+    Object.keys(data).forEach((key) => {
+      prestigeBoardData.set(key.toLowerCase(), data[key]);
     });
 
     lastBoardCache = now;
@@ -54,8 +55,14 @@ function getSustenance() {
 // GET /api/prestige/board
 router.get("/board", (req, res) => {
   try {
-    res.json(getPrestigeBoard());
+    const data = getPrestigeBoard();
+
+    // converto map to object {key: value}
+    const objectData = Object.fromEntries(data); 
+
+    res.json(objectData);
   } catch (error) {
+    console.log("Error retrieving prestige board data:", error);
     res.status(500).json({
       message: "Error retrieving prestige board data",
       error: error,
@@ -66,7 +73,7 @@ router.get("/board", (req, res) => {
 // GET /api/prestige/board/:category
 router.get("/board/:category", (req, res) => {
   try {
-    const category = req.params.category;
+    const category = req.params.category.toLowerCase();
     const data = getPrestigeBoard();
     var filteredData = null;
     const categories = Array.from(data.keys());
@@ -84,6 +91,7 @@ router.get("/board/:category", (req, res) => {
 
     res.json(filteredData);
   } catch (error) {
+    console.log("Error retrieving prestige board data for category:", error);
     res.status(500).json({
       message: "Error retrieving prestige board data for category",
       error: error,
@@ -96,6 +104,7 @@ router.get("/sustenance", (req, res) => {
   try {
     res.json(getSustenance());
   } catch (error) {
+    console.log("Error retrieving sustenance data:", error);
     res.status(500).json({
       message: "Error retrieving sustenance data",
       error: error,
@@ -124,6 +133,7 @@ router.get("/sustenance/:category", (req, res) => {
 
     res.json(filteredData);
   } catch (error) {
+    console.log("Error retrieving sustenance data for category:", error);
     res.status(500).json({
       message: "Error retrieving sustenance data for category",
       error: error,
