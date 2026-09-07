@@ -4,7 +4,9 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 import Home from "./Pages/Home/Home";
+
 import ProductionPlanner from "./Pages/ProductionPlanner/ProductionPlanner";
+import PrestigePlanner from "./Pages/PrestigePlanner/PrestigePlanner";
 
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
@@ -18,6 +20,8 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/production-planner" element={<ProductionPlanner />} />
+
+          <Route path="/prestige-planner" element={<PrestigePlanner />} />
 
           <Route path="/login" element={<Login />} />
 

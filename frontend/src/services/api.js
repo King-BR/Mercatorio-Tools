@@ -12,3 +12,13 @@ export async function getTools() {
   const response = await fetch("/api/tools");
   return await response.json();
 }
+
+export async function getPrestigeBoard() {
+  const response = await fetch("/api/prestige/board");
+  return await response.json();
+}
+
+export async function getPrestigeSustenance() {
+  const response = await fetch("/api/prestige/sustenance");
+  return await response.json();
+}
