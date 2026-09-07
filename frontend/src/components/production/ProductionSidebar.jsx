@@ -1,7 +1,6 @@
-import {
-  getRecipesForProduct,
-  getProducts,
-} from "../../services/production/recipeIndex";
+import { getRecipesForProduct } from "../../services/production/recipeIndex";
+
+import { getProducts } from "../../services/api";
 
 import RecipeSelector from "./RecipeSelector";
 import ProductSelector from "./ProductSelector";
@@ -21,7 +20,7 @@ export default function ProductionSidebar({
   onCalculate,
 }) {
   const recipeIds = product ? getRecipesForProduct(recipeIndex, product) : [];
-  products = getProducts(recipeIndex);
+  products = getProducts();
 
   const source = productSources[product] || {
     type: "produce",

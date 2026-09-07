@@ -32,10 +32,6 @@ export function getRecipesForProduct(recipeIndex, product) {
   return recipeIndex.productRecipes[product] || [];
 }
 
-export function getProducts(recipeIndex) {
-  return recipeIndex.products || [];
-}
-
 export function getRecipeOutput(recipe, product) {
   if (!recipe?.outputs) {
     return null;
