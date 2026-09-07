@@ -15,16 +15,17 @@ function getPrestigeBoard() {
   var now = Date.now();
 
   if (!lastBoardCache || now - lastBoardCache > cacheDuration) {
+    prestigeBoardData.clear();
     const data = JSON.parse(
       fs.readFileSync(
         path.join(__dirname, "../data/prestige_board_levels.json"),
         "utf8",
       ),
     );
-    prestigeBoardData.clear();
-    Object.keys(data).forEach((key) => {
-      prestigeBoardData.set(key, data[key]);
+    data.forEach((item) => {
+      prestigeBoardData.set(item.category.toLowerCase(), item);
     });
+
     lastBoardCache = now;
   }
 
@@ -35,13 +36,15 @@ function getSustenance() {
   var now = Date.now();
 
   if (!lastSustenanceCache || now - lastSustenanceCache > cacheDuration) {
+    sustenanceData.clear();
     const data = JSON.parse(
       fs.readFileSync(path.join(__dirname, "../data/sustenance.json"), "utf8"),
     );
-    sustenanceData.clear();
+
     data.forEach((item) => {
       sustenanceData.set(item.category.toLowerCase(), item);
     });
+
     lastSustenanceCache = now;
   }
 
