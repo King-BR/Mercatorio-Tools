@@ -15,7 +15,30 @@ const ApiKeySchema = new mongoose.Schema(
       enum: ["READ", "WRITE", "ADMIN"],
     },
   },
-  { _id: false, timestamps: true },
+  {
+    _id: false,
+    timestamps: true,
+    toJSON: {
+      transform: function (doc, ret) {
+        ret.key =
+          ret.key?.substring(0, 4) +
+          "********" +
+          ret.key?.substring(ret.key?.length - 4);
+
+        return ret;
+      },
+    },
+    toObject: {
+      transform: function (doc, ret) {
+        ret.key =
+          ret.key?.substring(0, ret.key?.startsWith("MTKEY-") ? 10 : 4) +
+          "********" +
+          ret.key?.substring(ret.key?.length - 4);
+
+        return ret;
+      },
+    },
+  },
 );
 
 const UserSchema = new mongoose.Schema(
@@ -54,16 +77,6 @@ const UserSchema = new mongoose.Schema(
 
         ret.email = ret.email?.substring(0, 4) + "**************";
 
-        ret.apiKeys = ret.apiKeys.map((apiKey) => {
-          var apiKeyJson = apiKey.toObject();
-
-          apiKeyJson.key =
-            apiKeyJson.key?.substring(0, 4) +
-            "********" +
-            apiKeyJson.key?.substring(apiKeyJson.key?.length - 4);
-
-          return apiKeyJson;
-        });
         return ret;
       },
     },
@@ -74,17 +87,6 @@ const UserSchema = new mongoose.Schema(
         delete ret.discordLinkCodeExpiresAt;
 
         ret.email = ret.email?.substring(0, 4) + "**************";
-
-        ret.apiKeys = ret.apiKeys.map((apiKey) => {
-          var apiKeyJson = apiKey.toObject();
-
-          apiKeyJson.key =
-            apiKeyJson.key?.substring(0, 4) +
-            "********" +
-            apiKeyJson.key?.substring(apiKeyJson.key?.length - 4);
-
-          return apiKeyJson;
-        });
 
         return ret;
       },
