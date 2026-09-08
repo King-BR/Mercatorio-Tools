@@ -1,1 +1,11 @@
 @import "../Login/Login.css";
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.radio-label input {
+  margin-right: 8px;
+}
