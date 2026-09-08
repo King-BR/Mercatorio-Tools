@@ -2,7 +2,8 @@ import { getRecipes, getProducts } from "../api";
 
 export async function buildRecipeIndex() {
   const recipes = await getRecipes();
-  const products = await getProducts();
+  const productsData = await getProducts();
+  const products = productsData.map((product) => product.name);
   const productRecipes = {};
   const recipeProducts = {};
 
@@ -24,6 +25,7 @@ export async function buildRecipeIndex() {
   return {
     productRecipes,
     recipeProducts,
+    productsData,
     products,
   };
 }
