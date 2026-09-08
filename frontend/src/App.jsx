@@ -1,41 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-
-import Home from "./Pages/Home/Home";
-
-import ProductionPlanner from "./Pages/ProductionPlanner/ProductionPlanner";
-import PrestigePlanner from "./Pages/PrestigePlanner/PrestigePlanner";
-
-import Login from "./Pages/Login/Login";
-import Register from "./Pages/Register/Register";
-import Account from "./Pages/Account/Account";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-
-          <Route path="/production-planner" element={<ProductionPlanner />} />
-
-          <Route path="/prestige-planner" element={<PrestigePlanner />} />
-
-          <Route path="/login" element={<Login />} />
-
-          <Route path="/register" element={<Register />} />
-
-          <Route
-            path="/account"
-            element={
-              <ProtectedRoute>
-                <Account />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+        <AppRoutes />
       </AuthProvider>
     </BrowserRouter>
   );
