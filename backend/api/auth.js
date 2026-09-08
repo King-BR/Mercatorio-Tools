@@ -66,12 +66,12 @@ function userResponse(user) {
  */
 router.post("/register", async (req, res) => {
   try {
-    const { emailOrUsername, password } = req.body;
+    const { email, username, password } = req.body;
 
     /*
      * Basic validation
      */
-    if (!emailOrUsername || !password) {
+    if ((!email && !username) || !password) {
       return res.status(400).json({
         message: "Username/email and password are required",
       });
@@ -82,15 +82,13 @@ router.post("/register", async (req, res) => {
      */
     var existingUser = null;
 
-    if (emailOrUsername) {
+    if (email) {
       existingUser = await UsersDB.findOne({
-        email: emailOrUsername,
+        email: email,
       });
-    }
-
-    if (emailOrUsername && !existingUser) {
+    } else if (username) {
       existingUser = await UsersDB.findOne({
-        username: emailOrUsername,
+        username: username,
       });
     }
 
@@ -109,12 +107,8 @@ router.post("/register", async (req, res) => {
      * Create the user
      */
     const user = new UsersDB({
-      email: emailOrUsername.includes("@")
-        ? emailOrUsername.trim().toLowerCase()
-        : undefined,
-      username: !emailOrUsername.includes("@")
-        ? emailOrUsername.trim()
-        : undefined,
+      email: email ? email.trim().toLowerCase() : undefined,
+      username: username ? username.trim() : undefined,
       password: passwordHash,
     });
 
@@ -146,12 +140,12 @@ router.post("/register", async (req, res) => {
  */
 router.post("/login", async (req, res) => {
   try {
-    const { emailOrUsername, password } = req.body;
+    const { email, username, password } = req.body;
 
     /*
      * Basic validation
      */
-    if (!emailOrUsername || !password) {
+    if ((!email && !username) || !password) {
       return res.status(400).json({
         message: "Username/email and password are required",
       });
@@ -162,20 +156,18 @@ router.post("/login", async (req, res) => {
      */
     var user = null;
 
-    if (emailOrUsername) {
+    if (email && email.trim() !== "") {
       user = await UsersDB.findOne({
-        email: emailOrUsername,
+        email: email.trim(),
       });
-    }
-
-    if (emailOrUsername && !user) {
+    } else if (username && username.trim() !== "") {
       user = await UsersDB.findOne({
-        username: emailOrUsername,
+        username: username.trim(),
       });
     }
 
     /*
-     * Do not reveal if the email exists
+     * Do not reveal if the username or email exists
      */
     if (!user) {
       return res.status(401).json({
@@ -348,7 +340,7 @@ router.get("/discord/me", auth, async (req, res) => {
 
     res.json({
       user: userResponse(user),
-      discordUser,
+      discordUser: discordUser.toJSON(),
     });
   } catch (err) {
     console.error("Get Discord user error:", err);
