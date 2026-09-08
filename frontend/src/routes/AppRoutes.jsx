@@ -56,9 +56,7 @@ export default function AppRoutes() {
               element={<AdminRoute>{element}</AdminRoute>}
             />
           );
-        }
-
-        if (config.auth) {
+        } else if (config.auth) {
           return (
             <Route
               key={filePath}
