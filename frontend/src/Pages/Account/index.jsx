@@ -25,7 +25,7 @@ function Account() {
   const [error, setError] = useState("");
 
   /*
-   * Atualiza os estados quando o usuário recebido pelo AuthContext mudar.
+   * Updates the states when the user received from the AuthContext changes.
    */
   useEffect(() => {
     setDiscordNotifications(user?.settings?.notifications?.discord ?? false);
@@ -34,7 +34,7 @@ function Account() {
   }, [user]);
 
   /*
-   * Gera um novo código para vincular o Discord.
+   * Generates a new code to link the Discord account.
    */
   async function generateDiscordCode() {
     setGeneratingCode(true);
@@ -68,7 +68,7 @@ function Account() {
   }
 
   /*
-   * Copia o código para o clipboard.
+   * Copies the code to the clipboard.
    */
   async function copyDiscordCode() {
     if (!discordCode) return;
@@ -87,7 +87,7 @@ function Account() {
   }
 
   /*
-   * Salva as configurações da conta.
+   * Save account settings.
    */
   async function saveChanges() {
     setSaving(true);
@@ -114,29 +114,27 @@ function Account() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.message || "Não foi possível salvar as alterações.",
-        );
+        throw new Error(data.message || "Failed to save changes.");
       }
 
       await refreshUser();
 
-      setMessage("Alterações salvas com sucesso.");
+      setMessage("Changes saved successfully.");
     } catch (err) {
       console.error(err);
-      setError(err.message || "Erro ao salvar alterações.");
+      setError(err.message || "Error saving changes.");
     } finally {
       setSaving(false);
     }
   }
 
   /*
-   * Formata a data de expiração do código.
+   * Formats the expiration date of the code.
    */
   function formatExpiration(date) {
     if (!date) return "";
 
-    return date.toLocaleTimeString("pt-BR", {
+    return date.toLocaleTimeString(undefined, {
       hour: "2-digit",
       minute: "2-digit",
     });
@@ -146,15 +144,15 @@ function Account() {
     <div className="account-page">
       <div className="account-container">
         <div className="account-header">
-          <h1>Minha conta</h1>
+          <h1>My Account</h1>
 
-          <p>Gerencie suas informações e preferências do Mercatorio Tools.</p>
+          <p>Manage your information and preferences for Mercatorio Tools.</p>
         </div>
 
-        {/* Informações da conta */}
+        {/* Account Information */}
         <section className="account-section">
           <div className="section-header">
-            <h2>Informações da conta</h2>
+            <h2>Account Information</h2>
           </div>
 
           <div className="form-group">
@@ -162,7 +160,7 @@ function Account() {
 
             <input type="email" value={user?.email || ""} disabled />
 
-            <small>O email da conta não pode ser alterado.</small>
+            <small>Your account email cannot be changed.</small>
           </div>
         </section>
 
@@ -171,10 +169,7 @@ function Account() {
           <div className="section-header">
             <h2>Discord</h2>
 
-            <p>
-              Vincule sua conta do Discord para receber notificações e utilizar
-              recursos relacionados ao Discord.
-            </p>
+            <p>Link your Discord account to use Discord-related features.</p>
           </div>
 
           {user?.discordID ? (
@@ -183,11 +178,7 @@ function Account() {
                 <span className="status-dot"></span>
 
                 <div>
-                  <strong>Conta vinculada</strong>
-
-                  <span>
-                    Seu Discord está conectado à sua conta do Mercatorio Tools.
-                  </span>
+                  <strong>Account linked</strong>
                 </div>
               </div>
 
@@ -196,11 +187,11 @@ function Account() {
           ) : (
             <div className="discord-unlinked">
               <div className="discord-info">
-                <strong>Conta não vinculada</strong>
+                <strong>Account not linked</strong>
 
                 <span>
                   Generate a code and send it to the Mercatorio Tools bot on
-                  Discord.
+                  Discord to link your account.
                 </span>
               </div>
 
@@ -226,8 +217,8 @@ function Account() {
 
                   <div className="discord-instructions">
                     <p>
-                      Send the code above to the Mercatorio Tools bot on
-                      Discord.
+                      Send the code above to the Mercatorio Tools bot on Discord
+                      Server.
                     </p>
 
                     <code>/link {discordCode}</code>
