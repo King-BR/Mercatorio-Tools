@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function login(emailOrUsername, password) {
+  async function login(email, username, password) {
     const response = await fetch(`/api/auth/login`, {
       method: "POST",
       headers: {
@@ -37,7 +37,8 @@ export function AuthProvider({ children }) {
       },
       credentials: "include",
       body: JSON.stringify({
-        emailOrUsername,
+        email,
+        username,
         password,
       }),
     });
@@ -53,7 +54,7 @@ export function AuthProvider({ children }) {
     return data.user ?? data;
   }
 
-  async function register(emailOrUsername, password) {
+  async function register(email, username, password) {
     const response = await fetch(`/api/auth/register`, {
       method: "POST",
       headers: {
@@ -61,7 +62,8 @@ export function AuthProvider({ children }) {
       },
       credentials: "include",
       body: JSON.stringify({
-        emailOrUsername,
+        email,
+        username,
         password,
       }),
     });
