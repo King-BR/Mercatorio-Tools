@@ -2,7 +2,6 @@ import { useMemo, useState, useEffect } from "react";
 
 import { categories } from "../../data/tools.js";
 import { getTools } from "../../services/api.js";
-import { useAuth } from "../../context/AuthContext";
 
 import ToolGrid from "./components/ToolGrid/ToolGrid.jsx";
 import TopNavbar from "../../components/TopNavbar/TopNavbar.jsx";
@@ -10,8 +9,6 @@ import TopNavbar from "../../components/TopNavbar/TopNavbar.jsx";
 import "./Home.css";
 
 function Home() {
-  const { user } = useAuth();
-
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
