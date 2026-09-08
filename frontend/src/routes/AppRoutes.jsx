@@ -1,5 +1,6 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
+import AdminRoute from "../components/AdminRoute";
 import NotFoundRedirect from "../components/NotFoundRedirect";
 
 // Detects all pages within Pages/*/index.jsx automatically
@@ -46,6 +47,16 @@ export default function AppRoutes() {
         const config = module.routeConfig ?? {};
 
         const element = <Component />;
+
+        if (config.admin) {
+          return (
+            <Route
+              key={filePath}
+              path={path}
+              element={<AdminRoute>{element}</AdminRoute>}
+            />
+          );
+        }
 
         if (config.auth) {
           return (

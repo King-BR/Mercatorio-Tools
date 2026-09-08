@@ -1,16 +1,21 @@
 import { useAuth } from "../context/AuthContext";
 
 import LoginRedirect from "./LoginRedirect";
+import NotFoundRedirect from "./NotFoundRedirect";
 
-export default function ProtectedRoute({ children }) {
+export default function AdminRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="auth-loading">Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (!user) {
     return <LoginRedirect />;
+  }
+
+  if (!user.isAdmin) {
+    return <NotFoundRedirect />;
   }
 
   return children;
