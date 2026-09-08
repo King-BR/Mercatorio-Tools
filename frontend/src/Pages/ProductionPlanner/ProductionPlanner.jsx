@@ -9,9 +9,9 @@ import { calculateProduction } from "../../services/production/productionCalcula
 
 import { buildProductionGraph } from "../../utils/production/graphBuilder";
 
-import ProductionGraph from "../../components/production/ProductionGraph";
+import ProductionGraph from "./components/ProductionGraph";
 
-import ProductionSidebar from "../../components/production/ProductionSidebar";
+import ProductionSidebar from "./components/ProductionSidebar";
 
 import "./ProductionPlanner.css";
 

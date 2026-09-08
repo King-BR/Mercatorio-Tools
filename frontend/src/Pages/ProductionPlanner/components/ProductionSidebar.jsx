@@ -1,6 +1,5 @@
-import { getRecipesForProduct } from "../../services/production/recipeIndex";
-
-import { getProducts } from "../../services/api";
+import { getRecipesForProduct } from "../../../services/production/recipeIndex";
+import { getProducts } from "../../../services/api";
 
 import RecipeSelector from "./RecipeSelector";
 import ProductSelector from "./ProductSelector";

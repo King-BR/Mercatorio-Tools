@@ -1,10 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
-
 import { categories } from "../../data/tools.js";
-
 import { getTools } from "../../services/api.js";
-
-import ToolGrid from "../../components/ToolGrid/ToolGrid";
+import ToolGrid from "./components/ToolGrid/ToolGrid";
 
 import "./Home.css";
 
