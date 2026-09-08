@@ -1,0 +1,92 @@
+.top-navbar {
+  position: relative;
+  z-index: 10;
+
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 32px;
+
+  background: rgba(7, 17, 31, 0.9);
+  border-bottom: 1px solid #17283c;
+
+  backdrop-filter: blur(10px);
+}
+
+.navbar-logo {
+  color: #dce8f5;
+
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  text-decoration: none;
+
+  transition: color 0.15s ease;
+}
+
+.navbar-logo:hover {
+  color: #60a5fa;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-home-button,
+.navbar-account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 16px;
+
+  border: 1px solid #294966;
+  border-radius: 8px;
+
+  color: #dce8f5;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.navbar-home-button {
+  background: transparent;
+}
+
+.navbar-account-button {
+  background: #0d2034;
+}
+
+.navbar-home-button:hover,
+.navbar-account-button:hover {
+  background: #142d47;
+  border-color: #3b82f6;
+}
+
+@media (max-width: 600px) {
+  .top-navbar {
+    height: 58px;
+    padding: 0 16px;
+  }
+
+  .navbar-logo {
+    font-size: 13px;
+  }
+
+  .navbar-home-button,
+  .navbar-account-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

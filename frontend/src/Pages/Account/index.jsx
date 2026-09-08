@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../context/AuthContext";
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
+
 import "./Account.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
 function Account() {
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const [discordCode, setDiscordCode] = useState(null);
   const [discordCodeExpiresAt, setDiscordCodeExpiresAt] = useState(null);
@@ -140,142 +145,164 @@ function Account() {
     });
   }
 
+  /*
+   * Handles user logout.
+   */
+  async function handleLogout() {
+    await logout();
+    navigate("/");
+  }
+
   return (
-    <div className="account-page">
-      <div className="account-container">
-        <div className="account-header">
-          <h1>My Account</h1>
+    <>
+      <TopNavbar />
+      <div className="account-page">
+        <div className="account-container">
+          <div className="account-header">
+            <div>
+              <h1>My Account</h1>
 
-          <p>Manage your information and preferences for Mercatorio Tools.</p>
-        </div>
-
-        {/* Account Information */}
-        <section className="account-section">
-          <div className="section-header">
-            <h2>Account Information</h2>
-          </div>
-
-          <div className="form-group">
-            <label>Email</label>
-
-            <input type="email" value={user?.email || ""} disabled />
-
-            <small>Your account email cannot be changed.</small>
-          </div>
-        </section>
-
-        {/* Discord */}
-        <section className="account-section">
-          <div className="section-header">
-            <h2>Discord</h2>
-
-            <p>Link your Discord account to use Discord-related features.</p>
-          </div>
-
-          {user?.discordID ? (
-            <div className="discord-linked">
-              <div className="discord-status">
-                <span className="status-dot"></span>
-
-                <div>
-                  <strong>Account linked</strong>
-                </div>
-              </div>
-
-              <div className="discord-id">Discord ID: {user.discordID}</div>
+              <p>
+                Manage your information and preferences for Mercatorio Tools.
+              </p>
             </div>
-          ) : (
-            <div className="discord-unlinked">
-              <div className="discord-info">
-                <strong>Account not linked</strong>
 
-                <span>
-                  Generate a code and send it to the Mercatorio Tools bot on
-                  Discord to link your account.
-                </span>
+            <button
+              type="button"
+              className="logout-button"
+              onClick={handleLogout}
+            >
+              Log out
+            </button>
+          </div>
+
+          {/* Account Information */}
+          <section className="account-section">
+            <div className="section-header">
+              <h2>Account Information</h2>
+            </div>
+
+            <div className="form-group">
+              <label>Email</label>
+
+              <input type="email" value={user?.email || ""} disabled />
+
+              <small>Your account email cannot be changed.</small>
+            </div>
+          </section>
+
+          {/* Discord */}
+          <section className="account-section">
+            <div className="section-header">
+              <h2>Discord</h2>
+
+              <p>Link your Discord account to use Discord-related features.</p>
+            </div>
+
+            {user?.discordID ? (
+              <div className="discord-linked">
+                <div className="discord-status">
+                  <span className="status-dot"></span>
+
+                  <div>
+                    <strong>Account linked</strong>
+                  </div>
+                </div>
+
+                <div className="discord-id">Discord ID: {user.discordID}</div>
               </div>
+            ) : (
+              <div className="discord-unlinked">
+                <div className="discord-info">
+                  <strong>Account not linked</strong>
 
-              {!discordCode ? (
-                <button
-                  className="primary-button"
-                  onClick={generateDiscordCode}
-                  disabled={generatingCode}
-                >
-                  {generatingCode ? "Generating..." : "Link Discord"}
-                </button>
-              ) : (
-                <div className="discord-link-code">
-                  <div className="code-label">Your link code</div>
+                  <span>
+                    Generate a code and send it to the Mercatorio Tools bot on
+                    Discord to link your account.
+                  </span>
+                </div>
 
-                  <div className="code-container">
-                    <span className="discord-code">{discordCode}</span>
-
-                    <button className="copy-button" onClick={copyDiscordCode}>
-                      {copied ? "Copiado!" : "Copiar"}
-                    </button>
-                  </div>
-
-                  <div className="discord-instructions">
-                    <p>
-                      Send the code above to the Mercatorio Tools bot on Discord
-                      Server.
-                    </p>
-
-                    <code>/link {discordCode}</code>
-
-                    {discordCodeExpiresAt && (
-                      <span className="code-expiration">
-                        The code expires at{" "}
-                        {formatExpiration(discordCodeExpiresAt)}.
-                      </span>
-                    )}
-                  </div>
-
+                {!discordCode ? (
                   <button
-                    className="secondary-button"
+                    className="primary-button"
                     onClick={generateDiscordCode}
                     disabled={generatingCode}
                   >
-                    {generatingCode ? "Generating..." : "Generate new code"}
+                    {generatingCode ? "Generating..." : "Link Discord"}
                   </button>
-                </div>
-              )}
-            </div>
-          )}
-        </section>
+                ) : (
+                  <div className="discord-link-code">
+                    <div className="code-label">Your link code</div>
 
-        {/* Notificações */}
-        <section className="account-section">
-          <div className="section-header">
-            <h2>Notifications</h2>
+                    <div className="code-container">
+                      <span className="discord-code">{discordCode}</span>
 
-            <p>
-              Choose where you want to receive notifications from Mercatorio
-              Tools.
-            </p>
-          </div>
+                      <button className="copy-button" onClick={copyDiscordCode}>
+                        {copied ? "Copiado!" : "Copiar"}
+                      </button>
+                    </div>
 
-          <div className="notification-options">
-            <label className="checkbox-option">
-              <input
-                type="checkbox"
-                checked={discordNotifications}
-                onChange={(event) =>
-                  setDiscordNotifications(event.target.checked)
-                }
-                disabled={!user?.discordID}
-              />
+                    <div className="discord-instructions">
+                      <p>
+                        Send the code above to the Mercatorio Tools bot on
+                        Discord Server.
+                      </p>
 
-              <div>
-                <strong>Discord</strong>
+                      <code>/link {discordCode}</code>
 
-                <span>
-                  Receive notifications via Discord.
-                  {!user?.discordID && " Link your Discord account first."}
-                </span>
+                      {discordCodeExpiresAt && (
+                        <span className="code-expiration">
+                          The code expires at{" "}
+                          {formatExpiration(discordCodeExpiresAt)}.
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      className="secondary-button"
+                      onClick={generateDiscordCode}
+                      disabled={generatingCode}
+                    >
+                      {generatingCode ? "Generating..." : "Generate new code"}
+                    </button>
+                  </div>
+                )}
               </div>
-            </label>
-            {/*
+            )}
+          </section>
+
+          {/* Notificações */}
+          <section className="account-section">
+            <div className="section-header">
+              <h2>Notifications</h2>
+
+              <p>
+                Choose where you want to receive notifications from Mercatorio
+                Tools.
+              </p>
+            </div>
+
+            <div className="notification-options">
+              <label className="checkbox-option">
+                <input
+                  type="checkbox"
+                  checked={discordNotifications}
+                  onChange={(event) =>
+                    setDiscordNotifications(event.target.checked)
+                  }
+                  disabled={!user?.discordID}
+                />
+
+                <div>
+                  <strong>Discord</strong>
+
+                  <span>
+                    Receive notifications via Discord.
+                    {!user?.discordID && " Link your Discord account first."}
+                  </span>
+                </div>
+              </label>
+              {/*
             <label className="checkbox-option">
               <input
                 type="checkbox"
@@ -293,45 +320,46 @@ function Account() {
               </div>
             </label>
             */}
-          </div>
-        </section>
+            </div>
+          </section>
 
-        {/* Security */}
-        <section className="account-section">
-          <div className="section-header">
-            <h2>Security</h2>
-          </div>
-
-          <div className="security-item">
-            <div>
-              <strong>Password</strong>
-
-              <span>Change the password used to log into your account.</span>
+          {/* Security */}
+          <section className="account-section">
+            <div className="section-header">
+              <h2>Security</h2>
             </div>
 
-            <button className="secondary-button" disabled>
-              Change Password
+            <div className="security-item">
+              <div>
+                <strong>Password</strong>
+
+                <span>Change the password used to log into your account.</span>
+              </div>
+
+              <button className="secondary-button" disabled>
+                Change Password
+              </button>
+            </div>
+          </section>
+
+          {/* Messages */}
+          {message && <div className="success-message">{message}</div>}
+
+          {error && <div className="error-message">{error}</div>}
+
+          {/* Save */}
+          <div className="account-actions">
+            <button
+              className="primary-button save-button"
+              onClick={saveChanges}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save Changes"}
             </button>
           </div>
-        </section>
-
-        {/* Messages */}
-        {message && <div className="success-message">{message}</div>}
-
-        {error && <div className="error-message">{error}</div>}
-
-        {/* Save */}
-        <div className="account-actions">
-          <button
-            className="primary-button save-button"
-            onClick={saveChanges}
-            disabled={saving}
-          >
-            {saving ? "Saving..." : "Save Changes"}
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,11 +1,17 @@
 import { useMemo, useState, useEffect } from "react";
+
 import { categories } from "../../data/tools.js";
 import { getTools } from "../../services/api.js";
+import { useAuth } from "../../context/AuthContext";
+
 import ToolGrid from "./components/ToolGrid/ToolGrid.jsx";
+import TopNavbar from "../../components/TopNavbar/TopNavbar.jsx";
 
 import "./Home.css";
 
 function Home() {
+  const { user } = useAuth();
+
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
@@ -46,11 +52,11 @@ function Home() {
   const featuredTools = tools.filter((tool) => tool.featured);
 
   return (
-    <main className="home">
+    <main className="home-page">
+      <TopNavbar />
+
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-label">MERCATORIO TOOLS</span>
-
           <h1>
             Tools for
             <br />
@@ -59,7 +65,7 @@ function Home() {
 
           <p>
             Explore, plan, and analyze the world of Mercatorio through a set of
-            tools created to facilitate your journey.
+            tools created by the community to facilitate your journey.
           </p>
 
           <div className="search-container">

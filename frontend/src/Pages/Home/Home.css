@@ -12,6 +12,78 @@
 }
 
 /* =========================
+   TOP NAVBAR
+========================= */
+
+.top-navbar {
+  position: relative;
+  z-index: 10;
+
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 32px;
+
+  background: rgba(7, 17, 31, 0.9);
+  border-bottom: 1px solid #17283c;
+
+  backdrop-filter: blur(10px);
+}
+
+.navbar-logo {
+  color: #dce8f5;
+
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  text-decoration: none;
+
+  transition: color 0.15s ease;
+}
+
+.navbar-logo:hover {
+  color: #60a5fa;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 105px;
+  padding: 8px 16px;
+
+  background: #0d2034;
+  border: 1px solid #294966;
+  border-radius: 8px;
+
+  color: #dce8f5;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.navbar-account-button:hover {
+  background: #142d47;
+  border-color: #3b82f6;
+}
+
+/* =========================
    HERO
 ========================= */
 
@@ -313,6 +385,47 @@
 }
 
 /* =========================
+   ACCOUNT BUTTON
+========================= */
+
+.account-button-container {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 20px;
+}
+
+.account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 20px;
+
+  border: 1px solid #28517d;
+  border-radius: 9px;
+
+  background: #0b192b;
+  color: #dbeafe;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.account-button:hover {
+  border-color: #3b82f6;
+  background: #102742;
+
+  transform: translateY(-1px);
+}
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -345,5 +458,20 @@
 
   .tool-count {
     padding-top: 22px;
+  }
+
+  .top-navbar {
+    height: 58px;
+    padding: 0 16px;
+  }
+
+  .navbar-logo {
+    font-size: 13px;
+  }
+
+  .navbar-account-button {
+    min-width: auto;
+    padding: 8px 12px;
+    font-size: 13px;
   }
 }

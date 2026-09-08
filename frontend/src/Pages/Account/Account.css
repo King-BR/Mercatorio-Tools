@@ -12,6 +12,11 @@
 }
 
 .account-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
   margin-bottom: 32px;
 }
 
@@ -22,7 +27,34 @@
 
 .account-header p {
   margin: 0;
-  color: #91a0b5;
+  color: #647da0;
+}
+
+.logout-button {
+  flex-shrink: 0;
+
+  padding: 9px 16px;
+
+  border: 1px solid #ff0022;
+  border-radius: 8px;
+
+  background-color: #ff0000;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.logout-button:hover {
+  border-color: #8f3c47;
+  background: rgba(180, 50, 65, 0.12);
 }
 
 .account-section {
@@ -403,6 +435,15 @@
 /* Mobile */
 
 @media (max-width: 600px) {
+  .account-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .logout-button {
+    width: 100%;
+  }
+
   .account-page {
     padding: 25px 14px;
   }
