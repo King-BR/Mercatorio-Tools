@@ -1,5 +1,8 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
+const config = require("../config.json");
+const utils = require("../utils.js");
+
 const API_KEY = process.env.ADMIN_MERCTOOLS_KEY;
 
 module.exports = {
@@ -25,6 +28,12 @@ module.exports = {
 
     if (!API_KEY) {
       console.error("ADMIN_MERCTOOLS_KEY is not configured.");
+
+      utils.sendDiscordMessage(
+        interaction.client,
+        config.errorChannelId,
+        "ADMIN_MERCTOOLS_KEY is not configured.",
+      );
 
       return interaction.reply({
         content: "The bot is not configured correctly. Please try again later.",
@@ -76,7 +85,13 @@ module.exports = {
           });
         }
 
-        console.error("Error linking Discord:", response.status, data);
+        console.error("Error linking Discord account:", response.status, data);
+
+        utils.sendDiscordMessage(
+          interaction.client,
+          config.errorChannelId,
+          `Error linking Discord account: ${response.status}\n\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\``,
+        );
 
         return interaction.reply({
           content: "Could not link your account. Please try again later.",
@@ -91,6 +106,12 @@ module.exports = {
       });
     } catch (error) {
       console.error("Error making link request:", error);
+
+      utils.sendDiscordMessage(
+        interaction.client,
+        config.errorChannelId,
+        `Error making link request: ${error.message}`,
+      );
 
       return interaction.reply({
         content:

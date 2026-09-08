@@ -1,6 +1,9 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const si = require("systeminformation");
 
+const config = require("../config.json");
+const utils = require("../utils.js");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("systeminfo")
@@ -12,46 +15,61 @@ module.exports = {
    * @param {import("discord.js").ChatInputCommandInteraction} interaction
    */
   async execute(client, interaction) {
-    const data = await si.get({
-      cpu: "manufacturer, brand, speed, cores",
-      osInfo: "platform, distro, release, arch",
-      system: "model, manufacturer",
-      mem: "total, used, free",
-    });
+    try {
+      const data = await si.get({
+        cpu: "manufacturer, brand, speed, cores",
+        osInfo: "platform, distro, release, arch",
+        system: "model, manufacturer",
+        mem: "total, used, free",
+      });
 
-    const embed = new EmbedBuilder();
+      const embed = new EmbedBuilder();
 
-    embed.setTimestamp();
-    embed.setColor("#0099ff");
-    embed.setTitle("System Information");
-    embed.addFields(
-      {
-        name: "OS",
-        value: `${data.osInfo.platform} ${data.osInfo.distro} ${data.osInfo.release} (${data.osInfo.arch})`,
-      },
-      {
-        name: "Model",
-        value: `${data.system.manufacturer} ${data.system.model}`,
-        inline: true,
-      },
-      {
-        name: "CPU",
-        value: `${data.cpu.manufacturer} ${data.cpu.brand} ${data.cpu.speed} GHz (${data.cpu.cores} cores)`,
-        inline: true,
-      },
-      {
-        name: "Memory",
-        value: `${(data.mem.total / 1024 / 1024 / 1024).toFixed(2)} GB (${(
-          data.mem.used /
-          1024 /
-          1024 /
-          1024
-        ).toFixed(2)} GB used, ${(data.mem.free / 1024 / 1024 / 1024).toFixed(
-          2,
-        )} GB free)`,
-      },
-    );
+      embed.setTimestamp();
+      embed.setColor("#0099ff");
+      embed.setTitle("System Information");
+      embed.addFields(
+        {
+          name: "OS",
+          value: `${data.osInfo.platform} ${data.osInfo.distro} ${data.osInfo.release} (${data.osInfo.arch})`,
+        },
+        {
+          name: "Model",
+          value: `${data.system.manufacturer} ${data.system.model}`,
+          inline: true,
+        },
+        {
+          name: "CPU",
+          value: `${data.cpu.manufacturer} ${data.cpu.brand} ${data.cpu.speed} GHz (${data.cpu.cores} cores)`,
+          inline: true,
+        },
+        {
+          name: "Memory",
+          value: `${(data.mem.total / 1024 / 1024 / 1024).toFixed(2)} GB (${(
+            data.mem.used /
+            1024 /
+            1024 /
+            1024
+          ).toFixed(2)} GB used, ${(data.mem.free / 1024 / 1024 / 1024).toFixed(
+            2,
+          )} GB free)`,
+        },
+      );
 
-    await interaction.reply({ embeds: [embed] });
+      await interaction.reply({ embeds: [embed] });
+    } catch (error) {
+      console.error("Error fetching system information:", error);
+
+      utils.sendDiscordMessage(
+        client,
+        config.errorChannelId,
+        `Error fetching system information: ${error.message}`,
+      );
+
+      await interaction.reply({
+        content: "An error occurred while fetching system information.",
+        ephemeral: true,
+      });
+    }
   },
 };

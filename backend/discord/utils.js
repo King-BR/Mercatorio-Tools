@@ -1,5 +1,8 @@
 const config = require("./config.json");
 
+const debug = process.argv.includes("--debug");
+const debugStr = debug ? "[DEBUG] " : "";
+
 module.exports = {
   /**
    * Wait for a specified number of seconds
@@ -21,17 +24,17 @@ module.exports = {
       .fetch(channelID)
       .then((channel) => {
         if (channel.isSendable()) {
-          channel.send(message).catch((error) => {
+          channel.send(debugStr + message).catch((error) => {
             client.channels.fetch(config.errorChannelId).then((channel) => {
               channel.send(
-                `**Error sending message to channel with ID ${channelID}**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
+                `${debugStr}**Error sending message to channel with ID ${channelID}**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
               );
             });
           });
         } else {
           client.channels.fetch(config.errorChannelId).then((channel) => {
             channel.send(
-              `**Error sending message to channel with ID ${channelID}**\n\n> Message:\n${message}\n\n> Error:\nChannel is not sendable.`,
+              `${debugStr}**Error sending message to channel with ID ${channelID}**\n\n> Message:\n${message}\n\n> Error:\nChannel is not sendable.`,
             );
           });
         }
@@ -39,7 +42,7 @@ module.exports = {
       .catch((error) => {
         client.channels.fetch(config.errorChannelId).then((channel) => {
           channel.send(
-            `**Error sending message to channel with ID ${channelID}**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
+            `${debugStr}**Error sending message to channel with ID ${channelID}**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
           );
         });
       });
@@ -58,7 +61,7 @@ module.exports = {
         user.send(message).catch((error) => {
           client.channels.fetch(config.errorChannelId).then((channel) => {
             channel.send(
-              `**Error sending DM to user ${user.tag} (${userID})**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
+              `${debugStr}**Error sending DM to user ${user.tag} (${userID})**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
             );
           });
         });
@@ -66,7 +69,7 @@ module.exports = {
       .catch((error) => {
         client.channels.fetch(config.errorChannelId).then((channel) => {
           channel.send(
-            `**Error fetching user with ID ${userID}**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
+            `${debugStr}**Error fetching user with ID ${userID}**\n\n> Message:\n${message}\n\n> Error:\n${error}`,
           );
         });
       });

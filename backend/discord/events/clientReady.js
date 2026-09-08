@@ -20,8 +20,8 @@ module.exports = {
     // Send a message to the bot channel indicating that the bot is online
     utils.sendDiscordMessage(
       client,
-      config.errorChannelId,
-      `${process.argv.includes("--debug") ? "[DEBUG] " : ""}Bot is online with ${client.commands.size} commands and ${client.events.size} events loaded.`,
+      config.spamChannelId,
+      `Bot is online with ${client.commands.size} commands and ${client.events.size} events loaded.`,
     );
 
     // set presence loop

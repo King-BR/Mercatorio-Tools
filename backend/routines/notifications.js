@@ -39,7 +39,7 @@ async function routine(client) {
 async function sendNotifications(client, period, periodSend) {
   utils.sendDiscordMessage(
     client,
-    config.errorChannelId,
+    config.spamChannelId,
     `Checking for notifications for period ${period}...`,
   );
 
@@ -50,7 +50,7 @@ async function sendNotifications(client, period, periodSend) {
 
   utils.sendDiscordMessage(
     client,
-    config.errorChannelId,
+    config.spamChannelId,
     `Found ${notifications.length} notifications for period ${period}. Sending notifications...`,
   );
 
@@ -66,7 +66,7 @@ async function sendNotifications(client, period, periodSend) {
     if (process.argv.includes("--debug")) {
       utils.sendDiscordMessage(
         client,
-        config.errorChannelId,
+        config.spamChannelId,
         notification.message,
       );
     }
