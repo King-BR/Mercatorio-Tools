@@ -92,12 +92,15 @@ router.get("/products/:productName/aggregate/:type/:value", (req, res) => {
     }
 
     let result;
+    let townFrom = "all";
+
     switch (type.toLowerCase()) {
       case "average":
         const total = filteredMarkets.reduce(
           (sum, town) =>
-            town.market[productName.toLowerCase()][value] != undefined
-              ? sum + town.market[productName.toLowerCase()][value]
+            !isNaN(town.market[productName.toLowerCase()]?.[value])
+              ? sum +
+                Number.parseFloat(town.market[productName.toLowerCase()][value])
               : sum,
           0,
         );
@@ -106,22 +109,43 @@ router.get("/products/:productName/aggregate/:type/:value", (req, res) => {
       case "min":
         result = Math.min(
           ...filteredMarkets.map(
-            (town) => town.market[productName.toLowerCase()][value] || Infinity,
+            (town) =>
+              Number.parseFloat(
+                town.market[productName.toLowerCase()][value],
+              ) || Infinity,
           ),
         );
+        townFrom =
+          filteredMarkets.find(
+            (town) =>
+              Number.parseFloat(
+                town.market[productName.toLowerCase()][value],
+              ) === result,
+          )?.name || "unknown";
         break;
       case "max":
         result = Math.max(
           ...filteredMarkets.map(
-            (town) => town.market[productName.toLowerCase()][value] || 0,
+            (town) =>
+              Number.parseFloat(
+                town.market[productName.toLowerCase()][value],
+              ) || 0,
           ),
         );
+        townFrom =
+          filteredMarkets.find(
+            (town) =>
+              Number.parseFloat(
+                town.market[productName.toLowerCase()][value],
+              ) === result,
+          )?.name || "unknown";
         break;
       case "sum":
         result = filteredMarkets.reduce(
           (sum, town) =>
-            town.market[productName.toLowerCase()][value] != undefined
-              ? sum + town.market[productName.toLowerCase()][value]
+            !isNaN(town.market[productName.toLowerCase()]?.[value])
+              ? sum +
+                Number.parseFloat(town.market[productName.toLowerCase()][value])
               : sum,
           0,
         );
@@ -130,7 +154,7 @@ router.get("/products/:productName/aggregate/:type/:value", (req, res) => {
         return res.status(400).json({ message: "Invalid aggregate type" });
     }
 
-    res.json({ product: productName, type, result });
+    res.json({ product: productName, type, result, townFrom });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
