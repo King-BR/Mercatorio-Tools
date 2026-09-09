@@ -14,15 +14,18 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import ProductNode from "./ProductNode";
+import RecipeNode from "./RecipeNode";
+
 import { autoLayout } from "../../../utils/production/autoLayout";
 
 const nodeTypes = {
   product: ProductNode,
+  recipe: RecipeNode,
 };
 
 function ProductionGraphInner({
-  initialNodes = [],
-  initialEdges = [],
+  nodes: initialNodes = [],
+  edges: initialEdges = [],
   layoutVersion = 0,
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -139,7 +142,22 @@ function ProductionGraphInner({
 
         <Controls />
 
-        <MiniMap pannable zoomable nodeStrokeWidth={3} />
+        <MiniMap
+          pannable
+          zoomable
+          nodeColor={(node) => {
+            if (node.type === "recipe") {
+              return "#36536e";
+            }
+
+            if (node.data?.source?.type === "buy") {
+              return "#AA1414";
+            }
+
+            return "#13AC18";
+          }}
+          nodeStrokeWidth={10}
+        />
       </ReactFlow>
 
       {isEmpty && (

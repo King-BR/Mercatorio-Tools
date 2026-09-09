@@ -11,6 +11,7 @@ import { buildProductionGraph } from "../../utils/production/graphBuilder";
 
 import ProductionGraph from "./components/ProductionGraph";
 import ProductionSidebar from "./components/ProductionSidebar";
+import ProductSourceList from "./components/ProductSourceList";
 import ProductionSummary from "./components/ProductionSummary";
 
 import "./ProductionPlanner.css";
@@ -19,11 +20,9 @@ export default function ProductionPlanner() {
   const [recipeIndex, setRecipeIndex] = useState(null);
 
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
 
   const [product, setProduct] = useState("");
-
   const [amount, setAmount] = useState(1);
 
   const [recipeId, setRecipeId] = useState(null);
@@ -41,9 +40,26 @@ export default function ProductionPlanner() {
 
   const products = useMemo(() => recipeIndex?.products || [], [recipeIndex]);
 
-  /*
-   * Load recipes/products once.
-   */
+  const productionProducts = useMemo(() => {
+    const result = new Set();
+
+    if (product) {
+      result.add(product);
+    }
+
+    for (const productName of Object.keys(productSources)) {
+      result.add(productName);
+    }
+
+    if (calculation?.products) {
+      for (const productName of Object.keys(calculation.products)) {
+        result.add(productName);
+      }
+    }
+
+    return Array.from(result);
+  }, [product, productSources, calculation]);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -70,11 +86,18 @@ export default function ProductionPlanner() {
 
         setRecipeId(firstRecipe);
 
+        /*
+         * Default source is BUY.
+         *
+         * The recipe is still stored so that if the user
+         * changes to Produce, we already have a recipe
+         * available.
+         */
         setProductSources(
           firstProduct
             ? {
                 [firstProduct]: {
-                  type: "produce",
+                  type: "buy",
                   recipeId: firstRecipe,
                 },
               }
@@ -109,11 +132,14 @@ export default function ProductionPlanner() {
 
     setRecipeId(firstRecipe);
 
+    /*
+     * New target starts as BUY.
+     */
     setProductSources(
       newProduct
         ? {
             [newProduct]: {
-              type: "produce",
+              type: "buy",
               recipeId: firstRecipe,
             },
           }
@@ -121,53 +147,93 @@ export default function ProductionPlanner() {
     );
 
     /*
-     * A previous calculation no longer represents
-     * the selected target.
+     * IMPORTANT:
+     * Do NOT clear calculation or graph here.
+     *
+     * The graph only changes when Calculate Production
+     * is pressed.
      */
-    setCalculation(null);
-
-    setGraph({
-      nodes: [],
-      edges: [],
-    });
   }
 
-  function handleRecipeChange(newRecipeId) {
-    setRecipeId(newRecipeId);
-
-    if (!product) {
+  function handleRecipeChange(productName, newRecipeId) {
+    if (!productName) {
       return;
+    }
+
+    if (productName === product) {
+      setRecipeId(newRecipeId);
     }
 
     setProductSources((current) => ({
       ...current,
-
-      [product]: {
+      [productName]: {
+        ...current[productName],
         type: "produce",
         recipeId: newRecipeId,
       },
     }));
+
+    /*
+     * Do not recalculate here.
+     *
+     * The new recipe is only applied to the graph after
+     * Calculate Production is pressed.
+     */
   }
 
   function handleSourceChange(productName, source) {
     /*
-     * Labour can never be configured as a
-     * purchased target. As an input, the
-     * calculator automatically buys it.
+     * Labour can only be bought when it is an input.
+     * If labour is the target product, it cannot be bought.
      */
-    if (productName === "labour" && source.type === "buy") {
+    if (
+      productName === "labour" &&
+      source.type === "buy" &&
+      productName === product
+    ) {
       return;
     }
 
     setProductSources((current) => ({
       ...current,
-
       [productName]: {
         ...current[productName],
-
         ...source,
       },
     }));
+
+    /*
+     * Keep the target recipe synchronized.
+     */
+    if (productName === product && source.type === "produce") {
+      const availableRecipes = getRecipesForProduct(recipeIndex, product);
+
+      const selectedRecipe =
+        source.recipeId || recipeId || availableRecipes[0] || null;
+
+      setRecipeId(selectedRecipe);
+
+      /*
+       * Make sure the source also has the selected recipe.
+       */
+      setProductSources((current) => ({
+        ...current,
+        [productName]: {
+          ...current[productName],
+          type: "produce",
+          recipeId: selectedRecipe,
+        },
+      }));
+    }
+
+    if (productName === product && source.type === "buy") {
+      setRecipeId(null);
+    }
+
+    /*
+     * IMPORTANT:
+     * No calculation/graph update here.
+     */
   }
 
   function handleCalculate() {
@@ -183,7 +249,15 @@ export default function ProductionPlanner() {
 
     const targetSource = productSources[product];
 
-    const selectedRecipe = targetSource?.recipeId || recipeId || null;
+    /*
+     * If target is BUY, there is no recipe.
+     *
+     * If target is PRODUCE, use the selected recipe.
+     */
+    const selectedRecipe =
+      targetSource?.type === "buy"
+        ? null
+        : targetSource?.recipeId || recipeId || null;
 
     const result = calculateProduction(recipeIndex.recipeMap, recipeIndex, {
       product,
@@ -194,13 +268,12 @@ export default function ProductionPlanner() {
 
     const newGraph = buildProductionGraph(recipeIndex.recipeMap, result);
 
+    /*
+     * THIS is the only place where the graph is rebuilt.
+     */
     setCalculation(result);
     setGraph(newGraph);
 
-    /*
-     * Force the graph to auto-layout even
-     * if this is the exact same calculation.
-     */
     setLayoutVersion((current) => current + 1);
   }
 
@@ -225,7 +298,9 @@ export default function ProductionPlanner() {
         productSources={productSources}
         onProductChange={handleProductChange}
         onAmountChange={setAmount}
-        onRecipeChange={handleRecipeChange}
+        onRecipeChange={(newRecipeId) =>
+          handleRecipeChange(product, newRecipeId)
+        }
         onSourceChange={handleSourceChange}
         onCalculate={handleCalculate}
       />
@@ -267,6 +342,17 @@ export default function ProductionPlanner() {
             </div>
           )}
         </div>
+
+        {productionProducts.length > 0 && (
+          <ProductSourceList
+            products={productionProducts}
+            recipeIndex={recipeIndex}
+            productSources={productSources}
+            targetProduct={product}
+            onSourceChange={handleSourceChange}
+            onRecipeChange={handleRecipeChange}
+          />
+        )}
 
         {calculation && <ProductionSummary calculation={calculation} />}
       </main>
