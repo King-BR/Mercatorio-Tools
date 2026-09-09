@@ -1,54 +1,94 @@
-import { getRecipesForProduct, getRecipeOutput } from "./recipeIndex";
+import { getRecipeInputs, getRecipeOutput } from "./recipeIndex";
 
-function addToMap(map, key, amount) {
-  map[key] = (map[key] || 0) + amount;
-}
+const RECIPE_STEP = 0.1;
+const MAX_DECIMALS = 3;
+const EPSILON = 1e-9;
+const LABOUR = "labour";
 
-function cloneMap(map) {
-  return Object.fromEntries(Object.entries(map));
-}
-
-/*
- * Calculate the number of times a recipe needs to be executed
- * to produce the desired amount of a specific product.
- */
-function calculateRecipeRuns(recipe, product, requiredAmount) {
-  const output = getRecipeOutput(recipe, product);
-
-  if (!output || !output.amount) {
-    throw new Error(`Recipe does not produce ${product}`);
+function round(value, decimals = MAX_DECIMALS) {
+  if (!Number.isFinite(value)) {
+    return 0;
   }
 
-  return requiredAmount / output.amount;
+  const factor = 10 ** decimals;
+
+  return Math.round((value + EPSILON) * factor) / factor;
 }
 
-/*
- * Calculate an entire production line.
- *
- * options:
- *
- * {
- *   product: "bronze ingots",
- *   amount: 150,
- *   recipeId: "alloy bronze 1",
- *   productSources: {
- *      "charcoal": {
- *          type: "produce",
- *          recipeId: "charcoal 1"
- *      },
- *      "tools": {
- *          type: "buy"
- *      }
- *   }
- * }
- */
-export function calculateProduction(recipes, recipeIndex, options) {
-  const { product, amount, recipeId, productSources = {} } = options;
+function ceilToStep(value, step) {
+  if (value <= 0) {
+    return 0;
+  }
+
+  return Math.ceil((value - EPSILON) / step) * step;
+}
+
+function ceilInteger(value) {
+  if (value <= 0) {
+    return 0;
+  }
+
+  return Math.ceil(value - EPSILON);
+}
+
+function addToMap(map, key, amount) {
+  if (!key || !amount) {
+    return;
+  }
+
+  map[key] = round((map[key] || 0) + amount);
+}
+
+function getProductPrice(product, productsData) {
+  const data = productsData?.find(
+    (item) => item?.name === product || item?.product === product,
+  );
+
+  if (!data) {
+    return null;
+  }
+
+  const price =
+    data.marketPrice ?? data.buyPrice ?? data.price ?? data.cost ?? null;
+
+  const numericPrice = Number(price);
+
+  return Number.isFinite(numericPrice) ? numericPrice : null;
+}
+
+function normalizeSource(source) {
+  if (!source) {
+    return {
+      type: "produce",
+      recipeId: null,
+    };
+  }
+
+  if (typeof source === "string") {
+    return {
+      type: source,
+      recipeId: null,
+    };
+  }
+
+  return {
+    type: source.type === "buy" ? "buy" : "produce",
+
+    recipeId: source.recipeId || null,
+  };
+}
+
+export function calculateProduction(recipes, recipeIndex, options = {}) {
+  const { product, amount, recipeId = null, productSources = {} } = options;
+
+  const requestedAmount = round(Number(amount) || 0);
 
   const result = {
     target: {
       product,
-      amount,
+      amount: requestedAmount,
+      produced: 0,
+      surplus: 0,
     },
 
     recipes: {},
@@ -57,287 +97,389 @@ export function calculateProduction(recipes, recipeIndex, options) {
 
     purchases: {},
 
-    rawInputs: {},
+    surplus: {
+      market: {},
+      production: {},
+    },
 
-    surplus: {},
+    labour: {
+      total: 0,
+      perProduct: 0,
+    },
+
+    cost: {
+      total: null,
+      unit: null,
+    },
 
     errors: [],
   };
 
-  /*
-   * Control of products that are being resolved.
-   *
-   * This prevents cycles like:
-   *
-   * A -> B -> C -> A
-   */
   const resolving = new Set();
 
-  function resolveProduct(productName, requiredAmount, context) {
-    if (!productName) {
-      return;
+  function getRecipe(id) {
+    if (!id) {
+      return null;
     }
 
-    /*
-     * =====================================================
-     * LABOUR
-     * =====================================================
-     *
-     * This is a special rule.
-     *
-     * If labour is an input:
-     *
-     *     BUY
-     *
-     * If labour is the final product:
-     *
-     *     PRODUCE
-     *
-     * We never automatically expand labour when
-     * it appears as a dependency.
-     */
-    if (productName === "labour" && context.isInput) {
-      addToMap(result.purchases, "labour", requiredAmount);
-
-      if (!result.products.labour) {
-        result.products.labour = {
-          product: "labour",
-          source: "buy",
-          required: 0,
-          produced: 0,
-          purchased: 0,
-        };
-      }
-
-      result.products.labour.required += requiredAmount;
-
-      result.products.labour.purchased += requiredAmount;
-
-      return;
+    if (recipeIndex?.recipeMap?.[id]) {
+      return recipeIndex.recipeMap[id];
     }
 
-    /*
-     * Check if the user chose to buy.
-     */
-    const source = productSources[productName];
-
-    if (source?.type === "buy") {
-      addToMap(result.purchases, productName, requiredAmount);
-
-      if (!result.products[productName]) {
-        result.products[productName] = {
-          product: productName,
-          source: "buy",
-          required: 0,
-          produced: 0,
-          purchased: 0,
-        };
-      }
-
-      result.products[productName].required += requiredAmount;
-
-      result.products[productName].purchased += requiredAmount;
-
-      return;
+    if (recipes && !Array.isArray(recipes) && recipes[id]) {
+      return recipes[id];
     }
 
-    /*
-     * Check if a cycle already exists.
-     */
-    if (resolving.has(productName)) {
-      result.errors.push({
-        type: "cycle",
+    if (Array.isArray(recipes)) {
+      return recipes.find((recipe) => recipe?.name === id) || null;
+    }
+
+    return null;
+  }
+
+  function getAvailableRecipes(productName) {
+    return recipeIndex?.productRecipes?.[productName] || [];
+  }
+
+  function getSelectedRecipe(productName, contextRecipeId) {
+    if (contextRecipeId) {
+      return contextRecipeId;
+    }
+
+    const source = normalizeSource(productSources?.[productName]);
+
+    if (source.recipeId) {
+      return source.recipeId;
+    }
+
+    return getAvailableRecipes(productName)[0] || null;
+  }
+
+  function ensureProduct(productName, source) {
+    if (!result.products[productName]) {
+      result.products[productName] = {
         product: productName,
-        message: `Production cycle detected involving "${productName}".`,
+        source,
+        required: 0,
+        produced: 0,
+        purchased: 0,
+        marketSurplus: 0,
+        productionSurplus: 0,
+      };
+    }
+
+    return result.products[productName];
+  }
+
+  function registerRequired(productName, amountRequired, source) {
+    const data = ensureProduct(productName, source);
+
+    data.required = round(data.required + amountRequired);
+
+    return data;
+  }
+
+  function buyProduct(productName, requiredAmount) {
+    const purchaseAmount = ceilInteger(requiredAmount);
+
+    const surplus = round(purchaseAmount - requiredAmount);
+
+    addToMap(result.purchases, productName, purchaseAmount);
+
+    if (surplus > 0) {
+      addToMap(result.surplus.market, productName, surplus);
+    }
+
+    const data = registerRequired(productName, requiredAmount, "buy");
+
+    data.purchased = round(data.purchased + purchaseAmount);
+
+    data.marketSurplus = round(data.marketSurplus + surplus);
+
+    return {
+      purchased: purchaseAmount,
+      surplus,
+    };
+  }
+
+  function produceProduct(productName, requiredAmount, context = {}) {
+    const selectedRecipeId = getSelectedRecipe(productName, context.recipeId);
+
+    if (!selectedRecipeId) {
+      result.errors.push({
+        type: "missing-recipe",
+        product: productName,
+        message: `No recipe is available for ${productName}.`,
       });
 
-      return;
-    }
-
-    let selectedRecipeId = source?.recipeId;
-
-    /*
-     * If no recipe was selected,
-     * use the target's recipe or the first available one.
-     */
-    if (!selectedRecipeId) {
-      selectedRecipeId = context.recipeId;
-    }
-
-    const availableRecipes = getRecipesForProduct(recipeIndex, productName);
-
-    if (!selectedRecipeId && availableRecipes.length > 0) {
-      selectedRecipeId = availableRecipes[0];
-    }
-
-    /*
-     * Product without a recipe.
-     */
-    if (!selectedRecipeId) {
-      result.rawInputs[productName] =
-        (result.rawInputs[productName] || 0) + requiredAmount;
-
-      if (!result.products[productName]) {
-        result.products[productName] = {
-          product: productName,
-          source: "raw",
-          required: 0,
-          produced: 0,
-          purchased: 0,
-        };
-      }
-
-      result.products[productName].required += requiredAmount;
+      buyProduct(productName, requiredAmount);
 
       return;
     }
 
-    const recipe = recipes[selectedRecipeId];
+    const recipe = getRecipe(selectedRecipeId);
 
     if (!recipe) {
       result.errors.push({
-        type: "recipe-not-found",
-        recipe: selectedRecipeId,
+        type: "missing-recipe",
         product: productName,
+        message: `Recipe "${selectedRecipeId}" could not be found.`,
       });
+
+      buyProduct(productName, requiredAmount);
 
       return;
     }
 
     const output = getRecipeOutput(recipe, productName);
 
-    if (!output) {
+    if (!output || Number(output.amount) <= 0) {
       result.errors.push({
-        type: "invalid-recipe",
-        recipe: selectedRecipeId,
+        type: "invalid-recipe-output",
         product: productName,
+        recipe: selectedRecipeId,
+        message: `Recipe "${selectedRecipeId}" does not produce ${productName}.`,
+      });
+
+      buyProduct(productName, requiredAmount);
+
+      return;
+    }
+
+    const outputPerRun = Number(output.amount);
+
+    /*
+     * The game only allows recipe executions
+     * in increments of 0.10.
+     */
+    const rawRuns = requiredAmount / outputPerRun;
+
+    const runs = round(ceilToStep(rawRuns, RECIPE_STEP), 1);
+
+    if (runs <= 0) {
+      return;
+    }
+
+    const resolvingKey = `${productName}::${selectedRecipeId}`;
+
+    if (resolving.has(resolvingKey)) {
+      result.errors.push({
+        type: "circular-dependency",
+        product: productName,
+        recipe: selectedRecipeId,
+        message: `Circular production dependency detected while producing ${productName}.`,
       });
 
       return;
     }
 
-    const runs = calculateRecipeRuns(recipe, productName, requiredAmount);
+    resolving.add(resolvingKey);
 
-    /*
-     * Register the recipe.
-     */
+    const totalOutput = round(outputPerRun * runs);
+
+    const productionSurplus = round(totalOutput - requiredAmount);
+
+    const productData = registerRequired(
+      productName,
+      requiredAmount,
+      "produce",
+    );
+
+    productData.produced = round(productData.produced + totalOutput);
+
+    productData.productionSurplus = round(
+      productData.productionSurplus + productionSurplus,
+    );
+
+    if (productionSurplus > 0) {
+      addToMap(result.surplus.production, productName, productionSurplus);
+    }
+
     if (!result.recipes[selectedRecipeId]) {
       result.recipes[selectedRecipeId] = {
-        recipeId: selectedRecipeId,
-        name: recipe.name,
+        name: selectedRecipeId,
         runs: 0,
         inputs: {},
         outputs: {},
       };
     }
 
-    result.recipes[selectedRecipeId].runs += runs;
+    const recipeResult = result.recipes[selectedRecipeId];
+
+    recipeResult.runs = round(recipeResult.runs + runs, 1);
 
     /*
-     * Register produced product.
+     * Register every recipe output.
      */
-    if (!result.products[productName]) {
-      result.products[productName] = {
-        product: productName,
-        source: "produce",
-        required: 0,
-        produced: 0,
-        purchased: 0,
-      };
-    }
+    for (const recipeOutput of recipe.outputs || []) {
+      const outputProduct = recipeOutput?.product;
 
-    result.products[productName].required += requiredAmount;
+      const outputAmount = Number(recipeOutput?.amount) || 0;
 
-    result.products[productName].produced += output.amount * runs;
+      if (!outputProduct || outputAmount <= 0) {
+        continue;
+      }
 
-    /*
-     * Mark product as being resolved.
-     */
-    resolving.add(productName);
+      const total = round(outputAmount * runs);
 
-    /*
-     * =====================================================
-     * INPUTS (Ingredients)
-     * =====================================================
-     */
-    if (Array.isArray(recipe.inputs)) {
-      for (const input of recipe.inputs) {
-        if (!input || !input.product) {
-          continue;
-        }
+      addToMap(recipeResult.outputs, outputProduct, total);
 
-        const inputAmount = (Number(input.amount) || 0) * runs;
+      /*
+       * The selected output has already been
+       * accounted for above.
+       *
+       * Other outputs are surplus because they
+       * are not required by this particular
+       * production branch.
+       */
+      if (outputProduct !== productName) {
+        addToMap(result.surplus.production, outputProduct, total);
 
-        addToMap(
-          result.recipes[selectedRecipeId].inputs,
-          input.product,
-          inputAmount,
+        const otherProduct = ensureProduct(outputProduct, "produce");
+
+        otherProduct.produced = round(otherProduct.produced + total);
+
+        otherProduct.productionSurplus = round(
+          otherProduct.productionSurplus + total,
         );
-
-        resolveProduct(input.product, inputAmount, {
-          isInput: true,
-          parentProduct: productName,
-          parentRecipe: selectedRecipeId,
-        });
       }
     }
 
     /*
-     * =====================================================
-     * OUTPUTS (Products)
-     * =====================================================
+     * Resolve recipe inputs.
+     */
+    const inputs = getRecipeInputs(recipe);
+
+    for (const input of inputs) {
+      const inputProduct = input.product;
+
+      const inputAmount = round(input.amount * runs);
+
+      if (inputAmount <= 0) {
+        continue;
+      }
+
+      addToMap(recipeResult.inputs, inputProduct, inputAmount);
+
+      resolveProduct(inputProduct, inputAmount, {
+        isInput: true,
+      });
+    }
+
+    resolving.delete(resolvingKey);
+  }
+
+  function resolveProduct(productName, requiredAmount, context = {}) {
+    const amountRequired = round(requiredAmount);
+
+    if (!productName || amountRequired <= 0) {
+      return;
+    }
+
+    /*
+     * Labour is always bought when it is
+     * an input.
+     */
+    if (productName === LABOUR && context.isInput) {
+      buyProduct(productName, amountRequired);
+
+      return;
+    }
+
+    const source = normalizeSource(productSources?.[productName]);
+
+    /*
+     * The final target must be produced.
      *
-     * The recipe can produce multiple products.
+     * This also prevents someone accidentally
+     * configuring the target as "buy".
      */
-    if (Array.isArray(recipe.outputs)) {
-      for (const recipeOutput of recipe.outputs) {
-        if (!recipeOutput || !recipeOutput.product) {
-          continue;
-        }
+    const isTarget = !context.isInput && productName === product;
 
-        const outputAmount = (Number(recipeOutput.amount) || 0) * runs;
+    if (source.type === "buy" && !isTarget) {
+      buyProduct(productName, amountRequired);
 
-        addToMap(
-          result.recipes[selectedRecipeId].outputs,
-          recipeOutput.product,
-          outputAmount,
-        );
-
-        /*
-         * If this output is not the product we
-         * are trying to satisfy, it is
-         * initially considered surplus.
-         *
-         * A future step may consume this
-         * surplus in another recipe.
-         */
-        if (recipeOutput.product !== productName) {
-          addToMap(result.surplus, recipeOutput.product, outputAmount);
-        }
-      }
+      return;
     }
 
-    resolving.delete(productName);
+    if (source.type === "produce" || isTarget) {
+      produceProduct(productName, amountRequired, {
+        recipeId: isTarget ? recipeId || source.recipeId : source.recipeId,
+      });
+
+      return;
+    }
+
+    /*
+     * No explicit source:
+     *
+     * Prefer production when a recipe exists,
+     * otherwise buy.
+     */
+    const availableRecipes = getAvailableRecipes(productName);
+
+    if (availableRecipes.length > 0) {
+      produceProduct(productName, amountRequired, {
+        recipeId: source.recipeId,
+      });
+
+      return;
+    }
+
+    buyProduct(productName, amountRequired);
+  }
+
+  if (product && requestedAmount > 0) {
+    resolveProduct(product, requestedAmount, {
+      isInput: false,
+      recipeId,
+    });
   }
 
   /*
-   * The target is different from an input.
-   *
-   * This allows labour to be produced.
+   * Target statistics.
    */
-  resolveProduct(product, amount, {
-    isInput: false,
-    isTarget: true,
-    recipeId,
-  });
+  const targetData = result.products[product];
 
-  return {
-    ...result,
+  if (targetData) {
+    result.target.produced = round(targetData.produced);
 
-    purchases: cloneMap(result.purchases),
+    result.target.surplus = round(targetData.produced - requestedAmount);
+  }
 
-    rawInputs: cloneMap(result.rawInputs),
+  /*
+   * Labour summary.
+   */
+  result.labour.total = round(result.purchases[LABOUR] || 0);
 
-    surplus: cloneMap(result.surplus),
-  };
+  result.labour.perProduct =
+    requestedAmount > 0 ? round(result.labour.total / requestedAmount) : 0;
+
+  /*
+   * Cost.
+   */
+  let totalCost = 0;
+  let hasUnknownPrice = false;
+
+  for (const [purchasedProduct, purchasedAmount] of Object.entries(
+    result.purchases,
+  )) {
+    const price = getProductPrice(purchasedProduct, recipeIndex?.productsData);
+
+    if (price == null) {
+      hasUnknownPrice = true;
+      continue;
+    }
+
+    totalCost += purchasedAmount * price;
+  }
+
+  if (!hasUnknownPrice) {
+    result.cost.total = round(totalCost);
+
+    result.cost.unit =
+      requestedAmount > 0 ? round(totalCost / requestedAmount, 6) : 0;
+  }
+
+  return result;
 }

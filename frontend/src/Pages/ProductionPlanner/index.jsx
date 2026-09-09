@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   buildRecipeIndex,
@@ -11,20 +11,23 @@ import { buildProductionGraph } from "../../utils/production/graphBuilder";
 
 import ProductionGraph from "./components/ProductionGraph";
 import ProductionSidebar from "./components/ProductionSidebar";
+import ProductionSummary from "./components/ProductionSummary";
 
 import "./ProductionPlanner.css";
 
 export default function ProductionPlanner() {
-  const [recipes, setRecipes] = useState({});
   const [recipeIndex, setRecipeIndex] = useState(null);
 
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(null);
+
+  const [error, setError] = useState(null);
 
   const [product, setProduct] = useState("");
+
   const [amount, setAmount] = useState(1);
 
   const [recipeId, setRecipeId] = useState(null);
+
   const [productSources, setProductSources] = useState({});
 
   const [calculation, setCalculation] = useState(null);
@@ -34,16 +37,20 @@ export default function ProductionPlanner() {
     edges: [],
   });
 
+  const [layoutVersion, setLayoutVersion] = useState(0);
+
+  const products = useMemo(() => recipeIndex?.products || [], [recipeIndex]);
+
   /*
-   * Load production data.
+   * Load recipes/products once.
    */
   useEffect(() => {
     let cancelled = false;
 
-    async function loadProductionData() {
+    async function load() {
       try {
         setLoading(true);
-        setLoadError(null);
+        setError(null);
 
         const index = await buildRecipeIndex();
 
@@ -53,48 +60,31 @@ export default function ProductionPlanner() {
 
         setRecipeIndex(index);
 
-        /*
-         * The calculator expects recipes indexed by recipe name.
-         *
-         * buildRecipeIndex() normalizes recipes into an array,
-         * so convert them to an object here.
-         */
-        const recipeMap = {};
+        const firstProduct = index.products?.[0] || "";
 
-        for (const recipe of index.recipes) {
-          if (!recipe?.name) {
-            continue;
-          }
+        setProduct(firstProduct);
 
-          recipeMap[recipe.name] = recipe;
-        }
+        const recipesForProduct = getRecipesForProduct(index, firstProduct);
 
-        setRecipes(recipeMap);
+        const firstRecipe = recipesForProduct[0] || null;
 
-        /*
-         * Select the first available product automatically.
-         */
-        if (index.products.length > 0) {
-          const firstProduct = index.products[0];
+        setRecipeId(firstRecipe);
 
-          const availableRecipes = getRecipesForProduct(index, firstProduct);
-
-          setProduct(firstProduct);
-          setRecipeId(availableRecipes.length > 0 ? availableRecipes[0] : null);
-
-          setProductSources({
-            [firstProduct]: {
-              type: "produce",
-              recipeId:
-                availableRecipes.length > 0 ? availableRecipes[0] : null,
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Failed to load production planner data:", error);
+        setProductSources(
+          firstProduct
+            ? {
+                [firstProduct]: {
+                  type: "produce",
+                  recipeId: firstRecipe,
+                },
+              }
+            : {},
+        );
+      } catch (err) {
+        console.error("Failed to load production planner data:", err);
 
         if (!cancelled) {
-          setLoadError(error?.message || "Failed to load production data.");
+          setError("Failed to load production planner data.");
         }
       } finally {
         if (!cancelled) {
@@ -103,7 +93,7 @@ export default function ProductionPlanner() {
       }
     }
 
-    loadProductionData();
+    load();
 
     return () => {
       cancelled = true;
@@ -113,30 +103,26 @@ export default function ProductionPlanner() {
   function handleProductChange(newProduct) {
     setProduct(newProduct);
 
-    if (!newProduct || !recipeIndex) {
-      setRecipeId(null);
-      return;
-    }
-
     const availableRecipes = getRecipesForProduct(recipeIndex, newProduct);
 
-    const firstRecipe =
-      availableRecipes.length > 0 ? availableRecipes[0] : null;
+    const firstRecipe = availableRecipes[0] || null;
 
     setRecipeId(firstRecipe);
 
-    setProductSources((previous) => ({
-      ...previous,
-
-      [newProduct]: {
-        type: "produce",
-        recipeId: firstRecipe,
-      },
-    }));
+    setProductSources(
+      newProduct
+        ? {
+            [newProduct]: {
+              type: "produce",
+              recipeId: firstRecipe,
+            },
+          }
+        : {},
+    );
 
     /*
-     * Changing the target invalidates the previous
-     * calculated production graph.
+     * A previous calculation no longer represents
+     * the selected target.
      */
     setCalculation(null);
 
@@ -146,142 +132,94 @@ export default function ProductionPlanner() {
     });
   }
 
-  function handleRecipeChange(newRecipe) {
-    setRecipeId(newRecipe);
+  function handleRecipeChange(newRecipeId) {
+    setRecipeId(newRecipeId);
 
     if (!product) {
       return;
     }
 
-    setProductSources((previous) => ({
-      ...previous,
+    setProductSources((current) => ({
+      ...current,
 
       [product]: {
         type: "produce",
-        recipeId: newRecipe,
+        recipeId: newRecipeId,
       },
     }));
-
-    setCalculation(null);
-
-    setGraph({
-      nodes: [],
-      edges: [],
-    });
   }
 
   function handleSourceChange(productName, source) {
     /*
-     * Labour cannot be purchased when it is the
-     * target product.
+     * Labour can never be configured as a
+     * purchased target. As an input, the
+     * calculator automatically buys it.
      */
     if (productName === "labour" && source.type === "buy") {
       return;
     }
 
-    setProductSources((previous) => ({
-      ...previous,
+    setProductSources((current) => ({
+      ...current,
 
       [productName]: {
+        ...current[productName],
+
         ...source,
       },
     }));
   }
 
-  function calculate() {
-    if (!product) {
+  function handleCalculate() {
+    if (!recipeIndex || !product) {
       return;
     }
 
-    if (!amount || amount <= 0) {
+    const numericAmount = Number(amount);
+
+    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
       return;
     }
 
-    if (!recipeIndex) {
-      return;
-    }
+    const targetSource = productSources[product];
 
-    const source = productSources[product];
+    const selectedRecipe = targetSource?.recipeId || recipeId || null;
+
+    const result = calculateProduction(recipeIndex.recipeMap, recipeIndex, {
+      product,
+      amount: numericAmount,
+      recipeId: selectedRecipe,
+      productSources,
+    });
+
+    const newGraph = buildProductionGraph(recipeIndex.recipeMap, result);
+
+    setCalculation(result);
+    setGraph(newGraph);
 
     /*
-     * For the target product, use the explicitly selected
-     * recipe first.
+     * Force the graph to auto-layout even
+     * if this is the exact same calculation.
      */
-    const selectedRecipe = source?.recipeId || recipeId;
-
-    try {
-      const result = calculateProduction(recipes, recipeIndex, {
-        product,
-        amount,
-        recipeId: selectedRecipe,
-        productSources,
-      });
-
-      const newGraph = buildProductionGraph(recipes, result);
-
-      setCalculation(result);
-      setGraph(newGraph);
-    } catch (error) {
-      console.error("Failed to calculate production:", error);
-
-      setCalculation({
-        target: {
-          product,
-          amount,
-        },
-        recipes: {},
-        products: {},
-        purchases: {},
-        rawInputs: {},
-        surplus: {},
-        errors: [
-          {
-            type: "calculation-error",
-            message: error?.message || "Failed to calculate production.",
-          },
-        ],
-      });
-
-      setGraph({
-        nodes: [],
-        edges: [],
-      });
-    }
+    setLayoutVersion((current) => current + 1);
   }
 
   if (loading) {
     return (
-      <div className="production-planner">
-        <main className="production-main">
-          <div className="production-loading">Loading production data...</div>
-        </main>
-      </div>
+      <div className="production-planner-state">Loading production data...</div>
     );
   }
 
-  if (loadError) {
-    return (
-      <div className="production-planner">
-        <main className="production-main">
-          <div className="error-panel">
-            <strong>Failed to load production data</strong>
-
-            <div>{loadError}</div>
-          </div>
-        </main>
-      </div>
-    );
+  if (error) {
+    return <div className="production-planner-state error">{error}</div>;
   }
-
-  const products = recipeIndex?.products || [];
 
   return (
     <div className="production-planner">
       <ProductionSidebar
-        recipes={recipes}
+        products={products}
         recipeIndex={recipeIndex}
         product={product}
-        products={products}
         amount={amount}
         recipeId={recipeId}
         productSources={productSources}
@@ -289,7 +227,7 @@ export default function ProductionPlanner() {
         onAmountChange={setAmount}
         onRecipeChange={handleRecipeChange}
         onSourceChange={handleSourceChange}
-        onCalculate={calculate}
+        onCalculate={handleCalculate}
       />
 
       <main className="production-main">
@@ -305,90 +243,33 @@ export default function ProductionPlanner() {
         </div>
 
         {calculation?.errors?.length > 0 && (
-          <div className="error-panel">
-            {calculation.errors.map((error, index) => (
-              <div key={index}>
-                {error.message || error.product || error.type}
-              </div>
+          <div className="production-errors">
+            {calculation.errors.map((item, index) => (
+              <div key={`${item.type}-${index}`}>{item.message}</div>
             ))}
           </div>
         )}
 
-        <ProductionGraph nodes={graph.nodes} edges={graph.edges} />
+        <div className="production-graph-container">
+          {graph.nodes.length > 0 ? (
+            <ProductionGraph
+              nodes={graph.nodes}
+              edges={graph.edges}
+              layoutVersion={layoutVersion}
+            />
+          ) : (
+            <div className="production-empty">
+              <strong>No production line</strong>
+
+              <span>
+                Configure the target and calculate the production line.
+              </span>
+            </div>
+          )}
+        </div>
 
         {calculation && <ProductionSummary calculation={calculation} />}
       </main>
     </div>
   );
-}
-
-function ProductionSummary({ calculation }) {
-  const purchases = Object.entries(calculation.purchases || {});
-
-  const surplus = Object.entries(calculation.surplus || {});
-
-  const recipeCount = Object.keys(calculation.recipes || {}).length;
-
-  return (
-    <div className="production-summary">
-      <div className="summary-card">
-        <span>Target</span>
-
-        <strong>{calculation.target.product}</strong>
-
-        <small>{formatNumber(calculation.target.amount)}</small>
-      </div>
-
-      <div className="summary-card">
-        <span>Recipes</span>
-        <strong>{recipeCount}</strong>
-      </div>
-
-      <div className="summary-card">
-        <span>Purchases</span>
-        <strong>{purchases.length}</strong>
-      </div>
-
-      <div className="summary-card">
-        <span>Surplus</span>
-        <strong>{surplus.length}</strong>
-      </div>
-
-      {purchases.length > 0 && (
-        <div className="summary-list">
-          <h3>Market purchases</h3>
-
-          {purchases.map(([product, purchaseAmount]) => (
-            <div className="summary-row" key={product}>
-              <span>{product}</span>
-
-              <strong>{formatNumber(purchaseAmount)}</strong>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {surplus.length > 0 && (
-        <div className="summary-list">
-          <h3>Surplus</h3>
-
-          {surplus.map(([product, surplusAmount]) => (
-            <div className="summary-row" key={product}>
-              <span>{product}</span>
-
-              <strong>{formatNumber(surplusAmount)}</strong>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function formatNumber(value) {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
-    return "0";
-  }
-
-  return Number(value.toFixed(3)).toLocaleString();
 }

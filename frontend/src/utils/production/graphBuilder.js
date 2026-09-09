@@ -1,83 +1,49 @@
+function createId(prefix, index) {
+  return `${prefix}-${index}`;
+}
+
+function formatAmount(value) {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return "";
+  }
+
+  return Number(value.toFixed(3)).toString();
+}
+
 export function buildProductionGraph(recipes, calculation) {
   const nodes = [];
   const edges = [];
 
   let nodeIndex = 0;
 
-  const nodePositions = new Map();
-
-  function createId(prefix) {
-    nodeIndex++;
-
-    return `${prefix}-${nodeIndex}`;
-  }
-
-  function addNode(node) {
-    nodes.push(node);
-    return node.id;
-  }
-
-  function getPosition(level, index) {
-    return {
-      x: level * 350,
-      y: index * 180,
-    };
-  }
-
-  /*
-   * Primeiro criamos os nós das receitas.
-   */
+  const productNodes = {};
   const recipeNodes = {};
 
-  for (const [recipeId, recipeData] of Object.entries(calculation.recipes)) {
-    const id = createId("recipe");
-
-    recipeNodes[recipeId] = id;
-
-    const index = nodes.length;
-
-    addNode({
-      id,
-
-      type: "recipe",
-
-      position: getPosition(1, index),
-
-      data: {
-        recipeId,
-        name: recipeData.name || recipeId,
-
-        runs: recipeData.runs,
-
-        inputs: recipeData.inputs,
-
-        outputs: recipeData.outputs,
-      },
-    });
-  }
-
   /*
-   * Cria nós de produtos.
+   * ----------------------------------------------------
+   * PRODUCT NODES
+   * ----------------------------------------------------
    */
-  const productNodes = {};
 
-  for (const [product, data] of Object.entries(calculation.products)) {
-    const id = createId("product");
+  for (const [product, data] of Object.entries(calculation?.products || {})) {
+    const id = createId("product", ++nodeIndex);
 
     productNodes[product] = id;
 
     let source = data.source;
 
-    if (calculation.purchases[product]) {
+    if (calculation.purchases?.[product]) {
       source = "buy";
     }
 
-    addNode({
+    nodes.push({
       id,
-
       type: "product",
 
-      position: getPosition(0, nodes.length),
+      position: {
+        x: 0,
+        y: 0,
+      },
 
       data: {
         product,
@@ -89,30 +55,77 @@ export function buildProductionGraph(recipes, calculation) {
         produced: data.produced || 0,
 
         purchased: data.purchased || 0,
+
+        marketSurplus: data.marketSurplus || 0,
+
+        productionSurplus: data.productionSurplus || 0,
       },
     });
   }
 
   /*
-   * Liga produtos às receitas.
+   * ----------------------------------------------------
+   * RECIPE NODES
+   * ----------------------------------------------------
    */
-  for (const [recipeId, recipeData] of Object.entries(calculation.recipes)) {
+
+  for (const [recipeId, data] of Object.entries(calculation?.recipes || {})) {
+    const id = createId("recipe", ++nodeIndex);
+
+    recipeNodes[recipeId] = id;
+
+    nodes.push({
+      id,
+      type: "recipe",
+
+      position: {
+        x: 0,
+        y: 0,
+      },
+
+      data: {
+        recipeId,
+
+        name: data.name || recipeId,
+
+        runs: data.runs || 0,
+
+        inputs: data.inputs || {},
+
+        outputs: data.outputs || {},
+      },
+    });
+  }
+
+  /*
+   * ----------------------------------------------------
+   * EDGES
+   * ----------------------------------------------------
+   */
+
+  for (const [recipeId, recipeData] of Object.entries(
+    calculation?.recipes || {},
+  )) {
     const recipeNode = recipeNodes[recipeId];
 
+    if (!recipeNode) {
+      continue;
+    }
+
     /*
-     * INPUT:
-     *
      * Product -> Recipe
      */
-    for (const product of Object.keys(recipeData.inputs || {})) {
-      if (!productNodes[product]) {
+    for (const [product, amount] of Object.entries(recipeData.inputs || {})) {
+      const productNode = productNodes[product];
+
+      if (!productNode) {
         continue;
       }
 
       edges.push({
         id: `edge-input-${recipeId}-${product}`,
 
-        source: productNodes[product],
+        source: productNode,
 
         sourceHandle: "output",
 
@@ -122,19 +135,20 @@ export function buildProductionGraph(recipes, calculation) {
 
         animated: false,
 
-        label: formatAmount(recipeData.inputs[product]),
+        label: formatAmount(amount),
       });
     }
 
     /*
-     * OUTPUT:
-     *
      * Recipe -> Product
      */
-    for (const product of Object.keys(recipeData.outputs || {})) {
-      if (!productNodes[product]) {
+    for (const [product, amount] of Object.entries(recipeData.outputs || {})) {
+      const productNode = productNodes[product];
+
+      if (!productNode) {
         continue;
       }
+
       edges.push({
         id: `edge-output-${recipeId}-${product}`,
 
@@ -142,13 +156,13 @@ export function buildProductionGraph(recipes, calculation) {
 
         sourceHandle: "output",
 
-        target: productNodes[product],
+        target: productNode,
 
         targetHandle: "input",
 
         animated: false,
 
-        label: formatAmount(recipeData.outputs[product]),
+        label: formatAmount(amount),
       });
     }
   }
@@ -157,12 +171,4 @@ export function buildProductionGraph(recipes, calculation) {
     nodes,
     edges,
   };
-}
-
-function formatAmount(value) {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
-    return "";
-  }
-
-  return Number(value.toFixed(3)).toString();
 }

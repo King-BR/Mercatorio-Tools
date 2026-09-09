@@ -1,83 +1,88 @@
-import { getRecipes, getProducts } from "../api";
+import { getProducts, getRecipes } from "../api";
+
+function normalizeRecipes(data) {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (Array.isArray(data?.recipes)) {
+    return data.recipes;
+  }
+
+  return [];
+}
+
+function normalizeProducts(data) {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (Array.isArray(data?.products)) {
+    return data.products;
+  }
+
+  return [];
+}
+
+function getProductName(product) {
+  if (typeof product === "string") {
+    return product;
+  }
+
+  return product?.product ?? product?.name ?? null;
+}
 
 export async function buildRecipeIndex() {
-  const [recipesData, productsData] = await Promise.all([
+  const [recipesResponse, productsResponse] = await Promise.all([
     getRecipes(),
     getProducts(),
   ]);
 
-  const recipes = normalizeRecipes(recipesData);
-  const normalizedProducts = Array.isArray(productsData) ? productsData : [];
+  const recipes = normalizeRecipes(recipesResponse);
+
+  const productsData = normalizeProducts(productsResponse);
 
   const productRecipes = {};
   const recipeProducts = {};
+  const recipeMap = {};
 
   for (const recipe of recipes) {
-    if (!recipe || !recipe.name) {
+    if (!recipe?.name) {
       continue;
     }
 
-    if (!Array.isArray(recipe.outputs) || recipe.outputs.length === 0) {
-      continue;
-    }
+    recipeMap[recipe.name] = recipe;
 
-    const outputs = recipe.outputs
-      .filter(
-        (output) =>
-          output &&
-          typeof output.product === "string" &&
-          output.product.length > 0,
-      )
+    const outputs = Array.isArray(recipe.outputs) ? recipe.outputs : [];
+
+    recipeProducts[recipe.name] = outputs
       .map((output) => ({
-        product: output.product,
-        amount: Number(output.amount) || 0,
-      }));
+        product: output?.product ?? getProductName(output),
+        amount: Number(output?.amount) || 0,
+      }))
+      .filter((output) => output.product && output.amount > 0);
 
-    if (outputs.length === 0) {
-      continue;
-    }
-
-    recipeProducts[recipe.name] = outputs;
-
-    for (const output of outputs) {
+    for (const output of recipeProducts[recipe.name]) {
       if (!productRecipes[output.product]) {
         productRecipes[output.product] = [];
       }
 
-      if (!productRecipes[output.product].includes(recipe.name)) {
-        productRecipes[output.product].push(recipe.name);
-      }
+      productRecipes[output.product].push(recipe.name);
     }
   }
 
-  /*
-   * Products returned by /api/products.
-   *
-   * We also add products found in recipe outputs so the planner
-   * doesn't depend entirely on the products endpoint having every
-   * production output.
-   */
-  const productSet = new Set(
-    normalizedProducts
-      .map((product) => {
-        if (typeof product === "string") {
-          return product;
-        }
+  const products = [
+    ...new Set([
+      ...productsData.map((product) => getProductName(product)).filter(Boolean),
 
-        return product?.name;
-      })
-      .filter(Boolean),
-  );
-
-  for (const product of Object.keys(productRecipes)) {
-    productSet.add(product);
-  }
-
-  const products = [...productSet].sort((a, b) => a.localeCompare(b));
+      ...Object.keys(productRecipes),
+    ]),
+  ].sort((a, b) => a.localeCompare(b));
 
   return {
     recipes,
-    productsData: normalizedProducts,
+    recipeMap,
+    productsData,
     products,
     productRecipes,
     recipeProducts,
@@ -85,47 +90,31 @@ export async function buildRecipeIndex() {
 }
 
 export function getRecipesForProduct(recipeIndex, product) {
-  if (!recipeIndex || !product) {
+  if (!product) {
     return [];
   }
 
-  return recipeIndex.productRecipes?.[product] || [];
+  return recipeIndex?.productRecipes?.[product] || [];
 }
 
 export function getRecipeOutput(recipe, product) {
-  if (!recipe?.outputs || !Array.isArray(recipe.outputs)) {
+  if (!Array.isArray(recipe?.outputs)) {
     return null;
   }
 
   return recipe.outputs.find((output) => output?.product === product) || null;
 }
 
-function normalizeRecipes(recipesData) {
-  /*
-   * The API may return either:
-   *
-   * [
-   *   { name: "recipe 1", ... }
-   * ]
-   *
-   * or:
-   *
-   * {
-   *   "recipe 1": { ... },
-   *   "recipe 2": { ... }
-   * }
-   */
-
-  if (Array.isArray(recipesData)) {
-    return recipesData;
+export function getRecipeInputs(recipe) {
+  if (!Array.isArray(recipe?.inputs)) {
+    return [];
   }
 
-  if (recipesData && typeof recipesData === "object") {
-    return Object.entries(recipesData).map(([id, recipe]) => ({
-      ...recipe,
-      name: recipe?.name || id,
-    }));
-  }
+  return recipe.inputs
+    .map((input) => ({
+      product: input?.product ?? input?.name ?? null,
 
-  return [];
+      amount: Number(input?.amount) || 0,
+    }))
+    .filter((input) => input.product && input.amount > 0);
 }

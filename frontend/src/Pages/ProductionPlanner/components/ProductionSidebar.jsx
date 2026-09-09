@@ -1,13 +1,12 @@
 import { getRecipesForProduct } from "../../../services/production/recipeIndex";
 
-import RecipeSelector from "./RecipeSelector";
 import ProductSelector from "./ProductSelector";
+import RecipeSelector from "./RecipeSelector";
 
 export default function ProductionSidebar({
-  recipes,
+  products = [],
   recipeIndex,
   product,
-  products,
   amount,
   recipeId,
   productSources,
@@ -21,13 +20,10 @@ export default function ProductionSidebar({
 
   const source = productSources?.[product] || {
     type: "produce",
+    recipeId: recipeIds[0] || null,
   };
 
-  /*
-   * Labour can never be bought when it is the
-   * target product.
-   */
-  const canBuy = product !== "labour";
+  const isLabour = product === "labour";
 
   return (
     <aside className="production-sidebar">
@@ -35,7 +31,8 @@ export default function ProductionSidebar({
         <h2>Production Line</h2>
 
         <p className="sidebar-description">
-          Choose what you want to produce and the required quantity.
+          Choose the target product, quantity and how each product in the
+          production chain should be obtained.
         </p>
       </div>
 
@@ -48,20 +45,25 @@ export default function ProductionSidebar({
       </div>
 
       <div className="sidebar-section">
-        <label>Quantity</label>
+        <label htmlFor="production-amount">Target quantity</label>
 
         <input
+          id="production-amount"
           type="number"
-          min="0"
-          step="any"
+          min="0.001"
+          step="0.001"
           value={amount}
           onChange={(event) => onAmountChange(Number(event.target.value))}
         />
+
+        <span className="field-hint">
+          Product quantities can use up to 3 decimal places.
+        </span>
       </div>
 
       {product && (
         <div className="sidebar-section">
-          <label>Source</label>
+          <label>Target source</label>
 
           <div className="source-options">
             <button
@@ -70,14 +72,14 @@ export default function ProductionSidebar({
               onClick={() =>
                 onSourceChange(product, {
                   type: "produce",
-                  recipeId,
+                  recipeId: source.recipeId || recipeIds[0] || null,
                 })
               }
             >
               Produce
             </button>
 
-            {canBuy && (
+            {!isLabour && (
               <button
                 type="button"
                 className={source.type === "buy" ? "active" : ""}
@@ -99,40 +101,49 @@ export default function ProductionSidebar({
           <RecipeSelector
             product={product}
             recipeIds={recipeIds}
-            recipes={recipes}
+            recipes={recipeIndex?.recipeMap}
             selectedRecipe={recipeId}
             onChange={onRecipeChange}
           />
         </div>
       )}
 
-      {product && source.type === "produce" && recipeIds.length === 0 && (
+      {product && recipeIds.length === 0 && source.type === "produce" && (
         <div className="info-box">
-          <strong>No production recipe</strong>
+          <strong>No recipe available</strong>
 
-          <p>
-            This product does not currently have a production recipe available.
-          </p>
+          <p>This product cannot be produced with the available recipes.</p>
         </div>
       )}
 
-      {product === "labour" && (
+      {isLabour && (
         <div className="info-box">
           <strong>Labour</strong>
 
           <p>
-            Labour can only be purchased when it is required as an input of
-            another recipe. When Labour is the target product, you must produce
-            it.
+            Labour is automatically purchased when required as an input. It can
+            only be produced when Labour itself is the target.
           </p>
         </div>
       )}
 
+      <div className="rules-box">
+        <strong>Game limitations</strong>
+
+        <ul>
+          <li>Recipe runs use 0.10 increments.</li>
+
+          <li>Market purchases are whole units.</li>
+
+          <li>Recipe inputs support up to 3 decimal places.</li>
+        </ul>
+      </div>
+
       <button
         type="button"
         className="calculate-button"
-        onClick={onCalculate}
         disabled={!product || !amount || amount <= 0}
+        onClick={onCalculate}
       >
         Calculate production
       </button>

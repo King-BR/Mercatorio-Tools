@@ -28,6 +28,7 @@ export async function autoLayout(nodes, edges, direction = "RIGHT") {
       id: node.id,
 
       width: node.measured?.width || node.width || 180,
+
       height: node.measured?.height || node.height || 80,
     })),
 
@@ -50,9 +51,17 @@ export async function autoLayout(nodes, edges, direction = "RIGHT") {
     ]),
   );
 
-  return nodes.map((node) => ({
-    ...node,
-    position: positions.get(node.id) || node.position,
-    positionAbsolute: positions.get(node.id) || node.positionAbsolute,
-  }));
+  return nodes.map((node) => {
+    const position = positions.get(node.id);
+
+    if (!position) {
+      return node;
+    }
+
+    return {
+      ...node,
+      position,
+      positionAbsolute: position,
+    };
+  });
 }
