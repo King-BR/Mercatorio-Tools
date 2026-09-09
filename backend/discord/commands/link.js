@@ -5,9 +5,11 @@ const utils = require("../utils.js");
 
 const API_KEY = process.env.ADMIN_MERCTOOLS_KEY;
 
+const debug = process.argv.includes("--debug");
+
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("link")
+    .setName(`link${debug ? "-debug" : ""}`)
     .setDescription(
       "Link your discord account to your Mercatorio Tools account",
     )

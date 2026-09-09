@@ -1,12 +1,18 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  MessageFlags,
+} = require("discord.js");
 const si = require("systeminformation");
 
 const config = require("../config.json");
 const utils = require("../utils.js");
 
+const debug = process.argv.includes("--debug");
+
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("systeminfo")
+    .setName(`systeminfo${debug ? "-debug" : ""}`)
     .setDescription("Get system information."),
 
   /**
@@ -56,7 +62,10 @@ module.exports = {
         },
       );
 
-      await interaction.reply({ embeds: [embed] });
+      await interaction.reply({
+        embeds: [embed],
+        flags: MessageFlags.Ephemeral,
+      });
     } catch (error) {
       console.error("Error fetching system information:", error);
 
