@@ -1,5 +1,4 @@
 import { getRecipesForProduct } from "../../../services/production/recipeIndex";
-import { getProducts } from "../../../services/api";
 
 import RecipeSelector from "./RecipeSelector";
 import ProductSelector from "./ProductSelector";
@@ -19,13 +18,16 @@ export default function ProductionSidebar({
   onCalculate,
 }) {
   const recipeIds = product ? getRecipesForProduct(recipeIndex, product) : [];
-  products = getProducts();
 
-  const source = productSources[product] || {
+  const source = productSources?.[product] || {
     type: "produce",
   };
 
-  const canBuy = product === "labour" ? false : true;
+  /*
+   * Labour can never be bought when it is the
+   * target product.
+   */
+  const canBuy = product !== "labour";
 
   return (
     <aside className="production-sidebar">
@@ -63,10 +65,12 @@ export default function ProductionSidebar({
 
           <div className="source-options">
             <button
+              type="button"
               className={source.type === "produce" ? "active" : ""}
               onClick={() =>
                 onSourceChange(product, {
                   type: "produce",
+                  recipeId,
                 })
               }
             >
@@ -75,6 +79,7 @@ export default function ProductionSidebar({
 
             {canBuy && (
               <button
+                type="button"
                 className={source.type === "buy" ? "active" : ""}
                 onClick={() =>
                   onSourceChange(product, {
@@ -101,19 +106,34 @@ export default function ProductionSidebar({
         </div>
       )}
 
+      {product && source.type === "produce" && recipeIds.length === 0 && (
+        <div className="info-box">
+          <strong>No production recipe</strong>
+
+          <p>
+            This product does not currently have a production recipe available.
+          </p>
+        </div>
+      )}
+
       {product === "labour" && (
         <div className="info-box">
           <strong>Labour</strong>
 
           <p>
             Labour can only be purchased when it is required as an input of
-            another recipe. When Labour is the target product, you can choose
-            one of its production recipes.
+            another recipe. When Labour is the target product, you must produce
+            it.
           </p>
         </div>
       )}
 
-      <button className="calculate-button" onClick={onCalculate}>
+      <button
+        type="button"
+        className="calculate-button"
+        onClick={onCalculate}
+        disabled={!product || !amount || amount <= 0}
+      >
         Calculate production
       </button>
     </aside>

@@ -1,13 +1,14 @@
 export default function ProductSelector({
-  products,
+  products = [],
   selectedProduct,
   onChange,
 }) {
   return (
     <div className="recipe-selector">
-      <label>Target Product</label>
+      <label htmlFor="production-target-product">Target Product</label>
 
       <select
+        id="production-target-product"
         value={selectedProduct || ""}
         onChange={(event) => onChange(event.target.value || null)}
       >

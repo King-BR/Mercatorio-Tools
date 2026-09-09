@@ -197,6 +197,34 @@
 }
 
 /* =========================================================
+   AUTO LAYOUT BUTTON
+   ========================================================= */
+
+.auto-layout-button {
+  border: 1px solid #334155;
+  border-radius: 6px;
+
+  padding: 8px 12px;
+
+  background: #0f1d30;
+  color: #e8f0f8;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.auto-layout-button:hover {
+  background: #162a43;
+  border-color: #4b6b91;
+}
+
+/* =========================================================
    MAIN
    ========================================================= */
 
