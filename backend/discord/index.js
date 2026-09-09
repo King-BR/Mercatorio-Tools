@@ -1,8 +1,10 @@
 const fs = require("fs");
 const path = require("path");
+const Discord = require("discord.js");
+
 const config = require("./config.json");
 const utils = require("./utils.js");
-const Discord = require("discord.js");
+
 const client = new Discord.Client({
   allowedMentions: { parse: ["users", "roles"] },
   partials: [
@@ -22,10 +24,13 @@ const client = new Discord.Client({
   ],
 });
 
+const debug = process.argv.includes("--debug");
+
 client.login(process.env.DISCORD_TOKEN);
 
 // Create command handler
 client.commands = new Discord.Collection();
+
 const commands = [];
 const commandsFolder = path.join(__dirname, "commands");
 const commandFiles = fs
@@ -96,14 +101,30 @@ const rest = new Discord.REST().setToken(process.env.DISCORD_TOKEN);
       `Started refreshing ${commands.length} application (/) commands.`,
     );
 
-    const data = await rest.put(
-      Discord.Routes.applicationCommands(config.clientId),
-      { body: commands },
-    );
+    var data = null;
 
-    console.log(
-      `Successfully reloaded ${data.length} application (/) commands.`,
-    );
+    if (debug) {
+      data = await rest.put(
+        Discord.Routes.applicationGuildCommands(
+          config.clientId,
+          config.guildId,
+        ),
+        { body: commands },
+      );
+
+      console.log(
+        `Successfully reloaded ${data.length} application (/) commands for guild ${config.guildId}.`,
+      );
+    } else {
+      data = await rest.put(
+        Discord.Routes.applicationCommands(config.clientId),
+        { body: commands },
+      );
+
+      console.log(
+        `Successfully reloaded ${data.length} application (/) commands.`,
+      );
+    }
   } catch (error) {
     console.error(error);
   }
