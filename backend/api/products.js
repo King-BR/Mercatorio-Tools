@@ -1,31 +1,8 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 
-const { cacheDuration } = require("../data/config.js");
+const { getProducts } = require("../data/getters.js");
 
 const router = express.Router();
-
-var productsCache = new Map();
-var lastProductsCache = null;
-
-function getProducts() {
-  var now = Date.now();
-
-  if (!lastProductsCache || now - lastProductsCache > cacheDuration) {
-    const products = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../data/products.json"), "utf8"),
-    );
-
-    productsCache.clear();
-    products.forEach((product) => {
-      productsCache.set(product.name.toLowerCase(), product);
-    });
-    lastProductsCache = now;
-  }
-
-  return productsCache;
-}
 
 // GET /api/products
 router.get("/", (req, res) => {

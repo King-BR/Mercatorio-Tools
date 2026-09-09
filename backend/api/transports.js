@@ -1,58 +1,8 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 
-const { cacheDuration } = require("../data/config.js");
+const { getTransports, getTransportOperations } = require("../data/getters.js");
 
 const router = express.Router();
-
-var transportsData = new Map();
-var transportOperationsData = new Map();
-var lastTransportUpdate = null;
-var lastTransportRecipesUpdate = null;
-
-function getTransports() {
-  const now = Date.now();
-
-  if (lastTransportUpdate && now - lastTransportUpdate < cacheDuration) {
-    return transportsData;
-  }
-
-  const filePath = path.join(__dirname, "../data/transports.json");
-  const data = fs.readFileSync(filePath, "utf8");
-  const transports = JSON.parse(data);
-
-  transportsData.clear();
-  transports.forEach((transport) =>
-    transportsData.set(transport.type, transport),
-  );
-
-  lastTransportUpdate = now;
-  return transportsData;
-}
-
-function getTransportOperations() {
-  const now = Date.now();
-
-  if (
-    lastTransportRecipesUpdate &&
-    now - lastTransportRecipesUpdate < cacheDuration
-  ) {
-    return transportOperationsData;
-  }
-
-  const filePath = path.join(__dirname, "../data/transport_recipes.json");
-  const data = fs.readFileSync(filePath, "utf8");
-  const transportOperations = JSON.parse(data);
-
-  transportOperationsData.clear();
-  transportOperations.forEach((operation) =>
-    transportOperationsData.set(operation.name, operation),
-  );
-
-  lastTransportRecipesUpdate = now;
-  return transportOperationsData;
-}
 
 // GET /api/transports
 router.get("/", (req, res) => {

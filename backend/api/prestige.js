@@ -1,56 +1,8 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 
-const { cacheDuration } = require("../data/config.js");
+const { getPrestigeBoard, getSustenance } = require("../data/getters.js");
 
 const router = express.Router();
-
-var prestigeBoardData = new Map();
-var sustenanceData = new Map();
-var lastBoardCache = null;
-var lastSustenanceCache = null;
-
-function getPrestigeBoard() {
-  var now = Date.now();
-
-  if (!lastBoardCache || now - lastBoardCache > cacheDuration) {
-    prestigeBoardData.clear();
-    const data = JSON.parse(
-      fs.readFileSync(
-        path.join(__dirname, "../data/prestige_board_levels.json"),
-        "utf8",
-      ),
-    );
-
-    Object.keys(data).forEach((key) => {
-      prestigeBoardData.set(key.toLowerCase(), data[key]);
-    });
-
-    lastBoardCache = now;
-  }
-
-  return prestigeBoardData;
-}
-
-function getSustenance() {
-  var now = Date.now();
-
-  if (!lastSustenanceCache || now - lastSustenanceCache > cacheDuration) {
-    sustenanceData.clear();
-    const data = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../data/sustenance.json"), "utf8"),
-    );
-
-    data.forEach((item) => {
-      sustenanceData.set(item.category.toLowerCase(), item);
-    });
-
-    lastSustenanceCache = now;
-  }
-
-  return sustenanceData;
-}
 
 // GET /api/prestige/board
 router.get("/board", (req, res) => {

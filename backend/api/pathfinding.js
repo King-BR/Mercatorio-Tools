@@ -1,27 +1,8 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 
-const { cacheDuration } = require("../data/config.js");
+const { getPaths } = require("../data/getters.js");
 
 const router = express.Router();
-
-var pathsCache = new Map();
-var lastPathsCacheUpdate = null;
-
-function getPaths() {
-  const now = Date.now();
-  if (!lastPathsCacheUpdate || now - lastPathsCacheUpdate > cacheDuration) {
-    const paths = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../data/paths.json"), "utf-8"),
-    );
-
-    pathsCache = new Map(paths.map((p) => [p.id, p]));
-    lastPathsCacheUpdate = now;
-  }
-
-  return pathsCache;
-}
 
 // GET /api/pathfinding/paths
 router.get("/paths", (req, res) => {

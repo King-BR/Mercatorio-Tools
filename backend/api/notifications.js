@@ -12,7 +12,7 @@ router.get("/", auth, admin, async (req, res) => {
     const notifications = await NotificationsDB.find();
     res.status(200).json(notifications);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message, error });
   }
 });
 
@@ -27,7 +27,7 @@ router.get("/id/:notificationID", auth, admin, async (req, res) => {
     }
     res.status(200).json(notification);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message, error });
   }
 });
 
@@ -42,7 +42,7 @@ router.get("/me", auth, async (req, res) => {
       .map((notification) => notification.toObject());
     res.status(200).json(sortedNotifications);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message, error });
   }
 });
 
@@ -62,7 +62,7 @@ router.get("/user/:userID", auth, admin, async (req, res) => {
     );
     res.status(200).json(notifications);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message, error });
   }
 });
 
