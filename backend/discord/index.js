@@ -97,7 +97,7 @@ const rest = new Discord.REST().setToken(process.env.DISCORD_TOKEN);
     );
 
     const data = await rest.put(
-      Discord.Routes.applicationGuildCommands(config.clientId, config.guildId),
+      Discord.Routes.applicationCommands(config.clientId),
       { body: commands },
     );
 
