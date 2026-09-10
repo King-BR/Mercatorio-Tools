@@ -19,6 +19,20 @@ function formatCost(value) {
   });
 }
 
+function formatSkillTier(value) {
+  value = formatNumber(value, 0);
+
+  const SKILL_TIERS = {
+    1: "Novice",
+    2: "Worker",
+    3: "Journeyman",
+    4: "Master",
+    5: "Specialist",
+  };
+
+  return SKILL_TIERS[value] || "Unknown";
+}
+
 export default function ProductionSummary({ calculation }) {
   const products = Object.values(calculation.products || {});
 
@@ -30,7 +44,26 @@ export default function ProductionSummary({ calculation }) {
 
   const purchases = Object.entries(calculation.purchases || {});
 
-  const recipeEntries = Object.values(calculation.recipes || {});
+  const recipeEntries = Object.entries(calculation.recipes || {});
+
+  const classes = Array.from(
+    calculation.classes?.entries ? calculation.classes.entries() : [],
+  );
+
+  /**
+   * [
+   *   [
+   *     "Building Name",
+   *     {
+   *       count: number,
+   *       perRecipe: Map<string, { count: number }>
+   *     }
+   *   ]
+   * ]
+   */
+  const buildings = Array.from(
+    calculation.buildings?.entries ? calculation.buildings.entries() : [],
+  );
 
   return (
     <section className="production-summary">
@@ -86,6 +119,16 @@ export default function ProductionSummary({ calculation }) {
           />
         </SummarySection>
 
+        <SummarySection title="Production Surplus">
+          <SummaryRows
+            rows={productionSurplus.map(([product, amount]) => [
+              product,
+              formatNumber(amount),
+            ])}
+            empty="No production surplus."
+          />
+        </SummarySection>
+
         <SummarySection title="Market Purchases">
           <SummaryRows
             rows={purchases.map(([product, amount]) => [
@@ -106,32 +149,28 @@ export default function ProductionSummary({ calculation }) {
           />
         </SummarySection>
 
-        <SummarySection title="Production Surplus">
+        <SummarySection title="Recipes">
           <SummaryRows
-            rows={productionSurplus.map(([product, amount]) => [
-              product,
-              formatNumber(amount),
+            rows={recipeEntries.map(([recipeName, data]) => [
+              recipeName,
+              formatNumber(data.runs, 1),
             ])}
-            empty="No production surplus."
+            empty="No recipes used."
           />
         </SummarySection>
 
-        <SummarySection title="Recipes">
-          <div className="summary-recipe-list">
-            {recipeEntries.length === 0 ? (
-              <div className="summary-empty">No recipes used.</div>
-            ) : (
-              recipeEntries.map((recipe) => (
-                <div className="summary-recipe" key={recipe.name}>
-                  <div>
-                    <strong>{recipe.name}</strong>
-                  </div>
+        <SummarySection title="Classes">
+          <SummaryRows
+            rows={classes.map(([className, data]) => [
+              className,
+              formatSkillTier(data.maxSkill),
+            ])}
+            empty="No classes used."
+          />
+        </SummarySection>
 
-                  <span>{formatNumber(recipe.runs, 1)} runs</span>
-                </div>
-              ))
-            )}
-          </div>
+        <SummarySection title="Buildings">
+          <SummaryBuildings buildings={buildings} empty="No buildings used." />
         </SummarySection>
       </div>
     </section>
@@ -167,13 +206,65 @@ function SummaryRows({ rows, empty }) {
 
   return (
     <div className="summary-rows">
-      {rows.map(([label, value]) => (
-        <div className="summary-row" key={label}>
+      {rows.map(([label, value], index) => (
+        <div className="summary-row" key={`${label}-${index}`}>
           <span>{label}</span>
 
           <strong>{value}</strong>
         </div>
       ))}
+    </div>
+  );
+}
+
+function SummaryBuildings({ buildings, empty }) {
+  if (!buildings.length) {
+    return <div className="summary-empty">{empty}</div>;
+  }
+
+  return (
+    <div className="summary-rows">
+      {buildings.map(([buildingName, data]) => {
+        const perRecipe = data?.perRecipe;
+
+        const recipeEntries = perRecipe?.entries
+          ? Array.from(perRecipe.entries())
+          : [];
+
+        return (
+          <div className="summary-building" key={buildingName}>
+            <div className="summary-row summary-building-row">
+              <span>
+                {buildingName}{" "}
+                {recipeEntries.length === 1 && ` (${recipeEntries[0][0]})`}
+              </span>
+
+              <strong>{formatNumber(data?.total)}</strong>
+            </div>
+
+            {recipeEntries.length > 1 && (
+              <div className="summary-sub-rows">
+                {recipeEntries.map(([recipeName, recipeData], index) => (
+                  <div
+                    className="summary-row summary-sub-row"
+                    key={`${buildingName}-${recipeName}-${index}`}
+                  >
+                    <span>- {recipeName}</span>
+
+                    <strong>
+                      {formatNumber(
+                        typeof recipeData === "number"
+                          ? recipeData
+                          : recipeData?.count,
+                      )}
+                    </strong>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
