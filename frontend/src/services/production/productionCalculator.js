@@ -1,4 +1,5 @@
 import { getRecipeInputs, getRecipeOutput } from "./recipeIndex";
+import logger from "../../utils/logger";
 
 const RECIPE_STEP = 0.1;
 const MAX_DECIMALS = 3;
@@ -97,6 +98,10 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     },
 
     recipes: {},
+
+    buildings: new Map(),
+
+    classes: new Map(),
 
     products: {},
 
@@ -304,7 +309,10 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     if (!result.recipes[selectedRecipeId]) {
       result.recipes[selectedRecipeId] = {
         name: selectedRecipeId,
-        site: recipes[selectedRecipeId].site,
+        site: recipe.site,
+        tier: recipe.tier || 0,
+        class: recipe.class || "unknown",
+        points: recipe.points || 0,
         runs: 0,
         inputs: {},
         outputs: {},
@@ -314,6 +322,40 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     const recipeResult = result.recipes[selectedRecipeId];
 
     recipeResult.runs = round(recipeResult.runs + runs, 1);
+
+    /*
+     * Set buildings and upgrades count
+     */
+    if (!result.buildings.has(recipe.site)) {
+      result.buildings.set(recipe.site, {
+        total: 0,
+        perRecipe: new Map(),
+        upgrades: new Set(),
+      });
+    }
+
+    const building = result.buildings.get(recipe.site);
+    building.total += ceilInteger(runs);
+    building.upgrades = new Set([
+      ...building.upgrades,
+      ...(recipe.upgrades || []),
+    ]);
+    building.perRecipe.set(selectedRecipeId, {
+      count: ceilInteger(recipeResult.runs),
+      upgrades: new Set(recipe.upgrades || []),
+    });
+
+    /*
+     * Set max skill needed for the production line
+     */
+    if (!result.classes.has(recipe.class)) {
+      result.classes.set(recipe.class, {
+        maxSkill: recipe.tier || 0,
+      });
+    }
+
+    const classData = result.classes.get(recipe.class);
+    classData.maxSkill = Math.max(classData.maxSkill, recipe.tier || 0);
 
     /*
      * Register every recipe output.
@@ -496,6 +538,8 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     result.cost.unit =
       requestedAmount > 0 ? round(totalCost / targetData.produced, 2) : 0;
   }
+
+  logger.log("Production line calculation result: ",result);
 
   return result;
 }
