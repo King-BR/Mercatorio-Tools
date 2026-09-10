@@ -509,8 +509,12 @@ async function refresh(options = {}) {
      * ----------------------------------------------------------
      */
 
+    const now = new Date();
+
     const index = {
-      generatedAt: new Date().toISOString(),
+      generatedAt: now.getTime(),
+
+      generatedAtISO: now.toISOString(),
 
       website: options.websiteUrl || "https://play.mercatorio.io/",
 
