@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const config = require("./config.js");
-const cacheDuration = config.cacheDuration;
+const cacheDuration = config.cacheDuration; // 2 hours
 const minuteUpdate = 6;
 
 // Buildings data
@@ -16,30 +16,32 @@ var upgradesData = new Map();
 var upgradesDescData = new Map();
 
 // Market data
-var marketData = new Map();
+const MARKET_DATA_URL = "https://api.mercatorio-tools.tech/data/marketdata";
+const marketData = new Map();
+const marketCacheDuration = 10 * 60 * 1000; // 10 minutes
 var lastMarketCache = null;
 
 // Products data
-var productsCache = new Map();
+const productsCache = new Map();
 var lastProductsCache = null;
 
 // Pathfinding data
-var pathsCache = new Map();
+const pathsCache = new Map();
 var lastPathsCacheUpdate = null;
 
 // Prestige data
-var prestigeBoardData = new Map();
-var sustenanceData = new Map();
+const prestigeBoardData = new Map();
+const sustenanceData = new Map();
 var lastBoardCache = null;
 var lastSustenanceCache = null;
 
 // Recipes data
+const recipesCache = new Map();
 var lastRecipesUpdate = null;
-var recipesCache = new Map();
 
 // Transports data
-var transportsData = new Map();
-var transportOperationsData = new Map();
+const transportsData = new Map();
+const transportOperationsData = new Map();
 var lastTransportUpdate = null;
 var lastTransportRecipesUpdate = null;
 
@@ -140,7 +142,11 @@ function getPaths() {
       fs.readFileSync(path.join(__dirname, "../data/paths.json"), "utf-8"),
     );
 
-    pathsCache = new Map(paths.map((p) => [p.id, p]));
+    pathsCache.clear();
+    paths
+      .map((p) => [p.id, p])
+      .forEach(([id, path]) => pathsCache.set(id, path));
+
     lastPathsCacheUpdate = now;
   }
 
@@ -230,28 +236,25 @@ function getUpgradesDescriptions() {
   return upgradesDescData;
 }
 
-function getMarketData(force = false) {
+async function getMarketData(force = false) {
   try {
     const currentDate = new Date();
 
     if (
       force ||
       !lastMarketCache ||
-      (Math.abs(currentDate.getHours() - lastMarketCache.getHours()) >= 1 &&
-        currentDate.getMinutes() >= minuteUpdate)
+      Math.abs(currentDate.getTime() - lastMarketCache.getTime()) >=
+        marketCacheDuration
     ) {
       marketData.clear();
 
-      // Load market data from file or database
-      const marketFilePath = path.join(__dirname, "../data/market.json");
-      if (fs.existsSync(marketFilePath)) {
-        const rawData = fs.readFileSync(marketFilePath);
-        const parsedData = JSON.parse(rawData);
+      // fetch from market data API
+      const response = await fetch(MARKET_DATA_URL);
+      const parsedData = await response.json();
 
-        parsedData.forEach((market) => {
-          marketData.set(market.name.toLowerCase(), market);
-        });
-      }
+      parsedData.forEach((market) => {
+        marketData.set(market.name.toLowerCase(), market);
+      });
 
       lastMarketCache = new Date();
       return marketData;

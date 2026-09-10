@@ -74,7 +74,8 @@ router.get("/products/:productName/aggregate/:type/:value", (req, res) => {
       !values.includes(value)
     ) {
       return res.status(400).json({
-        message: "Product name, type, and value are required or invalid",
+        message:
+          "Product name, type of aggregation, and value field are required or invalid",
         error: "Missing or invalid parameters",
         requested: { product: productName, type, value },
         available: { products, types, values },
