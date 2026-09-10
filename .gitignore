@@ -26,3 +26,4 @@ dist-ssr
 *.sw?
 
 backend/data/paths.json
+backend/data/mercatorio/
