@@ -269,10 +269,28 @@
 .production-graph-container {
   position: relative;
 
-  flex: 1;
-  min-height: 700px;
+  width: 100%;
+  height: 700px;
+
+  min-height: 300px;
+  max-height: calc(100vh - 180px);
+
+  flex: none;
+
+  resize: vertical;
+  overflow: hidden;
 
   background: #07111f;
+
+  box-sizing: border-box;
+}
+
+.production-graph {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  position: relative;
 }
 
 .production-empty {
@@ -613,6 +631,10 @@
 /* =========================================================
    React Flow
    ========================================================= */
+.production-graph .react-flow {
+  width: 100%;
+  height: 100%;
+}
 
 .production-graph .react-flow__controls {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
@@ -910,7 +932,13 @@
   }
 
   .production-graph-container {
-    min-height: 500px;
+    width: 100%;
+    height: 500px;
+
+    min-height: 300px;
+    max-height: none;
+
+    flex: none;
   }
 
   .production-graph-header {
