@@ -200,11 +200,19 @@ const ProductionGraphInner = forwardRef(function ProductionGraphInner(
               return "#36536e";
             }
 
-            if (node.data?.source?.type === "buy") {
-              return "#AA1414";
+            if (node.data?.isTarget) {
+              return "#13AC18";
             }
 
-            return "#13AC18";
+            if (node.data?.source === "produce") {
+              return "#F2FF01";
+            }
+
+            if (node.data?.source === "buy") {
+              return "#00ECFD";
+            }
+
+            return "#AA1414";
           }}
           nodeStrokeWidth={10}
         />

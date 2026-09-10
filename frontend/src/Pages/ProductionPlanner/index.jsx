@@ -287,7 +287,6 @@ export default function ProductionPlanner() {
         onRecipeChange={(newRecipeId) =>
           handleRecipeChange(product, newRecipeId)
         }
-        onSourceChange={handleSourceChange}
         onCalculate={handleCalculate}
       />
 
@@ -306,9 +305,11 @@ export default function ProductionPlanner() {
         <div className="production-graph-header">
           {calculation?.errors?.length > 0 && (
             <div className="production-errors">
-              {calculation.errors.map((item, index) => (
-                <div key={`${item.type}-${index}`}>{item.message}</div>
-              ))}
+              {[...new Set(calculation.errors.map((item) => item.message))].map(
+                (message, index) => (
+                  <div key={`error-${index}`}>{message}</div>
+                ),
+              )}
             </div>
           )}
 
@@ -341,6 +342,8 @@ export default function ProductionPlanner() {
           )}
         </div>
 
+        {calculation && <ProductionSummary calculation={calculation} />}
+
         {productionProducts.length > 0 && (
           <ProductSourceList
             products={productionProducts}
@@ -351,8 +354,6 @@ export default function ProductionPlanner() {
             onRecipeChange={handleRecipeChange}
           />
         )}
-
-        {calculation && <ProductionSummary calculation={calculation} />}
       </main>
     </div>
   );

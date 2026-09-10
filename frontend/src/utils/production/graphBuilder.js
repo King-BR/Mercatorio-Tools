@@ -59,6 +59,8 @@ export function buildProductionGraph(recipes, calculation) {
         marketSurplus: data.marketSurplus || 0,
 
         productionSurplus: data.productionSurplus || 0,
+
+        isTarget: data.isTarget || false,
       },
     });
   }
@@ -87,6 +89,8 @@ export function buildProductionGraph(recipes, calculation) {
         recipeId,
 
         name: data.name || recipeId,
+
+        site: data.site || "",
 
         runs: data.runs || 0,
 

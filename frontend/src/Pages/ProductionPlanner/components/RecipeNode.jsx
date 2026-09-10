@@ -11,7 +11,7 @@ function formatAmount(value) {
 }
 
 export default function RecipeNode({ data }) {
-  const { name, runs = 0, inputs = {}, outputs = {} } = data || {};
+  const { name, site, runs = 0, inputs = {}, outputs = {} } = data || {};
 
   return (
     <div
@@ -48,6 +48,17 @@ export default function RecipeNode({ data }) {
         }}
       >
         {name}
+      </div>
+
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 500,
+          marginBottom: 8,
+          color: "#aebed0",
+        }}
+      >
+        Site: {site}
       </div>
 
       <div

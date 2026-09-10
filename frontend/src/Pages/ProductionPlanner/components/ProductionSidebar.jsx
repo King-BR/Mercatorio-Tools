@@ -13,7 +13,6 @@ export default function ProductionSidebar({
   onProductChange,
   onAmountChange,
   onRecipeChange,
-  onSourceChange,
   onCalculate,
 }) {
   const recipeIds = product ? getRecipesForProduct(recipeIndex, product) : [];
@@ -60,41 +59,6 @@ export default function ProductionSidebar({
           Product quantities can use up to 3 decimal places.
         </span>
       </div>
-
-      {product && (
-        <div className="sidebar-section">
-          <label>Target source</label>
-
-          <div className="source-options">
-            <button
-              type="button"
-              className={source.type === "produce" ? "active" : ""}
-              onClick={() =>
-                onSourceChange(product, {
-                  type: "produce",
-                  recipeId: source.recipeId || recipeIds[0] || null,
-                })
-              }
-            >
-              Produce
-            </button>
-
-            {!isLabour && (
-              <button
-                type="button"
-                className={source.type === "buy" ? "active" : ""}
-                onClick={() =>
-                  onSourceChange(product, {
-                    type: "buy",
-                  })
-                }
-              >
-                Buy
-              </button>
-            )}
-          </div>
-        </div>
-      )}
 
       {product && source.type === "produce" && recipeIds.length > 0 && (
         <div className="sidebar-section">

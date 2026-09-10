@@ -48,8 +48,7 @@ function getProductPrice(product, productsData) {
     return null;
   }
 
-  const price =
-    data.marketPrice ?? data.buyPrice ?? data.price ?? data.cost ?? null;
+  const price = data.price.typical;
 
   const numericPrice = Number(price);
 
@@ -57,23 +56,29 @@ function getProductPrice(product, productsData) {
 }
 
 function normalizeSource(source) {
+  /*
+   * Products discovered as inputs are BUY by default.
+   *
+   * The target product is handled separately by
+   * resolveProduct(), so this default does not affect
+   * the target.
+   */
   if (!source) {
     return {
-      type: "produce",
+      type: "buy",
       recipeId: null,
     };
   }
 
   if (typeof source === "string") {
     return {
-      type: source,
+      type: source === "produce" ? "produce" : "buy",
       recipeId: null,
     };
   }
 
   return {
-    type: source.type === "buy" ? "buy" : "produce",
-
+    type: source.type === "produce" ? "produce" : "buy",
     recipeId: source.recipeId || null,
   };
 }
@@ -165,6 +170,7 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
         purchased: 0,
         marketSurplus: 0,
         productionSurplus: 0,
+        isTarget: productName === product,
       };
     }
 
@@ -298,6 +304,7 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     if (!result.recipes[selectedRecipeId]) {
       result.recipes[selectedRecipeId] = {
         name: selectedRecipeId,
+        site: recipes[selectedRecipeId].site,
         runs: 0,
         inputs: {},
         outputs: {},
@@ -389,36 +396,34 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     const source = normalizeSource(productSources?.[productName]);
 
     /*
-     * The final target must be produced.
+     * The final target must always be produced.
      *
-     * This also prevents someone accidentally
-     * configuring the target as "buy".
+     * This takes priority even if the target was
+     * accidentally configured as "buy".
      */
     const isTarget = !context.isInput && productName === product;
 
-    if (source.type === "buy" && !isTarget) {
-      buyProduct(productName, amountRequired);
-
-      return;
-    }
-
-    if (source.type === "produce" || isTarget) {
+    if (isTarget) {
       produceProduct(productName, amountRequired, {
-        recipeId: isTarget ? recipeId || source.recipeId : source.recipeId,
+        recipeId: recipeId || source.recipeId,
       });
 
       return;
     }
 
     /*
-     * No explicit source:
-     *
-     * Prefer production when a recipe exists,
-     * otherwise buy.
+     * Explicitly configured as BUY.
      */
-    const availableRecipes = getAvailableRecipes(productName);
+    if (source.type === "buy") {
+      buyProduct(productName, amountRequired);
 
-    if (availableRecipes.length > 0) {
+      return;
+    }
+
+    /*
+     * Explicitly configured as PRODUCE.
+     */
+    if (source.type === "produce") {
       produceProduct(productName, amountRequired, {
         recipeId: source.recipeId,
       });
@@ -426,9 +431,20 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
       return;
     }
 
+    /*
+     * No explicit source.
+     *
+     * Products discovered as recipe inputs are
+     * BUY by default.
+     */
     buyProduct(productName, amountRequired);
   }
 
+  /*
+   * Start calculation.
+   *
+   * The target is always produced.
+   */
   if (product && requestedAmount > 0) {
     resolveProduct(product, requestedAmount, {
       isInput: false,
@@ -453,7 +469,7 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
   result.labour.total = round(result.purchases[LABOUR] || 0);
 
   result.labour.perProduct =
-    requestedAmount > 0 ? round(result.labour.total / requestedAmount) : 0;
+    requestedAmount > 0 ? round(result.labour.total / targetData.produced) : 0;
 
   /*
    * Cost.
@@ -475,10 +491,10 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
   }
 
   if (!hasUnknownPrice) {
-    result.cost.total = round(totalCost);
+    result.cost.total = round(totalCost, 2);
 
     result.cost.unit =
-      requestedAmount > 0 ? round(totalCost / requestedAmount, 6) : 0;
+      requestedAmount > 0 ? round(totalCost / targetData.produced, 2) : 0;
   }
 
   return result;

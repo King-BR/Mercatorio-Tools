@@ -26,12 +26,6 @@ export default function RecipeSelector({
           );
         })}
       </select>
-
-      {product && (
-        <span className="field-hint">
-          Recipe executions are calculated in 0.10 increments.
-        </span>
-      )}
     </div>
   );
 }

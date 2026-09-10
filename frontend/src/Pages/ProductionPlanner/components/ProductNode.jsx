@@ -30,6 +30,7 @@ export default function ProductNode({ data }) {
     source,
     unitCost,
     marketPrice,
+    isTarget = false,
   } = data || {};
 
   const sourceType = source?.type || (purchased > 0 ? "buy" : "produce");
@@ -85,13 +86,13 @@ export default function ProductNode({ data }) {
           background: isBuy
             ? "rgba(91, 155, 213, 0.15)"
             : "rgba(78, 180, 120, 0.15)",
-          color: isBuy ? "#8fc7f5" : "#8bd8a8",
+          color: isTarget ? "#1EFF00" : isBuy ? "#04EEFF" : "#ECFD00",
           fontSize: 11,
           fontWeight: 600,
           textTransform: "uppercase",
         }}
       >
-        {isBuy ? "Market" : "Produce"}
+        {isTarget ? "Target" : isBuy ? "Market" : "Produce"}
       </div>
 
       {/* Quantities */}

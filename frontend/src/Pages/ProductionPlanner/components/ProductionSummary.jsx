@@ -44,13 +44,13 @@ export default function ProductionSummary({ calculation }) {
 
       <div className="summary-overview">
         <SummaryCard
-          label="Target"
-          value={calculation.target?.product}
+          label="Produced"
+          value={formatNumber(calculation.target?.produced)}
           detail={`${formatNumber(calculation.target?.amount)} requested`}
         />
 
         <SummaryCard
-          label="Labour"
+          label="Labour per unit"
           value={formatNumber(calculation.labour?.perProduct)}
           detail={`${formatNumber(calculation.labour?.total)} total`}
         />
