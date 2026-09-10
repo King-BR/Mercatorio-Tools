@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   buildRecipeIndex,
@@ -37,6 +37,8 @@ export default function ProductionPlanner() {
   });
 
   const [layoutVersion, setLayoutVersion] = useState(0);
+
+  const productionGraphRef = useRef(null);
 
   const products = useMemo(() => recipeIndex?.products || [], [recipeIndex]);
 
@@ -87,17 +89,14 @@ export default function ProductionPlanner() {
         setRecipeId(firstRecipe);
 
         /*
-         * Default source is BUY.
-         *
-         * The recipe is still stored so that if the user
-         * changes to Produce, we already have a recipe
-         * available.
+         * The target product must always start
+         * as PRODUCE.
          */
         setProductSources(
           firstProduct
             ? {
                 [firstProduct]: {
-                  type: "buy",
+                  type: "produce",
                   recipeId: firstRecipe,
                 },
               }
@@ -133,13 +132,14 @@ export default function ProductionPlanner() {
     setRecipeId(firstRecipe);
 
     /*
-     * New target starts as BUY.
+     * The selected target product must always
+     * be PRODUCE.
      */
     setProductSources(
       newProduct
         ? {
             [newProduct]: {
-              type: "buy",
+              type: "produce",
               recipeId: firstRecipe,
             },
           }
@@ -147,11 +147,7 @@ export default function ProductionPlanner() {
     );
 
     /*
-     * IMPORTANT:
-     * Do NOT clear calculation or graph here.
-     *
-     * The graph only changes when Calculate Production
-     * is pressed.
+     * The graph is intentionally NOT rebuilt here.
      */
   }
 
@@ -174,23 +170,15 @@ export default function ProductionPlanner() {
     }));
 
     /*
-     * Do not recalculate here.
-     *
-     * The new recipe is only applied to the graph after
-     * Calculate Production is pressed.
+     * Do not recalculate or rebuild the graph here.
      */
   }
 
   function handleSourceChange(productName, source) {
     /*
-     * Labour can only be bought when it is an input.
-     * If labour is the target product, it cannot be bought.
+     * The target product can never be bought.
      */
-    if (
-      productName === "labour" &&
-      source.type === "buy" &&
-      productName === product
-    ) {
+    if (productName === product && source.type === "buy") {
       return;
     }
 
@@ -203,7 +191,8 @@ export default function ProductionPlanner() {
     }));
 
     /*
-     * Keep the target recipe synchronized.
+     * Keep the target recipe synchronized when
+     * switching the target to PRODUCE.
      */
     if (productName === product && source.type === "produce") {
       const availableRecipes = getRecipesForProduct(recipeIndex, product);
@@ -213,9 +202,6 @@ export default function ProductionPlanner() {
 
       setRecipeId(selectedRecipe);
 
-      /*
-       * Make sure the source also has the selected recipe.
-       */
       setProductSources((current) => ({
         ...current,
         [productName]: {
@@ -226,13 +212,8 @@ export default function ProductionPlanner() {
       }));
     }
 
-    if (productName === product && source.type === "buy") {
-      setRecipeId(null);
-    }
-
     /*
-     * IMPORTANT:
-     * No calculation/graph update here.
+     * Do not recalculate or rebuild the graph here.
      */
   }
 
@@ -250,14 +231,15 @@ export default function ProductionPlanner() {
     const targetSource = productSources[product];
 
     /*
-     * If target is BUY, there is no recipe.
-     *
-     * If target is PRODUCE, use the selected recipe.
+     * The target should always be PRODUCE.
      */
     const selectedRecipe =
-      targetSource?.type === "buy"
-        ? null
-        : targetSource?.recipeId || recipeId || null;
+      targetSource?.type === "produce"
+        ? targetSource.recipeId ||
+          recipeId ||
+          getRecipesForProduct(recipeIndex, product)[0] ||
+          null
+        : recipeId || getRecipesForProduct(recipeIndex, product)[0] || null;
 
     const result = calculateProduction(recipeIndex.recipeMap, recipeIndex, {
       product,
@@ -269,12 +251,16 @@ export default function ProductionPlanner() {
     const newGraph = buildProductionGraph(recipeIndex.recipeMap, result);
 
     /*
-     * THIS is the only place where the graph is rebuilt.
+     * The graph is rebuilt ONLY here.
      */
     setCalculation(result);
     setGraph(newGraph);
 
     setLayoutVersion((current) => current + 1);
+  }
+
+  function handleResetLayout() {
+    productionGraphRef.current?.resetLayout();
   }
 
   if (loading) {
@@ -317,17 +303,29 @@ export default function ProductionPlanner() {
           </div>
         </div>
 
-        {calculation?.errors?.length > 0 && (
-          <div className="production-errors">
-            {calculation.errors.map((item, index) => (
-              <div key={`${item.type}-${index}`}>{item.message}</div>
-            ))}
-          </div>
-        )}
+        <div className="production-graph-header">
+          {calculation?.errors?.length > 0 && (
+            <div className="production-errors">
+              {calculation.errors.map((item, index) => (
+                <div key={`${item.type}-${index}`}>{item.message}</div>
+              ))}
+            </div>
+          )}
+
+          <button
+            type="button"
+            className="production-reset-layout-button"
+            onClick={handleResetLayout}
+            disabled={graph.nodes.length === 0}
+          >
+            Reset Layout
+          </button>
+        </div>
 
         <div className="production-graph-container">
           {graph.nodes.length > 0 ? (
             <ProductionGraph
+              ref={productionGraphRef}
               nodes={graph.nodes}
               edges={graph.edges}
               layoutVersion={layoutVersion}

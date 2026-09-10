@@ -30,13 +30,16 @@ export default function ProductSourceList({
           const isLabour = product === "labour";
           const isTarget = product === targetProduct;
 
-          if (isLabour && !isTarget) {
-            return null;
-          }
+          const canProduce = !isLabour && !isTarget && recipes.length > 0;
 
-          const canProduce = recipes.length > 0 || isLabour;
-
-          const canBuy = !isLabour || !isTarget;
+          /*
+           * Target products can never be bought.
+           *
+           * This still allows labour to be bought when
+           * labour is an input, because then isTarget
+           * is false.
+           */
+          const canBuy = !isTarget;
 
           return (
             <div

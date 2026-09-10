@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+
 import {
   Background,
   Controls,
@@ -23,23 +24,25 @@ const nodeTypes = {
   recipe: RecipeNode,
 };
 
-function ProductionGraphInner({
-  nodes: initialNodes = [],
-  edges: initialEdges = [],
-  layoutVersion = 0,
-}) {
+const ProductionGraphInner = forwardRef(function ProductionGraphInner(
+  { nodes: initialNodes = [], edges: initialEdges = [], layoutVersion = 0 },
+  ref,
+) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const [needsAutoLayout, setNeedsAutoLayout] = useState(false);
+
+  const [isResettingLayout, setIsResettingLayout] = useState(false);
 
   const nodesInitialized = useNodesInitialized();
 
   const { fitView } = useReactFlow();
 
   /*
-   * Every time layoutVersion changes, the graph is considered a
-   * completely new calculation and should be auto-laid out again.
+   * Update the graph when a new calculation
+   * is made.
    */
   useEffect(() => {
     setNodes(initialNodes);
@@ -49,13 +52,21 @@ function ProductionGraphInner({
   }, [layoutVersion, initialNodes, initialEdges, setNodes, setEdges]);
 
   /*
-   * Wait until React Flow has measured the nodes before asking ELK
-   * to calculate their positions.
+   * Automatically layout the graph after
+   * a new production calculation.
    */
   useEffect(() => {
-    if (!needsAutoLayout) return;
-    if (!nodesInitialized) return;
-    if (nodes.length === 0) return;
+    if (!needsAutoLayout) {
+      return;
+    }
+
+    if (!nodesInitialized) {
+      return;
+    }
+
+    if (nodes.length === 0) {
+      return;
+    }
 
     let cancelled = false;
 
@@ -63,17 +74,17 @@ function ProductionGraphInner({
       try {
         const layoutedNodes = await autoLayout(nodes, edges, "RIGHT");
 
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         setNodes(layoutedNodes);
         setNeedsAutoLayout(false);
 
-        /*
-         * Wait one frame so React Flow has applied the new positions
-         * before fitting the viewport.
-         */
         requestAnimationFrame(() => {
-          if (cancelled) return;
+          if (cancelled) {
+            return;
+          }
 
           fitView({
             padding: 0.2,
@@ -104,9 +115,48 @@ function ProductionGraphInner({
   }, [needsAutoLayout, nodesInitialized, nodes, edges, setNodes, fitView]);
 
   /*
-   * If the graph is empty, clear the local React Flow state.
+   * Manually reset the layout.
+   *
+   * This does NOT recalculate production.
+   * It only runs ELK again using the
+   * current nodes and edges.
    */
-  const isEmpty = nodes.length === 0;
+  async function handleResetLayout() {
+    if (nodes.length === 0 || isResettingLayout) {
+      return;
+    }
+
+    setIsResettingLayout(true);
+
+    try {
+      const layoutedNodes = await autoLayout(nodes, edges, "RIGHT");
+
+      setNodes(layoutedNodes);
+
+      requestAnimationFrame(() => {
+        fitView({
+          padding: 0.2,
+          duration: 500,
+        });
+      });
+    } catch (error) {
+      console.error("Failed to reset production graph layout:", error);
+    } finally {
+      setIsResettingLayout(false);
+    }
+  }
+
+  /*
+   * Expose resetLayout() to the parent.
+   */
+  useImperativeHandle(
+    ref,
+    () => ({
+      resetLayout: handleResetLayout,
+      isResettingLayout,
+    }),
+    [nodes, edges, isResettingLayout],
+  );
 
   return (
     <div
@@ -159,31 +209,16 @@ function ProductionGraphInner({
           nodeStrokeWidth={10}
         />
       </ReactFlow>
-
-      {isEmpty && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            pointerEvents: "none",
-            color: "#8da2b8",
-            fontSize: "14px",
-          }}
-        >
-          Configure a production line to see the graph.
-        </div>
-      )}
     </div>
   );
-}
+});
 
-export default function ProductionGraph(props) {
+const ProductionGraph = forwardRef(function ProductionGraph(props, ref) {
   return (
     <ReactFlowProvider>
-      <ProductionGraphInner {...props} />
+      <ProductionGraphInner {...props} ref={ref} />
     </ReactFlowProvider>
   );
-}
+});
+
+export default ProductionGraph;
