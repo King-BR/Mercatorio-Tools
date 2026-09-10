@@ -272,7 +272,7 @@
   width: 100%;
   height: 700px;
 
-  min-height: 300px;
+  min-height: 100px;
   max-height: calc(100vh - 180px);
 
   flex: none;
@@ -756,7 +756,6 @@
 }
 
 .production-source-list {
-  margin-top: 20px;
   padding: 16px;
   background: #0d1b2a;
   border: 1px solid #20384f;
@@ -771,9 +770,13 @@
 }
 
 .production-source-items {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
   gap: 10px;
+
+  align-items: start;
 }
 
 .production-source-item {
