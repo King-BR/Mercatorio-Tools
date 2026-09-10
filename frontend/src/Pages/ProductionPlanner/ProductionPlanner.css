@@ -270,7 +270,7 @@
   position: relative;
 
   flex: 1;
-  min-height: 500px;
+  min-height: 700px;
 
   background: #07111f;
 }
@@ -537,8 +537,6 @@
   min-height: 29px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 
-  color: #8798aa;
-
   font-size: 12px;
 }
 
@@ -556,36 +554,60 @@
   font-size: 11px;
 }
 
-.summary-recipe-list {
+/* =========================================================
+   BUILDING SUB-ROWS
+   ========================================================= */
+
+.summary-building {
   display: flex;
   flex-direction: column;
-}
-
-.summary-recipe {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 10px;
-
-  padding: 7px 0;
-
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  font-size: 12px;
 }
 
-.summary-recipe:last-child {
+.summary-building:last-child {
   border-bottom: none;
 }
 
-.summary-recipe strong {
-  color: #d4e0eb;
+.summary-building-row {
+  color: #dce6ef;
 }
 
-.summary-recipe span {
-  color: #74869a;
-  white-space: nowrap;
+.summary-building-row strong {
+  color: #dce6ef;
+}
+
+.summary-sub-rows {
+  display: flex;
+
+  flex-direction: column;
+
+  margin-left: 0px;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.summary-sub-row {
+  min-height: 25px;
+
+  padding-left: 12px;
+
+  color: #718398;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.025);
+}
+
+.summary-sub-row:last-child {
+  border-bottom: none;
+}
+
+.summary-sub-row span {
+  color: #718398;
+}
+
+.summary-sub-row strong {
+  color: #9aaabd;
+
+  font-weight: 500;
 }
 
 /* =========================================================
