@@ -1,0 +1,13 @@
+{
+  "watch": [
+    "*.js",
+    "routes",
+    "middleware",
+    "models",
+    "controllers",
+    "services"
+  ],
+  "ext": "js,json",
+  "ignore": ["node_modules", "*.db", "*.sqlite", "*.sqlite3"],
+  "exec": "node server.js --debug"
+}
