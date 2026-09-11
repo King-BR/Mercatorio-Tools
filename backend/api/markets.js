@@ -5,9 +5,9 @@ const { getMarketData, getProducts } = require("../data/getters.js");
 const router = express.Router();
 
 // GET /api/markets/all
-router.get("/all", (req, res) => {
+router.get("/all", async (req, res) => {
   try {
-    const data = getMarketData();
+    const data = await getMarketData();
     res.json(Array.from(data.values()));
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
