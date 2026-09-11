@@ -25,5 +25,7 @@ dist-ssr
 *.sln
 *.sw?
 
+tmp/
+
 backend/data/paths.json
 backend/data/mercatorio/
