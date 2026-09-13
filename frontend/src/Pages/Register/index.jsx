@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./Register.css";
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
 
 export default function Register() {
   const { register } = useAuth();
@@ -51,6 +52,8 @@ export default function Register() {
   }
 
   return (
+    <>
+    <TopNavbar />
     <main className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
@@ -149,5 +152,6 @@ export default function Register() {
         </div>
       </div>
     </main>
+    </>
   );
 }

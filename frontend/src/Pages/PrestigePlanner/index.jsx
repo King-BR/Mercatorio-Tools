@@ -2,6 +2,8 @@ import { useMemo, useState, useEffect, useRef } from "react";
 
 import { getPrestigeBoard, getPrestigeSustenance } from "../../services/api";
 
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
+
 import "./PrestigePlanner.css";
 
 const FORMAT_VERSION = 1;
@@ -521,266 +523,271 @@ function PrestigeBoard() {
   }
 
   return (
-    <div className="prestige-page">
-      <div className="prestige-container">
-        {/* -------------------------------- */}
-        {/* Header */}
-        {/* -------------------------------- */}
+    <>
+      <TopNavbar />
+      <div className="prestige-page">
+        <div className="prestige-container">
+          {/* -------------------------------- */}
+          {/* Header */}
+          {/* -------------------------------- */}
 
-        <header className="prestige-header">
-          <div>
-            <h1>Prestige Board Planner</h1>
+          <header className="prestige-header">
+            <div>
+              <h1>Prestige Board Planner</h1>
 
-            <p>
-              Preview your Prestige Board allocation and calculate the total
-              prestige needed.
+              <p>
+                Preview your Prestige Board allocation and calculate the total
+                prestige needed.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="prestige-reset-button"
+              onClick={resetLevels}
+            >
+              Reset Levels
+            </button>
+          </header>
+
+          {/* -------------------------------- */}
+          {/* Summary */}
+          {/* -------------------------------- */}
+
+          <section className="prestige-summary">
+            <div className="prestige-summary-main">
+              <span className="prestige-summary-label">Total Cost</span>
+
+              <span className="prestige-summary-value">
+                {totals.totalCost.toLocaleString()}
+              </span>
+            </div>
+
+            <div className="prestige-summary-description">
+              Total cost of all selected levels
+            </div>
+          </section>
+
+          {/* -------------------------------- */}
+          {/* Messages */}
+          {/* -------------------------------- */}
+
+          {message && (
+            <div
+              className={`prestige-message prestige-message-${message.type}`}
+            >
+              {message.text}
+            </div>
+          )}
+
+          {/* -------------------------------- */}
+          {/* Import / Export */}
+          {/* -------------------------------- */}
+
+          <section className="prestige-import-export">
+            <div className="prestige-section-title">
+              Share your prestige board
+            </div>
+
+            <p className="prestige-section-description">
+              Export your selected levels and share the generated configuration
+              code with another player.
             </p>
-          </div>
 
-          <button
-            type="button"
-            className="prestige-reset-button"
-            onClick={resetLevels}
-          >
-            Reset Levels
-          </button>
-        </header>
+            <textarea
+              className="prestige-share-input"
+              value={importValue}
+              onChange={(event) => setImportValue(event.target.value)}
+              placeholder="Paste a configuration code here..."
+              spellCheck={false}
+            />
 
-        {/* -------------------------------- */}
-        {/* Summary */}
-        {/* -------------------------------- */}
+            <div className="prestige-share-buttons">
+              <button
+                type="button"
+                className="prestige-button prestige-button-primary"
+                onClick={exportConfiguration}
+              >
+                Export & Copy
+              </button>
 
-        <section className="prestige-summary">
-          <div className="prestige-summary-main">
-            <span className="prestige-summary-label">Total Cost</span>
+              <button
+                type="button"
+                className="prestige-button"
+                onClick={copyConfiguration}
+              >
+                Copy Code
+              </button>
 
-            <span className="prestige-summary-value">
-              {totals.totalCost.toLocaleString()}
-            </span>
-          </div>
+              <button
+                type="button"
+                className="prestige-button"
+                onClick={importConfiguration}
+              >
+                Import
+              </button>
+            </div>
+          </section>
 
-          <div className="prestige-summary-description">
-            Total cost of all selected levels
-          </div>
-        </section>
+          {/* -------------------------------- */}
+          {/* Prestige Board */}
+          {/* -------------------------------- */}
 
-        {/* -------------------------------- */}
-        {/* Messages */}
-        {/* -------------------------------- */}
+          <section className="prestige-board">
+            {Object.keys(prestigeBoard).map((categoryKey) => {
+              const category = prestigeBoard[categoryKey];
 
-        {message && (
-          <div className={`prestige-message prestige-message-${message.type}`}>
-            {message.text}
-          </div>
-        )}
+              const selectedIndex = selectedLevels[categoryKey] ?? -1;
 
-        {/* -------------------------------- */}
-        {/* Import / Export */}
-        {/* -------------------------------- */}
+              const selectedLevelData = getLevel(category, selectedIndex);
 
-        <section className="prestige-import-export">
-          <div className="prestige-section-title">
-            Share your prestige board
-          </div>
+              /*
+               * Cumulative category totals.
+               */
+              const categoryTotal = totals.categories[categoryKey]?.total ?? 0;
 
-          <p className="prestige-section-description">
-            Export your selected levels and share the generated configuration
-            code with another player.
-          </p>
+              const categoryBonus = totals.categories[categoryKey]?.bonus ?? 0;
 
-          <textarea
-            className="prestige-share-input"
-            value={importValue}
-            onChange={(event) => setImportValue(event.target.value)}
-            placeholder="Paste a configuration code here..."
-            spellCheck={false}
-          />
+              /*
+               * Maximum level.
+               */
+              const canIncrease = selectedIndex < category.length - 1;
 
-          <div className="prestige-share-buttons">
-            <button
-              type="button"
-              className="prestige-button prestige-button-primary"
-              onClick={exportConfiguration}
-            >
-              Export & Copy
-            </button>
+              /*
+               * Find the free level.
+               */
+              const freeIndex = category.findIndex(
+                (level) => Number(level.cost) === 0,
+              );
 
-            <button
-              type="button"
-              className="prestige-button"
-              onClick={copyConfiguration}
-            >
-              Copy Code
-            </button>
+              const minimumIndex = freeIndex >= 0 ? freeIndex : -1;
 
-            <button
-              type="button"
-              className="prestige-button"
-              onClick={importConfiguration}
-            >
-              Import
-            </button>
-          </div>
-        </section>
+              const canDecrease = selectedIndex > minimumIndex;
 
-        {/* -------------------------------- */}
-        {/* Prestige Board */}
-        {/* -------------------------------- */}
+              const displayedLevel = selectedIndex >= 0 ? selectedIndex + 1 : 0;
 
-        <section className="prestige-board">
-          {Object.keys(prestigeBoard).map((categoryKey) => {
-            const category = prestigeBoard[categoryKey];
+              const currentBonusText = CURRENT_BONUS_FORMATTING[categoryKey](
+                selectedIndex,
+                categoryBonus,
+              );
 
-            const selectedIndex = selectedLevels[categoryKey] ?? -1;
+              return (
+                <article className="prestige-category" key={categoryKey}>
+                  {/* -------------------------------- */}
+                  {/* Category Header */}
+                  {/* -------------------------------- */}
 
-            const selectedLevelData = getLevel(category, selectedIndex);
+                  <div className="prestige-category-header">
+                    <div>
+                      <h2>
+                        {categoryKey
+                          .replaceAll("_", " ")
+                          .replace(/\b\w/g, (char) => char.toUpperCase())}
+                      </h2>
+                    </div>
 
-            /*
-             * Cumulative category totals.
-             */
-            const categoryTotal = totals.categories[categoryKey]?.total ?? 0;
+                    <div className="prestige-category-total">
+                      <span>Total Cost</span>
 
-            const categoryBonus = totals.categories[categoryKey]?.bonus ?? 0;
-
-            /*
-             * Maximum level.
-             */
-            const canIncrease = selectedIndex < category.length - 1;
-
-            /*
-             * Find the free level.
-             */
-            const freeIndex = category.findIndex(
-              (level) => Number(level.cost) === 0,
-            );
-
-            const minimumIndex = freeIndex >= 0 ? freeIndex : -1;
-
-            const canDecrease = selectedIndex > minimumIndex;
-
-            const displayedLevel = selectedIndex >= 0 ? selectedIndex + 1 : 0;
-
-            const currentBonusText = CURRENT_BONUS_FORMATTING[categoryKey](
-              selectedIndex,
-              categoryBonus,
-            );
-
-            return (
-              <article className="prestige-category" key={categoryKey}>
-                {/* -------------------------------- */}
-                {/* Category Header */}
-                {/* -------------------------------- */}
-
-                <div className="prestige-category-header">
-                  <div>
-                    <h2>
-                      {categoryKey
-                        .replaceAll("_", " ")
-                        .replace(/\b\w/g, (char) => char.toUpperCase())}
-                    </h2>
+                      <strong>{categoryTotal.toLocaleString()}</strong>
+                    </div>
                   </div>
 
-                  <div className="prestige-category-total">
-                    <span>Total Cost</span>
+                  {/* -------------------------------- */}
+                  {/* Level Selector */}
+                  {/* -------------------------------- */}
 
-                    <strong>{categoryTotal.toLocaleString()}</strong>
+                  <div className="prestige-level-selector">
+                    <button
+                      type="button"
+                      className="prestige-level-button"
+                      onClick={() => decreaseLevel(categoryKey)}
+                      disabled={!canDecrease}
+                      aria-label={`Decrease ${categoryKey} level`}
+                    >
+                      −
+                    </button>
+
+                    <div className="prestige-current-level">
+                      <span>Level</span>
+
+                      <strong>{displayedLevel}</strong>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="prestige-level-button"
+                      onClick={() => increaseLevel(categoryKey)}
+                      disabled={!canIncrease}
+                      aria-label={`Increase ${categoryKey} level`}
+                    >
+                      +
+                    </button>
                   </div>
-                </div>
 
-                {/* -------------------------------- */}
-                {/* Level Selector */}
-                {/* -------------------------------- */}
+                  {/* -------------------------------- */}
+                  {/* Current Effect */}
+                  {/* -------------------------------- */}
 
-                <div className="prestige-level-selector">
-                  <button
-                    type="button"
-                    className="prestige-level-button"
-                    onClick={() => decreaseLevel(categoryKey)}
-                    disabled={!canDecrease}
-                    aria-label={`Decrease ${categoryKey} level`}
+                  <div className="prestige-current-effect">
+                    <span className="prestige-label">Current Bonus</span>
+
+                    <strong>{currentBonusText}</strong>
+                  </div>
+
+                  {/* -------------------------------- */}
+                  {/* Level List */}
+                  {/* -------------------------------- */}
+
+                  <div
+                    className="prestige-level-list"
+                    ref={(element) => {
+                      levelListRefs.current[categoryKey] = element;
+                    }}
                   >
-                    −
-                  </button>
+                    {category.map((level, index) => {
+                      const unlocked = index <= selectedIndex;
 
-                  <div className="prestige-current-level">
-                    <span>Level</span>
+                      const isCurrent = index === selectedIndex;
 
-                    <strong>{displayedLevel}</strong>
+                      const levelBonus = Number(level.bonus || 0);
+                      const levelCost = Number(level.cost || 0);
+
+                      return (
+                        <div
+                          className={`prestige-level-row ${
+                            unlocked ? "prestige-level-unlocked" : ""
+                          } ${isCurrent ? "prestige-level-current" : ""}`}
+                          key={index}
+                        >
+                          <div className="prestige-level-number">
+                            <span>Level</span>
+
+                            <strong>{index + 1}</strong>
+                          </div>
+
+                          <div className="prestige-level-info">
+                            <span>Bonus: +{levelBonus}</span>
+                          </div>
+
+                          <div className="prestige-level-cost">
+                            {levelCost === 0 ? (
+                              <span className="prestige-free">Free</span>
+                            ) : (
+                              levelCost.toLocaleString()
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-
-                  <button
-                    type="button"
-                    className="prestige-level-button"
-                    onClick={() => increaseLevel(categoryKey)}
-                    disabled={!canIncrease}
-                    aria-label={`Increase ${categoryKey} level`}
-                  >
-                    +
-                  </button>
-                </div>
-
-                {/* -------------------------------- */}
-                {/* Current Effect */}
-                {/* -------------------------------- */}
-
-                <div className="prestige-current-effect">
-                  <span className="prestige-label">Current Bonus</span>
-
-                  <strong>{currentBonusText}</strong>
-                </div>
-
-                {/* -------------------------------- */}
-                {/* Level List */}
-                {/* -------------------------------- */}
-
-                <div
-                  className="prestige-level-list"
-                  ref={(element) => {
-                    levelListRefs.current[categoryKey] = element;
-                  }}
-                >
-                  {category.map((level, index) => {
-                    const unlocked = index <= selectedIndex;
-
-                    const isCurrent = index === selectedIndex;
-
-                    const levelBonus = Number(level.bonus || 0);
-                    const levelCost = Number(level.cost || 0);
-
-                    return (
-                      <div
-                        className={`prestige-level-row ${
-                          unlocked ? "prestige-level-unlocked" : ""
-                        } ${isCurrent ? "prestige-level-current" : ""}`}
-                        key={index}
-                      >
-                        <div className="prestige-level-number">
-                          <span>Level</span>
-
-                          <strong>{index + 1}</strong>
-                        </div>
-
-                        <div className="prestige-level-info">
-                          <span>Bonus: +{levelBonus}</span>
-                        </div>
-
-                        <div className="prestige-level-cost">
-                          {levelCost === 0 ? (
-                            <span className="prestige-free">Free</span>
-                          ) : (
-                            levelCost.toLocaleString()
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </article>
-            );
-          })}
-        </section>
+                </article>
+              );
+            })}
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
