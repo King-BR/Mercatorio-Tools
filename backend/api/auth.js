@@ -262,12 +262,14 @@ router.get("/me", auth, async (req, res) => {
  *
  * Allowed fields:
  *
+ * - email
+ * - username
  * - settings.notifications.email
  * - settings.notifications.discord
  */
 router.patch("/me", auth, async (req, res) => {
   try {
-    const { settings } = req.body;
+    const { email, username, settings } = req.body;
 
     const user = await UsersDB.findById(req.user._id);
 
@@ -295,6 +297,41 @@ router.patch("/me", auth, async (req, res) => {
     }
 
     /*
+     * Update email and username
+     */
+    if (email !== undefined) {
+      UsersDB.findOne({ email }).then((existingUser) => {
+        if (
+          existingUser &&
+          existingUser._id.toString() !== user._id.toString()
+        ) {
+          res.status(400).json({
+            message: "Email already in use",
+          });
+          return;
+        }
+      });
+
+      user.email = email;
+    }
+
+    if (username !== undefined) {
+      UsersDB.findOne({ username }).then((existingUser) => {
+        if (
+          existingUser &&
+          existingUser._id.toString() !== user._id.toString()
+        ) {
+          res.status(400).json({
+            message: "Username already in use",
+          });
+          return;
+        }
+      });
+
+      user.username = username;
+    }
+
+    /*
      * Save changes
      */
     await user.save();
@@ -302,11 +339,12 @@ router.patch("/me", auth, async (req, res) => {
     res.json({
       user: userResponse(user),
     });
-  } catch (err) {
-    console.error("Update account error:", err);
+  } catch (error) {
+    console.error("Update account error:", error);
 
     res.status(500).json({
       message: "Server error",
+      error,
     });
   }
 });

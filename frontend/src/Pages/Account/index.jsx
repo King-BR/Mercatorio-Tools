@@ -12,10 +12,14 @@ function Account() {
   const { user, refreshUser, logout } = useAuth();
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [username, setUsername] = useState(user?.username ?? "");
+
   const [discordCode, setDiscordCode] = useState(null);
   const [discordCodeExpiresAt, setDiscordCodeExpiresAt] = useState(null);
   const [generatingCode, setGeneratingCode] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
 
   const [discordNotifications, setDiscordNotifications] = useState(
     user?.settings?.notifications?.discord ?? false,
@@ -36,6 +40,8 @@ function Account() {
     setDiscordNotifications(user?.settings?.notifications?.discord ?? false);
 
     setEmailNotifications(user?.settings?.notifications?.email ?? false);
+    setEmail(user?.email ?? "");
+    setUsername(user?.username ?? "");
   }, [user]);
 
   /*
@@ -79,7 +85,7 @@ function Account() {
     if (!discordCode) return;
 
     try {
-      await navigator.clipboard.writeText(discordCode);
+      await navigator.clipboard.writeText(`/link ${discordCode}`);
 
       setCopied(true);
 
@@ -87,6 +93,12 @@ function Account() {
         setCopied(false);
       }, 2000);
     } catch (err) {
+      setCopied(false);
+      setCopyError(true);
+
+      setTimeout(() => {
+        setCopyError(false);
+      }, 5000);
       console.error(err);
     }
   }
@@ -107,6 +119,8 @@ function Account() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          email: email,
+          username: username,
           settings: {
             notifications: {
               discord: discordNotifications,
@@ -182,12 +196,30 @@ function Account() {
               <h2>Account Information</h2>
             </div>
 
+            {/* Email */}
             <div className="form-group">
               <label>Email</label>
 
-              <input type="email" value={user?.email || ""} disabled />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                disabled={saving}
+              />
+            </div>
 
-              <small>Your account email cannot be changed.</small>
+            {/* Username */}
+            <div className="form-group">
+              <label>Username</label>
+
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="username"
+                disabled={saving}
+              />
             </div>
           </section>
 
@@ -202,8 +234,6 @@ function Account() {
             {user?.discordID ? (
               <div className="discord-linked">
                 <div className="discord-status">
-                  <span className="status-dot"></span>
-
                   <div>
                     <strong>Account linked</strong>
                   </div>
@@ -235,20 +265,22 @@ function Account() {
                     <div className="code-label">Your link code</div>
 
                     <div className="code-container">
-                      <span className="discord-code">{discordCode}</span>
+                      <span className="discord-code">/link {discordCode}</span>
 
                       <button className="copy-button" onClick={copyDiscordCode}>
-                        {copied ? "Copiado!" : "Copiar"}
+                        {copyError
+                          ? "Error copying to clipboard"
+                          : copied
+                            ? "Coppied to clipboard"
+                            : "Copy"}
                       </button>
                     </div>
 
                     <div className="discord-instructions">
                       <p>
                         Send the code above to the Mercatorio Tools bot on
-                        Discord Server.
+                        Discord.
                       </p>
-
-                      <code>/link {discordCode}</code>
 
                       {discordCodeExpiresAt && (
                         <span className="code-expiration">
@@ -290,7 +322,7 @@ function Account() {
                   onChange={(event) =>
                     setDiscordNotifications(event.target.checked)
                   }
-                  disabled={!user?.discordID}
+                  disabled={!user?.discordID || saving}
                 />
 
                 <div>
@@ -302,28 +334,11 @@ function Account() {
                   </span>
                 </div>
               </label>
-              {/*
-            <label className="checkbox-option">
-              <input
-                type="checkbox"
-                checked={emailNotifications}
-                onChange={(event) =>
-                  setEmailNotifications(event.target.checked)
-                }
-                disabled={true}
-              />
-
-              <div>
-                <strong>Email</strong>
-
-                <span>Receive notifications via email. (Not implemented yet)</span>
-              </div>
-            </label>
-            */}
             </div>
           </section>
 
           {/* Security */}
+          {/*
           <section className="account-section">
             <div className="section-header">
               <h2>Security</h2>
@@ -341,6 +356,7 @@ function Account() {
               </button>
             </div>
           </section>
+          */}
 
           {/* Messages */}
           {message && <div className="success-message">{message}</div>}

@@ -87,8 +87,6 @@ const UserSchema = new mongoose.Schema(
         delete ret.discordLinkCode;
         delete ret.discordLinkCodeExpiresAt;
 
-        ret.email = ret.email?.substring(0, 4) + "**************";
-
         return ret;
       },
     },
@@ -97,8 +95,6 @@ const UserSchema = new mongoose.Schema(
         delete ret.password;
         delete ret.discordLinkCode;
         delete ret.discordLinkCodeExpiresAt;
-
-        ret.email = ret.email?.substring(0, 4) + "**************";
 
         return ret;
       },
