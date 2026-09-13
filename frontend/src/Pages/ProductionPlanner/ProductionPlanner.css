@@ -89,6 +89,8 @@
 
 .sidebar-section label,
 .product-selector label,
+.town-selector label,
+.price-from-selector label,
 .recipe-selector label {
   display: block;
 
@@ -102,6 +104,8 @@
 
 .sidebar-section input,
 .product-selector select,
+.town-selector select,
+.price-from-selector select,
 .recipe-selector select {
   width: 100%;
 
@@ -124,7 +128,9 @@
 }
 
 .sidebar-section input:focus,
+.price-from-selector select:focus,
 .product-selector select:focus,
+.town-selector select:focus,
 .recipe-selector select:focus {
   border-color: #3d75a8;
 }
@@ -270,10 +276,10 @@
   position: relative;
 
   width: 100%;
-  height: 700px;
+  height: 500px;
 
   min-height: 100px;
-  max-height: calc(100vh - 180px);
+  max-height: calc(100vh - 300px);
 
   flex: none;
 
@@ -354,6 +360,34 @@
 
 .production-errors div + div {
   margin-top: 5px;
+}
+
+.production-source-market-reset-price-button {
+  flex-shrink: 0;
+
+  margin: 0;
+  padding: 7px 11px;
+
+  border: 1px solid #36536e;
+  border-radius: 6px;
+
+  outline: none;
+
+  background: #16283b;
+  color: #e8f0f8;
+
+  font-family: inherit;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 0.5;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .production-reset-layout-button {
@@ -723,8 +757,8 @@
 }
 
 .production-graph .react-flow__edge.selected .react-flow__edge-path {
-  stroke: #8fc7f5;
-  stroke-width: 2.5;
+  stroke: #d9ff00;
+  stroke-width: 4;
 }
 
 /* =========================================================
@@ -855,10 +889,12 @@
   cursor: not-allowed;
 }
 
+.production-source-market,
 .production-source-recipe {
   margin-top: 10px;
 }
 
+.production-source-market label,
 .production-source-recipe label {
   display: block;
   margin-bottom: 5px;
@@ -868,6 +904,7 @@
   text-transform: uppercase;
 }
 
+.production-source-market input,
 .production-source-recipe select {
   width: 100%;
   min-height: 34px;
@@ -880,14 +917,9 @@
   font-size: 12px;
 }
 
+.production-source-recipe input:focus,
 .production-source-recipe select:focus {
   border-color: #5d83a5;
-}
-
-.production-source-market {
-  margin-top: 8px;
-  color: #7189a0;
-  font-size: 11px;
 }
 
 .production-source-no-recipe {

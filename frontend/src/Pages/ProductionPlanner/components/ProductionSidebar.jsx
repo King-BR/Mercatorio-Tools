@@ -1,7 +1,11 @@
 import { getRecipesForProduct } from "../../../services/production/recipeIndex";
 
+import logger from "../../../utils/logger";
+
 import ProductSelector from "./ProductSelector";
 import RecipeSelector from "./RecipeSelector";
+import PriceFromSelector from "./PriceFromSelector";
+import TownSelector from "./TownSelector";
 
 export default function ProductionSidebar({
   products = [],
@@ -10,10 +14,18 @@ export default function ProductionSidebar({
   amount,
   recipeId,
   productSources,
+  selectedTown,
+  towns,
+  priceFrom,
+  user,
+  hasMercatorioApiKey,
   onProductChange,
   onAmountChange,
   onRecipeChange,
   onCalculate,
+  onTownChange,
+  onImportUserInventory,
+  onPriceFromChange,
 }) {
   const recipeIds = product ? getRecipesForProduct(recipeIndex, product) : [];
 
@@ -111,6 +123,61 @@ export default function ProductionSidebar({
       >
         Calculate production
       </button>
+
+      <br />
+      <br />
+
+      {user === null && (
+        <div className="info-box">
+          <span>You are not logged in</span>
+
+          <p>
+            To import your inventory prices, you need to be logged in and have a
+            valid mercatorio api key registered.
+          </p>
+        </div>
+      )}
+
+      {logger.log(user)}
+
+      {user !== null && !hasMercatorioApiKey && (
+        <div className="info-box">
+          <span>No mercatorio API key</span>
+
+          <p>
+            To import your inventory prices, you need to have a valid mercatorio
+            api key registered. Get one{" "}
+            <a
+              href="https://play.mercatorio.io/settings/api"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </a>{" "}
+            and register it{" "}
+            <a href="/account" target="_blank" rel="noopener noreferrer">
+              here
+            </a>
+            .
+          </p>
+        </div>
+      )}
+
+      <div className="sidebar-section">
+        <PriceFromSelector
+          priceFrom={priceFrom}
+          onChange={onPriceFromChange}
+          user={user}
+        />
+      </div>
+
+      <div className="sidebar-section">
+        <TownSelector
+          selectedTown={selectedTown}
+          towns={towns}
+          onChange={onTownChange}
+        />
+      </div>
     </aside>
   );
 }

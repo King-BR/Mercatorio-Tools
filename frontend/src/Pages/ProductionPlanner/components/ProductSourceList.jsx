@@ -1,15 +1,91 @@
 import { getRecipesForProduct } from "../../../services/production/recipeIndex";
 
+const MAX_DECIMALS = 3;
+const EPSILON = 1e-9;
+
+function round(value, decimals = MAX_DECIMALS) {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+
+  const factor = 10 ** decimals;
+
+  return Math.round((value + EPSILON) * factor) / factor;
+}
+
 export default function ProductSourceList({
   products = [],
   recipeIndex,
   productSources = {},
+  productPrices = new Map(),
+  productCustomPrices = new Map(),
+  userInventory,
+  priceFrom,
   targetProduct,
   onSourceChange,
   onRecipeChange,
+  onPriceChange,
 }) {
   if (!products.length) {
     return null;
+  }
+
+  function getPrice(product) {
+    if (product === "labour" && priceFrom === "player") {
+      var purchased = {
+        amount:
+          Number.parseFloat(userInventory.account.assets[product]?.purchase) ||
+          0,
+        price:
+          Number.parseFloat(
+            userInventory.account.assets[product]?.purchase_price,
+          ) || 0,
+      };
+
+      var produced = {
+        amount:
+          Number.parseFloat(
+            userInventory.previous_flows[product]?.production,
+          ) || 0,
+        price:
+          (Number.parseFloat(
+            userInventory.previous_flows[product]?.production_cost,
+          ) || 0) /
+            Number.parseFloat(
+              userInventory.previous_flows[product]?.production,
+            ) || 0,
+      };
+
+      // weigh the purchased and produced amounts to get an effective price
+      const totalAmount = purchased.amount + produced.amount;
+      const effectivePrice =
+        totalAmount > 0
+          ? (purchased.amount * purchased.price +
+              produced.amount * produced.price) /
+            totalAmount
+          : 0;
+
+      return round(effectivePrice, 2);
+    }
+
+    return round(
+      productCustomPrices.has(product)
+        ? productCustomPrices.get(product)
+        : priceFrom === "player" &&
+            userInventory.account.assets[product]?.unit_cost &&
+            Number.parseFloat(
+              userInventory.account.assets[product]?.unit_cost,
+            ) >= 0
+          ? Number.parseFloat(userInventory.account.assets[product]?.unit_cost)
+          : productPrices.has(product) &&
+              Number.parseFloat(productPrices.get(product)) > 0
+            ? Number.parseFloat(productPrices.get(product))
+            : Number.parseFloat(
+                recipeIndex.productsData?.find((item) => item?.name === product)
+                  ?.price?.typical || 0,
+              ),
+      2,
+    );
   }
 
   return (
@@ -111,7 +187,36 @@ export default function ProductSourceList({
 
               {source.type === "buy" && (
                 <div className="production-source-market">
-                  Purchased from market
+                  {productCustomPrices.has(product) ? (
+                    <label>
+                      Custom Price{" "}
+                      <button
+                        type="button"
+                        className="production-source-market-reset-price-button"
+                        onClick={() => onPriceChange(product, null)}
+                      >
+                        Reset Price
+                      </button>
+                    </label>
+                  ) : priceFrom === "player" &&
+                    userInventory.account.assets[product]?.unit_cost &&
+                    userInventory.account.assets[product]?.unit_cost > 0 ? (
+                    <label>Price from inventory</label>
+                  ) : productPrices.has(product) ? (
+                    <label>Market Price</label>
+                  ) : (
+                    <label>Arbitrary Price</label>
+                  )}
+                  <input
+                    id={`price-${product}`}
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={getPrice(product)}
+                    onChange={(event) =>
+                      onPriceChange(product, Number(event.target.value))
+                    }
+                  />
                 </div>
               )}
 

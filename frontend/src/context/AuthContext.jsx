@@ -1,10 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+import logger from "../utils/logger";
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasMercatorioApiKey, setHasMercatorioApiKey] = useState(false);
+  const [hasMercToolsApiKey, setHasMercToolsApiKey] = useState(false);
 
   async function refreshUser() {
     try {
@@ -18,6 +22,16 @@ export function AuthProvider({ children }) {
       }
 
       const data = await response.json();
+
+      setHasMercatorioApiKey(
+        data.user.apiKeys.find((keyData) => keyData.keyType === "GAME") !==
+          undefined,
+      );
+
+      setHasMercToolsApiKey(
+        data.user.apiKeys.find((keyData) => keyData.keyType === "MERCTOOLS") !==
+          undefined,
+      );
 
       setUser(data.user ?? data);
 
@@ -105,6 +119,8 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        hasMercatorioApiKey,
+        hasMercToolsApiKey,
         loading,
         login,
         register,

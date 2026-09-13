@@ -32,3 +32,14 @@ export async function getMarketData(town = "all") {
   const response = await fetch(`/api/markets/town/${town}`);
   return await response.json();
 }
+
+export async function getPlayer() {
+  const response = await fetch("/api/players/me");
+  return await response.json();
+}
+
+
+export async function getPlayerInventory() {
+  const response = await fetch("/api/players/me/inventory");
+  return await response.json();
+}

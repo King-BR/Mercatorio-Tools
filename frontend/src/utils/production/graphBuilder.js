@@ -50,6 +50,10 @@ export function buildProductionGraph(recipes, calculation) {
 
         source,
 
+        price: data.price || 0,
+
+        unitCost: data.unitCost || 0,
+
         required: data.required || 0,
 
         produced: data.produced || 0,

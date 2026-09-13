@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { useAuth } from "../../context/AuthContext";
+
 import {
   buildRecipeIndex,
   getRecipesForProduct,
@@ -9,14 +11,26 @@ import { calculateProduction } from "../../services/production/productionCalcula
 
 import { buildProductionGraph } from "../../utils/production/graphBuilder";
 
+import { getMarketData, getPlayerInventory } from "../../services/api";
+
+import logger from "../../utils/logger";
+
 import ProductionGraph from "./components/ProductionGraph";
 import ProductionSidebar from "./components/ProductionSidebar";
 import ProductSourceList from "./components/ProductSourceList";
 import ProductionSummary from "./components/ProductionSummary";
 
 import "./ProductionPlanner.css";
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
 
 export default function ProductionPlanner() {
+  const { user, hasMercatorioApiKey } = useAuth();
+
+  const [userInventory, setUserInventory] = useState(null);
+  const [priceFrom, setPriceFrom] = useState("market");
+
+  const [marketData, setMarketData] = useState(null);
+
   const [recipeIndex, setRecipeIndex] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -38,6 +52,14 @@ export default function ProductionPlanner() {
 
   const [layoutVersion, setLayoutVersion] = useState(0);
 
+  const [selectedTown, setSelectedTown] = useState(null);
+
+  const [productPrices, setProductPrices] = useState(new Map());
+
+  const [productCustomPrices, setProductCustomPrices] = useState(new Map());
+
+  const [towns, setTowns] = useState([]);
+
   const productionGraphRef = useRef(null);
 
   const products = useMemo(() => recipeIndex?.products || [], [recipeIndex]);
@@ -47,10 +69,6 @@ export default function ProductionPlanner() {
 
     if (product) {
       result.add(product);
-    }
-
-    for (const productName of Object.keys(productSources)) {
-      result.add(productName);
     }
 
     if (calculation?.products) {
@@ -76,7 +94,27 @@ export default function ProductionPlanner() {
           return;
         }
 
+        const marketDataResponse = await getMarketData();
+
+        setMarketData(marketDataResponse);
+        setTowns(marketDataResponse.map((market) => market.name));
+        setSelectedTown(marketDataResponse[0].name);
+
+        Object.entries(marketDataResponse[0].markets).forEach(
+          ([product, data]) => {
+            productPrices.set(
+              product,
+              Number.parseFloat(data.price).toFixed(2) || 0,
+            );
+          },
+        );
+
+        logger.log("Product market prices:", productPrices);
+
         setRecipeIndex(index);
+
+        const inventory = await getPlayerInventory(user);
+        setUserInventory(inventory.storage?.inventory ?? null);
 
         const firstProduct = index.products?.[0] || "";
 
@@ -151,6 +189,21 @@ export default function ProductionPlanner() {
      */
   }
 
+  function handleTownChange(newTown) {
+    setSelectedTown(newTown);
+
+    Object.entries(
+      marketData.find((market) => market.name === newTown).markets,
+    ).forEach(([product, data]) => {
+      productPrices.set(product, Number.parseFloat(data.price).toFixed(2) || 0);
+    });
+  }
+
+  async function handleImportUserInventory() {
+    const inventory = await getPlayerInventory(user);
+    setUserInventory(inventory.storage.inventory);
+  }
+
   function handleRecipeChange(productName, newRecipeId) {
     if (!productName) {
       return;
@@ -217,6 +270,27 @@ export default function ProductionPlanner() {
      */
   }
 
+  function handlePriceChange(productName, newPrice) {
+    if (newPrice === null) {
+      setProductCustomPrices((current) => {
+        const updated = new Map(current);
+        updated.delete(productName);
+        return updated;
+      });
+      return;
+    }
+
+    setProductCustomPrices((current) => {
+      const updated = new Map(current);
+      updated.set(productName, newPrice);
+      return updated;
+    });
+  }
+
+  function handlePriceFromChange(newPriceFrom) {
+    setPriceFrom(newPriceFrom);
+  }
+
   function handleCalculate() {
     if (!recipeIndex || !product) {
       return;
@@ -246,6 +320,10 @@ export default function ProductionPlanner() {
       amount: numericAmount,
       recipeId: selectedRecipe,
       productSources,
+      productPrices,
+      productCustomPrices,
+      userInventory,
+      priceFrom,
     });
 
     const newGraph = buildProductionGraph(recipeIndex.recipeMap, result);
@@ -274,87 +352,103 @@ export default function ProductionPlanner() {
   }
 
   return (
-    <div className="production-planner">
-      <ProductionSidebar
-        products={products}
-        recipeIndex={recipeIndex}
-        product={product}
-        amount={amount}
-        recipeId={recipeId}
-        productSources={productSources}
-        onProductChange={handleProductChange}
-        onAmountChange={setAmount}
-        onRecipeChange={(newRecipeId) =>
-          handleRecipeChange(product, newRecipeId)
-        }
-        onCalculate={handleCalculate}
-      />
+    <>
+      <TopNavbar />
+      <div className="production-planner">
+        <ProductionSidebar
+          products={products}
+          recipeIndex={recipeIndex}
+          product={product}
+          amount={amount}
+          recipeId={recipeId}
+          productSources={productSources}
+          selectedTown={selectedTown}
+          towns={towns}
+          priceFrom={priceFrom}
+          user={user}
+          hasMercatorioApiKey={hasMercatorioApiKey}
+          onProductChange={handleProductChange}
+          onAmountChange={setAmount}
+          onRecipeChange={(newRecipeId) =>
+            handleRecipeChange(product, newRecipeId)
+          }
+          onCalculate={handleCalculate}
+          onTownChange={handleTownChange}
+          onImportUserInventory={handleImportUserInventory}
+          onPriceFromChange={handlePriceFromChange}
+        />
 
-      <main className="production-main">
-        <div className="production-toolbar">
-          <div>
-            <h1>Production Line Planner</h1>
+        <main className="production-main">
+          <div className="production-toolbar">
+            <div>
+              <h1>Production Line Planner</h1>
 
-            <p>
-              Plan production chains, choose recipes and manage market
-              purchases.
-            </p>
+              <p>
+                Plan production chains, choose recipes and manage market
+                purchases.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="production-graph-header">
-          {calculation?.errors?.length > 0 && (
-            <div className="production-errors">
-              {[...new Set(calculation.errors.map((item) => item.message))].map(
-                (message, index) => (
+          <div className="production-graph-header">
+            {calculation?.errors?.length > 0 && (
+              <div className="production-errors">
+                {[
+                  ...new Set(calculation.errors.map((item) => item.message)),
+                ].map((message, index) => (
                   <div key={`error-${index}`}>{message}</div>
-                ),
-              )}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
-          <button
-            type="button"
-            className="production-reset-layout-button"
-            onClick={handleResetLayout}
-            disabled={graph.nodes.length === 0}
-          >
-            Reset Layout
-          </button>
-        </div>
+            <button
+              type="button"
+              className="production-reset-layout-button"
+              onClick={handleResetLayout}
+              disabled={graph.nodes.length === 0}
+            >
+              Reset Layout
+            </button>
+          </div>
 
-        <div className="production-graph-container">
-          {graph.nodes.length > 0 ? (
-            <ProductionGraph
-              ref={productionGraphRef}
-              nodes={graph.nodes}
-              edges={graph.edges}
-              layoutVersion={layoutVersion}
+          <div className="production-graph-container">
+            {graph.nodes.length > 0 ? (
+              <ProductionGraph
+                ref={productionGraphRef}
+                nodes={graph.nodes}
+                edges={graph.edges}
+                layoutVersion={layoutVersion}
+              />
+            ) : (
+              <div className="production-empty">
+                <strong>No production line</strong>
+
+                <span>
+                  Configure the target and calculate the production line.
+                </span>
+              </div>
+            )}
+          </div>
+
+          {calculation && <ProductionSummary calculation={calculation} />}
+
+          {productionProducts.length > 0 && (
+            <ProductSourceList
+              products={productionProducts}
+              recipeIndex={recipeIndex}
+              productSources={productSources}
+              productPrices={productPrices}
+              productCustomPrices={productCustomPrices}
+              userInventory={userInventory}
+              priceFrom={priceFrom}
+              targetProduct={product}
+              onSourceChange={handleSourceChange}
+              onRecipeChange={handleRecipeChange}
+              onPriceChange={handlePriceChange}
             />
-          ) : (
-            <div className="production-empty">
-              <strong>No production line</strong>
-
-              <span>
-                Configure the target and calculate the production line.
-              </span>
-            </div>
           )}
-        </div>
-
-        {calculation && <ProductionSummary calculation={calculation} />}
-
-        {productionProducts.length > 0 && (
-          <ProductSourceList
-            products={productionProducts}
-            recipeIndex={recipeIndex}
-            productSources={productSources}
-            targetProduct={product}
-            onSourceChange={handleSourceChange}
-            onRecipeChange={handleRecipeChange}
-          />
-        )}
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }

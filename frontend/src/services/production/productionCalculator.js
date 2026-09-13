@@ -40,10 +40,75 @@ function addToMap(map, key, amount) {
   map[key] = round((map[key] || 0) + amount);
 }
 
-function getProductPrice(product, productsData) {
-  const data = productsData?.find(
-    (item) => item?.name === product || item?.product === product,
-  );
+function getProductPrice(
+  product,
+  productsData,
+  priceFrom,
+  productPrices,
+  productCustomPrices,
+  userInventory,
+) {
+  if (product === "labour" && priceFrom === "player") {
+    var purchased = {
+      amount:
+        Number.parseFloat(userInventory.account.assets[product]?.purchase) || 0,
+      price:
+        Number.parseFloat(
+          userInventory.account.assets[product]?.purchase_price,
+        ) || 0,
+    };
+
+    var produced = {
+      amount:
+        Number.parseFloat(userInventory.previous_flows[product]?.production) ||
+        0,
+      price:
+        (Number.parseFloat(
+          userInventory.previous_flows[product]?.production_cost,
+        ) || 0) /
+          Number.parseFloat(
+            userInventory.previous_flows[product]?.production,
+          ) || 0,
+    };
+
+    // weigh the purchased and produced amounts to get an effective price
+    const totalAmount = purchased.amount + produced.amount;
+    const effectivePrice =
+      totalAmount > 0
+        ? (purchased.amount * purchased.price +
+            produced.amount * produced.price) /
+          totalAmount
+        : 0;
+
+    return { price: round(effectivePrice, 2), from: "player" };
+  }
+
+  if (
+    productCustomPrices?.has(product) &&
+    Number.parseFloat(productCustomPrices.get(product)) >= 0
+  ) {
+    return { price: productCustomPrices.get(product), from: "custom" };
+  }
+
+  if (
+    priceFrom === "player" &&
+    userInventory.account.assets[product]?.unit_cost &&
+    Number.parseFloat(userInventory.account.assets[product]?.unit_cost) >= 0
+  ) {
+    return {
+      price: userInventory.account.assets[product]?.unit_cost,
+      from: "player",
+    };
+  }
+
+  if (
+    productPrices?.has(product) &&
+    Number.parseFloat(productPrices.get(product)) > 0
+  ) {
+    return { price: productPrices.get(product), from: "market" };
+  }
+
+  const data = productsData?.find((item) => item?.name === product);
 
   if (!data) {
     return null;
@@ -53,7 +118,9 @@ function getProductPrice(product, productsData) {
 
   const numericPrice = Number(price);
 
-  return Number.isFinite(numericPrice) ? numericPrice : null;
+  return Number.isFinite(numericPrice)
+    ? { price: numericPrice, from: "arbitrary" }
+    : null;
 }
 
 function normalizeSource(source) {
@@ -85,7 +152,19 @@ function normalizeSource(source) {
 }
 
 export function calculateProduction(recipes, recipeIndex, options = {}) {
-  const { product, amount, recipeId = null, productSources = {} } = options;
+  const {
+    product,
+    amount,
+    recipeId = null,
+    productSources = {},
+    productPrices = new Map(),
+    productCustomPrices = new Map(),
+    userInventory = {},
+    priceFrom = "market",
+    costIncludeSurplus = false,
+  } = options;
+
+  logger.log("User inventory: ", userInventory);
 
   const requestedAmount = round(Number(amount) || 0);
 
@@ -102,6 +181,8 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
     buildings: new Map(),
 
     classes: new Map(),
+
+    productPrices: new Map(),
 
     products: {},
 
@@ -522,24 +603,37 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
   for (const [purchasedProduct, purchasedAmount] of Object.entries(
     result.purchases,
   )) {
-    const price = getProductPrice(purchasedProduct, recipeIndex?.productsData);
+    const { price, from } = getProductPrice(
+      purchasedProduct,
+      recipeIndex?.productsData,
+      priceFrom,
+      productPrices,
+      productCustomPrices,
+      userInventory,
+    );
 
     if (price == null) {
       hasUnknownPrice = true;
       continue;
     }
 
+    result.productPrices.set(purchasedProduct, { price, from });
+
     totalCost += purchasedAmount * price;
   }
 
   if (!hasUnknownPrice) {
-    result.cost.total = round(totalCost, 2);
+    if (!costIncludeSurplus) {
+      result.cost.total = round(totalCost, 2);
 
-    result.cost.unit =
-      requestedAmount > 0 ? round(totalCost / targetData.produced, 2) : 0;
+      result.cost.unit =
+        requestedAmount > 0 ? round(totalCost / targetData.produced, 2) : 0;
+    } else {
+      // TODO: Implement cost calculation excluding surplus.
+    }
   }
 
-  logger.log("Production line calculation result: ",result);
+  logger.log("Production line calculation result: ", result);
 
   return result;
 }

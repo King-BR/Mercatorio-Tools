@@ -1,4 +1,4 @@
-import { getProducts, getRecipes, getMarketData } from "../api";
+import { getProducts, getRecipes } from "../api";
 
 function normalizeRecipes(data) {
   if (Array.isArray(data)) {
