@@ -356,8 +356,64 @@ async function getRecipes(force = false) {
   }
 }
 
+async function getPlayer(req, auth = { user: null, apiKey: null }) {
+  const response = await fetch(config.player_url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth.apiKey}`,
+      "X-Merc-User": `${auth.user}`,
+    },
+  });
+  return await response.json();
+}
+
+async function getPlayerInventory(
+  req,
+  player,
+  auth = { user: null, apiKey: null },
+) {
+  const businessResponse = await fetch(
+    config.business_url.replace(
+      "{businessID}",
+      player.household.business_ids[0],
+    ),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.apiKey}`,
+        "X-Merc-User": `${auth.user}`,
+      },
+    },
+  );
+
+  const businessData = await businessResponse.json();
+  const inventoryID = businessData.buildings.find(
+    (building) =>
+      building.type === "storehouse" || building.type === "warehouse",
+  )?.id;
+
+  const inventoryResponse = await fetch(
+    config.building_url.replace("{buildingID}", inventoryID),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.apiKey}`,
+        "X-Merc-User": `${auth.user}`,
+      },
+    },
+  );
+
+  return await inventoryResponse.json();
+}
+
 module.exports = {
   getPaths,
+
+  getPlayer,
+  getPlayerInventory,
 
   getPrestigeBoard,
   getSustenance,
