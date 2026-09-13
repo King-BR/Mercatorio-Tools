@@ -264,6 +264,9 @@ router.get("/me", auth, async (req, res) => {
  *
  * - email
  * - username
+ * - discord.id
+ * - discord.tag
+ * - discord.avatar
  * - settings.notifications.email
  * - settings.notifications.discord
  */
@@ -360,15 +363,7 @@ router.patch("/me", auth, async (req, res) => {
  */
 router.get("/discord/me", auth, async (req, res) => {
   try {
-    const user = await UsersDB.findOne({ discordID: req.user.discordID });
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    const discordUser = await client.users.fetch(req.user.discordID);
+    const discordUser = await client.users.fetch(req.user.discord.id);
 
     if (!discordUser) {
       return res.status(404).json({
@@ -377,129 +372,15 @@ router.get("/discord/me", auth, async (req, res) => {
     }
 
     res.json({
-      user: userResponse(user),
+      user: userResponse(req.user),
       discordUser: discordUser.toJSON(),
     });
-  } catch (err) {
-    console.error("Get Discord user error:", err);
+  } catch (error) {
+    console.error("Error getting Discord user: ", error);
 
     res.status(500).json({
       message: "Server error",
-    });
-  }
-});
-
-/*
- * ==========================================
- * GENERATE DISCORD LINK CODE
- * ==========================================
- *
- * POST /api/auth/discord/link-code
- */
-router.post("/discord/link-code", auth, async (req, res) => {
-  try {
-    const user = await UsersDB.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    // Random code
-    const code = "MCT-" + crypto.randomBytes(4).toString("hex").toUpperCase();
-
-    user.discordLinkCode = code;
-
-    // Expires in 10 minutes
-    user.discordLinkCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
-
-    await user.save();
-
-    res.json({
-      code,
-      expiresAt: user.discordLinkCodeExpiresAt,
-    });
-  } catch (err) {
-    console.error("Generate discord link code error:", err);
-
-    res.status(500).json({
-      message: "Server error",
-    });
-  }
-});
-
-/*
- * ==========================================
- * LINK DISCORD ACCOUNT
- * ==========================================
- *
- * POST /api/auth/discord/link
- *
- * Body parameters:
- * - code: The Discord link code generated for the user
- * - discordID: The Discord ID to link
- */
-router.post("/discord/link", auth, admin, async (req, res) => {
-  try {
-    const { code, discordID } = req.body;
-
-    if (!code || !discordID) {
-      return res.status(400).json({
-        message: "Code and Discord ID are required",
-      });
-    }
-
-    const user = await UsersDB.findOne({
-      discordLinkCode: code.toUpperCase(),
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        message: "Invalid code",
-      });
-    }
-
-    if (
-      !user.discordLinkCodeExpiresAt ||
-      user.discordLinkCodeExpiresAt < new Date()
-    ) {
-      user.discordLinkCode = null;
-      user.discordLinkCodeExpiresAt = null;
-
-      await user.save();
-
-      return res.status(400).json({
-        message: "Code expired",
-      });
-    }
-
-    // Prevent a Discord account from being linked to multiple accounts
-    const alreadyLinked = await UsersDB.findOne({
-      discordID,
-      _id: { $ne: user._id },
-    });
-
-    if (alreadyLinked) {
-      return res.status(409).json({
-        message: "This Discord account is already linked",
-      });
-    }
-
-    user.discordID = discordID;
-    user.discordLinkCode = null;
-    user.discordLinkCodeExpiresAt = null;
-
-    await user.save();
-
-    res.json({
-      message: "Discord account linked successfully",
-    });
-  } catch (err) {
-    console.error(err);
-
-    res.status(500).json({
-      message: "Server error",
+      error,
     });
   }
 });

@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
+const DiscordDataSchema = new mongoose.Schema(
+  {
+    id: { type: String, default: null },
+    username: { type: String, default: null },
+    avatar: { type: String, default: null },
+  },
+  {
+    _id: false,
+    timestamps: true,
+  },
+);
+
 const ApiKeySchema = new mongoose.Schema(
   {
     key: { type: String, required: true },
@@ -58,15 +70,7 @@ const UserSchema = new mongoose.Schema(
     username: { type: String, unique: true },
     email: { type: String, unique: true },
     password: { type: String, required: true },
-    discordID: { type: String, required: false },
-    discordLinkCode: {
-      type: String,
-      default: null,
-    },
-    discordLinkCodeExpiresAt: {
-      type: Date,
-      default: null,
-    },
+    discord: { type: DiscordDataSchema },
     apiKeys: { type: [ApiKeySchema], default: [] },
     isAdmin: { type: Boolean, default: false },
     notifications: [{ type: ObjectId }],

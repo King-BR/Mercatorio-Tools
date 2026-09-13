@@ -1,4 +1,12 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const fs = require("fs");
+
+const {
+  SlashCommandBuilder,
+  MessageFlags,
+  Client,
+  ChatInputCommandInteraction,
+  InteractionContextType,
+} = require("discord.js");
 
 const config = require("../config.json");
 const utils = require("../utils.js");
@@ -9,7 +17,7 @@ const debug = process.argv.includes("--debug");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName(`link${debug ? "-debug" : ""}`)
+    .setName(`link${debug ? "-debug2" : ""}`)
     .setDescription(
       "Link your discord account to your Mercatorio Tools account",
     )
@@ -18,15 +26,28 @@ module.exports = {
         .setName("code")
         .setDescription("Link code displayed on Mercatorio Tools")
         .setRequired(true),
+    )
+    .setContexts(
+      InteractionContextType.Guild,
+      InteractionContextType.PrivateChannel,
     ),
 
-  async execute(interaction) {
-    const code = interaction.options
-      .getString("code", true)
-      .trim()
-      .toUpperCase();
+  /**
+   * @param {Client} client
+   * @param {ChatInputCommandInteraction} interaction
+   * @returns
+   */
+  async execute(client, interaction) {
+    const code = interaction.options.getString("code").trim() ?? null;
 
-    const discordID = interaction.user.id;
+    console.log("Link code provided by user:", code);
+
+    if (!code) {
+      return interaction.reply({
+        content: "You must provide a link code.",
+        flags: MessageFlags.Ephemeral,
+      });
+    }
 
     if (!API_KEY) {
       console.error("ADMIN_MERCTOOLS_KEY is not configured.");
@@ -45,7 +66,7 @@ module.exports = {
 
     try {
       const response = await fetch(
-        `${process.env.MERCTOOLS_URL}/api/auth/discord/link`,
+        `${debug ? process.env.MERCTOOLS_URL_DEBUG : process.env.MERCTOOLS_URL}/api/auth/discord/link`,
         {
           method: "POST",
 
@@ -56,7 +77,9 @@ module.exports = {
 
           body: JSON.stringify({
             code,
-            discordID,
+            discordID: interaction.user.id,
+            username: interaction.user.username,
+            avatar: interaction.user.avatarURL(),
           }),
         },
       );
@@ -66,7 +89,7 @@ module.exports = {
       if (!response.ok) {
         if (response.status === 404) {
           return interaction.reply({
-            content: "Invalid link code.",
+            content: `Invalid link code.`,
             flags: MessageFlags.Ephemeral,
           });
         }
