@@ -4,6 +4,12 @@ const { ObjectId } = mongoose.Schema.Types;
 const ApiKeySchema = new mongoose.Schema(
   {
     key: { type: String, required: true },
+    mercUser: {
+      type: String,
+      required: function () {
+        return this.keyType === "GAME";
+      },
+    },
     keyType: {
       type: String,
       required: true,
@@ -22,8 +28,11 @@ const ApiKeySchema = new mongoose.Schema(
       transform: function (doc, ret) {
         ret.key =
           ret.key?.substring(0, 4) +
-          "********" +
+          "**************" +
           ret.key?.substring(ret.key?.length - 4);
+
+        if (ret.mercUser)
+          ret.mercUser = ret.mercUser?.substring(0, 4) + "**************";
 
         return ret;
       },
@@ -32,8 +41,11 @@ const ApiKeySchema = new mongoose.Schema(
       transform: function (doc, ret) {
         ret.key =
           ret.key?.substring(0, ret.key?.startsWith("MTKEY-") ? 10 : 4) +
-          "********" +
+          "**************" +
           ret.key?.substring(ret.key?.length - 4);
+
+        if (ret.mercUser)
+          ret.mercUser = ret.mercUser?.substring(0, 4) + "**************";
 
         return ret;
       },
