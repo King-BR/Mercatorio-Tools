@@ -95,6 +95,9 @@ router.post("/game", auth, async (req, res) => {
       });
     }
 
+    // remove Bearer prefix if present
+    key = key.replace(/^Bearer\s+/i, "");
+
     const user = await UsersDB.findById(req.user._id);
 
     if (!user) {

@@ -63,10 +63,6 @@ export default function Login() {
               className="discord-login-button"
               onClick={loginWithDiscord}
             >
-              <span className="discord-login-icon" aria-hidden="true">
-                💬
-              </span>
-
               <span>Continue with Discord</span>
             </button>
           </div>
