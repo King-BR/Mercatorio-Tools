@@ -365,7 +365,6 @@ router.get("/me", auth, async (req, res) => {
  * Allowed:
  *
  * - settings.notifications.discord
- * - settings.notifications.email
  */
 
 router.patch("/me", auth, async (req, res) => {
@@ -385,12 +384,6 @@ router.patch("/me", auth, async (req, res) => {
      */
 
     if (settings?.notifications) {
-      if (settings.notifications.email !== undefined) {
-        user.settings.notifications.email = Boolean(
-          settings.notifications.email,
-        );
-      }
-
       if (settings.notifications.discord !== undefined) {
         user.settings.notifications.discord = Boolean(
           settings.notifications.discord,
@@ -446,62 +439,6 @@ router.get("/discord/me", auth, async (req, res) => {
 
     res.status(500).json({
       message: "Server error",
-    });
-  }
-});
-
-/*
- * ==========================================
- * GENERATE MERCTOOLS API KEY
- * ==========================================
- *
- * POST /api/auth/key/new
- *
- * Body:
- * {
- *   permissions: ["READ", "WRITE"]
- * }
- */
-
-router.post("/key/new", auth, async (req, res) => {
-  try {
-    const apiKey = "MTKEY-" + crypto.randomBytes(16).toString("hex");
-
-    const user = await UsersDB.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    const perms = [];
-
-    if (req.body.permissions && Array.isArray(req.body.permissions)) {
-      perms.push(...req.body.permissions.map((p) => String(p).toUpperCase()));
-    }
-
-    if (perms.length === 0) {
-      perms.push("READ");
-    }
-
-    user.apiKeys.push({
-      key: apiKey,
-      keyType: "MERCTOOLS",
-      permissions: perms,
-    });
-
-    await user.save();
-
-    res.json({
-      apiKey,
-    });
-  } catch (err) {
-    console.error("Generate MERCTOOLS API key error:", err);
-
-    res.status(500).json({
-      message: "Server error",
-      error: err,
     });
   }
 });

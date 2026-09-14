@@ -50,18 +50,17 @@ const ApiKeySchema = new mongoose.Schema(
     },
   },
   {
-    _id: false,
     timestamps: true,
 
     toJSON: {
       transform: function (doc, ret) {
-        ret.key =
-          ret.key?.substring(0, 4) +
-          "**************" +
-          ret.key?.substring(ret.key?.length - 4);
+        if (ret.key) {
+          const prefixLength = ret.key.startsWith("MTKEY-") ? 10 : 4;
 
-        if (ret.mercUser) {
-          ret.mercUser = ret.mercUser?.substring(0, 4) + "**************";
+          ret.key =
+            ret.key.substring(0, prefixLength) +
+            "**************" +
+            ret.key.substring(ret.key.length - 4);
         }
 
         return ret;
@@ -70,13 +69,13 @@ const ApiKeySchema = new mongoose.Schema(
 
     toObject: {
       transform: function (doc, ret) {
-        ret.key =
-          ret.key?.substring(0, ret.key?.startsWith("MTKEY-") ? 10 : 4) +
-          "**************" +
-          ret.key?.substring(ret.key?.length - 4);
+        if (ret.key) {
+          const prefixLength = ret.key.startsWith("MTKEY-") ? 10 : 4;
 
-        if (ret.mercUser) {
-          ret.mercUser = ret.mercUser?.substring(0, 4) + "**************";
+          ret.key =
+            ret.key.substring(0, prefixLength) +
+            "**************" +
+            ret.key.substring(ret.key.length - 4);
         }
 
         return ret;

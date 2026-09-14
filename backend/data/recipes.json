@@ -4232,6 +4232,64 @@
       }
     ]
   },
+  "cast iron cookware 1": {
+    "name": "cast iron cookware 1",
+    "tier": 3,
+    "site": "foundry",
+    "upgrades": [
+      "bellows"
+    ],
+    "class": "forging",
+    "points": 3,
+    "inputs": [
+      {
+        "product": "labour",
+        "amount": 75
+      },
+      {
+        "product": "charcoal",
+        "amount": 35
+      },
+      {
+        "product": "timber",
+        "amount": 4
+      },
+      {
+        "product": "tools",
+        "amount": 2
+      },
+      {
+        "product": "wax",
+        "amount": 2
+      },
+      {
+        "product": "wrought iron",
+        "amount": 30
+      },
+      {
+        "product": "copper ingots",
+        "amount": 10
+      },
+      {
+        "product": "clay",
+        "amount": 3
+      },
+      {
+        "product": "limestone",
+        "amount": 1
+      },
+      {
+        "product": "bellows",
+        "amount": 0.5
+      }
+    ],
+    "outputs": [
+      {
+        "product": "cookware",
+        "amount": 40
+      }
+    ]
+  },
   "cast sculptures 1": {
     "name": "cast sculptures 1",
     "tier": 3,
