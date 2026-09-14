@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
@@ -12,6 +11,7 @@ const { client } = require("../discord/index.js");
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const debug = process.argv.includes("--debug");
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined");
@@ -19,9 +19,32 @@ if (!JWT_SECRET) {
 
 /*
  * ==========================================
+ * DISCORD OAUTH CONFIG
+ * ==========================================
+ */
+
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID;
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
+const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
+const DISCORD_REDIRECT_URI_DEBUG = process.env.DISCORD_REDIRECT_URI_DEBUG;
+
+const MERCTOOLS_URL = process.env.MERCTOOLS_URL;
+const MERCTOOLS_URL_DEBUG = process.env.MERCTOOLS_URL_DEBUG;
+
+if (!DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET || !DISCORD_REDIRECT_URI) {
+  console.warn(
+    "Discord OAuth is not fully configured. " +
+      "Set DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET and " +
+      "DISCORD_REDIRECT_URI.",
+  );
+}
+
+/*
+ * ==========================================
  * AUTH COOKIE
  * ==========================================
  */
+
 function setAuthCookie(res, user) {
   const token = jwt.sign(
     {
@@ -47,159 +70,238 @@ function setAuthCookie(res, user) {
  * ==========================================
  * USER RESPONSE
  * ==========================================
- *
- * Ensures that only appropriate information
- * is sent to the frontend.
  */
-function userResponse(user) {
-  const data = user.toJSON();
 
-  return data;
+function userResponse(user) {
+  return user.toJSON();
 }
 
 /*
  * ==========================================
- * REGISTER
+ * DISCORD OAUTH STATE
  * ==========================================
  *
- * POST /api/auth/register
+ * The state is stored in a temporary HTTP-only
+ * cookie and checked again by the callback.
  */
-router.post("/register", async (req, res) => {
-  try {
-    const { email, username, password } = req.body;
 
-    /*
-     * Basic validation
-     */
-    if ((!email && !username) || !password) {
-      return res.status(400).json({
-        message: "Username/email and password are required",
-      });
-    }
+function setDiscordOAuthStateCookie(res, state) {
+  res.cookie("discord_oauth_state", state, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    maxAge: 10 * 60 * 1000,
+  });
+}
 
-    /*
-     * Find the user
-     */
-    var existingUser = null;
+function clearDiscordOAuthStateCookie(res) {
+  res.clearCookie("discord_oauth_state", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+  });
+}
 
-    if (email) {
-      existingUser = await UsersDB.findOne({
-        email: email,
-      });
-    } else if (username) {
-      existingUser = await UsersDB.findOne({
-        username: username,
-      });
-    }
+/*
+ * ==========================================
+ * DISCORD LOGIN
+ * ==========================================
+ *
+ * GET /api/auth/discord
+ *
+ * Starts the Discord OAuth2 flow.
+ */
 
-    if (existingUser) {
-      return res.status(409).json({
-        message: "An account with this email or username already exists",
-      });
-    }
-
-    /*
-     * Create the password hash
-     */
-    const passwordHash = await bcrypt.hash(password, 12);
-
-    /*
-     * Create the user
-     */
-    const user = new UsersDB({
-      email: email ? email.trim().toLowerCase() : undefined,
-      username: username ? username.trim() : undefined,
-      password: passwordHash,
-    });
-
-    await user.save();
-
-    /*
-     * Automatically authenticate after registration
-     */
-    setAuthCookie(res, user);
-
-    res.status(201).json({
-      user: userResponse(user),
-    });
-  } catch (err) {
-    console.error("Register error:", err);
-
-    res.status(500).json({
-      message: "Server error",
+router.get("/discord", (req, res) => {
+  if (
+    !DISCORD_CLIENT_ID ||
+    !DISCORD_CLIENT_SECRET ||
+    !DISCORD_REDIRECT_URI ||
+    !DISCORD_REDIRECT_URI_DEBUG
+  ) {
+    return res.status(500).json({
+      message: "Discord OAuth is not configured.",
     });
   }
+
+  const state = crypto.randomBytes(32).toString("hex");
+
+  setDiscordOAuthStateCookie(res, state);
+
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: DISCORD_CLIENT_ID,
+    scope: "identify",
+    state,
+    redirect_uri: debug ? DISCORD_REDIRECT_URI_DEBUG : DISCORD_REDIRECT_URI,
+  });
+
+  const discordAuthorizationUrl = `https://discord.com/oauth2/authorize?${params.toString()}`;
+
+  return res.redirect(discordAuthorizationUrl);
 });
 
 /*
  * ==========================================
- * LOGIN
+ * DISCORD CALLBACK
  * ==========================================
  *
- * POST /api/auth/login
+ * GET /api/auth/discord/callback
+ *
+ * Discord redirects the user here after
+ * authorization.
  */
-router.post("/login", async (req, res) => {
+
+router.get("/discord/callback", async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { code, state } = req.query;
+
+    const savedState = req.cookies?.discord_oauth_state;
 
     /*
-     * Basic validation
+     * Validate OAuth state.
      */
-    if ((!email && !username) || !password) {
-      return res.status(400).json({
-        message: "Username/email and password are required",
-      });
+    if (!state || !savedState || state !== savedState) {
+      clearDiscordOAuthStateCookie(res);
+
+      return res.status(400).send("Invalid OAuth state.");
     }
 
     /*
-     * Find the user
+     * State is single-use.
      */
-    var user = null;
+    clearDiscordOAuthStateCookie(res);
 
-    if (email && email.trim() !== "") {
-      user = await UsersDB.findOne({
-        email: email.trim(),
-      });
-    } else if (username && username.trim() !== "") {
-      user = await UsersDB.findOne({
-        username: username.trim(),
-      });
+    if (!code) {
+      return res.status(400).send("Discord authorization code is missing.");
+    }
+
+    if (
+      !DISCORD_CLIENT_ID ||
+      !DISCORD_CLIENT_SECRET ||
+      !DISCORD_REDIRECT_URI ||
+      !DISCORD_REDIRECT_URI_DEBUG
+    ) {
+      return res.status(500).send("Discord OAuth is not configured.");
     }
 
     /*
-     * Do not reveal if the username or email exists
+     * ==========================================
+     * Exchange authorization code for token
+     * ==========================================
      */
+
+    const tokenBody = new URLSearchParams({
+      client_id: DISCORD_CLIENT_ID,
+      client_secret: DISCORD_CLIENT_SECRET,
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: debug ? DISCORD_REDIRECT_URI_DEBUG : DISCORD_REDIRECT_URI,
+    });
+
+    const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+
+      body: tokenBody,
+    });
+
+    const tokenData = await tokenResponse.json();
+
+    if (!tokenResponse.ok) {
+      console.error("Discord OAuth token exchange failed:", tokenData);
+
+      return res.status(401).send("Unable to authenticate with Discord.");
+    }
+
+    const accessToken = tokenData.access_token;
+
+    if (!accessToken) {
+      return res.status(401).send("Discord did not provide an access token.");
+    }
+
+    /*
+     * ==========================================
+     * Get Discord user
+     * ==========================================
+     */
+
+    const discordResponse = await fetch(
+      "https://discord.com/api/v10/users/@me",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    const discordUser = await discordResponse.json();
+
+    if (!discordResponse.ok) {
+      console.error("Failed to fetch Discord user:", discordUser);
+
+      return res.status(401).send("Unable to retrieve your Discord account.");
+    }
+
+    if (!discordUser.id) {
+      return res.status(401).send("Discord account information is invalid.");
+    }
+
+    /*
+     * ==========================================
+     * Find or create Mercatorio Tools user
+     * ==========================================
+     */
+
+    let user = await UsersDB.findOne({
+      "discord.id": discordUser.id,
+    });
+
     if (!user) {
-      return res.status(401).json({
-        message: "Invalid username/email or password",
+      /*
+       * First login = account creation.
+       */
+      user = new UsersDB({
+        discord: {
+          id: discordUser.id,
+          username: discordUser.username ?? null,
+          globalName: discordUser.global_name ?? null,
+          avatar: discordUser.avatar ?? null,
+        },
       });
+    } else {
+      /*
+       * Keep Discord profile information up to date.
+       */
+      user.discord.id = discordUser.id;
+      user.discord.username = discordUser.username ?? null;
+      user.discord.globalName = discordUser.global_name ?? null;
+      user.discord.avatar = discordUser.avatar ?? null;
     }
 
-    /*
-     * Verify password
-     */
-    const passwordValid = await bcrypt.compare(password, user.password);
-
-    if (!passwordValid) {
-      return res.status(401).json({
-        message: "Invalid username/email or password",
-      });
-    }
+    await user.save();
 
     /*
-     * Create session
+     * ==========================================
+     * Create Mercatorio Tools session
+     * ==========================================
      */
+
     setAuthCookie(res, user);
 
-    res.json({
-      user: userResponse(user),
-    });
-  } catch (err) {
-    console.error("Login error:", err);
+    /*
+     * Redirect back to the frontend.
+     */
+    return res.redirect(
+      debug ? `${MERCTOOLS_URL_DEBUG}/account` : `${MERCTOOLS_URL}/account`,
+    );
+  } catch (error) {
+    console.error("Discord OAuth callback error:", error);
 
-    res.status(500).json({
-      message: "Server error",
-    });
+    return res.status(500).send("Unable to complete Discord login.");
   }
 });
 
@@ -210,6 +312,7 @@ router.post("/login", async (req, res) => {
  *
  * POST /api/auth/logout
  */
+
 router.post("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
@@ -228,9 +331,8 @@ router.post("/logout", (req, res) => {
  * ==========================================
  *
  * GET /api/auth/me
- *
- * Returns the authenticated user's data.
  */
+
 router.get("/me", auth, async (req, res) => {
   try {
     const user = await UsersDB.findById(req.user._id);
@@ -260,19 +362,15 @@ router.get("/me", auth, async (req, res) => {
  *
  * PATCH /api/auth/me
  *
- * Allowed fields:
+ * Allowed:
  *
- * - email
- * - username
- * - discord.id
- * - discord.tag
- * - discord.avatar
- * - settings.notifications.email
  * - settings.notifications.discord
+ * - settings.notifications.email
  */
+
 router.patch("/me", auth, async (req, res) => {
   try {
-    const { email, username, settings } = req.body;
+    const { settings } = req.body;
 
     const user = await UsersDB.findById(req.user._id);
 
@@ -283,8 +381,9 @@ router.patch("/me", auth, async (req, res) => {
     }
 
     /*
-     * Notification settings
+     * Notification settings.
      */
+
     if (settings?.notifications) {
       if (settings.notifications.email !== undefined) {
         user.settings.notifications.email = Boolean(
@@ -299,44 +398,6 @@ router.patch("/me", auth, async (req, res) => {
       }
     }
 
-    /*
-     * Update email and username
-     */
-    if (email !== undefined) {
-      UsersDB.findOne({ email }).then((existingUser) => {
-        if (
-          existingUser &&
-          existingUser._id.toString() !== user._id.toString()
-        ) {
-          res.status(400).json({
-            message: "Email already in use",
-          });
-          return;
-        }
-      });
-
-      user.email = email;
-    }
-
-    if (username !== undefined) {
-      UsersDB.findOne({ username }).then((existingUser) => {
-        if (
-          existingUser &&
-          existingUser._id.toString() !== user._id.toString()
-        ) {
-          res.status(400).json({
-            message: "Username already in use",
-          });
-          return;
-        }
-      });
-
-      user.username = username;
-    }
-
-    /*
-     * Save changes
-     */
     await user.save();
 
     res.json({
@@ -358,11 +419,16 @@ router.patch("/me", auth, async (req, res) => {
  * ==========================================
  *
  * GET /api/auth/discord/me
- *
- * Returns the authenticated user's Discord-linked data.
  */
+
 router.get("/discord/me", auth, async (req, res) => {
   try {
+    if (!req.user.discord?.id) {
+      return res.status(404).json({
+        message: "Discord account not linked",
+      });
+    }
+
     const discordUser = await client.users.fetch(req.user.discord.id);
 
     if (!discordUser) {
@@ -376,11 +442,10 @@ router.get("/discord/me", auth, async (req, res) => {
       discordUser: discordUser.toJSON(),
     });
   } catch (error) {
-    console.error("Error getting Discord user: ", error);
+    console.error("Error getting Discord user:", error);
 
     res.status(500).json({
       message: "Server error",
-      error,
     });
   }
 });
@@ -392,15 +457,18 @@ router.get("/discord/me", auth, async (req, res) => {
  *
  * POST /api/auth/key/new
  *
- * Body parameters:
- * - permissions: An array of permissions for the API key (optional)
+ * Body:
+ * {
+ *   permissions: ["READ", "WRITE"]
+ * }
  */
+
 router.post("/key/new", auth, async (req, res) => {
   try {
     const apiKey = "MTKEY-" + crypto.randomBytes(16).toString("hex");
 
-    // Save the generated API key to the user's record
     const user = await UsersDB.findById(req.user._id);
+
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -410,7 +478,7 @@ router.post("/key/new", auth, async (req, res) => {
     const perms = [];
 
     if (req.body.permissions && Array.isArray(req.body.permissions)) {
-      perms.push(...req.body.permissions.map((p) => p.toUpperCase()));
+      perms.push(...req.body.permissions.map((p) => String(p).toUpperCase()));
     }
 
     if (perms.length === 0) {

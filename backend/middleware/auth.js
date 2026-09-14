@@ -4,8 +4,7 @@ const Users = require("../models/user.js");
 const debug = process.argv.includes("--debug");
 
 module.exports = async function (req, res, next) {
-  const token =
-    req.cookies?.token || req.body?.token || req.query?.token || null;
+  const token = req.cookies?.token || null;
 
   const authorization = req.headers?.authorization || null;
 
@@ -23,16 +22,6 @@ module.exports = async function (req, res, next) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      /*
-       * O auth.js cria o token neste formato:
-       *
-       * {
-       *   user: {
-       *     id: "..."
-       *   }
-       * }
-       */
-
       if (!decoded.user?.id) {
         return res.status(401).json({
           message: "Invalid token",
@@ -49,12 +38,19 @@ module.exports = async function (req, res, next) {
 
       req.user = user;
 
-      return next();
-    } catch (err) {
-      console.error("JWT authentication error:", err);
+      if (debug) {
+        console.log(
+          `[AUTH] JWT authenticated user: ${user.discord.globalName}`,
+        );
+      }
 
-      return res.status(401).json({
-        message: "Invalid token",
+      return next();
+    } catch (error) {
+      console.error("[AUTH] JWT authentication error:", error);
+
+      return res.status(500).json({
+        message: "Server error",
+        error,
       });
     }
   }
@@ -80,12 +76,19 @@ module.exports = async function (req, res, next) {
       req.apiKey = bearerToken;
       req.user = user;
 
-      return next();
-    } catch (err) {
-      console.error("API key authentication error:", err);
+      if (debug) {
+        console.log(
+          `[AUTH] API key authenticated user: ${user.discord.globalName}`,
+        );
+      }
 
-      return res.status(401).json({
-        message: "Invalid API key",
+      return next();
+    } catch (error) {
+      console.error("[AUTH] API key authentication error:", error);
+
+      return res.status(500).json({
+        message: "Server error",
+        error,
       });
     }
   }

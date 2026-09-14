@@ -3,9 +3,22 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const DiscordDataSchema = new mongoose.Schema(
   {
-    id: { type: String, default: null },
-    username: { type: String, default: null },
-    avatar: { type: String, default: null },
+    id: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      default: null,
+    },
+    globalName: {
+      type: String,
+      default: null,
+    },
+    avatar: {
+      type: String,
+      default: null,
+    },
   },
   {
     _id: false,
@@ -15,7 +28,10 @@ const DiscordDataSchema = new mongoose.Schema(
 
 const ApiKeySchema = new mongoose.Schema(
   {
-    key: { type: String, required: true },
+    key: {
+      type: String,
+      required: true,
+    },
     mercUser: {
       type: String,
       required: function () {
@@ -36,6 +52,7 @@ const ApiKeySchema = new mongoose.Schema(
   {
     _id: false,
     timestamps: true,
+
     toJSON: {
       transform: function (doc, ret) {
         ret.key =
@@ -43,12 +60,14 @@ const ApiKeySchema = new mongoose.Schema(
           "**************" +
           ret.key?.substring(ret.key?.length - 4);
 
-        if (ret.mercUser)
+        if (ret.mercUser) {
           ret.mercUser = ret.mercUser?.substring(0, 4) + "**************";
+        }
 
         return ret;
       },
     },
+
     toObject: {
       transform: function (doc, ret) {
         ret.key =
@@ -56,8 +75,9 @@ const ApiKeySchema = new mongoose.Schema(
           "**************" +
           ret.key?.substring(ret.key?.length - 4);
 
-        if (ret.mercUser)
+        if (ret.mercUser) {
           ret.mercUser = ret.mercUser?.substring(0, 4) + "**************";
+        }
 
         return ret;
       },
@@ -67,42 +87,74 @@ const ApiKeySchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema(
   {
-    username: { type: String, unique: true },
-    email: { type: String, unique: true },
-    password: { type: String, required: true },
-    discord: { type: DiscordDataSchema },
-    apiKeys: { type: [ApiKeySchema], default: [] },
-    isAdmin: { type: Boolean, default: false },
-    notifications: [{ type: ObjectId }],
+    /*
+     * Discord is now the identity of the account.
+     */
+    discord: {
+      type: DiscordDataSchema,
+      required: true,
+    },
+
+    apiKeys: {
+      type: [ApiKeySchema],
+      default: [],
+    },
+
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+
+    notifications: [
+      {
+        type: ObjectId,
+      },
+    ],
+
     settings: {
-      theme: { type: String, default: "dark" },
+      theme: {
+        type: String,
+        default: "dark",
+      },
+
       notifications: {
-        email: { type: Boolean, default: false },
-        discord: { type: Boolean, default: false },
+        discord: {
+          type: Boolean,
+          default: false,
+        },
       },
     },
   },
   {
     collection: "Users-merc_tools",
     timestamps: true,
+
     toJSON: {
       transform: function (doc, ret) {
         delete ret.password;
-        delete ret.discordLinkCode;
-        delete ret.discordLinkCodeExpiresAt;
 
         return ret;
       },
     },
+
     toObject: {
       transform: function (doc, ret) {
         delete ret.password;
-        delete ret.discordLinkCode;
-        delete ret.discordLinkCodeExpiresAt;
 
         return ret;
       },
     },
+  },
+);
+
+/*
+ * Discord IDs must uniquely identify a Mercatorio Tools account.
+ */
+UserSchema.index(
+  { "discord.id": 1 },
+  {
+    unique: true,
+    sparse: true,
   },
 );
 

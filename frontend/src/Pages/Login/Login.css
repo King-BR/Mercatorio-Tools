@@ -1,5 +1,6 @@
 .auth-page {
   min-height: calc(100vh - 70px);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,6 +24,8 @@
   border-radius: 14px;
 
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+  box-sizing: border-box;
 }
 
 .auth-header {
@@ -44,6 +47,7 @@
   color: #8fa5bb;
 
   font-size: 14px;
+  line-height: 1.5;
 }
 
 .auth-form {
@@ -52,64 +56,21 @@
   gap: 20px;
 }
 
-.form-group {
+.discord-login-button {
+  width: 100%;
+
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
-.form-group label {
-  color: #d7e2ed;
-
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.form-group input {
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: 12px 14px;
-
-  color: #ffffff;
-  background: #091522;
-
-  border: 1px solid #29415a;
-  border-radius: 8px;
-
-  outline: none;
-
-  font-size: 14px;
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.form-group input::placeholder {
-  color: #61778d;
-}
-
-.form-group input:focus {
-  border-color: #3d82c4;
-
-  box-shadow: 0 0 0 3px rgba(61, 130, 196, 0.15);
-}
-
-.form-group input:disabled {
-  opacity: 0.6;
-}
-
-.auth-button {
-  width: 100%;
-
-  padding: 12px 16px;
+  padding: 13px 16px;
 
   border: none;
   border-radius: 8px;
 
   color: #ffffff;
-  background: #1769aa;
+  background: #5865f2;
 
   font-size: 15px;
   font-weight: 600;
@@ -121,60 +82,36 @@
     transform 0.1s ease;
 }
 
-.auth-button:hover:not(:disabled) {
-  background: #1d7bc4;
+.discord-login-button:hover {
+  background: #4752c4;
 }
 
-.auth-button:active:not(:disabled) {
+.discord-login-button:active {
   transform: translateY(1px);
 }
 
-.auth-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.auth-error {
-  padding: 11px 13px;
-
-  color: #ffb4b4;
-  background: rgba(180, 40, 40, 0.12);
-
-  border: 1px solid rgba(220, 70, 70, 0.3);
-  border-radius: 7px;
-
-  font-size: 14px;
+.discord-login-icon {
+  font-size: 18px;
 }
 
 .auth-footer {
   display: flex;
   justify-content: center;
-  gap: 5px;
 
   margin-top: 25px;
 
   color: #8197ad;
 
-  font-size: 14px;
-}
+  font-size: 13px;
+  line-height: 1.5;
 
-.auth-footer a {
-  color: #4da3e8;
-
-  text-decoration: none;
-}
-
-.auth-footer a:hover {
-  text-decoration: underline;
+  text-align: center;
 }
 
 .auth-loading {
-  min-height: 100vh;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   color: #ffffff;
-  background: #07111f;
+
+  text-align: center;
+
+  padding: 20px 0;
 }

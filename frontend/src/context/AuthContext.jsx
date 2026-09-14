@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import logger from "../utils/logger";
-
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -12,7 +10,7 @@ export function AuthProvider({ children }) {
 
   async function refreshUser() {
     try {
-      const response = await fetch(`/api/auth/me`, {
+      const response = await fetch("/api/auth/me", {
         credentials: "include",
       });
 
@@ -38,64 +36,34 @@ export function AuthProvider({ children }) {
       return data.user ?? data;
     } catch (error) {
       console.error("Failed to fetch current user:", error);
+
       setUser(null);
+
       return null;
     }
   }
 
-  async function login(email, username, password) {
-    const response = await fetch(`/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        email,
-        username,
-        password,
-      }),
-    });
+  /*
+   * ==========================================
+   * DISCORD LOGIN
+   * ==========================================
+   *
+   * The backend handles the entire OAuth2 flow.
+   */
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Login failed");
-    }
-
-    setUser(data.user ?? data);
-
-    return data.user ?? data;
+  function loginWithDiscord() {
+    window.location.href = "/api/auth/discord";
   }
 
-  async function register(email, username, password) {
-    const response = await fetch(`/api/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        email,
-        username,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Registration failed");
-    }
-
-    setUser(data.user ?? data);
-
-    return data.user ?? data;
-  }
+  /*
+   * ==========================================
+   * LOGOUT
+   * ==========================================
+   */
 
   async function logout() {
     try {
-      await fetch(`/api/auth/logout`, {
+      await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -105,6 +73,12 @@ export function AuthProvider({ children }) {
       setUser(null);
     }
   }
+
+  /*
+   * ==========================================
+   * INITIAL AUTH CHECK
+   * ==========================================
+   */
 
   useEffect(() => {
     async function initializeAuth() {
@@ -122,8 +96,7 @@ export function AuthProvider({ children }) {
         hasMercatorioApiKey,
         hasMercToolsApiKey,
         loading,
-        login,
-        register,
+        loginWithDiscord,
         logout,
         refreshUser,
       }}

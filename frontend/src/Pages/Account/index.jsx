@@ -10,23 +10,15 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 
 function Account() {
   const { user, refreshUser, logout } = useAuth();
+
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState(user?.email ?? "");
-  const [username, setUsername] = useState(user?.username ?? "");
-
-  const [discordCode, setDiscordCode] = useState(null);
-  const [discordCodeExpiresAt, setDiscordCodeExpiresAt] = useState(null);
-  const [generatingCode, setGeneratingCode] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [copyError, setCopyError] = useState(false);
 
   const [discordNotifications, setDiscordNotifications] = useState(
     user?.settings?.notifications?.discord ?? false,
   );
 
-  const [emailNotifications, setEmailNotifications] = useState(
-    user?.settings?.notifications?.email ?? false,
+  const [publicStats, setPublicStats] = useState(
+    user?.settings?.info?.publicStats ?? false,
   );
 
   const [saving, setSaving] = useState(false);
@@ -34,78 +26,20 @@ function Account() {
   const [error, setError] = useState("");
 
   /*
-   * Updates the states when the user received from the AuthContext changes.
+   * Update local state when the authenticated
+   * user changes.
    */
+
   useEffect(() => {
     setDiscordNotifications(user?.settings?.notifications?.discord ?? false);
 
-    setEmailNotifications(user?.settings?.notifications?.email ?? false);
-    setEmail(user?.email ?? "");
-    setUsername(user?.username ?? "");
+    setPublicStats(user?.settings?.info?.publicStats ?? false);
   }, [user]);
-
-  /*
-   * Generates a new code to link the Discord account.
-   */
-  async function generateDiscordCode() {
-    setGeneratingCode(true);
-    setError("");
-    setMessage("");
-    setCopied(false);
-
-    try {
-      const response = await fetch(`${API_URL}/api/auth/discord/link-code`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Não foi possível gerar o código.");
-      }
-
-      setDiscordCode(data.code);
-      setDiscordCodeExpiresAt(data.expiresAt ? new Date(data.expiresAt) : null);
-    } catch (err) {
-      console.error(err);
-      setError(err.message || "Erro ao gerar código.");
-    } finally {
-      setGeneratingCode(false);
-    }
-  }
-
-  /*
-   * Copies the code to the clipboard.
-   */
-  async function copyDiscordCode() {
-    if (!discordCode) return;
-
-    try {
-      await navigator.clipboard.writeText(`/link ${discordCode}`);
-
-      setCopied(true);
-
-      setTimeout(() => {
-        setCopied(false);
-      }, 2000);
-    } catch (err) {
-      setCopied(false);
-      setCopyError(true);
-
-      setTimeout(() => {
-        setCopyError(false);
-      }, 5000);
-      console.error(err);
-    }
-  }
 
   /*
    * Save account settings.
    */
+
   async function saveChanges() {
     setSaving(true);
     setMessage("");
@@ -114,17 +48,20 @@ function Account() {
     try {
       const response = await fetch(`${API_URL}/api/auth/me`, {
         method: "PATCH",
+
         credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
-          email: email,
-          username: username,
           settings: {
             notifications: {
               discord: discordNotifications,
-              email: emailNotifications,
+            },
+            info: {
+              publicStats: publicStats,
             },
           },
         }),
@@ -141,6 +78,7 @@ function Account() {
       setMessage("Changes saved successfully.");
     } catch (err) {
       console.error(err);
+
       setError(err.message || "Error saving changes.");
     } finally {
       setSaving(false);
@@ -148,28 +86,35 @@ function Account() {
   }
 
   /*
-   * Formats the expiration date of the code.
+   * Logout.
    */
-  function formatExpiration(date) {
-    if (!date) return "";
 
-    return date.toLocaleTimeString(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
+  async function handleLogout() {
+    await logout();
+
+    navigate("/", {
+      replace: true,
     });
   }
 
   /*
-   * Handles user logout.
+   * Discord avatar URL.
    */
-  async function handleLogout() {
-    await logout();
-    navigate("/");
+
+  function getDiscordAvatarUrl() {
+    if (!user?.discord?.id || !user?.discord?.avatar) {
+      return null;
+    }
+
+    return `https://cdn.discordapp.com/avatars/${user.discord.id}/${user.discord.avatar}.png?size=128`;
   }
+
+  const discordAvatar = getDiscordAvatarUrl();
 
   return (
     <>
       <TopNavbar />
+
       <div className="account-page">
         <div className="account-container">
           <div className="account-header">
@@ -190,120 +135,58 @@ function Account() {
             </button>
           </div>
 
-          {/* Account Information */}
+          {/* ================================== */}
+          {/* DISCORD ACCOUNT */}
+          {/* ================================== */}
+
           <section className="account-section">
             <div className="section-header">
-              <h2>Account Information</h2>
+              <h2>Discord Account</h2>
             </div>
 
-            {/* Email */}
-            <div className="form-group">
-              <label>Email</label>
-
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                disabled={saving}
-              />
-            </div>
-
-            {/* Username */}
-            <div className="form-group">
-              <label>Username</label>
-
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
-                disabled={saving}
-              />
-            </div>
-          </section>
-
-          {/* Discord */}
-          <section className="account-section">
-            <div className="section-header">
-              <h2>Discord</h2>
-
-              <p>Link your Discord account to use Discord-related features.</p>
-            </div>
-
-            {user?.discordID ? (
-              <div className="discord-linked">
-                <div className="discord-status">
-                  <div>
-                    <strong>Account linked</strong>
-                  </div>
+            <div
+              className="discord-account"
+              style={{ display: "flex", gap: "1rem" }}
+            >
+              {discordAvatar ? (
+                <img
+                  className="discord-avatar"
+                  src={discordAvatar}
+                  alt="Discord avatar"
+                />
+              ) : (
+                <div className="discord-avatar discord-avatar-placeholder">
+                  {(user?.discord?.globalName || user?.discord?.username || "?")
+                    .charAt(0)
+                    .toUpperCase()}
                 </div>
+              )}
 
-                <div className="discord-id">Discord ID: {user.discordID}</div>
-              </div>
-            ) : (
-              <div className="discord-unlinked">
-                <div className="discord-info">
-                  <strong>Account not linked</strong>
-
+              <div className="discord-account-info">
+                <div>
+                  Username:{" "}
                   <span>
-                    Generate a code and send it to the Mercatorio Tools bot on
-                    Discord to link your account.
+                    {user?.discord?.globalName ||
+                      user?.discord?.username ||
+                      "Discord User"}
                   </span>
                 </div>
 
-                {!discordCode ? (
-                  <button
-                    className="primary-button"
-                    onClick={generateDiscordCode}
-                    disabled={generatingCode}
-                  >
-                    {generatingCode ? "Generating..." : "Link Discord"}
-                  </button>
-                ) : (
-                  <div className="discord-link-code">
-                    <div className="code-label">Your link code</div>
+                <div>
+                  Tag: <span>@{user?.discord?.username || "unknown"}</span>
+                </div>
 
-                    <div className="code-container">
-                      <span className="discord-code">/link {discordCode}</span>
-
-                      <button className="copy-button" onClick={copyDiscordCode}>
-                        {copyError
-                          ? "Error copying to clipboard"
-                          : copied
-                            ? "Coppied to clipboard"
-                            : "Copy"}
-                      </button>
-                    </div>
-
-                    <div className="discord-instructions">
-                      <p>
-                        Send the code above to the Mercatorio Tools bot on
-                        Discord.
-                      </p>
-
-                      {discordCodeExpiresAt && (
-                        <span className="code-expiration">
-                          The code expires at{" "}
-                          {formatExpiration(discordCodeExpiresAt)}.
-                        </span>
-                      )}
-                    </div>
-
-                    <button
-                      className="secondary-button"
-                      onClick={generateDiscordCode}
-                      disabled={generatingCode}
-                    >
-                      {generatingCode ? "Generating..." : "Generate new code"}
-                    </button>
-                  </div>
-                )}
+                <div>
+                  Discord ID: <span>{user?.discord?.id || "Unknown"}</span>
+                </div>
               </div>
-            )}
+            </div>
           </section>
 
-          {/* Notificações */}
+          {/* ================================== */}
+          {/* NOTIFICATIONS */}
+          {/* ================================== */}
+
           <section className="account-section">
             <div className="section-header">
               <h2>Notifications</h2>
@@ -322,48 +205,30 @@ function Account() {
                   onChange={(event) =>
                     setDiscordNotifications(event.target.checked)
                   }
-                  disabled={!user?.discordID || saving}
+                  disabled={!user?.discord?.id || saving}
                 />
 
                 <div>
                   <strong>Discord</strong>
 
-                  <span>
-                    Receive notifications via Discord.
-                    {!user?.discordID && " Link your Discord account first."}
-                  </span>
+                  <span>Receive notifications via Discord.</span>
                 </div>
               </label>
             </div>
           </section>
 
-          {/* Security */}
-          {/*
-          <section className="account-section">
-            <div className="section-header">
-              <h2>Security</h2>
-            </div>
+          {/* ================================== */}
+          {/* MESSAGES */}
+          {/* ================================== */}
 
-            <div className="security-item">
-              <div>
-                <strong>Password</strong>
-
-                <span>Change the password used to log into your account.</span>
-              </div>
-
-              <button className="secondary-button" disabled>
-                Change Password
-              </button>
-            </div>
-          </section>
-          */}
-
-          {/* Messages */}
           {message && <div className="success-message">{message}</div>}
 
           {error && <div className="error-message">{error}</div>}
 
-          {/* Save */}
+          {/* ================================== */}
+          {/* ACTIONS */}
+          {/* ================================== */}
+
           <div className="account-actions">
             <button
               className="primary-button save-button"
