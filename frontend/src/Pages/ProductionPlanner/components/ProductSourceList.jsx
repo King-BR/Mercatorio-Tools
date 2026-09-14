@@ -31,7 +31,7 @@ export default function ProductSourceList({
   }
 
   function getPrice(product) {
-    if (product === "labour" && priceFrom === "player") {
+    if (product === "labour" && priceFrom === "player" && !productCustomPrices.has(product)) {
       var purchased = {
         amount:
           Number.parseFloat(userInventory.account.assets[product]?.purchase) ||

@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 
-import { categories } from "../../data/tools.js";
-import { getTools } from "../../services/api.js";
+import { getTools, getToolsCategories } from "../../services/api.js";
 
 import ToolGrid from "./components/ToolGrid/ToolGrid.jsx";
 import TopNavbar from "../../components/TopNavbar/TopNavbar.jsx";
@@ -11,40 +10,37 @@ import "./Home.css";
 function Home() {
   const [tools, setTools] = useState([]);
 
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
     getTools().then(setTools);
+    getToolsCategories().then(setCategories);
   }, []);
 
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
 
   const filteredTools = useMemo(() => {
+    console.log(selectedCategory);
     const searchTerm = search.trim().toLowerCase();
 
     return tools.filter((tool) => {
       const matchesCategory =
-        selectedCategory === "all" || tool.category === selectedCategory;
+        selectedCategory === "all" || tool.category.slug === selectedCategory;
 
-      if (!matchesCategory) {
-        return false;
-      }
-
-      if (!searchTerm) {
-        return true;
-      }
-
-      const searchableText = [
+      const matchesSearch = [
         tool.name,
         tool.description,
-        tool.category,
-        ...tool.tags,
+        tool.category.name,
+        ...(tool.tags || []),
       ]
         .join(" ")
-        .toLowerCase();
+        .toLowerCase()
+        .includes(searchTerm);
 
-      return searchableText.includes(searchTerm);
+      return matchesCategory && (!searchTerm || (searchTerm && matchesSearch));
     });
-  }, [search, selectedCategory]);
+  }, [selectedCategory, search, tools, categories]);
 
   const featuredTools = tools.filter((tool) => tool.featured);
 
@@ -120,11 +116,11 @@ function Home() {
           <div className="category-container">
             {categories.map((category) => (
               <button
-                key={category.id}
+                key={category.slug}
                 className={`category-button ${
-                  selectedCategory === category.id ? "active" : ""
+                  selectedCategory === category.slug ? "active" : ""
                 }`}
-                onClick={() => setSelectedCategory(category.id)}
+                onClick={() => setSelectedCategory(category.slug)}
               >
                 {category.name}
               </button>

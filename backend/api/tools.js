@@ -1,4 +1,4 @@
-const ToolsDB = require("../models/tools.js");
+const { ToolsDB, ToolsCategoriesDB } = require("../models/tools.js");
 const auth = require("../middleware/auth.js");
 const admin = require("../middleware/admin.js");
 const express = require("express");
@@ -7,21 +7,8 @@ const router = express.Router();
 // GET /api/tools
 router.get("/", async (req, res) => {
   try {
-    const tools = await ToolsDB.find();
+    const tools = await ToolsDB.find().populate("category");
     res.status(200).json(tools);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
-});
-
-// GET /api/tools/:id
-router.get("/:id", async (req, res) => {
-  try {
-    const tool = await ToolsDB.findById(req.params.id);
-    if (!tool) {
-      return res.status(404).json({ message: "Tool not found" });
-    }
-    res.status(200).json(tool);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -63,6 +50,63 @@ router.delete("/:id", auth, admin, async (req, res) => {
       return res.status(404).json({ message: "Tool not found" });
     }
     res.status(200).json({ message: "Tool deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// GET /api/tools/categories
+router.get("/categories", async (req, res) => {
+  try {
+    const categories = await ToolsCategoriesDB.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// POST /api/tools/categories
+router.post("/categories", auth, admin, async (req, res) => {
+  try {
+    const newCategory = new ToolsCategoriesDB(req.body);
+    const savedCategory = await newCategory.save();
+    res.status(201).json(savedCategory);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// PUT /api/tools/categories/:id
+router.put("/categories/:id", auth, admin, async (req, res) => {
+  try {
+    const updatedCategory = await ToolsCategoriesDB.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true },
+    );
+
+    if (!updatedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.status(200).json(updatedCategory);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// DELETE /api/tools/categories/:id
+router.delete("/categories/:id", auth, admin, async (req, res) => {
+  try {
+    const deletedCategory = await ToolsCategoriesDB.findByIdAndDelete(
+      req.params.id,
+    );
+
+    if (!deletedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.status(200).json({ message: "Category deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
