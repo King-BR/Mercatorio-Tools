@@ -48,6 +48,10 @@ const ApiKeySchema = new mongoose.Schema(
       default: ["READ"],
       enum: ["READ", "WRITE", "ADMIN"],
     },
+    canThirdPartyUse: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -107,6 +111,7 @@ const UserSchema = new mongoose.Schema(
     notifications: [
       {
         type: ObjectId,
+        ref: "Notifications",
       },
     ],
 
