@@ -27,7 +27,9 @@ var lastProductsCache = null;
 
 // Pathfinding data
 const pathsCache = new Map();
+const ferriesCache = new Map();
 var lastPathsCacheUpdate = null;
+var lastFerriesCacheUpdate = null;
 
 // Prestige data
 const prestigeBoardData = new Map();
@@ -151,6 +153,25 @@ function getPaths() {
   }
 
   return pathsCache;
+}
+
+function getFerries() {
+  const now = Date.now();
+
+  if (!lastFerriesCacheUpdate || now - lastFerriesCacheUpdate > cacheDuration) {
+    const ferries = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "../data/ferries.json"), "utf-8"),
+    );
+
+    ferriesCache.clear();
+    ferries
+      .map((f) => [f.id, f])
+      .forEach(([id, ferry]) => ferriesCache.set(id, ferry));
+
+    lastFerriesCacheUpdate = now;
+  }
+
+  return ferriesCache;
 }
 
 function getBuildings() {
@@ -411,6 +432,7 @@ async function getPlayerInventory(
 
 module.exports = {
   getPaths,
+  getFerries,
 
   getPlayer,
   getPlayerInventory,

@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { getPaths } = require("../data/getters.js");
+const { getPaths, getFerries } = require("../data/getters.js");
 
 const router = express.Router();
 
@@ -14,17 +14,11 @@ router.get("/paths", (req, res) => {
   }
 });
 
-// GET /api/pathfinding/paths/:id
-router.get("/paths/:id", (req, res) => {
+// GET /api/pathfinding/ferries
+router.get("/ferries", (req, res) => {
   try {
-    const paths = getPaths();
-    const path = paths.get(req.params.id);
-
-    if (!path) {
-      return res.status(404).json({ message: "Path not found" });
-    }
-
-    res.status(200).json(path);
+    const ferries = getFerries();
+    res.status(200).json(Array.from(ferries.values()));
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
