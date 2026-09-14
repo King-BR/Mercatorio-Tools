@@ -13,6 +13,11 @@ export async function getTools() {
   return await response.json();
 }
 
+export async function getToolsCategories() {
+  const response = await fetch("/api/tools/categories");
+  return await response.json();
+}
+
 export async function getPrestigeBoard() {
   const response = await fetch("/api/prestige/board");
   return await response.json();
@@ -37,7 +42,6 @@ export async function getPlayer() {
   const response = await fetch("/api/players/me");
   return await response.json();
 }
-
 
 export async function getPlayerInventory() {
   const response = await fetch("/api/players/me/inventory");
