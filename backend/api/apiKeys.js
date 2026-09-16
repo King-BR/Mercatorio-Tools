@@ -76,7 +76,7 @@ router.get("/", auth, async (req, res) => {
  */
 router.post("/game", auth, async (req, res) => {
   try {
-    const key = typeof req.body.key === "string" ? req.body.key.trim() : "";
+    var key = typeof req.body.key === "string" ? req.body.key.trim() : "";
 
     const mercUser =
       typeof req.body.mercUser === "string" ? req.body.mercUser.trim() : "";
