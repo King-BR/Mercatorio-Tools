@@ -192,6 +192,11 @@ function getBuildings() {
   return buildingsData;
 }
 
+function getBuildingTypes() {
+  const buildings = getBuildings();
+  return Array.from(buildings.keys());
+}
+
 function getBuildingsDescriptions() {
   const now = Date.now();
 
@@ -441,6 +446,7 @@ module.exports = {
   getSustenance,
 
   getBuildings,
+  getBuildingTypes,
   getBuildingsDescriptions,
   getUpgrades,
   getUpgradesDescriptions,

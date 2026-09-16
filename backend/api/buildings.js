@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   getBuildings,
+  getBuildingTypes,
   getBuildingsDescriptions,
   getUpgrades,
   getUpgradesDescriptions,
@@ -14,6 +15,16 @@ router.get("/", (req, res) => {
   try {
     const buildings = getBuildings();
     res.json(Array.from(buildings.values()));
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// GET /api/buildings/types
+router.get("/types", (req, res) => {
+  try {
+    const buildingTypes = getBuildingTypes();
+    res.json(buildingTypes);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
