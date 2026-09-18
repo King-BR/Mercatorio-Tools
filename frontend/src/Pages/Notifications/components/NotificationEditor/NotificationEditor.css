@@ -1,0 +1,643 @@
+.notification-editor {
+  width: 100%;
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #07111f;
+  color: #e8f0ff;
+}
+
+.notification-editor-header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 18px;
+  border-bottom: 1px solid #1b2b42;
+  background: #0b1728;
+  z-index: 10;
+}
+
+.notification-editor-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.back-button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #29405d;
+  border-radius: 8px;
+  background: #101f33;
+  color: #dbe8fa;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.back-button:hover {
+  background: #162943;
+}
+
+.notification-name-input {
+  display: block;
+  width: 360px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.notification-description-input {
+  display: block;
+  width: 360px;
+  margin-top: 3px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #8193ad;
+  font-size: 13px;
+}
+
+.notification-editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.enabled-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #aebdd0;
+  font-size: 13px;
+}
+
+.enabled-toggle input {
+  accent-color: #4d9cff;
+}
+
+.save-button {
+  min-width: 90px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 7px;
+  background: #2878d8;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #3488ed;
+}
+
+.save-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.save-error {
+  max-width: 300px;
+  color: #ff7d7d;
+  font-size: 12px;
+}
+
+.notification-editor-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.notification-sidebar {
+  width: 390px;
+  min-width: 390px;
+  overflow-y: auto;
+  padding: 16px;
+  border-right: 1px solid #1b2b42;
+  background: #091525;
+}
+
+.sidebar-section {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #1a2a40;
+}
+
+.sidebar-section h3 {
+  margin: 0 0 12px;
+  color: #cbd8ea;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sidebar-section > button:not(.delete-node-button) {
+  display: block;
+  width: 100%;
+  margin-bottom: 7px;
+  padding: 9px 10px;
+  border: 1px solid #243b57;
+  border-radius: 6px;
+  background: #0d1d31;
+  color: #cbd9ec;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-section > button:not(.delete-node-button):hover {
+  border-color: #3f6d9e;
+  background: #122842;
+}
+
+.notification-flow {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  background: #07111f;
+}
+
+.notification-flow .react-flow {
+  width: 100%;
+  height: 100%;
+}
+
+.notification-flow .react-flow__background {
+  background: #07111f;
+}
+
+.notification-flow .react-flow__controls {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.notification-flow .react-flow__controls-button {
+  border-color: #263b55;
+  background: #0d1c2f;
+  color: #d8e5f7;
+  fill: #d8e5f7;
+}
+
+.notification-flow .react-flow__controls-button:hover {
+  background: #162b45;
+}
+
+.notification-flow .react-flow__minimap {
+  overflow: hidden;
+  border: 1px solid #243952;
+  border-radius: 6px;
+  background: #0b1728;
+}
+
+.notification-flow .react-flow__edge-path {
+  stroke-width: 2;
+}
+
+.notification-flow .react-flow__connection-path {
+  stroke-width: 2;
+}
+
+.notification-flow .react-flow__node.selected .notification-node {
+  border-color: #5aa5ff;
+  box-shadow: 0 0 0 1px #5aa5ff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Nodes                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.notification-node {
+  min-width: 240px;
+  max-width: 320px;
+  overflow: hidden;
+  border: 1px solid #29405d;
+  border-radius: 9px;
+  background: #0d1b2d;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  color: #dce8f8;
+}
+
+.notification-node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 11px;
+  border-bottom: 1px solid #21364e;
+  background: #102238;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.notification-node-type {
+  color: #6f89a7;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.notification-node-content {
+  padding: 12px;
+}
+
+.node-label {
+  margin-bottom: 7px;
+  color: #607994;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.node-expression {
+  color: #a9c9ef;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.node-value {
+  color: #91c8ff;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.node-description {
+  margin-bottom: 9px;
+  color: #7f94ae;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.node-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.node-summary strong {
+  overflow: hidden;
+  color: #b9d8ff;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.node-summary span {
+  color: #8ca0b9;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Field                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.field-node {
+  border-color: #315a80;
+}
+
+.field-node .notification-node-header {
+  background: #10283d;
+}
+
+.field-node .node-expression {
+  color: #7fc1ff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Value                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.value-node {
+  border-color: #635b31;
+}
+
+.value-node .notification-node-header {
+  background: #282615;
+}
+
+.value-node .node-value {
+  color: #e0c76e;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Compare                                                                    */
+/* -------------------------------------------------------------------------- */
+
+.compare-node {
+  min-width: 190px;
+  border-color: #5a4778;
+}
+
+.compare-node .notification-node-header {
+  background: #241b35;
+}
+
+.compare-operator-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  color: #c79aff;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.compare-input-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #6d8098;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Condition                                                                  */
+/* -------------------------------------------------------------------------- */
+
+.condition-node {
+  min-width: 210px;
+  border-color: #3e6d61;
+}
+
+.condition-node .notification-node-header {
+  background: #152b28;
+}
+
+.condition-operator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 45px;
+  color: #72d1b6;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.condition-description {
+  text-align: center;
+  color: #7e9f99;
+  font-size: 10px;
+}
+
+.condition-input-count {
+  margin-top: 8px;
+  text-align: center;
+  color: #587f77;
+  font-size: 9px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Actions                                                                    */
+/* -------------------------------------------------------------------------- */
+
+.discord-node {
+  border-color: #394c72;
+}
+
+.webhook-node {
+  border-color: #385a58;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Handles                                                                    */
+/* -------------------------------------------------------------------------- */
+
+.flow-handle {
+  width: 9px;
+  height: 9px;
+  border: 2px solid #07111f;
+  background: #6aaeff;
+}
+
+.notification-flow .react-flow__handle.connectingto {
+  background: #75d6a8;
+}
+
+.notification-flow .react-flow__handle.valid {
+  background: #75d6a8;
+}
+
+.condition-input-handle {
+  background: #72d1b6;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Properties                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.properties-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.properties-section label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #91a5be;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.properties-section input,
+.properties-section select,
+.properties-section textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 9px;
+  border: 1px solid #263d59;
+  border-radius: 6px;
+  outline: none;
+  background: #0b1a2c;
+  color: #dbe8f8;
+  font: inherit;
+  font-size: 12px;
+}
+
+.properties-section input:focus,
+.properties-section select:focus,
+.properties-section textarea:focus {
+  border-color: #4d8bd0;
+}
+
+.properties-section textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.property-card {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 11px;
+  border: 1px solid #21364f;
+  border-radius: 7px;
+  background: #0a1829;
+}
+
+.property-card-title {
+  color: #6e8cab;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.property-help {
+  padding: 8px;
+  border-radius: 5px;
+  background: #071321;
+  color: #70859e;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.field-preview {
+  padding: 7px;
+  border-radius: 5px;
+  background: #071321;
+  color: #6fa9e8;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.comparison-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #071321;
+}
+
+.comparison-preview span {
+  color: #617892;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.comparison-preview strong {
+  color: #c79aff;
+  font-size: 18px;
+}
+
+.condition-properties-count {
+  padding: 8px;
+  border-radius: 5px;
+  background: #071321;
+  color: #6b9f91;
+  font-size: 10px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Empty state                                                                */
+/* -------------------------------------------------------------------------- */
+
+.empty-properties {
+  padding: 18px 8px;
+  text-align: center;
+  color: #637891;
+  font-size: 12px;
+}
+
+.empty-properties-icon {
+  margin-bottom: 8px;
+  color: #496784;
+  font-size: 22px;
+}
+
+.empty-properties p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Delete                                                                     */
+/* -------------------------------------------------------------------------- */
+
+.delete-node-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 9px;
+  border: 1px solid #673b43;
+  border-radius: 6px;
+  background: #28151b;
+  color: #ed929d;
+  cursor: pointer;
+}
+
+.delete-node-button:hover {
+  background: #391a21;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Loading / error                                                            */
+/* -------------------------------------------------------------------------- */
+
+.notification-editor-loading,
+.notification-editor-error {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: #07111f;
+  color: #aebed2;
+}
+
+.notification-editor-error button {
+  padding: 8px 14px;
+  border: 1px solid #29405d;
+  border-radius: 6px;
+  background: #102138;
+  color: #d8e6f7;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  .notification-sidebar {
+    width: 330px;
+    min-width: 330px;
+  }
+
+  .notification-name-input,
+  .notification-description-input {
+    width: 250px;
+  }
+}
+
+@media (max-width: 750px) {
+  .notification-editor-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .notification-editor-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .notification-sidebar {
+    width: 280px;
+    min-width: 280px;
+  }
+
+  .notification-name-input,
+  .notification-description-input {
+    width: 200px;
+  }
+}
