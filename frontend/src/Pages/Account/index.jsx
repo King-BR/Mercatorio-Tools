@@ -693,7 +693,7 @@ function Account() {
                     type="text"
                     value={gameMercUser}
                     onChange={(event) => setGameMercUser(event.target.value)}
-                    placeholder="Your Mercatorio username"
+                    placeholder="mercatorio_user@email.com"
                     disabled={apiKeyLoading}
                   />
                 </div>
