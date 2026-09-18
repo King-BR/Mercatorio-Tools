@@ -14,7 +14,7 @@ export default function RecipeSelector({
         value={selectedRecipe || ""}
         onChange={(event) => onChange(event.target.value || null)}
       >
-        <option value="">Select a recipe</option>
+        <option value="" disabled>Select a recipe</option>
 
         {recipeIds.map((recipeId) => {
           const recipe = recipes?.[recipeId];

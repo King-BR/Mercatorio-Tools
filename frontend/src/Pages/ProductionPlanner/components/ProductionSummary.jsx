@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   calculateBuildingMaterials,
@@ -12,7 +12,7 @@ function formatNumber(value, decimals = 3) {
     return "N/A";
   }
 
-  return Number(value.toFixed(decimals)).toLocaleString(undefined, {
+  return Number(value).toLocaleString(undefined, {
     maximumFractionDigits: decimals,
   });
 }
@@ -48,6 +48,9 @@ export default function ProductionSummary({
   upgradesChainByBuilding,
   userInventory,
 }) {
+  const [materialsByBuilding, setMaterialsByBuilding] = useState({});
+  const [manaPoints, setManaPoints] = useState(0);
+
   const products = Object.values(calculation.products || {});
 
   const marketSurplus = Object.entries(calculation.surplus?.market || {});
@@ -70,6 +73,25 @@ export default function ProductionSummary({
   const buildings = Array.from(
     calculation.buildings?.entries ? calculation.buildings.entries() : [],
   );
+
+  useEffect(() => {
+    setMaterialsByBuilding((current) => {
+      const tmp = calculateBuildingMaterials(
+        buildings,
+        buildingsData,
+        upgradesChainByBuilding,
+      );
+
+      setManaPoints(
+        Array.from(tmp.values()).reduce(
+          (sum, buildingMaterialList) =>
+            sum + (buildingMaterialList.manaPoints || 0),
+          0,
+        ),
+      );
+      return tmp;
+    });
+  }, [buildings, buildingsData, upgradesChainByBuilding]);
 
   return (
     <section className="production-summary">
@@ -106,6 +128,12 @@ export default function ProductionSummary({
               ? "Price data unavailable"
               : `Total ${formatCost(calculation.cost.total)}`
           }
+        />
+
+        <SummaryCard
+          label="Management Points"
+          value={formatNumber(manaPoints)}
+          detail="Total management points"
         />
 
         <SummaryCard
@@ -187,10 +215,9 @@ export default function ProductionSummary({
           <SummaryBuildingsConstruction
             buildings={buildings}
             empty="No materials used."
-            buildingsData={buildingsData}
-            upgradesChain={upgradesChainByBuilding}
-            userInventory={userInventory}
             calculation={calculation}
+            materialsByBuilding={materialsByBuilding}
+            manaPoints={manaPoints}
           />
         </SummarySection>
       </div>
@@ -338,40 +365,31 @@ function SummaryBuildings({ buildings, empty, upgradesChain }) {
 function SummaryBuildingsConstruction({
   buildings,
   empty,
-  buildingsData,
-  upgradesChain,
-  userInventory,
   calculation,
+  materialsByBuilding,
+  manaPoints = 0,
 }) {
   if (!buildings.length) {
     return <div className="summary-empty">{empty}</div>;
   }
+  const [totalMaterials, setTotalMaterials] = useState(
+    getTotalMaterials(materialsByBuilding),
+  );
+  const [materialsByRecipe, setMaterialsByRecipe] = useState(
+    getMaterialsByRecipe(materialsByBuilding),
+  );
 
   const [typeCopied, setTypeCopied] = useState(null);
 
-  var materialsByBuilding = calculateBuildingMaterials(
-    buildings,
-    buildingsData,
-    upgradesChain,
-  );
-
-  console.log("Materials by building:", materialsByBuilding);
-
-  var totalMaterials = getTotalMaterials(materialsByBuilding);
-
-  console.log("Total materials:", totalMaterials);
-
-  var materialsByRecipe = getMaterialsByRecipe(materialsByBuilding);
+  useEffect(() => {
+    setTotalMaterials(getTotalMaterials(materialsByBuilding));
+    setMaterialsByRecipe(getMaterialsByRecipe(materialsByBuilding));
+  }, [materialsByBuilding]);
 
   function getProductionLineInfo() {
     var result = ["> Production Line Info:"];
 
     const target = calculation.target;
-    const manaPoints = Array.from(materialsByBuilding.values()).reduce(
-      (sum, buildingMaterialList) =>
-        sum + (buildingMaterialList.manaPoints || 0),
-      0,
-    );
 
     const recipes = Array.from(materialsByRecipe.keys());
     const buildingsByRecipe = Array.from(materialsByBuilding.entries()).map(

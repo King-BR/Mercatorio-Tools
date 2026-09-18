@@ -111,9 +111,6 @@ export default function ProductionPlanner() {
         });
         return current;
       });
-
-      console.log(buildingsData);
-      console.log(upgradesChainByBuilding);
     });
   }, []);
 

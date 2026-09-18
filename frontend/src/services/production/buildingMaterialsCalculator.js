@@ -22,6 +22,7 @@ import logger from "../../utils/logger";
  * @property {number} count Total count of units of the building.
  * @property {Map<string, PerRecipeMaterials>} perRecipe Materials and times separated by recipe.
  * @property {MaterialList} totalMaterials Total materials for the building.
+ * @property {string[]} requiredHosts Hosts required for the building.
  * @property {number} totalTime Total time for the building.
  * @property {number} manaPoints Management points required for the building.
  */
@@ -89,6 +90,22 @@ export function calculateBuildingMaterials(
     let totalCount = 0;
     let totalTime = 0;
 
+    const isAttachment =
+      buildingInfo.requires?.hosts && buildingInfo.requires?.hosts?.length > 0;
+
+    const requiredHosts = buildingInfo.requires?.hosts ?? [];
+
+    // get max size of hosts
+    const hostMaxSize = isAttachment
+      ? Math.max(
+          ...requiredHosts.map((hostName) =>
+            Number(
+              getBuildingData(buildingsData, hostName)?.construction?.size ?? 1,
+            ),
+          ),
+        )
+      : 0;
+
     for (const [recipeName, recipeData] of buildingRecipes) {
       const count = Number(recipeData?.count ?? 0);
 
@@ -103,8 +120,9 @@ export function calculateBuildingMaterials(
        * BUILDING SIZE
        * ---------------------------------------------------------------
        */
-
-      const maxSize = Math.max(1, Number(construction.size ?? 1));
+      const maxSize = isAttachment
+        ? hostMaxSize
+        : Math.max(1, Number(construction.size ?? 1));
 
       /*
        * Number of independent buildings.
@@ -130,7 +148,9 @@ export function calculateBuildingMaterials(
        *
        * expansions = count - buildingCount
        */
-      const expansionCount = Math.max(0, count - buildingCount);
+      const expansionCount = isAttachment
+        ? 0
+        : Math.max(0, count - buildingCount);
 
       /*
        * ---------------------------------------------------------------
@@ -299,10 +319,14 @@ export function calculateBuildingMaterials(
        * ---------------------------------------------------------------
        */
 
-      var manaPoints =
-        1 +
-        (buildingCount - 1) * 0.5 +
-        expansionCount * (buildingInfo.requires?.center ? 0.1 : 0.01);
+      var manaPoints = buildingInfo.requires?.hosts
+        ? 0.5
+        : 1 +
+          (buildingCount - 1) * 0.5 +
+          expansionCount *
+            (buildingInfo.requires?.center || buildingInfo.requires?.resource
+              ? 0.1
+              : 0.01);
 
       for (const [upgradeType, upgradeManaPoints] of manaPointsByUpgrades) {
         manaPoints += upgradeManaPoints * count;
@@ -350,6 +374,7 @@ export function calculateBuildingMaterials(
       perRecipe,
       totalMaterials,
       totalTime,
+      requiredHosts,
       manaPoints: totalManaPoints,
     });
   }
@@ -581,6 +606,10 @@ export function getUpgradeChain(buildingType, upgradesByBuilding, needs) {
 export function getTotalMaterials(materialsByBuilding) {
   const totalMaterials = new Map();
 
+  if (!materialsByBuilding || !materialsByBuilding.size) {
+    return totalMaterials;
+  }
+
   for (const buildingMaterialList of materialsByBuilding.values()) {
     for (const [
       material,
@@ -603,6 +632,10 @@ export function getTotalMaterials(materialsByBuilding) {
  */
 export function getMaterialsByRecipe(materialsByBuilding) {
   const materialsByRecipe = new Map();
+
+  if (!materialsByBuilding || !materialsByBuilding.size) {
+    return materialsByRecipe;
+  }
 
   for (const [
     building,
