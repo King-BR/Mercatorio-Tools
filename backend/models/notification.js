@@ -1,40 +1,76 @@
 const mongoose = require("mongoose");
-const { ObjectId, Union } = mongoose.Schema.Types;
-const {
-  operators: { all: operatorsEnum },
-} = require("../data/fields.js");
 
-const ConditionSchema = new mongoose.Schema(
+const { ObjectId } = mongoose.Schema.Types;
+
+const NotificationNodeSchema = new mongoose.Schema(
   {
-    field: {
+    id: {
       type: String,
       required: true,
     },
-    operator: {
+
+    type: {
       type: String,
       required: true,
-      enum: operatorsEnum,
+      enum: ["field", "value", "condition", "compare", "discord", "webhook"],
     },
-    valueType: {
+
+    position: {
+      x: {
+        type: Number,
+        required: true,
+      },
+      y: {
+        type: Number,
+        required: true,
+      },
+    },
+
+    data: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+const NotificationEdgeSchema = new mongoose.Schema(
+  {
+    id: {
       type: String,
-      enum: ["constant", "field"],
-      default: "constant",
+      required: true,
     },
-    value: {
-      type: Union,
-      of: [Number, Boolean, String],
-    },
-    aggregation: {
+
+    source: {
       type: String,
-      enum: [null, "average", "min", "max", "sum", "count"],
+      required: true,
+    },
+
+    target: {
+      type: String,
+      required: true,
+    },
+
+    sourceHandle: {
+      type: String,
       default: null,
     },
-    timeWindow: {
-      amount: Number,
-      unit: {
-        type: String,
-        enum: ["hours", "days", "weeks", "months"],
-      },
+
+    targetHandle: {
+      type: String,
+      default: null,
+    },
+
+    type: {
+      type: String,
+      default: "smoothstep",
+    },
+
+    animated: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -44,28 +80,39 @@ const ConditionSchema = new mongoose.Schema(
 
 const NotificationSchema = new mongoose.Schema(
   {
-    creatorId: { type: ObjectId, required: true },
-    message: { type: String, required: true },
-    period: {
-      type: [String],
-      enum: ["early", "mid", "late", "custom"],
+    user: {
+      type: ObjectId,
+      ref: "User",
       required: true,
+      index: true,
     },
-    minutes: {
-      type: [Number],
-      required: function () {
-        return this.period.includes("custom");
-      },
-      validate: {
-        validator: function (v) {
-          return v.every((minute) => minute >= 5 && minute <= 59);
-        },
-        message: "Minutes must be between 5 and 59",
-      },
-    },
-    conditions: {
-      type: [ConditionSchema],
+
+    name: {
+      type: String,
       required: true,
+      trim: true,
+      maxlength: 100,
+    },
+
+    description: {
+      type: String,
+      default: "",
+      maxlength: 500,
+    },
+
+    enabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    nodes: {
+      type: [NotificationNodeSchema],
+      default: [],
+    },
+
+    edges: {
+      type: [NotificationEdgeSchema],
+      default: [],
     },
   },
   {
@@ -74,4 +121,4 @@ const NotificationSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model("Notification", NotificationSchema);
+module.exports = mongoose.model("Notifications", NotificationSchema);
