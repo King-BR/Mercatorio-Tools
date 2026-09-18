@@ -324,9 +324,11 @@ export function calculateBuildingMaterials(
         : 1 +
           (buildingCount - 1) * 0.5 +
           expansionCount *
-            (buildingInfo.requires?.center || buildingInfo.requires?.resource
-              ? 0.1
-              : 0.01);
+            (construction.size <= 10
+              ? 0.25
+              : construction.size > 10 && construction.size < 75
+                ? 0.1
+                : 0.01);
 
       for (const [upgradeType, upgradeManaPoints] of manaPointsByUpgrades) {
         manaPoints += upgradeManaPoints * count;
