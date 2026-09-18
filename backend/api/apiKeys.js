@@ -4,9 +4,12 @@ const crypto = require("crypto");
 const UsersDB = require("../models/user");
 const auth = require("../middleware/auth");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const router = express.Router();
 
-const VALID_KEY_TYPES = ["GAME", "MERCTOOLS"];
 const VALID_PERMISSIONS = ["READ", "WRITE", "ADMIN"];
 
 function normalizePermissions(permissions) {
@@ -27,10 +30,6 @@ function normalizePermissions(permissions) {
 
 function generateMercToolsKey() {
   return `MTKEY-${crypto.randomBytes(24).toString("hex")}`;
-}
-
-function getKeyId(apiKey) {
-  return apiKey?._id?.toString();
 }
 
 /*
@@ -56,6 +55,12 @@ router.get("/", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("Get API keys error:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting API keys: ${error.message}`,
+    );
 
     return res.status(500).json({
       message: "Server error",
@@ -131,6 +136,12 @@ router.post("/game", auth, async (req, res) => {
   } catch (error) {
     console.error("Add game API key error:", error);
 
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error adding game API key: ${error.message}`,
+    );
+
     return res.status(500).json({
       message: "Server error",
     });
@@ -182,6 +193,12 @@ router.post("/merctools", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("Generate MercTools API key error:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error generating MercTools API key: ${error.message}`,
+    );
 
     return res.status(500).json({
       message: "Server error",
@@ -289,6 +306,12 @@ router.patch("/:id", auth, async (req, res) => {
   } catch (error) {
     console.error("Update API key error:", error);
 
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error updating API key: ${error.message}`,
+    );
+
     return res.status(500).json({
       message: "Server error",
     });
@@ -327,6 +350,12 @@ router.delete("/:id", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("Delete API key error:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error deleting API key: ${error.message}`,
+    );
 
     return res.status(500).json({
       message: "Server error",

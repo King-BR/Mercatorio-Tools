@@ -1,5 +1,9 @@
 const express = require("express");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const { getTransports, getTransportOperations } = require("../data/getters.js");
 
 const router = express.Router();
@@ -10,6 +14,11 @@ router.get("/", (req, res) => {
     const transports = getTransports();
     res.json(Array.from(transports.values()));
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting transports: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -24,6 +33,11 @@ router.get("/category/:category", (req, res) => {
     );
     res.json(filteredTransports);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting transports for category ${req.params.category}: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -34,6 +48,11 @@ router.get("/operations", (req, res) => {
     const transportOperations = getTransportOperations();
     res.json(Array.from(transportOperations.values()));
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting transport operations: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });

@@ -1,5 +1,9 @@
 const express = require("express");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const {
   getBuildings,
   getBuildingTypes,
@@ -16,6 +20,12 @@ router.get("/", (req, res) => {
     const buildings = getBuildings();
     res.json(Array.from(buildings.values()));
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting buildings: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -26,6 +36,12 @@ router.get("/types", (req, res) => {
     const buildingTypes = getBuildingTypes();
     res.json(buildingTypes);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting building types: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -41,6 +57,12 @@ router.get("/descriptions", (req, res) => {
       })),
     );
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting building descriptions: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -62,6 +84,12 @@ router.get("/upgrades/descriptions", (req, res) => {
       })),
     );
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting upgrade descriptions: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });

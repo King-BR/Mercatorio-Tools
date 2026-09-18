@@ -1,5 +1,9 @@
 const express = require("express");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const { getPrestigeBoard, getSustenance } = require("../data/getters.js");
 
 const router = express.Router();
@@ -10,11 +14,18 @@ router.get("/board", (req, res) => {
     const data = getPrestigeBoard();
 
     // converto map to object {key: value}
-    const objectData = Object.fromEntries(data); 
+    const objectData = Object.fromEntries(data);
 
     res.json(objectData);
   } catch (error) {
     console.log("Error retrieving prestige board data:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error retrieving prestige board data: ${error.message}`,
+    );
+
     res.status(500).json({
       message: "Error retrieving prestige board data",
       error: error,
@@ -44,6 +55,13 @@ router.get("/board/:category", (req, res) => {
     res.json(filteredData);
   } catch (error) {
     console.log("Error retrieving prestige board data for category:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error retrieving prestige board data for category ${req.params.category}: ${error.message}`,
+    );
+
     res.status(500).json({
       message: "Error retrieving prestige board data for category",
       error: error,
@@ -57,6 +75,13 @@ router.get("/sustenance", (req, res) => {
     res.json(getSustenance());
   } catch (error) {
     console.log("Error retrieving sustenance data:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error retrieving sustenance data: ${error.message}`,
+    );
+
     res.status(500).json({
       message: "Error retrieving sustenance data",
       error: error,
@@ -86,6 +111,13 @@ router.get("/sustenance/:category", (req, res) => {
     res.json(filteredData);
   } catch (error) {
     console.log("Error retrieving sustenance data for category:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error retrieving sustenance data for category ${req.params.category}: ${error.message}`,
+    );
+
     res.status(500).json({
       message: "Error retrieving sustenance data for category",
       error: error,

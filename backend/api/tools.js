@@ -4,12 +4,21 @@ const admin = require("../middleware/admin.js");
 const express = require("express");
 const router = express.Router();
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 // GET /api/tools
 router.get("/", async (req, res) => {
   try {
     const tools = await ToolsDB.find().populate("category");
     res.status(200).json(tools);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error retrieving tools: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -21,6 +30,11 @@ router.post("/", auth, admin, async (req, res) => {
     const savedTool = await newTool.save();
     res.status(201).json(savedTool);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error creating new tool: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -38,6 +52,11 @@ router.put("/:id", auth, admin, async (req, res) => {
     }
     res.status(200).json(updatedTool);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error updating tool ${req.params.id}: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -51,6 +70,11 @@ router.delete("/:id", auth, admin, async (req, res) => {
     }
     res.status(200).json({ message: "Tool deleted successfully" });
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error deleting tool ${req.params.id}: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -61,6 +85,11 @@ router.get("/categories", async (req, res) => {
     const categories = await ToolsCategoriesDB.find();
     res.status(200).json(categories);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error retrieving tool categories: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -72,6 +101,11 @@ router.post("/categories", auth, admin, async (req, res) => {
     const savedCategory = await newCategory.save();
     res.status(201).json(savedCategory);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error creating new tool category: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -91,6 +125,11 @@ router.put("/categories/:id", auth, admin, async (req, res) => {
 
     res.status(200).json(updatedCategory);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error updating tool category ${req.params.id}: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -108,6 +147,11 @@ router.delete("/categories/:id", auth, admin, async (req, res) => {
 
     res.status(200).json({ message: "Category deleted successfully" });
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error deleting tool category ${req.params.id}: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });

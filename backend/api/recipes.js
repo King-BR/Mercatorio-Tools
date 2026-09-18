@@ -1,5 +1,9 @@
 const express = require("express");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const { getRecipes } = require("../data/getters.js");
 
 const router = express.Router();
@@ -13,6 +17,13 @@ router.get("/", async (req, res) => {
     res.json(Array.from(recipes.values()));
   } catch (error) {
     console.error("Error fetching recipes:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error fetching recipes: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -32,6 +43,13 @@ router.get("/input/:product", async (req, res) => {
     res.json(filteredRecipes);
   } catch (error) {
     console.error("Error fetching recipes by input product:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error fetching recipes by input product ${req.params.product}: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -50,6 +68,13 @@ router.get("/output/:product", async (req, res) => {
     res.json(filteredRecipes);
   } catch (error) {
     console.error("Error fetching recipes by output product:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error fetching recipes by output product ${req.params.product}: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });

@@ -1,5 +1,9 @@
 const express = require("express");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const { getProducts } = require("../data/getters.js");
 
 const router = express.Router();
@@ -9,6 +13,12 @@ router.get("/", (req, res) => {
   try {
     res.json(Array.from(getProducts().values()));
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting products: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -27,6 +37,12 @@ router.get("/:name", (req, res) => {
 
     res.json(product);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting product ${req.params.name}: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -47,6 +63,12 @@ router.get("/class/:className", (req, res) => {
 
     res.json(filteredProducts);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting products for class ${req.params.className}: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });

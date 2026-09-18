@@ -1,5 +1,9 @@
 const express = require("express");
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 const { getMarketData, getProducts } = require("../data/getters.js");
 
 const router = express.Router();
@@ -10,6 +14,12 @@ router.get("/all", async (req, res) => {
     const data = await getMarketData();
     res.json(Array.from(data.values()));
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting market data: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -28,6 +38,12 @@ router.get("/town/:name", (req, res) => {
     }
     res.json(market);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting market data for town ${req.params.name}: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -157,6 +173,12 @@ router.get("/products/:productName/aggregate/:type/:value", (req, res) => {
 
     res.json({ product: productName, type, result, townFrom });
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting product (${req.params.productName}) aggregate (${req.query.type} of ${req.query.value}) data: ${error.message}`,
+    );
+
     res.status(500).json({ message: "Server error", error });
   }
 });

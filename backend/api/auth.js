@@ -7,6 +7,8 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 
 const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
 
 const router = express.Router();
 
@@ -113,32 +115,44 @@ function clearDiscordOAuthStateCookie(res) {
  */
 
 router.get("/discord", (req, res) => {
-  if (
-    !DISCORD_CLIENT_ID ||
-    !DISCORD_CLIENT_SECRET ||
-    !DISCORD_REDIRECT_URI ||
-    !DISCORD_REDIRECT_URI_DEBUG
-  ) {
-    return res.status(500).json({
-      message: "Discord OAuth is not configured.",
+  try {
+    if (
+      !DISCORD_CLIENT_ID ||
+      !DISCORD_CLIENT_SECRET ||
+      !DISCORD_REDIRECT_URI ||
+      !DISCORD_REDIRECT_URI_DEBUG
+    ) {
+      return res.status(500).json({
+        message: "Discord OAuth is not configured.",
+      });
+    }
+
+    const state = crypto.randomBytes(32).toString("hex");
+
+    setDiscordOAuthStateCookie(res, state);
+
+    const params = new URLSearchParams({
+      response_type: "code",
+      client_id: DISCORD_CLIENT_ID,
+      scope: "identify",
+      state,
+      redirect_uri: debug ? DISCORD_REDIRECT_URI_DEBUG : DISCORD_REDIRECT_URI,
     });
+
+    const discordAuthorizationUrl = `https://discord.com/oauth2/authorize?${params.toString()}`;
+
+    return res.redirect(discordAuthorizationUrl);
+  } catch (error) {
+    console.error("Discord login error:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error during discord login: ${error.message}`,
+    );
+
+    res.status(500).json({ message: "Server error", error });
   }
-
-  const state = crypto.randomBytes(32).toString("hex");
-
-  setDiscordOAuthStateCookie(res, state);
-
-  const params = new URLSearchParams({
-    response_type: "code",
-    client_id: DISCORD_CLIENT_ID,
-    scope: "identify",
-    state,
-    redirect_uri: debug ? DISCORD_REDIRECT_URI_DEBUG : DISCORD_REDIRECT_URI,
-  });
-
-  const discordAuthorizationUrl = `https://discord.com/oauth2/authorize?${params.toString()}`;
-
-  return res.redirect(discordAuthorizationUrl);
 });
 
 /*
@@ -301,6 +315,12 @@ router.get("/discord/callback", async (req, res) => {
   } catch (error) {
     console.error("Discord OAuth callback error:", error);
 
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error during Discord OAuth callback: ${error.message}`,
+    );
+
     return res.status(500).send("Unable to complete Discord login.");
   }
 });
@@ -314,15 +334,30 @@ router.get("/discord/callback", async (req, res) => {
  */
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-  });
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+    });
 
-  res.json({
-    message: "Logged out successfully",
-  });
+    res.json({
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error logging out user: ${error.message}`,
+    );
+
+    res.status(500).json({
+      message: "Server error",
+      error,
+    });
+  }
 });
 
 /*
@@ -346,11 +381,18 @@ router.get("/me", auth, async (req, res) => {
     res.json({
       user: userResponse(user),
     });
-  } catch (err) {
-    console.error("Get current user error:", err);
+  } catch (error) {
+    console.error("Get current user error:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting user: ${error.message}`,
+    );
 
     res.status(500).json({
       message: "Server error",
+      error,
     });
   }
 });
@@ -399,6 +441,12 @@ router.patch("/me", auth, async (req, res) => {
   } catch (error) {
     console.error("Update account error:", error);
 
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error updating user: ${error.message}`,
+    );
+
     res.status(500).json({
       message: "Server error",
       error,
@@ -436,6 +484,12 @@ router.get("/discord/me", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("Error getting Discord user:", error);
+
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting Discord user: ${error.message}`,
+    );
 
     res.status(500).json({
       message: "Server error",

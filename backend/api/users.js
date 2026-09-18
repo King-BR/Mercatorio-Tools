@@ -4,6 +4,10 @@ const auth = require("../middleware/auth.js");
 const admin = require("../middleware/admin.js");
 const router = express.Router();
 
+const { client } = require("../discord/index.js");
+const config = require("../discord/config.json");
+const utils = require("../discord/utils.js");
+
 // GET /api/users
 router.get("/", auth, admin, async (req, res) => {
   try {
@@ -12,6 +16,11 @@ router.get("/", auth, admin, async (req, res) => {
 
     res.json(usersJson);
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error fetching users: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
@@ -27,6 +36,11 @@ router.get("/:id", auth, admin, async (req, res) => {
 
     res.json(user.toJSON());
   } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error fetching user ${req.params.id}: ${error.message}`,
+    );
     res.status(500).json({ message: "Server error", error });
   }
 });
