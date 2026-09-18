@@ -56,10 +56,7 @@ export default function ProductNode({ data }) {
         position={Position.Left}
         id="input"
         style={{
-          width: 9,
-          height: 9,
-          background: "#6f8ba6",
-          border: "2px solid #0d1b2a",
+          display: "none",
         }}
       />
 
@@ -227,10 +224,7 @@ export default function ProductNode({ data }) {
         position={Position.Right}
         id="output"
         style={{
-          width: 9,
-          height: 9,
-          background: "#6f8ba6",
-          border: "2px solid #0d1b2a",
+          display: "none",
         }}
       />
     </div>

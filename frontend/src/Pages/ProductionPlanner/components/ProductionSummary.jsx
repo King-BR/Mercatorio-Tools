@@ -1,3 +1,12 @@
+import { useState } from "react";
+
+import {
+  calculateBuildingMaterials,
+  getTotalMaterials,
+  getMaterialsByRecipe,
+  getUpgradeChain,
+} from "../../../services/production/buildingMaterialsCalculator";
+
 function formatNumber(value, decimals = 3) {
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return "N/A";
@@ -33,7 +42,12 @@ function formatSkillTier(value) {
   return SKILL_TIERS[value] || "Unknown";
 }
 
-export default function ProductionSummary({ calculation }) {
+export default function ProductionSummary({
+  calculation,
+  buildingsData,
+  upgradesChainByBuilding,
+  userInventory,
+}) {
   const products = Object.values(calculation.products || {});
 
   const marketSurplus = Object.entries(calculation.surplus?.market || {});
@@ -51,15 +65,7 @@ export default function ProductionSummary({ calculation }) {
   );
 
   /**
-   * [
-   *   [
-   *     "Building Name",
-   *     {
-   *       count: number,
-   *       perRecipe: Map<string, { count: number }>
-   *     }
-   *   ]
-   * ]
+   * @type {Array<{0: String, 1: {count: number, perRecipe: Map<string, { count: number }} }>>}
    */
   const buildings = Array.from(
     calculation.buildings?.entries ? calculation.buildings.entries() : [],
@@ -170,7 +176,22 @@ export default function ProductionSummary({ calculation }) {
         </SummarySection>
 
         <SummarySection title="Buildings">
-          <SummaryBuildings buildings={buildings} empty="No buildings used." />
+          <SummaryBuildings
+            buildings={buildings}
+            empty="No buildings used."
+            upgradesChain={upgradesChainByBuilding}
+          />
+        </SummarySection>
+
+        <SummarySection title="Materials">
+          <SummaryBuildingsConstruction
+            buildings={buildings}
+            empty="No materials used."
+            buildingsData={buildingsData}
+            upgradesChain={upgradesChainByBuilding}
+            userInventory={userInventory}
+            calculation={calculation}
+          />
         </SummarySection>
       </div>
     </section>
@@ -217,7 +238,7 @@ function SummaryRows({ rows, empty }) {
   );
 }
 
-function SummaryBuildings({ buildings, empty }) {
+function SummaryBuildings({ buildings, empty, upgradesChain }) {
   if (!buildings.length) {
     return <div className="summary-empty">{empty}</div>;
   }
@@ -239,32 +260,233 @@ function SummaryBuildings({ buildings, empty }) {
                 {recipeEntries.length === 1 && ` (${recipeEntries[0][0]})`}
               </span>
 
-              <strong>{formatNumber(data?.total)}</strong>
+              <strong>
+                {formatNumber(
+                  Array.from(data.perRecipe.values()).reduce(
+                    (sum, val) =>
+                      sum + (typeof val === "number" ? val : val?.count || 0),
+                    0,
+                  ),
+                )}
+              </strong>
             </div>
+
+            {recipeEntries.length === 1 &&
+              recipeEntries[0][1]?.upgrades?.size > 0 && (
+                <div className="summary-sub-rows">
+                  <div
+                    className="summary-row summary-sub-row"
+                    key={`${buildingName}-${recipeEntries[0][0]}-${0}-upgrades`}
+                  >
+                    - Upgrades:{" "}
+                    {getUpgradeChain(
+                      buildingName,
+                      upgradesChain,
+                      Array.from(recipeEntries[0][1].upgrades.values()),
+                    ).join(", ")}
+                  </div>
+                </div>
+              )}
 
             {recipeEntries.length > 1 && (
               <div className="summary-sub-rows">
-                {recipeEntries.map(([recipeName, recipeData], index) => (
-                  <div
-                    className="summary-row summary-sub-row"
-                    key={`${buildingName}-${recipeName}-${index}`}
-                  >
-                    <span>- {recipeName}</span>
+                {recipeEntries.map(([recipeName, recipeData], index) => {
+                  return (
+                    <>
+                      <div
+                        className="summary-row summary-sub-row"
+                        key={`${buildingName}-${recipeName}-${index}`}
+                      >
+                        <span>- {recipeName}</span>
 
-                    <strong>
-                      {formatNumber(
-                        typeof recipeData === "number"
-                          ? recipeData
-                          : recipeData?.count,
+                        <strong>
+                          {formatNumber(
+                            typeof recipeData === "number"
+                              ? recipeData
+                              : recipeData?.count,
+                          )}
+                        </strong>
+                      </div>
+
+                      {recipeData?.upgrades?.size > 0 && (
+                        <div className="summary-sub-sub-rows">
+                          <div
+                            className="summary-row summary-sub-sub-row"
+                            key={`${buildingName}-${recipeName}-${index}-upgrades`}
+                          >
+                            - Upgrades:{" "}
+                            {getUpgradeChain(
+                              buildingName,
+                              upgradesChain,
+                              Array.from(recipeData.upgrades.values()),
+                            ).join(", ")}
+                          </div>
+                        </div>
                       )}
-                    </strong>
-                  </div>
-                ))}
+                    </>
+                  );
+                })}
               </div>
             )}
           </div>
         );
       })}
     </div>
+  );
+}
+
+function SummaryBuildingsConstruction({
+  buildings,
+  empty,
+  buildingsData,
+  upgradesChain,
+  userInventory,
+  calculation,
+}) {
+  if (!buildings.length) {
+    return <div className="summary-empty">{empty}</div>;
+  }
+
+  const [typeCopied, setTypeCopied] = useState(null);
+
+  var materialsByBuilding = calculateBuildingMaterials(
+    buildings,
+    buildingsData,
+    upgradesChain,
+  );
+
+  console.log("Materials by building:", materialsByBuilding);
+
+  var totalMaterials = getTotalMaterials(materialsByBuilding);
+
+  console.log("Total materials:", totalMaterials);
+
+  var materialsByRecipe = getMaterialsByRecipe(materialsByBuilding);
+
+  function getProductionLineInfo() {
+    var result = ["> Production Line Info:"];
+
+    const target = calculation.target;
+    const manaPoints = Array.from(materialsByBuilding.values()).reduce(
+      (sum, buildingMaterialList) =>
+        sum + (buildingMaterialList.manaPoints || 0),
+      0,
+    );
+
+    const recipes = Array.from(materialsByRecipe.keys());
+    const buildingsByRecipe = Array.from(materialsByBuilding.entries()).map(
+      ([building, buildingMaterialList]) => {
+        return Array.from(buildingMaterialList.perRecipe.entries())
+          .map(([recipe, recipeData]) => {
+            let baseAmount = recipeData.buildingCount;
+            let expansionAmount = recipeData.expansionCount || 0;
+            let totalAmount = baseAmount + expansionAmount;
+
+            let upgrades = Array.from(recipeData.upgrades.keys()).join(", ");
+
+            return `- ${building} (${recipe}): ${baseAmount > 1 ? `Unique: ${baseAmount}, Expansions: ${expansionAmount}, Total: ${totalAmount}` : `${totalAmount}`}${upgrades ? `\n  - Upgrades: ${upgrades}` : ""}`;
+          })
+          .join("\n");
+      },
+    );
+    const classes = Array.from(
+      calculation.classes?.entries ? calculation.classes.entries() : [],
+    );
+
+    result.push(
+      `Production: ${Number(target.produced).toLocaleString(undefined, { maximumFractionDigits: 3 })} ${target.product}`,
+    );
+    result.push(`Recipes: ${recipes.join(", ")}`);
+    result.push(
+      `Total Management Points: ${Number(manaPoints).toLocaleString(undefined, { maximumFractionDigits: 3 })}`,
+    );
+    result.push(
+      `Skills needed: ${classes.map(([className, classData]) => `${className} (${formatSkillTier(classData.maxSkill)})`).join(", ")}`,
+    );
+    result.push(`\n> Buildings needed:\n${buildingsByRecipe.join("\n")}`);
+
+    return result.join("\n");
+  }
+
+  async function handleCopyMaterials() {
+    await navigator.clipboard.writeText(
+      `${getProductionLineInfo()}\n\n> Total Materials:\n${Array.from(
+        totalMaterials.entries(),
+      )
+        .map(([material, amount]) => `- ${material}: ${amount}`)
+        .join("\n")}`,
+    );
+    setTypeCopied("materials");
+    setTimeout(() => setTypeCopied(null), 3000);
+  }
+
+  async function handleCopyMaterialsByBuilding() {
+    await navigator.clipboard.writeText(
+      `${getProductionLineInfo()}\n\n> Materials by Building:\n${Array.from(
+        materialsByBuilding.entries(),
+      )
+        .map(
+          ([building, buildingMaterialList]) =>
+            `${building}:\n${Array.from(
+              buildingMaterialList.totalMaterials.entries(),
+            )
+              .map(([material, amount]) => `- ${material}: ${amount}`)
+              .join("\n")}`,
+        )
+        .join("\n\n")}`,
+    );
+    setTypeCopied("materialsByBuilding");
+    setTimeout(() => setTypeCopied(null), 3000);
+  }
+
+  async function handleCopyMaterialsByRecipe() {
+    await navigator.clipboard.writeText(
+      `${getProductionLineInfo()}\n\n> Materials by Recipe:\n${Array.from(
+        materialsByRecipe.entries(),
+      )
+        .map(
+          ([recipe, recipeData]) =>
+            `${recipe} (${recipeData.buildingType}):\n${Array.from(
+              recipeData.materials.entries(),
+            )
+              .map(([material, amount]) => `- ${material}: ${amount}`)
+              .join("\n")}`,
+        )
+        .join("\n\n")}`,
+    );
+    setTypeCopied("materialsByRecipe");
+    setTimeout(() => setTypeCopied(null), 3000);
+  }
+
+  return (
+    <>
+      <div className="construction-buttons">
+        <span>Copy materials list:</span>
+        <button className="construction-button" onClick={handleCopyMaterials}>
+          {typeCopied === "materials" ? "Copied!" : "Total"}
+        </button>
+        <button
+          className="construction-button"
+          onClick={handleCopyMaterialsByBuilding}
+        >
+          {typeCopied === "materialsByBuilding" ? "Copied!" : "By Building"}
+        </button>
+        <button
+          className="construction-button"
+          onClick={handleCopyMaterialsByRecipe}
+        >
+          {typeCopied === "materialsByRecipe" ? "Copied!" : "By Recipe"}
+        </button>
+      </div>
+
+      <div className="summary-rows">
+        {Array.from(totalMaterials.entries()).map(([materialName, count]) => (
+          <div key={materialName} className="summary-row">
+            <span>{materialName}</span>
+            <strong>{count}</strong>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

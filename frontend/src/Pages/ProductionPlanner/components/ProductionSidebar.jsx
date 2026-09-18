@@ -73,7 +73,7 @@ export default function ProductionSidebar({
       </div>
 
       {product && source.type === "produce" && recipeIds.length > 0 && (
-        <div className="sidebar-section">
+        <div className="sidebar-section noBorder">
           <RecipeSelector
             product={product}
             recipeIds={recipeIds}

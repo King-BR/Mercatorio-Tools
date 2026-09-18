@@ -1,3 +1,5 @@
+import { MarkerType } from "@xyflow/react";
+
 function createId(prefix, index) {
   return `${prefix}-${index}`;
 }
@@ -141,7 +143,13 @@ export function buildProductionGraph(recipes, calculation) {
 
         targetHandle: "input",
 
-        animated: false,
+        animated: true,
+
+        type: "routed",
+
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+        },
 
         label: formatAmount(amount),
       });
@@ -168,7 +176,13 @@ export function buildProductionGraph(recipes, calculation) {
 
         targetHandle: "input",
 
-        animated: false,
+        animated: true,
+
+        type: "routed",
+
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+        },
 
         label: formatAmount(amount),
       });

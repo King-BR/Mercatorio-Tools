@@ -8,6 +8,11 @@ export async function getProducts() {
   return response.json();
 }
 
+export async function getBuildings() {
+  const response = await fetch("/api/buildings");
+  return await response.json();
+}
+
 export async function getTools() {
   const response = await fetch("/api/tools");
   return await response.json();

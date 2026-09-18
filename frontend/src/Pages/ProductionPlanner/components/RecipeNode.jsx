@@ -32,10 +32,7 @@ export default function RecipeNode({ data }) {
         position={Position.Left}
         id="input"
         style={{
-          width: 9,
-          height: 9,
-          background: "#8da8c2",
-          border: "2px solid #16283b",
+          display: "none",
         }}
       />
 
@@ -165,10 +162,7 @@ export default function RecipeNode({ data }) {
         position={Position.Right}
         id="output"
         style={{
-          width: 9,
-          height: 9,
-          background: "#8bd8a8",
-          border: "2px solid #16283b",
+          display: "none",
         }}
       />
     </div>

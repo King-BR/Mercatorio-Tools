@@ -1,28 +1,28 @@
-const debugEnabled =
-  import.meta.env.DEV ||
+export const DEV = import.meta.env.DEV;
+export const DEBUG =
   new URLSearchParams(window.location.search).get("debug") === "true";
 
 const logger = {
   log: (...args) => {
-    if (debugEnabled) {
+    if (DEV || DEBUG) {
       console.log(...args);
     }
   },
 
   info: (...args) => {
-    if (debugEnabled) {
+    if (DEV || DEBUG) {
       console.info(...args);
     }
   },
 
   warn: (...args) => {
-    if (debugEnabled) {
+    if (DEV || DEBUG) {
       console.warn(...args);
     }
   },
 
   error: (...args) => {
-    if (debugEnabled) {
+    if (DEV || DEBUG) {
       console.error(...args);
     }
   },

@@ -11,7 +11,11 @@ import { calculateProduction } from "../../services/production/productionCalcula
 
 import { buildProductionGraph } from "../../utils/production/graphBuilder";
 
-import { getMarketData, getPlayerInventory } from "../../services/api";
+import {
+  getMarketData,
+  getPlayerInventory,
+  getBuildings,
+} from "../../services/api";
 
 import logger from "../../utils/logger";
 
@@ -79,6 +83,39 @@ export default function ProductionPlanner() {
 
     return Array.from(result);
   }, [product, productSources, calculation]);
+
+  const [buildingsData, setBuildingsData] = useState(new Map());
+  const [upgradesChainByBuilding, setUpgradesChainByBuilding] = useState(
+    new Map(),
+  );
+
+  useEffect(() => {
+    getBuildings().then((data) => {
+      setBuildingsData((current) => {
+        current.clear();
+        data.forEach((b) => current.set(b.type, b));
+        return current;
+      });
+
+      setUpgradesChainByBuilding((current) => {
+        current.clear();
+
+        data.forEach((b) => {
+          b.upgrades?.forEach((upgrade) => {
+            if (!current.has(b.type)) {
+              current.set(b.type, new Map());
+            }
+
+            current.get(b.type).set(upgrade.type, upgrade.requires || null);
+          });
+        });
+        return current;
+      });
+
+      console.log(buildingsData);
+      console.log(upgradesChainByBuilding);
+    });
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -393,11 +430,32 @@ export default function ProductionPlanner() {
           <div className="production-graph-header">
             {calculation?.errors?.length > 0 && (
               <div className="production-errors">
+                {calculation.errors.some(
+                  (item) => item.type === "circular-dependency",
+                ) && (
+                  <div key="error-circular-dependency">
+                    Circular dependency detected for:{" "}
+                    {[
+                      ...new Set(
+                        calculation.errors
+                          .filter((item) => item.type === "circular-dependency")
+                          .map((item) => item.product),
+                      ),
+                    ].join(", ")}
+                  </div>
+                )}
                 {[
-                  ...new Set(calculation.errors.map((item) => item.message)),
-                ].map((message, index) => (
-                  <div key={`error-${index}`}>{message}</div>
-                ))}
+                  ...new Set(
+                    calculation.errors.map((item) => {
+                      if (item.type !== "circular-dependency") return item;
+                      return null;
+                    }),
+                  ),
+                ]
+                  .filter((item) => item !== undefined && item !== null)
+                  .map((item, index) => (
+                    <div key={`error-${index}`}>{item.message}</div>
+                  ))}
               </div>
             )}
 
@@ -430,7 +488,14 @@ export default function ProductionPlanner() {
             )}
           </div>
 
-          {calculation && <ProductionSummary calculation={calculation} />}
+          {calculation && (
+            <ProductionSummary
+              calculation={calculation}
+              buildingsData={buildingsData}
+              upgradesChainByBuilding={upgradesChainByBuilding}
+              userInventory={userInventory}
+            />
+          )}
 
           {productionProducts.length > 0 && (
             <ProductSourceList

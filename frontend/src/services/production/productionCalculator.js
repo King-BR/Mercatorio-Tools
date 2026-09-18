@@ -409,14 +409,12 @@ export function calculateProduction(recipes, recipeIndex, options = {}) {
      */
     if (!result.buildings.has(recipe.site)) {
       result.buildings.set(recipe.site, {
-        total: 0,
         perRecipe: new Map(),
         upgrades: new Set(),
       });
     }
 
     const building = result.buildings.get(recipe.site);
-    building.total += ceilInteger(runs);
     building.upgrades = new Set([
       ...building.upgrades,
       ...(recipe.upgrades || []),

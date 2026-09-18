@@ -1,4 +1,10 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+  useCallback,
+} from "react";
 
 import {
   Background,
@@ -10,14 +16,20 @@ import {
   useNodesInitialized,
   useNodesState,
   useReactFlow,
+  applyNodeChanges,
 } from "@xyflow/react";
+
+import { useEdgeRouting } from "reactflow-edge-routing";
 
 import "@xyflow/react/dist/style.css";
 
 import ProductNode from "./ProductNode";
 import RecipeNode from "./RecipeNode";
+import RoutedEdge from "./RoutedEdge";
 
 import { autoLayout } from "../../../utils/production/autoLayout";
+
+const edgeTypes = { routed: RoutedEdge };
 
 const nodeTypes = {
   product: ProductNode,
@@ -28,7 +40,7 @@ const ProductionGraphInner = forwardRef(function ProductionGraphInner(
   { nodes: initialNodes = [], edges: initialEdges = [], layoutVersion = 0 },
   ref,
 ) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes] = useNodesState(initialNodes);
 
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -39,6 +51,25 @@ const ProductionGraphInner = forwardRef(function ProductionGraphInner(
   const nodesInitialized = useNodesInitialized();
 
   const { fitView } = useReactFlow();
+
+  const { updateRoutingOnNodesChange, resetRouting } = useEdgeRouting(
+    nodes,
+    edges,
+    {
+      edgeRounding: 8,
+      edgeToEdgeSpacing: 24,
+      edgeToNodeSpacing: 40,
+      autoBestSideConnection: true,
+    },
+  );
+
+  const onNodesChange = useCallback(
+    (changes) => {
+      setNodes((nds) => applyNodeChanges(changes, nds));
+      updateRoutingOnNodesChange(changes);
+    },
+    [updateRoutingOnNodesChange],
+  );
 
   /*
    * Update the graph when a new calculation
@@ -56,6 +87,7 @@ const ProductionGraphInner = forwardRef(function ProductionGraphInner(
    * a new production calculation.
    */
   useEffect(() => {
+    resetRouting();
     if (!needsAutoLayout) {
       return;
     }
@@ -108,6 +140,18 @@ const ProductionGraphInner = forwardRef(function ProductionGraphInner(
     }
 
     applyLayout();
+    resetRouting();
+
+    requestAnimationFrame(() => {
+      if (cancelled) {
+        return;
+      }
+
+      fitView({
+        padding: 0.2,
+        duration: 500,
+      });
+    });
 
     return () => {
       cancelled = true;
@@ -171,11 +215,13 @@ const ProductionGraphInner = forwardRef(function ProductionGraphInner(
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         fitView
         fitViewOptions={{
           padding: 0.2,
+          duration: 500,
         }}
         minZoom={0.05}
         maxZoom={2}
