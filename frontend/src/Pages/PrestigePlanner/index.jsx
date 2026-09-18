@@ -114,7 +114,7 @@ function getLevel(category, selectedIndex) {
   return category[selectedIndex] ?? null;
 }
 
-function PrestigeBoard() {
+function PrestigePlanner() {
   const [prestigeBoard, setPrestigeBoard] = useState(null);
   const [prestigeSustenance, setPrestigeSustenance] = useState(null);
   const [selectedLevels, setSelectedLevels] = useState({});
@@ -791,4 +791,8 @@ function PrestigeBoard() {
   );
 }
 
-export default PrestigeBoard;
+export const routeConfig = {
+  auth: false,
+};
+
+export default PrestigePlanner;

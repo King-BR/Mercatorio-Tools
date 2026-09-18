@@ -669,7 +669,17 @@ function Account() {
             <form className="api-key-add-form" onSubmit={addGameKey}>
               <h3>Add Mercatorio API Key</h3>
 
-              <span>Create a new Mercatorio API key <a href="https://play.mercatorio.io/settings/api" target="_blank" rel="noopener noreferrer">here</a>.</span>
+              <span>
+                Create a new Mercatorio API key{" "}
+                <a
+                  href="https://play.mercatorio.io/settings/api"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  here
+                </a>
+                .
+              </span>
 
               <div className="form-row marginTop">
                 <div className="form-group">
@@ -935,5 +945,9 @@ function Account() {
     </>
   );
 }
+
+export const routeConfig = {
+  auth: true,
+};
 
 export default Account;

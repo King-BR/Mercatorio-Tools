@@ -514,3 +514,7 @@ export default function ProductionPlanner() {
     </>
   );
 }
+
+export const routeConfig = {
+  auth: false,
+};
