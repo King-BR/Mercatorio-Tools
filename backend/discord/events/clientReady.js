@@ -31,12 +31,12 @@ module.exports = {
         {
           name: "Custom Notifications",
           type: ActivityType.Playing,
-          url: process.env.BASE_URL,
+          url: process.env.MERCTOOLS_URL,
         },
         {
-          name: "with Mercatorio Tools",
+          name: "Mercatorio Tools",
           type: ActivityType.Playing,
-          url: process.env.BASE_URL,
+          url: process.env.MERCTOOLS_URL,
         },
         {
           name: "Mercatorio",
@@ -44,7 +44,7 @@ module.exports = {
           url: process.env.GAME_URL,
         },
         {
-          name: "with the Interactive Map",
+          name: "Interactive Map",
           type: ActivityType.Playing,
           url: process.env.MAP_URL,
         },
