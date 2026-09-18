@@ -1,4 +1,5 @@
 import "./ToolCard.css";
+import { DEV } from "../../../../utils/logger";
 
 function ToolCard({ tool, featured = false }) {
   var isFunctional = tool.functional;
@@ -10,6 +11,7 @@ function ToolCard({ tool, featured = false }) {
       break;
     case "dev":
       status = "In development";
+      if (DEV) isFunctional = true;
       break;
     case "planned":
       status = "Planned";
