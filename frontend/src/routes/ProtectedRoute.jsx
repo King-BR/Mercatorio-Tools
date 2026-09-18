@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 
-import LoginRedirect from "./LoginRedirect";
+import LoginRedirect from "../components/LoginRedirect";
 
 export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();

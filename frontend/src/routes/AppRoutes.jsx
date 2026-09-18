@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import ProtectedRoute from "../components/ProtectedRoute";
-import AdminRoute from "../components/AdminRoute";
+import ProtectedRoute from "./ProtectedRoute";
+import AdminRoute from "./AdminRoute";
 import NotFoundRedirect from "../components/NotFoundRedirect";
 
 // Detects all pages within Pages/*/index.jsx automatically
@@ -38,13 +38,20 @@ export default function AppRoutes() {
           return null;
         }
 
-        const path = getRoutePath(filePath);
+        const config = module.routeConfig ?? {};
+
+        // Allows a page to override its automatically generated route.
+        //
+        // Example:
+        // export const routeConfig = {
+        //   auth: true,
+        //   path: "/notifications/:notificationID",
+        // };
+        const path = config.path ?? getRoutePath(filePath);
 
         if (!path) {
           return null;
         }
-
-        const config = module.routeConfig ?? {};
 
         const element = <Component />;
 
@@ -56,7 +63,9 @@ export default function AppRoutes() {
               element={<AdminRoute>{element}</AdminRoute>}
             />
           );
-        } else if (config.auth) {
+        }
+
+        if (config.auth) {
           return (
             <Route
               key={filePath}

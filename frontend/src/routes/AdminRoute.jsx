@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 
-import LoginRedirect from "./LoginRedirect";
-import NotFoundRedirect from "./NotFoundRedirect";
+import LoginRedirect from "../components/LoginRedirect";
+import NotFoundRedirect from "../components/NotFoundRedirect";
 
 export default function AdminRoute({ children }) {
   const { user, loading } = useAuth();
