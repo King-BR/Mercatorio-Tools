@@ -162,50 +162,6 @@
   background: #07111f;
 }
 
-.notification-flow .react-flow {
-  width: 100%;
-  height: 100%;
-}
-
-.notification-flow .react-flow__background {
-  background: #07111f;
-}
-
-.notification-flow .react-flow__controls {
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-}
-
-.notification-flow .react-flow__controls-button {
-  border-color: #263b55;
-  background: #0d1c2f;
-  color: #d8e5f7;
-  fill: #d8e5f7;
-}
-
-.notification-flow .react-flow__controls-button:hover {
-  background: #162b45;
-}
-
-.notification-flow .react-flow__minimap {
-  overflow: hidden;
-  border: 1px solid #243952;
-  border-radius: 6px;
-  background: #0b1728;
-}
-
-.notification-flow .react-flow__edge-path {
-  stroke-width: 2;
-}
-
-.notification-flow .react-flow__connection-path {
-  stroke-width: 2;
-}
-
-.notification-flow .react-flow__node.selected .notification-node {
-  border-color: #5aa5ff;
-  box-shadow: 0 0 0 1px #5aa5ff;
-}
-
 /* -------------------------------------------------------------------------- */
 /* Nodes                                                                      */
 /* -------------------------------------------------------------------------- */
@@ -640,4 +596,75 @@
   .notification-description-input {
     width: 200px;
   }
+}
+
+/* =========================================================
+   ReactFlow
+   ========================================================= */
+
+.notification-flow .react-flow {
+  width: 100%;
+  height: 100%;
+}
+
+.notification-flow .react-flow__background {
+  background: #07111f;
+}
+
+.notification-flow .react-flow__controls {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.notification-flow .react-flow__controls-button {
+  border-color: #263b55;
+  background: #0d1c2f;
+  color: #d8e5f7;
+  fill: #d8e5f7;
+}
+
+.notification-flow .react-flow__controls-button:hover {
+  background: #162b45;
+}
+
+.notification-flow .react-flow__node.selected .notification-node {
+  border-color: #5aa5ff;
+  box-shadow: 0 0 0 1px #5aa5ff;
+}
+
+/* =========================================================
+   MiniMap
+   ========================================================= */
+
+.notification-editor .react-flow__minimap {
+  background: #0b1725;
+  border: 1px solid #28445f;
+  border-radius: 8px;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+
+  overflow: hidden;
+}
+
+.notification-editor .react-flow__minimap-mask {
+  fill: rgba(7, 17, 31, 0.75);
+}
+
+.notification-editor .react-flow__minimap-node {
+  fill: #36536e;
+  stroke: #6f8ba6;
+  stroke-width: 1;
+}
+
+/* =========================================================
+   Edges
+   ========================================================= */
+
+.notification-editor .react-flow__edge-path {
+  stroke: #6f8ba6;
+  stroke-width: 2;
+}
+
+.notification-editor .react-flow__edge.selected .react-flow__edge-path {
+  stroke: #d9ff00;
+  stroke-width: 4;
 }

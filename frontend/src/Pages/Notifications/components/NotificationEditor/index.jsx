@@ -392,7 +392,7 @@ function DiscordNode({ data }) {
         <div className="node-summary">
           {data.message || "No message configured"}
         </div>
-        <br/>
+        <br />
         <div className="node-summary">
           <strong>Channel</strong>
         </div>
@@ -1013,7 +1013,7 @@ function isValidConnection(connection, nodes, edges) {
 /* Main editor                                                                */
 /* -------------------------------------------------------------------------- */
 
-function NotificationEditorInner({ notificationId, onBack }) {
+function NotificationEditorInner({ notificationId, onClose }) {
   const [notification, setNotification] = useState(null);
 
   const [fieldsDefinition, setFieldsDefinition] = useState({});
@@ -1643,7 +1643,7 @@ function NotificationEditorInner({ notificationId, onBack }) {
       <div className="notification-editor-error">
         <p>{error}</p>
 
-        <button type="button" onClick={onBack}>
+        <button type="button" onClick={onClose}>
           Back
         </button>
       </div>
@@ -1654,7 +1654,7 @@ function NotificationEditorInner({ notificationId, onBack }) {
     <div className="notification-editor">
       <header className="notification-editor-header">
         <div className="notification-editor-title">
-          <button type="button" className="back-button" onClick={onBack}>
+          <button type="button" className="back-button" onClick={onClose}>
             ←
           </button>
 
@@ -1803,7 +1803,27 @@ function NotificationEditorInner({ notificationId, onBack }) {
 
             <Controls />
 
-            <MiniMap nodeStrokeWidth={3} zoomable pannable />
+            <MiniMap
+              pannable
+              zoomable
+              nodeColor={(node) => {
+                switch (node.type) {
+                  case "field":
+                    return "#2C4E6E";
+                  case "condition":
+                    return "#13AC18";
+                  case "compare":
+                    return "#7700FF";
+                  case "value":
+                    return "#787E00";
+                  case "discord":
+                    return "#2E3EEC";
+                  default:
+                    return "#AA1414";
+                }
+              }}
+              nodeStrokeWidth={10}
+            />
           </ReactFlow>
         </main>
       </div>
