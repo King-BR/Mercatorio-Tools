@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -15,6 +16,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import "./NotificationEditor.css";
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
 
 const API = "/api/notifications";
 
@@ -160,14 +162,21 @@ function createConditionData() {
   return {
     nodeType: "condition",
     operator: "AND",
-    inputCount: 1,
+    inputCount: 0,
+  };
+}
+
+function createExpressionData() {
+  return {
+    nodeType: "expression",
+    expression: "",
+    inputCount: 0,
   };
 }
 
 function createDiscordData() {
   return {
     nodeType: "discord",
-    channel: "",
     message: "",
   };
 }
@@ -291,11 +300,6 @@ function CompareNode({ data }) {
 
       <BaseNode title="Compare" type="LOGIC" className="compare-node">
         <div className="compare-operator-display">{data.operator || ">"}</div>
-
-        <div className="compare-input-labels">
-          <span>LEFT</span>
-          <span>RIGHT</span>
-        </div>
       </BaseNode>
 
       <Handle
@@ -313,7 +317,7 @@ function CompareNode({ data }) {
 /* -------------------------------------------------------------------------- */
 
 function ConditionNode({ id, data }) {
-  const inputCount = Math.max(Number(data.inputCount) || 1, 1);
+  const inputCount = data.inputCount;
 
   /*
    * There is always one extra empty input handle.
@@ -354,8 +358,68 @@ function ConditionNode({ id, data }) {
         <div className="condition-description">Compare results</div>
 
         <div className="condition-input-count">
-          {inputCount} comparison
+          {inputCount} input
           {inputCount === 1 ? "" : "s"}
+        </div>
+      </BaseNode>
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="output"
+        className="flow-handle"
+      />
+    </>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Expression node                                                            */
+/* -------------------------------------------------------------------------- */
+
+function ExpressionNode({ id, data }) {
+  const inputCount = data.inputCount;
+
+  /*
+   * There is always one extra empty input handle.
+   *
+   * This allows the user to keep connecting Nodes indefinitely:
+   *
+   * input-0
+   * input-1
+   * input-2
+   * ...
+   */
+
+  const totalHandles = inputCount + 1;
+  return (
+    <>
+      {Array.from({ length: totalHandles }).map((_, index) => {
+        const top =
+          totalHandles === 1
+            ? "50%"
+            : `${((index + 1) / (totalHandles + 1)) * 100}%`;
+
+        return (
+          <Handle
+            key={`${id}-input-${index}`}
+            type="target"
+            position={Position.Left}
+            id={`input-${index}`}
+            className="flow-handle condition-input-handle"
+            style={{ top }}
+          />
+        );
+      })}
+
+      <BaseNode title="Expression" type="ACTION" className="expression-node">
+        <div className="node-description">Evaluate an expression.</div>
+
+        <div className="node-summary">
+          <strong>Expression</strong>
+        </div>
+        <div className="node-summary">
+          {data.expression || "No expression configured"}
         </div>
       </BaseNode>
 
@@ -392,13 +456,6 @@ function DiscordNode({ data }) {
         <div className="node-summary">
           {data.message || "No message configured"}
         </div>
-        <br />
-        <div className="node-summary">
-          <strong>Channel</strong>
-        </div>
-        <div className="node-summary">
-          {data.channel || "No channel configured"}
-        </div>
       </BaseNode>
     </>
   );
@@ -434,6 +491,7 @@ const nodeTypes = {
   condition: ConditionNode,
   discord: DiscordNode,
   webhook: WebhookNode,
+  expression: ExpressionNode,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -773,22 +831,6 @@ function ActionProperties({ node, onChange }) {
     return (
       <div className="properties-section">
         <label>
-          Channel
-          <input
-            type="text"
-            value={node.data.channel || ""}
-            placeholder="Discord channel ID"
-            onChange={(event) =>
-              onChange({
-                ...node.data,
-
-                channel: event.target.value,
-              })
-            }
-          />
-        </label>
-
-        <label>
           Message
           <textarea
             value={node.data.message || ""}
@@ -869,6 +911,39 @@ function ActionProperties({ node, onChange }) {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Expression properties                                                          */
+/* -------------------------------------------------------------------------- */
+
+function ExpressionProperties({ node, onChange }) {
+  if (!node) {
+    return null;
+  }
+
+  if (node.type !== "expression") {
+    return null;
+  }
+
+  return (
+    <div className="properties-section">
+      <label>
+        Expression
+        <input
+          type="text"
+          value={node.data.expression || ""}
+          placeholder="Enter expression..."
+          onChange={(event) =>
+            onChange({
+              ...node.data,
+              expression: event.target.value,
+            })
+          }
+        />
+      </label>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /* Node properties                                                            */
 /* -------------------------------------------------------------------------- */
 
@@ -883,27 +958,25 @@ function NodeProperties({ node, fields, onChange }) {
     );
   }
 
-  if (node.type === "field") {
-    return <FieldProperties node={node} fields={fields} onChange={onChange} />;
+  switch (node.type) {
+    case "field":
+      return (
+        <FieldProperties node={node} fields={fields} onChange={onChange} />
+      );
+    case "value":
+      return <ValueProperties node={node} onChange={onChange} />;
+    case "compare":
+      return <CompareProperties node={node} onChange={onChange} />;
+    case "condition":
+      return <ConditionProperties node={node} onChange={onChange} />;
+    case "discord":
+    case "webhook":
+      return <ActionProperties node={node} onChange={onChange} />;
+    case "expression":
+      return <ExpressionProperties node={node} onChange={onChange} />;
+    default:
+      return null;
   }
-
-  if (node.type === "value") {
-    return <ValueProperties node={node} onChange={onChange} />;
-  }
-
-  if (node.type === "compare") {
-    return <CompareProperties node={node} onChange={onChange} />;
-  }
-
-  if (node.type === "condition") {
-    return <ConditionProperties node={node} onChange={onChange} />;
-  }
-
-  if (node.type === "discord" || node.type === "webhook") {
-    return <ActionProperties node={node} onChange={onChange} />;
-  }
-
-  return null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -927,16 +1000,16 @@ function isValidConnection(connection, nodes, edges) {
   }
 
   /*
-   * FieldNode / ValueNode -> CompareNode
+   * Field / Value -> Compare / Expression
    */
-  if (target.type === "compare") {
-    if (source.type !== "field" && source.type !== "value") {
-      return false;
-    }
-
+  if (
+    (source.type === "field" || source.type === "value") &&
+    (target.type === "compare" || target.type === "expression")
+  ) {
     if (
       connection.targetHandle !== "left" &&
-      connection.targetHandle !== "right"
+      connection.targetHandle !== "right" &&
+      !connection.targetHandle?.startsWith("input-")
     ) {
       return false;
     }
@@ -958,13 +1031,12 @@ function isValidConnection(connection, nodes, edges) {
   }
 
   /*
-   * CompareNode -> ConditionNode
+   * Compare / Expression -> Condition / Expression
    */
-  if (target.type === "condition") {
-    if (source.type !== "compare") {
-      return false;
-    }
-
+  if (
+    (source.type === "compare" || source.type === "expression") &&
+    (target.type === "condition" || target.type === "expression")
+  ) {
     if (!connection.targetHandle?.startsWith("input-")) {
       return false;
     }
@@ -975,7 +1047,8 @@ function isValidConnection(connection, nodes, edges) {
     const alreadyConnected = edges.some(
       (edge) =>
         edge.target === target.id &&
-        edge.targetHandle === connection.targetHandle,
+        (edge.targetHandle === connection.targetHandle ||
+        connection.targetHandle?.startsWith("input-")),
     );
 
     if (alreadyConnected) {
@@ -986,13 +1059,15 @@ function isValidConnection(connection, nodes, edges) {
   }
 
   /*
-   * ConditionNode -> Discord/Webhook
+   * Compare / Condition / Expression -> Discord / Webhook
    */
-  if (target.type === "discord" || target.type === "webhook") {
-    if (source.type !== "condition") {
-      return false;
-    }
-
+  if (
+    (source.type === "condition" ||
+      source.type === "compare" ||
+      source.type === "expression") &&
+    (target.type === "discord" || target.type === "webhook")
+  ) {
+    // Check if the target already has a connection to the any of its input handles
     const alreadyConnected = edges.some(
       (edge) =>
         edge.target === target.id &&
@@ -1038,14 +1113,14 @@ function NotificationEditorInner({ notificationId, onClose }) {
   );
 
   /* ---------------------------------------------------------------------- */
-  /* Refresh Condition handles                                               */
+  /* Refresh Node handles                                                   */
   /* ---------------------------------------------------------------------- */
 
-  const refreshConditionHandles = useCallback(
-    (conditionId, inputCount) => {
+  const refreshNodeHandles = useCallback(
+    (nodeId, inputCount) => {
       setNodes((current) =>
         current.map((node) =>
-          node.id === conditionId
+          node.id === nodeId
             ? {
                 ...node,
 
@@ -1060,7 +1135,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
       );
 
       requestAnimationFrame(() => {
-        updateNodeInternals(conditionId);
+        updateNodeInternals(nodeId);
       });
     },
     [setNodes, updateNodeInternals],
@@ -1095,133 +1170,14 @@ function NotificationEditorInner({ notificationId, onClose }) {
         const availableFields = flattenFields(definition);
 
         if (!notificationId) {
-          const fieldId = makeId("field");
-          const valueId = makeId("value");
-          const compareId = makeId("compare");
-          const conditionId = makeId("condition");
-          const discordId = makeId("discord");
-
-          const fieldData = createFieldData(availableFields);
-
-          fieldData.fieldText = fieldToText(fieldData.field, availableFields);
-
-          const initialNodes = [
-            {
-              id: fieldId,
-              type: "field",
-              position: {
-                x: 80,
-                y: 120,
-              },
-              data: fieldData,
-            },
-
-            {
-              id: valueId,
-              type: "value",
-              position: {
-                x: 80,
-                y: 320,
-              },
-              data: createValueData(),
-            },
-
-            {
-              id: compareId,
-              type: "compare",
-              position: {
-                x: 450,
-                y: 200,
-              },
-              data: createCompareData(),
-            },
-
-            {
-              id: conditionId,
-              type: "condition",
-              position: {
-                x: 780,
-                y: 200,
-              },
-              data: createConditionData(),
-            },
-
-            {
-              id: discordId,
-              type: "discord",
-              position: {
-                x: 1100,
-                y: 200,
-              },
-              data: createDiscordData(),
-            },
-          ];
-
-          const initialEdges = [
-            {
-              id: makeId("edge"),
-              source: fieldId,
-              sourceHandle: "output",
-              target: compareId,
-              targetHandle: "left",
-              type: "smoothstep",
-              animated: true,
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-              },
-            },
-
-            {
-              id: makeId("edge"),
-              source: valueId,
-              sourceHandle: "output",
-              target: compareId,
-              targetHandle: "right",
-              type: "smoothstep",
-              animated: true,
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-              },
-            },
-
-            {
-              id: makeId("edge"),
-              source: compareId,
-              sourceHandle: "output",
-              target: conditionId,
-              targetHandle: "input-0",
-              type: "smoothstep",
-              animated: true,
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-              },
-            },
-
-            {
-              id: makeId("edge"),
-              source: conditionId,
-              sourceHandle: "output",
-              target: discordId,
-              targetHandle: "input",
-              type: "smoothstep",
-              animated: true,
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-              },
-            },
-          ];
-
-          setNodes(initialNodes);
-
-          setEdges(initialEdges);
+          setNodes([]);
+          setEdges([]);
 
           setNotification({
             name: "New notification",
             description: "",
             enabled: true,
           });
-
-          setSelectedNodeId(fieldId);
 
           return;
         }
@@ -1242,10 +1198,10 @@ function NotificationEditorInner({ notificationId, onClose }) {
           const data = node.data || {};
 
           /*
-           * Make sure old/partial Condition nodes have
+           * Make sure old/partial Condition / Expression nodes have
            * enough handles for their current connections.
            */
-          if (node.type === "condition") {
+          if (node.type === "condition" || node.type === "expression") {
             const conditionEdges = (json.notification.edges || []).filter(
               (edge) =>
                 edge.target === node.id &&
@@ -1338,20 +1294,23 @@ function NotificationEditorInner({ notificationId, onClose }) {
          */
         const targetNode = nodes.find((node) => node.id === connection.target);
 
-        if (targetNode?.type === "condition") {
+        if (
+          targetNode?.type === "condition" ||
+          targetNode?.type === "expression"
+        ) {
           const connectedInputs = nextEdges.filter(
             (edge) =>
               edge.target === targetNode.id &&
               edge.targetHandle?.startsWith("input-"),
           ).length;
 
-          refreshConditionHandles(targetNode.id, Math.max(connectedInputs, 1));
+          refreshNodeHandles(targetNode.id, connectedInputs);
         }
 
         return nextEdges;
       });
     },
-    [nodes, setEdges, refreshConditionHandles],
+    [nodes, setEdges, refreshNodeHandles],
   );
 
   /* ---------------------------------------------------------------------- */
@@ -1394,14 +1353,14 @@ function NotificationEditorInner({ notificationId, onClose }) {
                 item.targetHandle?.startsWith("input-"),
             ).length;
 
-            refreshConditionHandles(conditionId, Math.max(connectedInputs, 1));
+            refreshNodeHandles(conditionId, connectedInputs);
           }
 
           return currentEdges;
         });
       });
     },
-    [edges, onEdgesChange, setEdges, refreshConditionHandles],
+    [edges, onEdgesChange, setEdges, refreshNodeHandles],
   );
 
   /* ---------------------------------------------------------------------- */
@@ -1420,30 +1379,31 @@ function NotificationEditorInner({ notificationId, onClose }) {
 
       let data;
 
-      if (type === "field") {
-        data = createFieldData(fields);
-
-        data.fieldText = fieldToText(data.field, fields);
-      }
-
-      if (type === "value") {
-        data = createValueData();
-      }
-
-      if (type === "compare") {
-        data = createCompareData();
-      }
-
-      if (type === "condition") {
-        data = createConditionData();
-      }
-
-      if (type === "discord") {
-        data = createDiscordData();
-      }
-
-      if (type === "webhook") {
-        data = createWebhookData();
+      switch (type) {
+        case "field":
+          data = createFieldData(fields);
+          data.fieldText = fieldToText(data.field, fields);
+          break;
+        case "value":
+          data = createValueData();
+          break;
+        case "compare":
+          data = createCompareData();
+          break;
+        case "condition":
+          data = createConditionData();
+          break;
+        case "discord":
+          data = createDiscordData();
+          break;
+        case "webhook":
+          data = createWebhookData();
+          break;
+        case "expression":
+          data = createExpressionData();
+          break;
+        default:
+          break;
       }
 
       setNodes((current) => [
@@ -1517,7 +1477,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
      * If a CompareNode was removed from a
      * ConditionNode, recalculate its inputs.
      */
-    if (deletedNode?.type === "compare") {
+    if (deletedNode?.type === "compare" || deletedNode?.type === "expression") {
       const affectedConditions = nodes
         .filter(
           (node) =>
@@ -1538,20 +1498,13 @@ function NotificationEditorInner({ notificationId, onClose }) {
               edge.targetHandle?.startsWith("input-"),
           ).length;
 
-          refreshConditionHandles(conditionId, Math.max(count, 1));
+          refreshNodeHandles(conditionId, count);
         }
       });
     }
 
     setSelectedNodeId(null);
-  }, [
-    selectedNodeId,
-    nodes,
-    edges,
-    setNodes,
-    setEdges,
-    refreshConditionHandles,
-  ]);
+  }, [selectedNodeId, nodes, edges, setNodes, setEdges, refreshNodeHandles]);
 
   /* ---------------------------------------------------------------------- */
   /* Save                                                                     */
@@ -1615,7 +1568,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
           window.history.replaceState(
             null,
             "",
-            `/notifications?id=${json.notification._id}`,
+            `/notifications/${json.notification._id}`,
           );
         }
       }
@@ -1737,6 +1690,10 @@ function NotificationEditorInner({ notificationId, onClose }) {
             <button type="button" onClick={() => addNode("condition")}>
               + Condition
             </button>
+
+            <button type="button" onClick={() => addNode("expression")}>
+              + Expression
+            </button>
           </div>
 
           <div className="sidebar-section">
@@ -1836,9 +1793,38 @@ function NotificationEditorInner({ notificationId, onClose }) {
 /* -------------------------------------------------------------------------- */
 
 export default function NotificationEditor(props) {
+  const navigate = useNavigate();
+
+  // get notification ID from URL
+  var notificationId = window.location.pathname.split("/").pop();
+
+  switch (notificationId) {
+    case "new":
+      notificationId = null;
+      break;
+  }
+
+  function onClose() {
+    // navigate back to manager and clear url parameter
+    navigate("/notifications");
+  }
+
   return (
-    <ReactFlowProvider>
-      <NotificationEditorInner {...props} />
-    </ReactFlowProvider>
+    <>
+      <TopNavbar />
+
+      <ReactFlowProvider>
+        <NotificationEditorInner
+          {...props}
+          notificationId={notificationId}
+          onClose={onClose}
+        />
+      </ReactFlowProvider>
+    </>
   );
 }
+
+export const routeConfig = {
+  auth: true,
+  path: "/notifications/:notificationID",
+};
