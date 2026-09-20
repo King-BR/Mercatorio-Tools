@@ -357,6 +357,10 @@
   border-color: #394c72;
 }
 
+.discord-node .node-expression {
+  color: #7fc1ff;
+}
+
 .webhook-node {
   border-color: #385a58;
 }

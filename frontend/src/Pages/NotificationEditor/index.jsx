@@ -18,6 +18,10 @@ import "@xyflow/react/dist/style.css";
 import "./NotificationEditor.css";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 
+import TownSelector from "../../components/TownSelector";
+import ProductSelector from "../../components/ProductSelector";
+import BuildingSelector from "./components/BuildingSelector";
+
 const API = "/api/notifications";
 
 /* -------------------------------------------------------------------------- */
@@ -91,17 +95,18 @@ function getActualFieldPath(field, reference = {}) {
   const path = [...field.path];
 
   if (path[0] === "town_X") {
-    path[0] = reference.entityId || "town_X";
+    path[0] = reference.townName.replace(/\s+/g, "_") || "town_X";
   }
 
   if (path[0] === "building_X") {
-    path[0] = reference.entityId || "building_X";
+    path[0] = reference.buildingName.replace(/\s+/g, "_") || "building_X";
   }
 
   const productIndex = path.indexOf("product_X");
 
   if (productIndex !== -1) {
-    path[productIndex] = reference.productId || "product_X";
+    path[productIndex] =
+      reference.productName.replace(/\s+/g, "_") || "product_X";
   }
 
   return path;
@@ -135,8 +140,12 @@ function createFieldData(fields) {
 
       reference: {
         entityType: getFieldCategory(first) || "town",
-        entityId: "",
-        productId: "",
+        townId: "",
+        townName: "",
+        buildingId: "",
+        buildingType: "",
+        buildingName: "",
+        productName: "",
       },
     },
   };
@@ -178,6 +187,7 @@ function createDiscordData() {
   return {
     nodeType: "discord",
     message: "",
+    placeholders: [],
   };
 }
 
@@ -231,7 +241,7 @@ function BaseNode({ title, type, children, className = "" }) {
 /* -------------------------------------------------------------------------- */
 
 function FieldNode({ data }) {
-  const fieldText =
+  var fieldText =
     data.fieldText || data.field?.path?.join(".") || "Configure field";
 
   return (
@@ -438,6 +448,14 @@ function ExpressionNode({ id, data }) {
 /* -------------------------------------------------------------------------- */
 
 function DiscordNode({ data }) {
+  var message = data.message || "No message configured";
+
+  // Get {variable} placeholders from the message
+  var placeholders = message.match(/{[^}]+}/g) || [];
+
+  // Split message into parts: text and placeholders
+  var messageParts = message.split(/({[^}]+})/g);
+
   return (
     <>
       <Handle
@@ -454,7 +472,17 @@ function DiscordNode({ data }) {
           <strong>Message</strong>
         </div>
         <div className="node-summary">
-          {data.message || "No message configured"}
+          <div>
+            {messageParts.map((part, index) =>
+              placeholders.includes(part) ? (
+                <span key={`placeholder-${index}`} className="node-expression">
+                  {part}
+                </span>
+              ) : (
+                part
+              ),
+            )}
+          </div>
         </div>
       </BaseNode>
     </>
@@ -521,8 +549,26 @@ function FieldProperties({ node, fields, onChange }) {
         fieldData.reference?.entityType ||
         "town",
 
-      productId: nextField.path.includes("product_X")
-        ? fieldData.reference?.productId || ""
+      townId: nextField.path.includes("town_X")
+        ? fieldData.reference?.townId || ""
+        : "",
+
+      townName: nextField.path.includes("town_X")
+        ? fieldData.reference?.townName || ""
+        : "",
+
+      buildingId: nextField.path.includes("building_X")
+        ? fieldData.reference?.buildingId || ""
+        : "",
+      buildingName: nextField.path.includes("building_X")
+        ? fieldData.reference?.buildingName || ""
+        : "",
+      buildingType: nextField.path.includes("building_X")
+        ? fieldData.reference?.buildingType || ""
+        : "",
+
+      productName: nextField.path.includes("product_X")
+        ? fieldData.reference?.productName || ""
         : "",
     };
 
@@ -591,53 +637,40 @@ function FieldProperties({ node, fields, onChange }) {
         </label>
 
         {category === "town" && (
-          <label>
-            Town ID
-            <input
-              type="text"
-              value={fieldData.reference?.entityId || ""}
-              placeholder="town_1"
-              onChange={(event) =>
-                updateReference({
-                  entityType: "town",
-                  entityId: event.target.value,
-                })
-              }
-            />
-          </label>
+          <TownSelector
+            selectedTown={fieldData.reference?.townName || ""}
+            onChange={(value) =>
+              updateReference({
+                entityType: "town",
+                townName: value,
+              })
+            }
+          />
         )}
 
         {category === "building" && (
-          <label>
-            Building ID
-            <input
-              type="text"
-              value={fieldData.reference?.entityId || ""}
-              placeholder="building_1"
-              onChange={(event) =>
-                updateReference({
-                  entityType: "building",
-                  entityId: event.target.value,
-                })
-              }
-            />
-          </label>
+          <BuildingSelector
+            selectedBuilding={fieldData.reference?.buildingId || ""}
+            onChange={(id, name, type) =>
+              updateReference({
+                entityType: "building",
+                buildingId: id,
+                buildingName: name,
+                buildingType: type,
+              })
+            }
+          />
         )}
 
         {field?.path?.includes("product_X") && (
-          <label>
-            Product ID
-            <input
-              type="text"
-              value={fieldData.reference?.productId || ""}
-              placeholder="iron"
-              onChange={(event) =>
-                updateReference({
-                  productId: event.target.value,
-                })
-              }
-            />
-          </label>
+          <ProductSelector
+            selectedProduct={fieldData.reference?.productName || ""}
+            onChange={(value) =>
+              updateReference({
+                productName: value,
+              })
+            }
+          />
         )}
 
         <div className="field-preview">
@@ -841,6 +874,8 @@ function ActionProperties({ node, onChange }) {
                 ...node.data,
 
                 message: event.target.value,
+
+                placeholders: event.target.value.match(/{[^}]+}/g) || [],
               })
             }
           />
@@ -1048,7 +1083,7 @@ function isValidConnection(connection, nodes, edges) {
       (edge) =>
         edge.target === target.id &&
         (edge.targetHandle === connection.targetHandle ||
-        connection.targetHandle?.startsWith("input-")),
+          connection.targetHandle?.startsWith("input-")),
     );
 
     if (alreadyConnected) {
