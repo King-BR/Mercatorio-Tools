@@ -47,6 +47,11 @@ const transportOperationsData = new Map();
 var lastTransportUpdate = null;
 var lastTransportRecipesUpdate = null;
 
+// Towns data
+const townsData = new Map();
+var lastTownsUpdate = null;
+const townsCacheDuration = 30 * 60 * 1000; // 30 minutes
+
 /*
  *  =======================================
  *               DATA GETTERS
@@ -435,12 +440,81 @@ async function getPlayerInventory(
   return await inventoryResponse.json();
 }
 
+async function getBuilding(
+  req,
+  buildingID,
+  auth = { user: null, apiKey: null },
+) {
+  const response = await fetch(
+    config.building_url.replace("{buildingID}", buildingID),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.apiKey}`,
+        "X-Merc-User": `${auth.user}`,
+      },
+    },
+  );
+  return await response.json();
+}
+
+async function getTowns() {
+  const currentDate = new Date();
+  if (!lastTownsUpdate || currentDate - lastTownsUpdate > townsCacheDuration) {
+    try {
+      const response = await fetch(config.towns_url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.MERC_API_TOKEN}`,
+          "X-Merc-User": `${process.env.MERC_API_USER}`,
+        },
+      });
+      const towns = await response.json();
+
+      // save towns to local file
+      fs.writeFileSync(
+        path.join(__dirname, "../data/towns.json"),
+        JSON.stringify(towns, null, 2),
+      );
+
+      towns.forEach((town) => {
+        townsData.set(town.id, town);
+      });
+      lastTownsUpdate = currentDate;
+      console.log("Towns cache updated successfully.");
+      return townsData;
+    } catch (error) {
+      console.error("Error updating towns cache:", error);
+      return townsData;
+    }
+  } else {
+    return townsData;
+  }
+}
+
+function getTownByID(townID) {
+  return townsData.get(townID);
+}
+
+function getTownByName(townName) {
+  for (const town of townsData.values()) {
+    if (town.name.toLowerCase() === townName.toLowerCase()) {
+      return town;
+    }
+  }
+  return null;
+}
+
 module.exports = {
   getPaths,
   getFerries,
 
   getPlayer,
   getPlayerInventory,
+
+  getBuilding,
 
   getPrestigeBoard,
   getSustenance,
@@ -452,6 +526,10 @@ module.exports = {
   getUpgradesDescriptions,
 
   getMarketData,
+
+  getTowns,
+  getTownByID,
+  getTownByName,
 
   getProducts,
 

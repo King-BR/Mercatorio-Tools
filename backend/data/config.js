@@ -38,6 +38,9 @@ const base_building_url = `${base_url}/buildings`;
 module.exports = {
   base_url: base_url,
   base_transport_url: base_transport_url,
+
+  towns_url: `${base_url}/towns`,
+
   transport_url: `${base_transport_url}/{transportID}`,
   travel_url: `${base_transport_url}/{transportID}/travel`,
   player_url: `${base_url}/player`,
