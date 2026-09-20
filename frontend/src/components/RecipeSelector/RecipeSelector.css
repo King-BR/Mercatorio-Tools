@@ -1,0 +1,35 @@
+.recipe-selector label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #b9c7d6;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.recipe-selector select {
+  width: 100%;
+
+  min-height: 38px;
+
+  padding: 8px 10px;
+
+  box-sizing: border-box;
+
+  background: #101f31;
+
+  color: #e8f0f8;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  border-radius: 7px;
+
+  outline: none;
+
+  font-size: 13px;
+}
+
+.recipe-selector select:focus {
+  border-color: #3d75a8;
+}

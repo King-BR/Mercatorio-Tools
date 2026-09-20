@@ -1,5 +1,6 @@
+import "./RecipeSelector.css";
+
 export default function RecipeSelector({
-  product,
   recipeIds = [],
   recipes,
   selectedRecipe,
