@@ -1,3 +1,5 @@
+import { getPlayerBuildingDetails } from "./cache/buildings";
+
 export async function getRecipes() {
   const response = await fetch("/api/recipes");
   return response.json();
@@ -33,6 +35,21 @@ export async function getPrestigeSustenance() {
   return await response.json();
 }
 
+export async function getTowns() {
+  const response = await fetch("/api/towns/all");
+  return await response.json();
+}
+
+export async function getTownById(townId) {
+  const response = await fetch(`/api/towns/id/${townId}`);
+  return await response.json();
+}
+
+export async function getTownByName(townName) {
+  const response = await fetch(`/api/towns/name/${townName}`);
+  return await response.json();
+}
+
 export async function getMarketData(town = "all") {
   if (town == "all") {
     const response = await fetch("/api/markets/all");
@@ -51,4 +68,12 @@ export async function getPlayer() {
 export async function getPlayerInventory() {
   const response = await fetch("/api/players/me/inventory");
   return await response.json();
+}
+
+export async function getPlayerBuildings({
+  id = null,
+  all = false,
+  force = false,
+} = {}) {
+  return await getPlayerBuildingDetails({ id, all, force });
 }
