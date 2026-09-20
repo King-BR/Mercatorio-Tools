@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
@@ -18,8 +17,6 @@ function formatDate(value) {
 }
 
 export default function NotificationsManager({ onCreate, onEdit }) {
-  const navigate = useNavigate();
-
   const [notifications, setNotifications] = useState([]);
 
   const [loading, setLoading] = useState(true);
