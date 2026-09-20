@@ -120,10 +120,7 @@
 }
 
 .sidebar-section label,
-.product-selector label,
-.town-selector label,
-.price-from-selector label,
-.recipe-selector label {
+.price-from-selector label {
   display: block;
 
   margin-bottom: 5px;
@@ -135,10 +132,7 @@
 }
 
 .sidebar-section input,
-.product-selector select,
-.town-selector select,
-.price-from-selector select,
-.recipe-selector select {
+.price-from-selector select {
   width: 100%;
 
   min-height: 38px;
@@ -160,10 +154,7 @@
 }
 
 .sidebar-section input:focus,
-.price-from-selector select:focus,
-.product-selector select:focus,
-.town-selector select:focus,
-.recipe-selector select:focus {
+.price-from-selector select:focus {
   border-color: #3d75a8;
 }
 

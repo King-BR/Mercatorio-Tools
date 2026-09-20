@@ -390,14 +390,12 @@ export default function ProductionPlanner() {
       <TopNavbar />
       <div className="production-planner">
         <ProductionSidebar
-          products={products}
           recipeIndex={recipeIndex}
           product={product}
           amount={amount}
           recipeId={recipeId}
           productSources={productSources}
           selectedTown={selectedTown}
-          towns={towns}
           priceFrom={priceFrom}
           user={user}
           hasMercatorioApiKey={hasMercatorioApiKey}
@@ -408,7 +406,6 @@ export default function ProductionPlanner() {
           }
           onCalculate={handleCalculate}
           onTownChange={handleTownChange}
-          onImportUserInventory={handleImportUserInventory}
           onPriceFromChange={handlePriceFromChange}
         />
 

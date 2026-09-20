@@ -2,20 +2,18 @@ import { getRecipesForProduct } from "../../../services/production/recipeIndex";
 
 import logger from "../../../utils/logger";
 
-import ProductSelector from "./ProductSelector";
-import RecipeSelector from "./RecipeSelector";
 import PriceFromSelector from "./PriceFromSelector";
-import TownSelector from "./TownSelector";
+import ProductSelector from "../../../components/ProductSelector";
+import RecipeSelector from "../../../components/RecipeSelector";
+import TownSelector from "../../../components/TownSelector";
 
 export default function ProductionSidebar({
-  products = [],
   recipeIndex,
   product,
   amount,
   recipeId,
   productSources,
   selectedTown,
-  towns,
   priceFrom,
   user,
   hasMercatorioApiKey,
@@ -24,7 +22,6 @@ export default function ProductionSidebar({
   onRecipeChange,
   onCalculate,
   onTownChange,
-  onImportUserInventory,
   onPriceFromChange,
 }) {
   const recipeIds = product ? getRecipesForProduct(recipeIndex, product) : [];
@@ -48,11 +45,7 @@ export default function ProductionSidebar({
       </div>
 
       <div className="sidebar-section">
-        <ProductSelector
-          products={products}
-          selectedProduct={product}
-          onChange={onProductChange}
-        />
+        <ProductSelector selectedProduct={product} onChange={onProductChange} />
       </div>
 
       <div className="sidebar-section">
@@ -75,7 +68,6 @@ export default function ProductionSidebar({
       {product && source.type === "produce" && recipeIds.length > 0 && (
         <div className="sidebar-section noBorder">
           <RecipeSelector
-            product={product}
             recipeIds={recipeIds}
             recipes={recipeIndex?.recipeMap}
             selectedRecipe={recipeId}
@@ -89,17 +81,6 @@ export default function ProductionSidebar({
           <strong>No recipe available</strong>
 
           <p>This product cannot be produced with the available recipes.</p>
-        </div>
-      )}
-
-      {isLabour && (
-        <div className="info-box">
-          <strong>Labour</strong>
-
-          <p>
-            Labour is automatically purchased when required as an input. It can
-            only be produced when Labour itself is the target.
-          </p>
         </div>
       )}
 
@@ -172,11 +153,7 @@ export default function ProductionSidebar({
       </div>
 
       <div className="sidebar-section">
-        <TownSelector
-          selectedTown={selectedTown}
-          towns={towns}
-          onChange={onTownChange}
-        />
+        <TownSelector selectedTown={selectedTown} onChange={onTownChange} />
       </div>
     </aside>
   );
