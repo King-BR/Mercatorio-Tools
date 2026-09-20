@@ -37,3 +37,7 @@ export default function NotFound() {
     </>
   );
 }
+
+export const routeConfig = {
+  auth: false,
+};

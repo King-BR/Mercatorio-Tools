@@ -946,8 +946,8 @@ function Account() {
   );
 }
 
+export default Account;
+
 export const routeConfig = {
   auth: true,
 };
-
-export default Account;

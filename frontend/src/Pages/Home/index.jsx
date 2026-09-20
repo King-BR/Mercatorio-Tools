@@ -135,3 +135,7 @@ function Home() {
 }
 
 export default Home;
+
+export const routeConfig = {
+  auth: false,
+};
