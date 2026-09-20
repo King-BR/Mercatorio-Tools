@@ -21,7 +21,6 @@ function Home() {
   const [search, setSearch] = useState("");
 
   const filteredTools = useMemo(() => {
-    console.log(selectedCategory);
     const searchTerm = search.trim().toLowerCase();
 
     return tools.filter((tool) => {
