@@ -47,6 +47,10 @@ module.exports = {
             type: "string",
             operators: stringOperators,
           },
+          price: {
+            type: "number",
+            operators: numberOperators,
+          },
           open_price: {
             type: "number",
             operators: numberOperators,
@@ -104,7 +108,7 @@ module.exports = {
           type: "string",
           operators: stringOperators,
         },
-        stock: {
+        balance: {
           type: "number",
           operators: numberOperators,
         },
@@ -116,6 +120,10 @@ module.exports = {
           type: "number",
           operators: numberOperators,
         },
+        capacity: {
+          type: "number",
+          operators: numberOperators,
+        },
         unit_cost: {
           type: "number",
           operators: numberOperators,
@@ -124,22 +132,23 @@ module.exports = {
           type: "number",
           operators: numberOperators,
         },
-        bought: {
+        purchase: {
           type: "number",
           operators: numberOperators,
         },
-        buy_price: {
+        purchase_price: {
           type: "number",
           operators: numberOperators,
         },
-        sold: {
+        sale: {
           type: "number",
           operators: numberOperators,
         },
-        sell_price: {
+        sale_price: {
           type: "number",
           operators: numberOperators,
         },
+        /*
         exported: {
           type: "number",
           operators: numberOperators,
@@ -156,6 +165,7 @@ module.exports = {
           type: "number",
           operators: numberOperators,
         },
+        */
         expired: {
           type: "number",
           operators: numberOperators,
