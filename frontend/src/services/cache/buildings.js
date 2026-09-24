@@ -41,25 +41,11 @@ function cacheBuildingsIndividually(buildings) {
       continue;
     }
 
-    var buildingData = {
-      id: building.id ?? building._id,
-      name: building.name,
-      type: building.type,
-    };
-
-    if (buildingData.id === null || buildingData.id === undefined) {
-      continue;
-    }
-
-    setCachedData(CACHE_CATEGORY, `id:${buildingData.id}`, {
-      id: buildingData.id,
-      name: buildingData.name,
-      type: buildingData.type,
-    });
+    setCachedData(CACHE_CATEGORY, `id:${building.id}`, building);
   }
 }
 
-export async function getPlayerBuildingDetails({
+export async function getPlayerBuildingsCache({
   id = null,
   all = false,
   force = false,
@@ -95,16 +81,10 @@ export async function getPlayerBuildingDetails({
 
     const data = await response.json();
 
-    var cacheData = data.map((building) => ({
-      id: building.id ?? building._id,
-      name: building.name,
-      type: building.type,
-    }));
-
     /*
      * Cache the complete list.
      */
-    setCachedData(CACHE_CATEGORY, `all`, cacheData);
+    setCachedData(CACHE_CATEGORY, `all`, data);
 
     /*
      * Also cache every building individually.
@@ -132,11 +112,7 @@ export async function getPlayerBuildingDetails({
     /*
      * Cache the individual building.
      */
-    setCachedData(CACHE_CATEGORY, `id:${id}`, {
-      id: data.id ?? data._id,
-      name: data.name,
-      type: data.type,
-    });
+    setCachedData(CACHE_CATEGORY, `id:${id}`, data);
 
     return data;
   }
