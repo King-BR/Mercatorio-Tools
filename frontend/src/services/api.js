@@ -1,4 +1,6 @@
-import { getPlayerBuildingDetails } from "./cache/buildings";
+import { getPlayerBuildingsCache } from "./cache/buildings";
+import { getPlayerInventoryCache } from "./cache/inventory";
+import { getMarketCache } from "./cache/markets";
 
 export async function getRecipes() {
   const response = await fetch("/api/recipes");
@@ -52,8 +54,7 @@ export async function getTownByName(townName) {
 
 export async function getMarketData(town = "all") {
   if (town == "all") {
-    const response = await fetch("/api/markets/all");
-    return await response.json();
+    return await getMarketCache({ force: false });
   }
 
   const response = await fetch(`/api/markets/town/${town}`);
@@ -65,15 +66,12 @@ export async function getPlayer() {
   return await response.json();
 }
 
-export async function getPlayerInventory() {
-  const response = await fetch("/api/players/me/inventory");
-  return await response.json();
+export async function getPlayerInventory(options = { force: false }) {
+  return await getPlayerInventoryCache(options);
 }
 
-export async function getPlayerBuildings({
-  id = null,
-  all = false,
-  force = false,
-} = {}) {
-  return await getPlayerBuildingDetails({ id, all, force });
+export async function getPlayerBuildings(
+  options = { id: null, all: false, force: false },
+) {
+  return await getPlayerBuildingsCache(options);
 }

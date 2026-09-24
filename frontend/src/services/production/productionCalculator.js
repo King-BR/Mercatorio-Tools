@@ -48,7 +48,13 @@ function getProductPrice(
   productCustomPrices,
   userInventory,
 ) {
-  if (product === "labour" && priceFrom === "player") {
+  if (
+    product === "labour" &&
+    priceFrom === "player" &&
+    userInventory &&
+    userInventory.account &&
+    userInventory.previous_flows
+  ) {
     var purchased = {
       amount:
         Number.parseFloat(userInventory.account.assets[product]?.purchase) || 0,
@@ -92,6 +98,8 @@ function getProductPrice(
 
   if (
     priceFrom === "player" &&
+    userInventory &&
+    userInventory.account &&
     userInventory.account.assets[product]?.unit_cost &&
     Number.parseFloat(userInventory.account.assets[product]?.unit_cost) >= 0
   ) {

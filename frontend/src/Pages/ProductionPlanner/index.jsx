@@ -147,8 +147,12 @@ export default function ProductionPlanner() {
 
         setRecipeIndex(index);
 
-        const inventory = await getPlayerInventory(user);
-        setUserInventory(inventory.storage?.inventory ?? null);
+        const inventory = await getPlayerInventory({ force: false });
+        setUserInventory(
+          inventory && inventory.storage
+            ? (inventory.storage.inventory ?? null)
+            : null,
+        );
 
         const firstProduct = index.products?.[0] || "";
 
