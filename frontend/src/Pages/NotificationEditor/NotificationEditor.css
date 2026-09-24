@@ -129,15 +129,21 @@
   border-bottom: 1px solid #1a2a40;
 }
 
+.sidebar-section .accordion-toggle,
 .sidebar-section h3 {
   margin: 0 0 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
   color: #cbd8ea;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
-.sidebar-section > button:not(.delete-node-button) {
+.sidebar-section > .accordion-closed > button,
+.sidebar-section > .accordion-open > button,
+.sidebar-section > button:not(.delete-node-button):not(.accordion-toggle) {
   display: block;
   width: 100%;
   margin-bottom: 7px;
@@ -150,7 +156,7 @@
   cursor: pointer;
 }
 
-.sidebar-section > button:not(.delete-node-button):hover {
+.sidebar-section button:not(.delete-node-button):hover {
   border-color: #3f6d9e;
   background: #122842;
 }
@@ -160,6 +166,32 @@
   min-width: 0;
   min-height: 0;
   background: #07111f;
+}
+
+.notification-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-sidebar::-webkit-scrollbar-track {
+  background: #081522;
+  border-radius: 4px;
+}
+
+.notification-sidebar::-webkit-scrollbar-thumb {
+  background: #29435d;
+  border-radius: 4px;
+}
+
+.notification-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #3b668d;
+}
+
+.accordion-closed {
+  display: none;
+}
+
+.accordion-open {
+  display: inherit;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -249,40 +281,64 @@
   color: #8ca0b9;
 }
 
+.node-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  min-height: 25px;
+}
+
+.node-operator-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 75px;
+  min-height: 25px;
+  color: #005a61;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.expression-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #071321;
+}
+
+.expression-preview span {
+  color: #617892;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.expression-preview strong {
+  color: #c79aff;
+  font-size: 18px;
+}
+
 /* -------------------------------------------------------------------------- */
-/* Field                                                                      */
+/* Data Nodes                                                                */
 /* -------------------------------------------------------------------------- */
 
-.field-node {
+.data-node {
   border-color: #315a80;
 }
 
-.field-node .notification-node-header {
+.data-node .notification-node-header {
   background: #10283d;
 }
 
-.field-node .node-expression {
+.data-node .node-expression {
   color: #7fc1ff;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Value                                                                      */
-/* -------------------------------------------------------------------------- */
-
-.value-node {
-  border-color: #635b31;
-}
-
-.value-node .notification-node-header {
-  background: #282615;
-}
-
-.value-node .node-value {
-  color: #e0c76e;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Compare                                                                    */
+/* Compare Nodes                                                              */
 /* -------------------------------------------------------------------------- */
 
 .compare-node {
@@ -295,11 +351,12 @@
 }
 
 .compare-operator-display {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 50px;
-  color: #c79aff;
+  min-width: 75px;
+  min-height: 25px;
+  color: #5a4778;
   font-size: 28px;
   font-weight: 900;
 }
@@ -314,55 +371,64 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Condition                                                                  */
+/* Gate Nodes                                                                 */
 /* -------------------------------------------------------------------------- */
 
-.condition-node {
+.gate-node {
   min-width: 210px;
   border-color: #3e6d61;
 }
 
-.condition-node .notification-node-header {
-  background: #152b28;
+.gate-node .notification-node-header {
+  background: #005b05;
 }
 
-.condition-operator {
+.gate-operator {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 45px;
-  color: #72d1b6;
+  color: #005b05;
   font-size: 23px;
   font-weight: 900;
 }
 
-.condition-description {
-  text-align: center;
-  color: #7e9f99;
-  font-size: 10px;
+/* -------------------------------------------------------------------------- */
+/* Math Nodes                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.math-node {
+  min-width: 190px;
+  border-color: #004549;
 }
 
-.condition-input-count {
-  margin-top: 8px;
-  text-align: center;
-  color: #587f77;
-  font-size: 9px;
+.math-node .notification-node-header {
+  background: #005a61;
+}
+
+.math-input-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #6d8098;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
 }
 
 /* -------------------------------------------------------------------------- */
-/* Actions                                                                    */
+/* Actions Nodes                                                              */
 /* -------------------------------------------------------------------------- */
 
-.discord-node {
+.action-node {
   border-color: #394c72;
 }
 
-.discord-node .node-expression {
-  color: #7fc1ff;
+.action-node .notification-node-header {
+  background: #1e29a4;
 }
 
-.webhook-node {
-  border-color: #385a58;
+.action-node .node-expression {
+  color: #7fc1ff;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -467,27 +533,6 @@
   font-family: Consolas, Monaco, monospace;
   font-size: 10px;
   overflow-wrap: anywhere;
-}
-
-.comparison-preview {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 6px;
-  background: #071321;
-}
-
-.comparison-preview span {
-  color: #617892;
-  font-size: 8px;
-  font-weight: 800;
-}
-
-.comparison-preview strong {
-  color: #c79aff;
-  font-size: 18px;
 }
 
 .condition-properties-count {

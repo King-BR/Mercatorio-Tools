@@ -6,12 +6,11 @@ import {
   Background,
   Controls,
   MiniMap,
-  Handle,
-  Position,
   addEdge,
   useEdgesState,
   useNodesState,
   useUpdateNodeInternals,
+  useReactFlow,
   MarkerType,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
@@ -22,7 +21,51 @@ import TownSelector from "../../components/TownSelector";
 import ProductSelector from "../../components/ProductSelector";
 import BuildingSelector from "./components/BuildingSelector";
 
+// Data Nodes
+import FieldNode from "./components/DataNodes/FieldNode";
+import ValueNode from "./components/DataNodes/ValueNode";
+
+// Logic Nodes
+import CompareNode from "./components/LogicNodes/CompareNode";
+
+// Gate Nodes
+import AndNode from "./components/LogicNodes/GateNodes/AndNode";
+import OrNode from "./components/LogicNodes/GateNodes/OrNode";
+import XorNode from "./components/LogicNodes/GateNodes/XorNode";
+import NotNode from "./components/LogicNodes/GateNodes/NotNode";
+
+// Math Nodes
+import AddNode from "./components/MathNodes/AddNode";
+import SubtractNode from "./components/MathNodes/SubtractNode";
+import MultiplyNode from "./components/MathNodes/MultiplyNode";
+import DivideNode from "./components/MathNodes/DivideNode";
+import ModuloNode from "./components/MathNodes/ModuloNode";
+import MinNode from "./components/MathNodes/MinNode";
+import MaxNode from "./components/MathNodes/MaxNode";
+import RoundNode from "./components/MathNodes/RoundNode";
+import FloorNode from "./components/MathNodes/FloorNode";
+import CeilNode from "./components/MathNodes/CeilNode";
+
+// Action Nodes
+import DiscordNode from "./components/ActionNodes/DiscordNode";
+import WebhookNode from "./components/ActionNodes/WebhookNode";
+
 const API = "/api/notifications";
+
+const MATH_NODES = [
+  "add",
+  "subtract",
+  "multiply",
+  "divide",
+  "modulo",
+  "min",
+  "max",
+  "round",
+  "floor",
+  "ceil",
+];
+
+const GATE_NODES = ["and", "or", "xor", "not"];
 
 /* -------------------------------------------------------------------------- */
 /* IDs                                                                        */
@@ -167,20 +210,112 @@ function createCompareData() {
   };
 }
 
-function createConditionData() {
-  return {
-    nodeType: "condition",
-    operator: "AND",
-    inputCount: 0,
-  };
+function createGateData(type) {
+  switch (type) {
+    case "and":
+      return {
+        nodeType: "and",
+        operator: "AND",
+        inputCount: 0,
+      };
+    case "or":
+      return {
+        nodeType: "or",
+        operator: "OR",
+        inputCount: 0,
+      };
+    case "xor":
+      return {
+        nodeType: "xor",
+        operator: "XOR",
+        inputCount: 0,
+      };
+    case "not":
+      return {
+        nodeType: "not",
+        operator: "NOT",
+      };
+    default:
+      return {
+        nodeType: "unknown",
+      };
+  }
 }
 
-function createExpressionData() {
-  return {
-    nodeType: "expression",
-    expression: "",
-    inputCount: 0,
-  };
+function createMathData(type) {
+  switch (type) {
+    case "add":
+      return {
+        nodeType: "add",
+        operator: "+",
+        left: 0,
+        right: 0,
+      };
+    case "subtract":
+      return {
+        nodeType: "subtract",
+        operator: "-",
+        left: 0,
+        right: 0,
+      };
+    case "multiply":
+      return {
+        nodeType: "multiply",
+        operator: "*",
+        left: 0,
+        right: 0,
+      };
+    case "divide":
+      return {
+        nodeType: "divide",
+        operator: "/",
+        left: 0,
+        right: 0,
+      };
+    case "modulo":
+      return {
+        nodeType: "modulo",
+        operator: "%",
+        left: 0,
+        right: 0,
+      };
+    case "min":
+      return {
+        nodeType: "min",
+        operator: "MIN",
+        inputCount: 0,
+        inputs: [],
+      };
+    case "max":
+      return {
+        nodeType: "max",
+        operator: "MAX",
+        inputCount: 0,
+        inputs: [],
+      };
+    case "round":
+      return {
+        nodeType: "round",
+        operator: "ROUND",
+        input: 0,
+      };
+    case "floor":
+      return {
+        nodeType: "floor",
+        operator: "FLOOR",
+        input: 0,
+      };
+    case "ceil":
+      return {
+        nodeType: "ceil",
+        operator: "CEIL",
+        input: 0,
+      };
+    default:
+      return {
+        nodeType: "unknown",
+      };
+  }
 }
 
 function createDiscordData() {
@@ -200,326 +335,35 @@ function createWebhookData() {
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* Text helpers                                                               */
-/* -------------------------------------------------------------------------- */
-
-function valueNodeToText(data) {
-  if (!data) return "";
-
-  if (data.valueType === "string") {
-    return `"${data.value ?? ""}"`;
-  }
-
-  if (data.valueType === "boolean") {
-    return String(data.value);
-  }
-
-  return String(data.value ?? "");
-}
-
-/* -------------------------------------------------------------------------- */
-/* Base node                                                                  */
-/* -------------------------------------------------------------------------- */
-
-function BaseNode({ title, type, children, className = "" }) {
-  return (
-    <div className={`notification-node ${className}`}>
-      <div className="notification-node-header">
-        <span>{title}</span>
-
-        <span className="notification-node-type">{type}</span>
-      </div>
-
-      <div className="notification-node-content">{children}</div>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Field node                                                                 */
-/* -------------------------------------------------------------------------- */
-
-function FieldNode({ data }) {
-  var fieldText =
-    data.fieldText || data.field?.path?.join(".") || "Configure field";
-
-  return (
-    <>
-      <BaseNode title="Field" type="DATA" className="field-node">
-        <div className="node-label">GAME FIELD</div>
-
-        <div className="node-expression">{fieldText}</div>
-      </BaseNode>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="output"
-        className="flow-handle"
-      />
-    </>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Value node                                                                 */
-/* -------------------------------------------------------------------------- */
-
-function ValueNode({ data }) {
-  return (
-    <>
-      <BaseNode title="Value" type="DATA" className="value-node">
-        <div className="node-label">CONSTANT</div>
-
-        <div className="node-value">{valueNodeToText(data)}</div>
-      </BaseNode>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="output"
-        className="flow-handle"
-      />
-    </>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Compare node                                                               */
-/* -------------------------------------------------------------------------- */
-
-function CompareNode({ data }) {
-  return (
-    <>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="left"
-        className="flow-handle"
-        style={{ top: "35%" }}
-      />
-
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="right"
-        className="flow-handle"
-        style={{ top: "65%" }}
-      />
-
-      <BaseNode title="Compare" type="LOGIC" className="compare-node">
-        <div className="compare-operator-display">{data.operator || ">"}</div>
-      </BaseNode>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="output"
-        className="flow-handle"
-      />
-    </>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Condition node                                                             */
-/* -------------------------------------------------------------------------- */
-
-function ConditionNode({ id, data }) {
-  const inputCount = data.inputCount;
-
-  /*
-   * There is always one extra empty input handle.
-   *
-   * This allows the user to keep connecting CompareNodes indefinitely:
-   *
-   * input-0
-   * input-1
-   * input-2
-   * ...
-   */
-
-  const totalHandles = inputCount + 1;
-
-  return (
-    <>
-      {Array.from({ length: totalHandles }).map((_, index) => {
-        const top =
-          totalHandles === 1
-            ? "50%"
-            : `${((index + 1) / (totalHandles + 1)) * 100}%`;
-
-        return (
-          <Handle
-            key={`${id}-input-${index}`}
-            type="target"
-            position={Position.Left}
-            id={`input-${index}`}
-            className="flow-handle condition-input-handle"
-            style={{ top }}
-          />
-        );
-      })}
-
-      <BaseNode title="Condition" type="LOGIC" className="condition-node">
-        <div className="condition-operator">{data.operator || "AND"}</div>
-
-        <div className="condition-description">Compare results</div>
-
-        <div className="condition-input-count">
-          {inputCount} input
-          {inputCount === 1 ? "" : "s"}
-        </div>
-      </BaseNode>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="output"
-        className="flow-handle"
-      />
-    </>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Expression node                                                            */
-/* -------------------------------------------------------------------------- */
-
-function ExpressionNode({ id, data }) {
-  const inputCount = data.inputCount;
-
-  /*
-   * There is always one extra empty input handle.
-   *
-   * This allows the user to keep connecting Nodes indefinitely:
-   *
-   * input-0
-   * input-1
-   * input-2
-   * ...
-   */
-
-  const totalHandles = inputCount + 1;
-  return (
-    <>
-      {Array.from({ length: totalHandles }).map((_, index) => {
-        const top =
-          totalHandles === 1
-            ? "50%"
-            : `${((index + 1) / (totalHandles + 1)) * 100}%`;
-
-        return (
-          <Handle
-            key={`${id}-input-${index}`}
-            type="target"
-            position={Position.Left}
-            id={`input-${index}`}
-            className="flow-handle condition-input-handle"
-            style={{ top }}
-          />
-        );
-      })}
-
-      <BaseNode title="Expression" type="ACTION" className="expression-node">
-        <div className="node-description">Evaluate an expression.</div>
-
-        <div className="node-summary">
-          <strong>Expression</strong>
-        </div>
-        <div className="node-summary">
-          {data.expression || "No expression configured"}
-        </div>
-      </BaseNode>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="output"
-        className="flow-handle"
-      />
-    </>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Discord node                                                               */
-/* -------------------------------------------------------------------------- */
-
-function DiscordNode({ data }) {
-  var message = data.message || "No message configured";
-
-  // Get {variable} placeholders from the message
-  var placeholders = message.match(/{[^}]+}/g) || [];
-
-  // Split message into parts: text and placeholders
-  var messageParts = message.split(/({[^}]+})/g);
-
-  return (
-    <>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="input"
-        className="flow-handle"
-      />
-
-      <BaseNode title="Discord" type="ACTION" className="discord-node">
-        <div className="node-description">Send a Discord notification.</div>
-
-        <div className="node-summary">
-          <strong>Message</strong>
-        </div>
-        <div className="node-summary">
-          <div>
-            {messageParts.map((part, index) =>
-              placeholders.includes(part) ? (
-                <span key={`placeholder-${index}`} className="node-expression">
-                  {part}
-                </span>
-              ) : (
-                part
-              ),
-            )}
-          </div>
-        </div>
-      </BaseNode>
-    </>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Webhook node                                                               */
-/* -------------------------------------------------------------------------- */
-
-function WebhookNode({ data }) {
-  return (
-    <>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="input"
-        className="flow-handle"
-      />
-
-      <BaseNode title="Webhook" type="ACTION" className="webhook-node">
-        <div className="node-description">Send an HTTP webhook request.</div>
-
-        <div className="node-summary">{data.url || "No URL configured"}</div>
-      </BaseNode>
-    </>
-  );
-}
-
 const nodeTypes = {
+  // Data
   field: FieldNode,
   value: ValueNode,
+
+  // Logic
   compare: CompareNode,
-  condition: ConditionNode,
+
+  // Gates
+  and: AndNode,
+  or: OrNode,
+  not: NotNode,
+  xor: XorNode,
+
+  // Math
+  add: AddNode,
+  subtract: SubtractNode,
+  multiply: MultiplyNode,
+  divide: DivideNode,
+  modulo: ModuloNode,
+  min: MinNode,
+  max: MaxNode,
+  round: RoundNode,
+  floor: FloorNode,
+  ceil: CeilNode,
+
+  // Action
   discord: DiscordNode,
   webhook: WebhookNode,
-  expression: ExpressionNode,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -802,53 +646,12 @@ function CompareProperties({ node, onChange }) {
           Connect a Field or Value node to each of the two inputs.
         </div>
 
-        <div className="comparison-preview">
+        <div className="expression-preview">
           <span>LEFT</span>
 
           <strong>{node.data.operator || ">"}</strong>
 
           <span>RIGHT</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Condition properties                                                       */
-/* -------------------------------------------------------------------------- */
-
-function ConditionProperties({ node, onChange }) {
-  return (
-    <div className="properties-section">
-      <div className="property-card">
-        <div className="property-card-title">CONDITION</div>
-
-        <label>
-          Operator
-          <select
-            value={node.data.operator || "AND"}
-            onChange={(event) =>
-              onChange({
-                ...node.data,
-
-                operator: event.target.value,
-              })
-            }
-          >
-            <option value="AND">AND</option>
-
-            <option value="OR">OR</option>
-          </select>
-        </label>
-
-        <div className="property-help">
-          Connect as many Compare nodes as needed.
-        </div>
-
-        <div className="condition-properties-count">
-          {node.data.inputCount || 1} comparison
-          {(node.data.inputCount || 1) === 1 ? "" : "s"} connected.
         </div>
       </div>
     </div>
@@ -946,39 +749,6 @@ function ActionProperties({ node, onChange }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Expression properties                                                          */
-/* -------------------------------------------------------------------------- */
-
-function ExpressionProperties({ node, onChange }) {
-  if (!node) {
-    return null;
-  }
-
-  if (node.type !== "expression") {
-    return null;
-  }
-
-  return (
-    <div className="properties-section">
-      <label>
-        Expression
-        <input
-          type="text"
-          value={node.data.expression || ""}
-          placeholder="Enter expression..."
-          onChange={(event) =>
-            onChange({
-              ...node.data,
-              expression: event.target.value,
-            })
-          }
-        />
-      </label>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
 /* Node properties                                                            */
 /* -------------------------------------------------------------------------- */
 
@@ -1002,121 +772,12 @@ function NodeProperties({ node, fields, onChange }) {
       return <ValueProperties node={node} onChange={onChange} />;
     case "compare":
       return <CompareProperties node={node} onChange={onChange} />;
-    case "condition":
-      return <ConditionProperties node={node} onChange={onChange} />;
     case "discord":
     case "webhook":
       return <ActionProperties node={node} onChange={onChange} />;
-    case "expression":
-      return <ExpressionProperties node={node} onChange={onChange} />;
     default:
       return null;
   }
-}
-
-/* -------------------------------------------------------------------------- */
-/* Connection validation                                                      */
-/* -------------------------------------------------------------------------- */
-
-function isValidConnection(connection, nodes, edges) {
-  const source = nodes.find((node) => node.id === connection.source);
-
-  const target = nodes.find((node) => node.id === connection.target);
-
-  if (!source || !target) {
-    return false;
-  }
-
-  /*
-   * Prevent self connections.
-   */
-  if (source.id === target.id) {
-    return false;
-  }
-
-  /*
-   * Field / Value -> Compare / Expression
-   */
-  if (
-    (source.type === "field" || source.type === "value") &&
-    (target.type === "compare" || target.type === "expression")
-  ) {
-    if (
-      connection.targetHandle !== "left" &&
-      connection.targetHandle !== "right" &&
-      !connection.targetHandle?.startsWith("input-")
-    ) {
-      return false;
-    }
-
-    /*
-     * Each Compare input accepts only one connection.
-     */
-    const alreadyConnected = edges.some(
-      (edge) =>
-        edge.target === target.id &&
-        edge.targetHandle === connection.targetHandle,
-    );
-
-    if (alreadyConnected) {
-      return false;
-    }
-
-    return true;
-  }
-
-  /*
-   * Compare / Expression -> Condition / Expression
-   */
-  if (
-    (source.type === "compare" || source.type === "expression") &&
-    (target.type === "condition" || target.type === "expression")
-  ) {
-    if (!connection.targetHandle?.startsWith("input-")) {
-      return false;
-    }
-
-    /*
-     * One connection per Condition input handle.
-     */
-    const alreadyConnected = edges.some(
-      (edge) =>
-        edge.target === target.id &&
-        (edge.targetHandle === connection.targetHandle ||
-          connection.targetHandle?.startsWith("input-")),
-    );
-
-    if (alreadyConnected) {
-      return false;
-    }
-
-    return true;
-  }
-
-  /*
-   * Compare / Condition / Expression -> Discord / Webhook
-   */
-  if (
-    (source.type === "condition" ||
-      source.type === "compare" ||
-      source.type === "expression") &&
-    (target.type === "discord" || target.type === "webhook")
-  ) {
-    // Check if the target already has a connection to the any of its input handles
-    const alreadyConnected = edges.some(
-      (edge) =>
-        edge.target === target.id &&
-        edge.targetHandle === connection.targetHandle,
-    );
-
-    if (alreadyConnected) {
-      return false;
-    }
-
-    return true;
-  }
-
-  return false;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1124,6 +785,8 @@ function isValidConnection(connection, nodes, edges) {
 /* -------------------------------------------------------------------------- */
 
 function NotificationEditorInner({ notificationId, onClose }) {
+  const { updateNodeData } = useReactFlow();
+
   const [notification, setNotification] = useState(null);
 
   const [fieldsDefinition, setFieldsDefinition] = useState({});
@@ -1146,6 +809,108 @@ function NotificationEditorInner({ notificationId, onClose }) {
     () => flattenFields(fieldsDefinition),
     [fieldsDefinition],
   );
+
+  /* -------------------------------------------------------------------------- */
+  /* Connection validation                                                      */
+  /* -------------------------------------------------------------------------- */
+
+  function isValidConnection(connection, nodes, edges) {
+    const source = nodes.find((node) => node.id === connection.source);
+    const target = nodes.find((node) => node.id === connection.target);
+
+    if (!source || !target) {
+      return false;
+    }
+
+    /*
+     * Prevent self connections.
+     */
+    if (source.id === target.id) {
+      return false;
+    }
+
+    /*
+     * Field / Value / MathNodes -> Compare / MathNodes
+     */
+    if (
+      (source.type === "field" ||
+        source.type === "value" ||
+        MATH_NODES.includes(source.type)) &&
+      (MATH_NODES.includes(target.type) || target.type === "compare")
+    ) {
+      if (
+        connection.targetHandle !== "left" &&
+        connection.targetHandle !== "right" &&
+        !connection.targetHandle?.startsWith("input")
+      ) {
+        return false;
+      }
+
+      /*
+       * Each Compare / MathNodes input accepts only one connection.
+       */
+      const alreadyConnected = edges.some(
+        (edge) =>
+          edge.target === target.id &&
+          edge.targetHandle === connection.targetHandle,
+      );
+
+      if (alreadyConnected) {
+        return false;
+      }
+
+      return true;
+    }
+
+    /*
+     * Compare -> GateNodes
+     */
+    if (source.type === "compare" && GATE_NODES.includes(target.type)) {
+      if (!connection.targetHandle?.startsWith("input")) {
+        return false;
+      }
+
+      /*
+       * One connection per GateNodes input handle.
+       */
+      const alreadyConnected = edges.some(
+        (edge) =>
+          edge.target === target.id &&
+          edge.targetHandle === connection.targetHandle,
+      );
+
+      if (alreadyConnected) {
+        return false;
+      }
+
+      return true;
+    }
+
+    /*
+     * GateNodes / Compare -> GateNodes / Discord / Webhook
+     */
+    if (
+      (GATE_NODES.includes(source.type) || source.type === "compare") &&
+      (GATE_NODES.includes(target.type) ||
+        target.type === "discord" ||
+        target.type === "webhook")
+    ) {
+      // Check if the target already has a connection to the any of its input handles
+      const alreadyConnected = edges.some(
+        (edge) =>
+          edge.target === target.id &&
+          edge.targetHandle === connection.targetHandle,
+      );
+
+      if (alreadyConnected) {
+        return false;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
 
   /* ---------------------------------------------------------------------- */
   /* Refresh Node handles                                                   */
@@ -1233,10 +998,10 @@ function NotificationEditorInner({ notificationId, onClose }) {
           const data = node.data || {};
 
           /*
-           * Make sure old/partial Condition / Expression nodes have
+           * Make sure old/partial GateNodes have
            * enough handles for their current connections.
            */
-          if (node.type === "condition" || node.type === "expression") {
+          if (GATE_NODES.includes(node.type)) {
             const conditionEdges = (json.notification.edges || []).filter(
               (edge) =>
                 edge.target === node.id &&
@@ -1325,14 +1090,11 @@ function NotificationEditorInner({ notificationId, onClose }) {
 
         /*
          * If a CompareNode was connected to a
-         * ConditionNode, create another input handle.
+         * valid multi input node, create another input handle.
          */
         const targetNode = nodes.find((node) => node.id === connection.target);
 
-        if (
-          targetNode?.type === "condition" ||
-          targetNode?.type === "expression"
-        ) {
+        if (["min", "max", "and", "or", "xor"].includes(targetNode?.type)) {
           const connectedInputs = nextEdges.filter(
             (edge) =>
               edge.target === targetNode.id &&
@@ -1425,19 +1187,18 @@ function NotificationEditorInner({ notificationId, onClose }) {
         case "compare":
           data = createCompareData();
           break;
-        case "condition":
-          data = createConditionData();
-          break;
         case "discord":
           data = createDiscordData();
           break;
         case "webhook":
           data = createWebhookData();
           break;
-        case "expression":
-          data = createExpressionData();
-          break;
         default:
+          if (MATH_NODES.includes(type)) {
+            data = createMathData(type);
+          } else if (GATE_NODES.includes(type)) {
+            data = createGateData(type);
+          }
           break;
       }
 
@@ -1458,7 +1219,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
   );
 
   /* ---------------------------------------------------------------------- */
-  /* Selected node                                                            */
+  /* Selected node                                                          */
   /* ---------------------------------------------------------------------- */
 
   const selectedNode = useMemo(
@@ -1470,28 +1231,13 @@ function NotificationEditorInner({ notificationId, onClose }) {
     (data) => {
       if (!selectedNodeId) return;
 
-      setNodes((current) =>
-        current.map((node) =>
-          node.id === selectedNodeId
-            ? {
-                ...node,
-                data,
-              }
-            : node,
-        ),
-      );
-
-      if (selectedNode?.type === "condition") {
-        requestAnimationFrame(() => {
-          updateNodeInternals(selectedNodeId);
-        });
-      }
+      updateNodeData(selectedNodeId, data);
     },
-    [selectedNodeId, selectedNode, setNodes, updateNodeInternals],
+    [selectedNodeId, selectedNode, setNodes],
   );
 
   /* ---------------------------------------------------------------------- */
-  /* Delete node                                                             */
+  /* Delete node                                                            */
   /* ---------------------------------------------------------------------- */
 
   const deleteSelectedNode = useCallback(() => {
@@ -1511,8 +1257,8 @@ function NotificationEditorInner({ notificationId, onClose }) {
     /*
      * If a CompareNode was removed from a
      * ConditionNode, recalculate its inputs.
-     */
-    if (deletedNode?.type === "compare" || deletedNode?.type === "expression") {
+     *
+    if (deletedNode?.type === "compare") {
       const affectedConditions = nodes
         .filter(
           (node) =>
@@ -1537,6 +1283,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
         }
       });
     }
+      */
 
     setSelectedNodeId(null);
   }, [selectedNodeId, nodes, edges, setNodes, setEdges, refreshNodeHandles]);
@@ -1704,43 +1451,167 @@ function NotificationEditorInner({ notificationId, onClose }) {
       <div className="notification-editor-body">
         <aside className="notification-sidebar">
           <div className="sidebar-section">
-            <h3>Data</h3>
-
-            <button type="button" onClick={() => addNode("field")}>
-              + Field
+            <button
+              className="accordion-toggle"
+              onClick={() => {
+                const accordion = document.getElementById("data-accordion");
+                const toggle = document.getElementById("data-accordion-toggle");
+                if (toggle) {
+                  toggle.textContent = accordion.classList.contains(
+                    "accordion-open",
+                  )
+                    ? "+"
+                    : "-";
+                }
+                accordion.classList.toggle("accordion-closed");
+                accordion.classList.toggle("accordion-open");
+              }}
+            >
+              <h3>
+                Data <span id="data-accordion-toggle">-</span>
+              </h3>
             </button>
-
-            <button type="button" onClick={() => addNode("value")}>
-              + Value
-            </button>
+            <div className="accordion-open" id="data-accordion">
+              <button type="button" onClick={() => addNode("field")}>
+                + Field
+              </button>
+              <button type="button" onClick={() => addNode("value")}>
+                + Value
+              </button>
+            </div>
           </div>
 
           <div className="sidebar-section">
-            <h3>Logic</h3>
-
-            <button type="button" onClick={() => addNode("compare")}>
-              + Compare
+            <button
+              className="accordion-toggle"
+              onClick={() => {
+                const accordion = document.getElementById("logic-accordion");
+                const toggle = document.getElementById(
+                  "logic-accordion-toggle",
+                );
+                if (toggle) {
+                  toggle.textContent = accordion.classList.contains(
+                    "accordion-open",
+                  )
+                    ? "+"
+                    : "-";
+                }
+                accordion.classList.toggle("accordion-closed");
+                accordion.classList.toggle("accordion-open");
+              }}
+            >
+              <h3>
+                Logic <span id="logic-accordion-toggle">-</span>
+              </h3>
             </button>
 
-            <button type="button" onClick={() => addNode("condition")}>
-              + Condition
-            </button>
-
-            <button type="button" onClick={() => addNode("expression")}>
-              + Expression
-            </button>
+            <div className="accordion-open" id="logic-accordion">
+              <button type="button" onClick={() => addNode("compare")}>
+                + Compare
+              </button>
+              <button type="button" onClick={() => addNode("and")}>
+                + And
+              </button>
+              <button type="button" onClick={() => addNode("or")}>
+                + Or
+              </button>
+              <button type="button" onClick={() => addNode("xor")}>
+                + Xor
+              </button>
+              <button type="button" onClick={() => addNode("not")}>
+                + Not
+              </button>
+            </div>
           </div>
 
           <div className="sidebar-section">
-            <h3>Actions</h3>
-
-            <button type="button" onClick={() => addNode("discord")}>
-              + Discord
+            <button
+              className="accordion-toggle"
+              onClick={() => {
+                const accordion = document.getElementById("math-accordion");
+                const toggle = document.getElementById("math-accordion-toggle");
+                if (toggle) {
+                  toggle.textContent = accordion.classList.contains(
+                    "accordion-open",
+                  )
+                    ? "+"
+                    : "-";
+                }
+                accordion.classList.toggle("accordion-closed");
+                accordion.classList.toggle("accordion-open");
+              }}
+            >
+              <h3>
+                Math <span id="math-accordion-toggle">+</span>
+              </h3>
             </button>
 
-            <button type="button" onClick={() => addNode("webhook")}>
-              + Webhook
+            <div className="accordion-closed" id="math-accordion">
+              <button type="button" onClick={() => addNode("add")}>
+                + Add
+              </button>
+              <button type="button" onClick={() => addNode("subtract")}>
+                + Subtract
+              </button>
+              <button type="button" onClick={() => addNode("multiply")}>
+                + Multiply
+              </button>
+              <button type="button" onClick={() => addNode("divide")}>
+                + Divide
+              </button>
+              <button type="button" onClick={() => addNode("modulo")}>
+                + Modulo
+              </button>
+              <button type="button" onClick={() => addNode("min")}>
+                + Minimum
+              </button>
+              <button type="button" onClick={() => addNode("max")}>
+                + Maximum
+              </button>
+              <button type="button" onClick={() => addNode("round")}>
+                + Round
+              </button>
+              <button type="button" onClick={() => addNode("floor")}>
+                + Floor
+              </button>
+              <button type="button" onClick={() => addNode("ceil")}>
+                + Ceil
+              </button>
+            </div>
+          </div>
+
+          <div className="sidebar-section">
+            <button
+              className="accordion-toggle"
+              onClick={() => {
+                const accordion = document.getElementById("actions-accordion");
+                const toggle = document.getElementById(
+                  "actions-accordion-toggle",
+                );
+                if (toggle) {
+                  toggle.textContent = accordion.classList.contains(
+                    "accordion-open",
+                  )
+                    ? "+"
+                    : "-";
+                }
+                accordion.classList.toggle("accordion-closed");
+                accordion.classList.toggle("accordion-open");
+              }}
+            >
+              <h3>
+                Actions <span id="actions-accordion-toggle">+</span>
+              </h3>
             </button>
+
+            <div className="accordion-closed" id="actions-accordion">
+              <button type="button" onClick={() => addNode("discord")}>
+                + Discord
+              </button>
+              <button type="button" onClick={() => addNode("webhook")}>
+                + Webhook
+              </button>
+            </div>
           </div>
 
           <div className="sidebar-section">
@@ -1800,18 +1671,22 @@ function NotificationEditorInner({ notificationId, onClose }) {
               zoomable
               nodeColor={(node) => {
                 switch (node.type) {
+                  case "value":
                   case "field":
                     return "#2C4E6E";
-                  case "condition":
-                    return "#13AC18";
                   case "compare":
                     return "#7700FF";
-                  case "value":
-                    return "#787E00";
+                  case "webhook":
                   case "discord":
                     return "#2E3EEC";
-                  default:
-                    return "#AA1414";
+                  default: {
+                    if (MATH_NODES.includes(node.type)) {
+                      return "#02757D";
+                    } else if (GATE_NODES.includes(node.type)) {
+                      return "#005b05";
+                    }
+                    return "#FF0000";
+                  }
                 }
               }}
               nodeStrokeWidth={10}
