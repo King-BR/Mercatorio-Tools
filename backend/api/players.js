@@ -21,6 +21,10 @@ router.get("/me", auth, async (req, res) => {
         keyData.keyType === "GAME" && keyData.permissions.includes("READ"),
     );
 
+    if (!userAuth) {
+      return res.status(403).json({ error: "No valid API key found" });
+    }
+
     const player = await getPlayer(req, {
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
@@ -45,6 +49,10 @@ router.get("/me/inventory", auth, async (req, res) => {
         keyData.keyType === "GAME" && keyData.permissions.includes("READ"),
     );
 
+    if (!userAuth) {
+      return res.status(403).json({ error: "No valid API key found" });
+    }
+
     const player = await getPlayer(req, {
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
@@ -56,6 +64,8 @@ router.get("/me/inventory", auth, async (req, res) => {
     });
     res.json(inventory);
   } catch (error) {
+    console.error("Error getting player inventory data:", error);
+
     utils.sendDiscordMessage(
       client,
       config.errorChannelId,
@@ -75,6 +85,10 @@ router.get("/me/buildings", auth, async (req, res) => {
       (keyData) =>
         keyData.keyType === "GAME" && keyData.permissions.includes("READ"),
     );
+
+    if (!userAuth) {
+      return res.status(403).json({ error: "No valid API key found" });
+    }
 
     const player = await getPlayer(req, {
       user: userAuth?.mercUser || null,
@@ -108,6 +122,10 @@ router.get("/me/buildings/all", auth, async (req, res) => {
       (keyData) =>
         keyData.keyType === "GAME" && keyData.permissions.includes("READ"),
     );
+
+    if (!userAuth) {
+      return res.status(403).json({ error: "No valid API key found" });
+    }
 
     const player = await getPlayer(req, {
       user: userAuth?.mercUser || null,
@@ -153,6 +171,10 @@ router.get("/me/buildings/id/:id", auth, async (req, res) => {
       (keyData) =>
         keyData.keyType === "GAME" && keyData.permissions.includes("READ"),
     );
+
+    if (!userAuth) {
+      return res.status(403).json({ error: "No valid API key found" });
+    }
 
     const player = await getPlayer(req, {
       user: userAuth?.mercUser || null,
