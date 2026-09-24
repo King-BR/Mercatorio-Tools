@@ -62,10 +62,32 @@ function validateWorkflow(nodes, edges) {
 
     if (
       ![
+        // Data nodes
         "field",
         "value",
-        "condition",
+
+        // Logic nodes
         "compare",
+
+        // Gate nodes
+        "and",
+        "or",
+        "xor",
+        "not",
+
+        // Math nodes
+        "add",
+        "subtract",
+        "multiply",
+        "divide",
+        "modulo",
+        "min",
+        "max",
+        "round",
+        "floor",
+        "ceil",
+
+        // Action nodes
         "discord",
         "webhook",
       ].includes(node.type)

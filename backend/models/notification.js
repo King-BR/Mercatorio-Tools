@@ -12,7 +12,36 @@ const NotificationNodeSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-      enum: ["field", "value", "condition", "compare", "discord", "webhook"],
+      enum: [
+        // Data nodes
+        "field",
+        "value",
+
+        // Logic nodes
+        "compare",
+
+        // Gate nodes
+        "and",
+        "or",
+        "xor",
+        "not",
+
+        // Math nodes
+        "add",
+        "subtract",
+        "multiply",
+        "divide",
+        "modulo",
+        "min",
+        "max",
+        "round",
+        "floor",
+        "ceil",
+
+        // Action nodes
+        "discord",
+        "webhook",
+      ],
     },
 
     position: {
