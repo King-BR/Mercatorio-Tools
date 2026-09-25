@@ -15,9 +15,9 @@ const {
 const router = express.Router();
 
 // GET /api/buildings
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const buildings = getBuildings();
+    const buildings = await getBuildings();
     res.json(Array.from(buildings.values()));
   } catch (error) {
     utils.sendDiscordMessage(
@@ -31,9 +31,9 @@ router.get("/", (req, res) => {
 });
 
 // GET /api/buildings/types
-router.get("/types", (req, res) => {
+router.get("/types", async (req, res) => {
   try {
-    const buildingTypes = getBuildingTypes();
+    const buildingTypes = await getBuildingTypes();
     res.json(buildingTypes);
   } catch (error) {
     utils.sendDiscordMessage(
@@ -68,9 +68,19 @@ router.get("/descriptions", (req, res) => {
 });
 
 // GET /api/buildings/upgrades
-router.get("/upgrades", (req, res) => {
-  const upgrades = getUpgrades();
-  res.json(Array.from(upgrades.values()));
+router.get("/upgrades", async (req, res) => {
+  try {
+    const upgrades = await getUpgrades();
+    res.json(Array.from(upgrades.values()));
+  } catch (error) {
+    utils.sendDiscordMessage(
+      client,
+      config.errorChannelId,
+      `Error getting upgrades: ${error.message}`,
+    );
+
+    res.status(500).json({ message: "Server error", error });
+  }
 });
 
 // GET /api/buildings/upgrades/descriptions

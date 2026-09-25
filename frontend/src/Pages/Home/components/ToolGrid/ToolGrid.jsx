@@ -1,7 +1,7 @@
 import ToolCard from "../ToolCard/ToolCard";
 import "./ToolGrid.css";
 
-function ToolGrid({ tools, featured = false }) {
+function ToolGrid({ tools, featured = false, earlyTester = false }) {
   if (tools.length === 0) {
     return (
       <div className="no-tools">
@@ -17,7 +17,12 @@ function ToolGrid({ tools, featured = false }) {
   return (
     <div className={`tool-grid ${featured ? "featured-grid" : ""}`}>
       {tools.map((tool) => (
-        <ToolCard key={tool.slug} tool={tool} featured={featured} />
+        <ToolCard
+          key={tool.slug}
+          tool={tool}
+          featured={featured}
+          earlyTester={earlyTester}
+        />
       ))}
     </div>
   );

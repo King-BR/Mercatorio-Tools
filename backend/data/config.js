@@ -40,6 +40,7 @@ module.exports = {
   base_transport_url: base_transport_url,
 
   towns_url: `${base_url}/towns`,
+  marketdata_url: `${base_url}/towns/{townID}/marketdata`,
 
   transport_url: `${base_transport_url}/{transportID}`,
   travel_url: `${base_transport_url}/{transportID}/travel`,
@@ -51,8 +52,10 @@ module.exports = {
   // transports, money and buildings list
   business_url: `${base_url}/businesses/{businessID}`,
 
-  // recipes
+  // static data
   recipes_url: `${base_url}/config/recipes`,
+  buildings_url: `${base_url}/config/buildings`,
+  products_url: `${base_url}/config/products`,
 
   // data cache duration (2 hours)
   cacheDuration: 2 * 60 * 60 * 1000,

@@ -407,11 +407,12 @@ router.get("/me", auth, async (req, res) => {
  * Allowed:
  *
  * - settings.notifications.discord
+ * - isEarlyTester
  */
 
 router.patch("/me", auth, async (req, res) => {
   try {
-    const { settings } = req.body;
+    const { settings, isEarlyTester } = req.body;
 
     const user = await UsersDB.findById(req.user._id);
 
@@ -431,6 +432,10 @@ router.patch("/me", auth, async (req, res) => {
           settings.notifications.discord,
         );
       }
+    }
+
+    if (isEarlyTester !== undefined) {
+      user.isEarlyTester = Boolean(isEarlyTester);
     }
 
     await user.save();

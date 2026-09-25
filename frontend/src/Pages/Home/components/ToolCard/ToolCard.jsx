@@ -1,7 +1,7 @@
 import "./ToolCard.css";
 import { DEV } from "../../../../utils/logger";
 
-function ToolCard({ tool, featured = false }) {
+function ToolCard({ tool, featured = false, earlyTester = false }) {
   var isFunctional = tool.functional;
   var status = null;
 
@@ -11,7 +11,6 @@ function ToolCard({ tool, featured = false }) {
       break;
     case "dev":
       status = "In development";
-      if (DEV) isFunctional = true;
       break;
     case "planned":
       status = "Planned";
@@ -21,6 +20,10 @@ function ToolCard({ tool, featured = false }) {
       break;
     default:
       status = "Unknown";
+  }
+
+  if ((earlyTester && tool.earlyAccess) || DEV) {
+    isFunctional = true;
   }
 
   const handleClick = () => {

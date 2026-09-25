@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 
 import { getTools, getToolsCategories } from "../../services/api.js";
+import { useAuth } from "../../context/AuthContext";
 
 import ToolGrid from "./components/ToolGrid/ToolGrid.jsx";
 import TopNavbar from "../../components/TopNavbar/TopNavbar.jsx";
@@ -8,6 +9,7 @@ import TopNavbar from "../../components/TopNavbar/TopNavbar.jsx";
 import "./Home.css";
 
 function Home() {
+  const { user, isEarlyTester } = useAuth();
   const [tools, setTools] = useState([]);
 
   const [categories, setCategories] = useState([]);
@@ -94,7 +96,7 @@ function Home() {
               </div>
             </div>
 
-            <ToolGrid tools={featuredTools} featured />
+            <ToolGrid tools={featuredTools} featured earlyTester={isEarlyTester} />
           </section>
         )}
 
@@ -126,7 +128,7 @@ function Home() {
             ))}
           </div>
 
-          <ToolGrid tools={filteredTools} />
+          <ToolGrid tools={filteredTools} earlyTester={isEarlyTester} />
         </section>
       </div>
     </main>

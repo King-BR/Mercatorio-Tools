@@ -24,6 +24,10 @@ function Account() {
     user?.settings?.info?.publicStats ?? false,
   );
 
+  const [isEarlyTester, setIsEarlyTester] = useState(
+    user?.isEarlyTester ?? false,
+  );
+
   const [saving, setSaving] = useState(false);
 
   const [message, setMessage] = useState("");
@@ -49,8 +53,8 @@ function Account() {
 
   useEffect(() => {
     setDiscordNotifications(user?.settings?.notifications?.discord ?? false);
-
     setPublicStats(user?.settings?.info?.publicStats ?? false);
+    setIsEarlyTester(user?.isEarlyTester ?? false);
   }, [user]);
 
   const apiKeys = useMemo(() => user?.apiKeys ?? [], [user]);
@@ -89,6 +93,7 @@ function Account() {
         },
 
         body: JSON.stringify({
+          isEarlyTester,
           settings: {
             notifications: {
               discord: discordNotifications,
@@ -433,6 +438,14 @@ function Account() {
             </div>
 
             <button
+              className="primary-button save-button"
+              onClick={saveChanges}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save Changes"}
+            </button>
+
+            <button
               type="button"
               className="logout-button"
               onClick={handleLogout}
@@ -491,6 +504,41 @@ function Account() {
                   Discord ID: <span>{user?.discord?.id || "Unknown"}</span>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* ================================== */}
+          {/* Early Access */}
+          {/* ================================== */}
+
+          <section className="account-section">
+            <div className="section-header">
+              <h2>Early Access</h2>
+
+              <p>
+                Choose whether you want to participate in the early access
+                program for Mercatorio Tools.
+              </p>
+            </div>
+
+            <div className="notification-options">
+              <label className="checkbox-option">
+                <input
+                  type="checkbox"
+                  checked={isEarlyTester}
+                  onChange={(event) => setIsEarlyTester(event.target.checked)}
+                  disabled={!user?.discord?.id || saving}
+                />
+
+                <div>
+                  <strong>Early Access</strong>
+
+                  <span>
+                    Participate in the early access program for Mercatorio
+                    Tools.
+                  </span>
+                </div>
+              </label>
             </div>
           </section>
 

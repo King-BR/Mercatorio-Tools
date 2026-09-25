@@ -80,7 +80,7 @@ function makeId(prefix) {
 /* -------------------------------------------------------------------------- */
 
 function flattenFields(fields) {
-  const result = [];
+  var result = [];
 
   function walk(value, path = []) {
     if (!value || typeof value !== "object") return;
@@ -110,6 +110,8 @@ function flattenFields(fields) {
   }
 
   walk(fields);
+
+  result = result.filter((item) => item.path.includes("market"));
 
   return result;
 }

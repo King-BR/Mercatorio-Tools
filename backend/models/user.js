@@ -108,6 +108,11 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
 
+    isEarlyTester: {
+      type: Boolean,
+      default: false,
+    },
+
     notifications: [
       {
         type: ObjectId,

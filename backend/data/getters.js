@@ -16,9 +16,8 @@ var upgradesData = new Map();
 var upgradesDescData = new Map();
 
 // Market data
-const MARKET_DATA_URL = "https://api.mercatorio-tools.tech/data/marketdata";
 const marketData = new Map();
-const marketCacheDuration = 10 * 60 * 1000; // 10 minutes
+const marketCacheDuration = 15 * 60 * 1000; // 15 minutes
 var lastMarketCache = null;
 
 // Products data
@@ -179,26 +178,36 @@ function getFerries() {
   return ferriesCache;
 }
 
-function getBuildings() {
+async function getBuildings() {
   const now = Date.now();
 
   if (lastBuildingsUpdate && now - lastBuildingsUpdate < cacheDuration) {
     return buildingsData;
   }
 
-  const filePath = path.join(__dirname, "../data/buildings.json");
-  const data = fs.readFileSync(filePath, "utf8");
-  const buildings = JSON.parse(data);
+  // get buildings from api
+  const newBuildings = await (
+    await fetch(config.buildings_url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.MERC_API_TOKEN}`,
+        "X-Merc-User": `${process.env.MERC_API_USER}`,
+      },
+    })
+  ).json();
 
   buildingsData.clear();
-  buildings.forEach((building) => buildingsData.set(building.type, building));
+  newBuildings.forEach((building) =>
+    buildingsData.set(building.type, building),
+  );
 
   lastBuildingsUpdate = now;
   return buildingsData;
 }
 
-function getBuildingTypes() {
-  const buildings = getBuildings();
+async function getBuildingTypes() {
+  const buildings = await getBuildings();
   return Array.from(buildings.keys());
 }
 
@@ -225,14 +234,14 @@ function getBuildingsDescriptions() {
   return buildingsDescData;
 }
 
-function getUpgrades() {
+async function getUpgrades() {
   const now = Date.now();
 
   if (lastUpgradesUpdate && now - lastUpgradesUpdate < cacheDuration) {
     return upgradesData;
   }
 
-  const buildings = Array.from(getBuildings().values());
+  const buildings = Array.from((await getBuildings()).values());
 
   upgradesData.clear();
   buildings.forEach((building) => {
@@ -267,25 +276,39 @@ function getUpgradesDescriptions() {
   return upgradesDescData;
 }
 
-async function getMarketData(force = false) {
+async function getMarketData({
+  force = false,
+  maxAge = marketCacheDuration,
+} = {}) {
   try {
     const currentDate = new Date();
 
     if (
       force ||
       !lastMarketCache ||
-      Math.abs(currentDate.getTime() - lastMarketCache.getTime()) >=
-        marketCacheDuration
+      Math.abs(currentDate.getTime() - lastMarketCache.getTime()) >= maxAge
     ) {
       marketData.clear();
 
-      // fetch from market data API
-      const response = await fetch(MARKET_DATA_URL);
-      const parsedData = await response.json();
+      const towns = await getTowns();
 
-      parsedData.forEach((market) => {
-        marketData.set(market.name.toLowerCase(), market);
-      });
+      for (const town of towns.values()) {
+        await fetch(config.marketdata_url.replace("{townID}", town.id), {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.MERC_API_TOKEN}`,
+            "X-Merc-User": `${process.env.MERC_API_USER}`,
+          },
+        })
+          .then((response) => {
+            // console.log(response)
+            return response.json();
+          })
+          .then((market) => {
+            marketData.set(town.name.toLowerCase(), market);
+          });
+      }
 
       lastMarketCache = new Date();
       return marketData;
@@ -298,16 +321,24 @@ async function getMarketData(force = false) {
   }
 }
 
-function getProducts() {
+async function getProducts() {
   var now = Date.now();
 
   if (!lastProductsCache || now - lastProductsCache > cacheDuration) {
-    const products = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../data/products.json"), "utf8"),
-    );
+    // get products from api
+    const newProducts = await (
+      await fetch(config.products_url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.MERC_API_TOKEN}`,
+          "X-Merc-User": `${process.env.MERC_API_USER}`,
+        },
+      })
+    ).json();
 
     productsCache.clear();
-    products.forEach((product) => {
+    newProducts.forEach((product) => {
       productsCache.set(product.name.toLowerCase(), product);
     });
     lastProductsCache = now;

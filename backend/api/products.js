@@ -9,9 +9,9 @@ const { getProducts } = require("../data/getters.js");
 const router = express.Router();
 
 // GET /api/products
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    res.json(Array.from(getProducts().values()));
+    res.json(Array.from((await getProducts()).values()));
   } catch (error) {
     utils.sendDiscordMessage(
       client,
@@ -24,10 +24,10 @@ router.get("/", (req, res) => {
 });
 
 // GET /api/products/:name
-router.get("/:name", (req, res) => {
+router.get("/:name", async (req, res) => {
   try {
     const name = req.params.name.toLowerCase();
-    const products = getProducts();
+    const products = await getProducts();
     const product = products.get(name);
 
     if (!product) {
@@ -48,10 +48,10 @@ router.get("/:name", (req, res) => {
 });
 
 // GET /api/products/class/:className
-router.get("/class/:className", (req, res) => {
+router.get("/class/:className", async (req, res) => {
   try {
     const className = req.params.className.toLowerCase();
-    const products = getProducts();
+    const products = await getProducts();
     const filteredProducts = Array.from(products.values()).filter((p) =>
       p.classes.map((c) => c.toLowerCase()).includes(className),
     );

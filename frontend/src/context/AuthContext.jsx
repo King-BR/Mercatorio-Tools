@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [hasMercatorioApiKey, setHasMercatorioApiKey] = useState(false);
   const [hasMercToolsApiKey, setHasMercToolsApiKey] = useState(false);
+  const [isEarlyTester, setIsEarlyTester] = useState(false);
 
   async function refreshUser() {
     try {
@@ -30,6 +31,8 @@ export function AuthProvider({ children }) {
         data.user.apiKeys.find((keyData) => keyData.keyType === "MERCTOOLS") !==
           undefined,
       );
+
+      setIsEarlyTester(data.user.isEarlyTester ?? false);
 
       setUser(data.user ?? data);
 
@@ -95,6 +98,7 @@ export function AuthProvider({ children }) {
         user,
         hasMercatorioApiKey,
         hasMercToolsApiKey,
+        isEarlyTester,
         loading,
         loginWithDiscord,
         logout,
