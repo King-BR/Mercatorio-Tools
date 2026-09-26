@@ -53,9 +53,11 @@ module.exports = {
   business_url: `${base_url}/businesses/{businessID}`,
 
   // static data
-  recipes_url: `${base_url}/config/recipes`,
-  buildings_url: `${base_url}/config/buildings`,
-  products_url: `${base_url}/config/products`,
+  data_recipes_url: `${base_url}/config/recipes`,
+  data_buildings_url: `${base_url}/config/buildings`,
+  data_products_url: `${base_url}/config/products`,
+  data_transports_url: `${base_url}/config/transports`,
+  data_prestige_url: `${base_url}/config/parameters`,
 
   // data cache duration (2 hours)
   cacheDuration: 2 * 60 * 60 * 1000,

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
+const DEBUG = process.argv.includes("--debug");
 const config = require("./config.js");
 const cacheDuration = config.cacheDuration; // 2 hours
 const minuteUpdate = 6;
@@ -33,8 +34,7 @@ var lastFerriesCacheUpdate = null;
 // Prestige data
 const prestigeBoardData = new Map();
 const sustenanceData = new Map();
-var lastBoardCache = null;
-var lastSustenanceCache = null;
+var lastPrestigeDataUpdate = null;
 
 // Recipes data
 const recipesCache = new Map();
@@ -57,21 +57,24 @@ const townsCacheDuration = 30 * 60 * 1000; // 30 minutes
  *  =======================================
  */
 
-function getTransports() {
+async function getTransports() {
   const now = Date.now();
 
   if (lastTransportUpdate && now - lastTransportUpdate < cacheDuration) {
     return transportsData;
   }
 
-  const filePath = path.join(__dirname, "../data/transports.json");
-  const data = fs.readFileSync(filePath, "utf8");
-  const transports = JSON.parse(data);
-
   transportsData.clear();
-  transports.forEach((transport) =>
-    transportsData.set(transport.type, transport),
-  );
+
+  await fetch(config.data_transports_url, {
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((transports) => {
+      transports.forEach((transport) =>
+        transportsData.set(transport.type, transport),
+      );
+    });
 
   lastTransportUpdate = now;
   return transportsData;
@@ -100,42 +103,58 @@ function getTransportOperations() {
   return transportOperationsData;
 }
 
-function getPrestigeBoard() {
+async function updatePrestigeData() {
   const now = Date.now();
 
-  if (!lastBoardCache || now - lastBoardCache > cacheDuration) {
+  if (!lastPrestigeDataUpdate || now - lastPrestigeDataUpdate > cacheDuration) {
     prestigeBoardData.clear();
-    const data = JSON.parse(
-      fs.readFileSync(
-        path.join(__dirname, "../data/prestige_board_levels.json"),
-        "utf8",
-      ),
+    sustenanceData.clear();
+
+    const prestigeData = await fetch(config.data_prestige_url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.MERC_API_TOKEN}`,
+        "X-Merc-User": `${process.env.MERC_API_USER}`,
+      },
+    }).then((response) => response.json());
+
+    Object.entries(prestigeData.prestige_bonuses).forEach(([key, item]) =>
+      prestigeBoardData.set(key.toLowerCase(), item),
     );
 
-    Object.keys(data).forEach((key) => {
-      prestigeBoardData.set(key.toLowerCase(), data[key]);
-    });
+    prestigeData.household_products.forEach((item) =>
+      sustenanceData.set(item.category.toLowerCase(), item),
+    );
 
-    lastBoardCache = now;
+    lastPrestigeDataUpdate = now;
+    return;
+  }
+
+  return;
+}
+
+async function getPrestigeBoard() {
+  const now = Date.now();
+
+  if (!lastPrestigeDataUpdate || now - lastPrestigeDataUpdate > cacheDuration) {
+    prestigeBoardData.clear();
+    sustenanceData.clear();
+
+    await updatePrestigeData();
   }
 
   return prestigeBoardData;
 }
 
-function getSustenance() {
+async function getSustenance() {
   const now = Date.now();
 
-  if (!lastSustenanceCache || now - lastSustenanceCache > cacheDuration) {
+  if (!lastPrestigeDataUpdate || now - lastPrestigeDataUpdate > cacheDuration) {
+    prestigeBoardData.clear();
     sustenanceData.clear();
-    const data = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../data/sustenance.json"), "utf8"),
-    );
 
-    data.forEach((item) => {
-      sustenanceData.set(item.category.toLowerCase(), item);
-    });
-
-    lastSustenanceCache = now;
+    await updatePrestigeData();
   }
 
   return sustenanceData;
@@ -187,7 +206,7 @@ async function getBuildings() {
 
   // get buildings from api
   const newBuildings = await (
-    await fetch(config.buildings_url, {
+    await fetch(config.data_buildings_url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -198,8 +217,14 @@ async function getBuildings() {
   ).json();
 
   buildingsData.clear();
-  newBuildings.forEach((building) =>
+  Object.values(newBuildings).forEach((building) =>
     buildingsData.set(building.type, building),
+  );
+
+  fs.writeFileSync(
+    path.join(__dirname, "./buildings.json"),
+    JSON.stringify(Array.from(buildingsData.values()), null, 2),
+    "utf8",
   );
 
   lastBuildingsUpdate = now;
@@ -290,6 +315,19 @@ async function getMarketData({
     ) {
       marketData.clear();
 
+      if (DEBUG) {
+        const response = await fetch(
+          "https://api.mercatorio-tools.tech/data/marketdata",
+        );
+        const markets = await response.json();
+
+        markets.forEach((market) => {
+          marketData.set(market.town.toLowerCase(), market);
+        });
+
+        return marketData;
+      }
+
       const towns = await getTowns();
 
       for (const town of towns.values()) {
@@ -327,7 +365,7 @@ async function getProducts() {
   if (!lastProductsCache || now - lastProductsCache > cacheDuration) {
     // get products from api
     const newProducts = await (
-      await fetch(config.products_url, {
+      await fetch(config.data_products_url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -362,7 +400,7 @@ async function getRecipes(force = false) {
     try {
       // get recipes from api
       const newRecipes = await (
-        await fetch(config.recipes_url, {
+        await fetch(config.data_recipes_url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

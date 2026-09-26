@@ -9,9 +9,9 @@ const { getPrestigeBoard, getSustenance } = require("../data/getters.js");
 const router = express.Router();
 
 // GET /api/prestige/board
-router.get("/board", (req, res) => {
+router.get("/board", async (req, res) => {
   try {
-    const data = getPrestigeBoard();
+    const data = await getPrestigeBoard();
 
     // converto map to object {key: value}
     const objectData = Object.fromEntries(data);
@@ -34,10 +34,10 @@ router.get("/board", (req, res) => {
 });
 
 // GET /api/prestige/board/:category
-router.get("/board/:category", (req, res) => {
+router.get("/board/:category", async (req, res) => {
   try {
     const category = req.params.category.toLowerCase();
-    const data = getPrestigeBoard();
+    const data = await getPrestigeBoard();
     var filteredData = null;
     const categories = Array.from(data.keys());
 
@@ -70,9 +70,9 @@ router.get("/board/:category", (req, res) => {
 });
 
 // GET /api/prestige/sustenance
-router.get("/sustenance", (req, res) => {
+router.get("/sustenance", async (req, res) => {
   try {
-    res.json(getSustenance());
+    res.json(Array.from((await getSustenance()).values()));
   } catch (error) {
     console.log("Error retrieving sustenance data:", error);
 
@@ -90,10 +90,10 @@ router.get("/sustenance", (req, res) => {
 });
 
 // GET /api/prestige/sustenance/:category
-router.get("/sustenance/:category", (req, res) => {
+router.get("/sustenance/:category", async (req, res) => {
   try {
     const category = req.params.category.toLowerCase();
-    const data = getSustenance();
+    const data = await getSustenance();
     var filteredData = null;
     const categories = Array.from(data.keys());
 

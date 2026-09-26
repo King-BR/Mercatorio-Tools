@@ -9,9 +9,9 @@ const { getTransports, getTransportOperations } = require("../data/getters.js");
 const router = express.Router();
 
 // GET /api/transports
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const transports = getTransports();
+    const transports = await getTransports();
     res.json(Array.from(transports.values()));
   } catch (error) {
     utils.sendDiscordMessage(
@@ -24,9 +24,9 @@ router.get("/", (req, res) => {
 });
 
 // GET /api/transports/category/:category
-router.get("/category/:category", (req, res) => {
+router.get("/category/:category", async (req, res) => {
   try {
-    const transports = getTransports();
+    const transports = await getTransports();
     const category = req.params.category;
     const filteredTransports = Array.from(transports.values()).filter(
       (transport) => transport.category == category,
