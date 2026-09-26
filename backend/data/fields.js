@@ -43,10 +43,6 @@ module.exports = {
     town_X: {
       market: {
         product_X: {
-          name: {
-            type: "string",
-            operators: stringOperators,
-          },
           price: {
             type: "number",
             operators: numberOperators,
@@ -104,10 +100,6 @@ module.exports = {
     },
     inventory: {
       product_X: {
-        name: {
-          type: "string",
-          operators: stringOperators,
-        },
         balance: {
           type: "number",
           operators: numberOperators,
@@ -173,42 +165,6 @@ module.exports = {
         expired_value: {
           type: "number",
           operators: numberOperators,
-        },
-      },
-    },
-    building_X: {
-      name: {
-        type: "string",
-        operators: stringOperators,
-      },
-      buildingType: {
-        type: "string",
-        operators: stringOperators,
-      },
-      upgrades: {
-        type: "string[]",
-        operators: arrayOperators,
-      },
-      productionTarget: {
-        type: "number",
-        operators: numberOperators,
-      },
-      actualProduction: {
-        type: "number",
-        operators: numberOperators,
-      },
-      recipe: {
-        name: {
-          type: "string",
-          operators: stringOperators,
-        },
-        inputs: {
-          type: "string[]",
-          operators: arrayOperators,
-        },
-        outputs: {
-          type: "string[]",
-          operators: arrayOperators,
         },
       },
     },
