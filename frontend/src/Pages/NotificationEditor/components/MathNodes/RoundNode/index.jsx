@@ -21,10 +21,7 @@ export default function RoundNode({ data }) {
 
   return (
     <UnaryNode title="ROUND" type="MATH" className="math-node">
-      <div className="node-operator-display">ROUND {"("}</div>
-      {data.input}
-      <div className="node-operator-display">{") ="}</div>
-      {data.output}
+      <div className="node-operator-display">ROUND</div>
     </UnaryNode>
   );
 }

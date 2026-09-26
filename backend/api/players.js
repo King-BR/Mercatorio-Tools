@@ -25,7 +25,7 @@ router.get("/me", auth, async (req, res) => {
       return res.status(403).json({ error: "No valid API key found" });
     }
 
-    const player = await getPlayer(req, {
+    const player = await getPlayer({
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
     });
@@ -53,12 +53,12 @@ router.get("/me/inventory", auth, async (req, res) => {
       return res.status(403).json({ error: "No valid API key found" });
     }
 
-    const player = await getPlayer(req, {
+    const player = await getPlayer({
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
     });
 
-    const inventory = await getPlayerInventory(req, player, {
+    const inventory = await getPlayerInventory(player, {
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
     });
@@ -90,7 +90,7 @@ router.get("/me/buildings", auth, async (req, res) => {
       return res.status(403).json({ error: "No valid API key found" });
     }
 
-    const player = await getPlayer(req, {
+    const player = await getPlayer({
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
     });
@@ -127,7 +127,7 @@ router.get("/me/buildings/all", auth, async (req, res) => {
       return res.status(403).json({ error: "No valid API key found" });
     }
 
-    const player = await getPlayer(req, {
+    const player = await getPlayer({
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
     });
@@ -143,7 +143,7 @@ router.get("/me/buildings/all", auth, async (req, res) => {
     const buildings = [];
 
     for (const buildingID of buildingsIDs) {
-      const building = await getBuilding(req, buildingID, {
+      const building = await getBuilding(buildingID, {
         user: userAuth?.mercUser || null,
         apiKey: userAuth?.key || null,
       });
@@ -176,7 +176,7 @@ router.get("/me/buildings/id/:id", auth, async (req, res) => {
       return res.status(403).json({ error: "No valid API key found" });
     }
 
-    const player = await getPlayer(req, {
+    const player = await getPlayer({
       user: userAuth?.mercUser || null,
       apiKey: userAuth?.key || null,
     });

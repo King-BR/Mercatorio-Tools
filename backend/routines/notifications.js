@@ -1,13 +1,15 @@
-const {
-  sendDiscordMessage,
-  sendDMMessage,
-  wait,
-} = require("../discord/utils.js");
+const { sendDMMessage, wait } = require("../discord/utils.js");
 
-const { getMarketData, getPlayerInventory } = require("../data/getters.js");
+const {
+  getMarketData,
+  getPlayerInventory,
+  getPlayer,
+} = require("../data/getters.js");
 
 const NotificationsDB = require("../models/notification.js");
 const UsersDB = require("../models/user.js");
+
+const DEBUG = process.argv.includes("--debug");
 
 // ============================================================
 // Utils
@@ -216,7 +218,7 @@ function findFieldNodeForPlaceholder(placeholder, nodes) {
  * @param {Object} nodeData node object
  * @returns {Promise<number|string|boolean|null>}
  */
-async function getDataValue(nodeData) {
+async function getDataValue(nodeData, user) {
   if (!nodeData) {
     return 0;
   }
@@ -307,17 +309,38 @@ async function getDataValue(nodeData) {
         return productMarket?.[fieldName] ?? "";
       }
 
-      /*
-       * Generic fallback.
-       */
-      return (
-        nodeData?.data?.value ??
-        nodeData?.data?.output ??
-        nodeData?.data?.fieldText ??
-        0
-      );
-    }
+      if (
+        field.fieldType === "number" &&
+        field.reference?.entityType === "inventory" &&
+        field.path?.includes("inventory")
+      ) {
+        const gameAuth = user.apiKeys.find(
+          (apiKey) => apiKey.keyType === "GAME",
+        );
+        const player = await getPlayer({
+          user: gameAuth.mercUser,
+          apiKey: gameAuth.key,
+        });
+        const playerInventory = await getPlayerInventory(player, {
+          user: gameAuth.mercUser,
+          apiKey: gameAuth.key,
+        });
 
+        const storageData = playerInventory?.storage;
+
+        const productName = field.reference?.productName;
+
+        const fieldName = field.path?.[field.path.length - 1];
+
+        return Number.parseFloat(
+          storageData?.inventory?.account?.assets?.[productName]?.[fieldName] ??
+            0,
+        );
+      }
+    }
+    /*
+     * Generic fallback.
+     */
     default:
       return (
         nodeData?.data?.value ??
@@ -349,7 +372,14 @@ function getIncomingEdges(node, edges) {
  * @param {Map<string,Promise<*>>} evaluationCache
  * @returns {Promise<*>}
  */
-async function getInputValue(node, handle, edges, nodesById, evaluationCache) {
+async function getInputValue(
+  node,
+  handle,
+  edges,
+  nodesById,
+  evaluationCache,
+  user,
+) {
   const edge = edges.find(
     (edge) => edge.target === node.id && edge.targetHandle === handle,
   );
@@ -364,7 +394,7 @@ async function getInputValue(node, handle, edges, nodesById, evaluationCache) {
     return 0;
   }
 
-  return evaluateNode(sourceNode, edges, nodesById, evaluationCache);
+  return evaluateNode(sourceNode, edges, nodesById, evaluationCache, user);
 }
 
 /**
@@ -383,7 +413,7 @@ async function getInputValue(node, handle, edges, nodesById, evaluationCache) {
  * @param {Map<string,Promise<*>>} evaluationCache
  * @returns {Promise<Array>}
  */
-async function getInputValues(node, edges, nodesById, evaluationCache) {
+async function getInputValues(node, edges, nodesById, evaluationCache, user) {
   const incomingEdges = getIncomingEdges(node, edges);
 
   if (incomingEdges.length === 0) {
@@ -414,7 +444,7 @@ async function getInputValues(node, edges, nodesById, evaluationCache) {
         return 0;
       }
 
-      return evaluateNode(sourceNode, edges, nodesById, evaluationCache);
+      return evaluateNode(sourceNode, edges, nodesById, evaluationCache, user);
     }),
   );
 }
@@ -428,7 +458,7 @@ async function getInputValues(node, edges, nodesById, evaluationCache) {
  * @param {Map<string,Promise<*>>} evaluationCache
  * @returns {Promise<*>}
  */
-async function evaluateNode(node, edges, nodesById, evaluationCache) {
+async function evaluateNode(node, edges, nodesById, evaluationCache, user) {
   if (!node) {
     return 0;
   }
@@ -454,7 +484,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "field":
       case "value":
-        const value = await getDataValue(node);
+        const value = await getDataValue(node, user);
         // console.log(
         //   `[Notifications] Evaluating data node "${node.id}" of type "${node.type}" with value:`,
         //   value,
@@ -472,6 +502,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
 
         const right = await getInputValue(
@@ -480,6 +511,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
 
         switch (node.data?.operator) {
@@ -523,6 +555,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
 
         return values.every(toBoolean);
@@ -534,6 +567,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
 
         return values.some(toBoolean);
@@ -545,6 +579,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
 
         return values.filter(toBoolean).length === 1;
@@ -557,6 +592,7 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
 
         return !toBoolean(value);
@@ -568,11 +604,25 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "add": {
         const left = toNumber(
-          await getInputValue(node, "left", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "left",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         const right = toNumber(
-          await getInputValue(node, "right", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "right",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         return left + right;
@@ -580,11 +630,25 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "subtract": {
         const left = toNumber(
-          await getInputValue(node, "left", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "left",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         const right = toNumber(
-          await getInputValue(node, "right", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "right",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         return left - right;
@@ -592,11 +656,25 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "multiply": {
         const left = toNumber(
-          await getInputValue(node, "left", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "left",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         const right = toNumber(
-          await getInputValue(node, "right", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "right",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         return left * right;
@@ -604,11 +682,25 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "divide": {
         const left = toNumber(
-          await getInputValue(node, "left", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "left",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         const right = toNumber(
-          await getInputValue(node, "right", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "right",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         if (right === 0) {
@@ -620,11 +712,25 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "modulo": {
         const left = toNumber(
-          await getInputValue(node, "left", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "left",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         const right = toNumber(
-          await getInputValue(node, "right", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "right",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         if (right === 0) {
@@ -674,7 +780,14 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "round": {
         const input = toNumber(
-          await getInputValue(node, "input", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "input",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         return Math.round(input);
@@ -682,7 +795,14 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "floor": {
         const input = toNumber(
-          await getInputValue(node, "input", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "input",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         return Math.floor(input);
@@ -690,7 +810,14 @@ async function evaluateNode(node, edges, nodesById, evaluationCache) {
 
       case "ceil": {
         const input = toNumber(
-          await getInputValue(node, "input", edges, nodesById, evaluationCache),
+          await getInputValue(
+            node,
+            "input",
+            edges,
+            nodesById,
+            evaluationCache,
+            user,
+          ),
         );
 
         return Math.ceil(input);
@@ -758,6 +885,7 @@ async function replacePlaceholders(
   edges,
   nodesById,
   evaluationCache,
+  user,
 ) {
   if (typeof message !== "string") {
     return "";
@@ -802,6 +930,7 @@ async function replacePlaceholders(
       edges,
       nodesById,
       evaluationCache,
+      user,
     );
 
     const replacement =
@@ -857,7 +986,7 @@ async function executeDiscordNode(
         return false;
       }
 
-      return evaluateNode(sourceNode, edges, nodesById, evaluationCache);
+      return evaluateNode(sourceNode, edges, nodesById, evaluationCache, user);
     }),
   );
 
@@ -887,6 +1016,7 @@ async function executeDiscordNode(
     edges,
     nodesById,
     evaluationCache,
+    user,
   );
 
   if (!message) {
@@ -935,6 +1065,7 @@ async function executeWebhookNode(
   edges,
   nodesById,
   evaluationCache,
+  user,
 ) {
   const incomingEdges = getIncomingEdges(node, edges);
 
@@ -950,7 +1081,7 @@ async function executeWebhookNode(
         return false;
       }
 
-      return evaluateNode(sourceNode, edges, nodesById, evaluationCache);
+      return evaluateNode(sourceNode, edges, nodesById, evaluationCache, user);
     }),
   );
 
@@ -982,6 +1113,7 @@ async function executeWebhookNode(
       edges,
       nodesById,
       evaluationCache,
+      user,
     );
   }
 
@@ -1053,6 +1185,7 @@ async function executeNotification(client, notification, user) {
           edges,
           nodesById,
           evaluationCache,
+          user,
         );
       }
     } catch (error) {
@@ -1076,7 +1209,7 @@ async function sendNotifications(client, period, periodSend) {
    * Only process notifications at
    * their configured send times.
    */
-  if (!periodSend) {
+  if (!periodSend && !DEBUG) {
     return;
   }
 
@@ -1147,6 +1280,10 @@ async function sendNotifications(client, period, periodSend) {
 
   for (const notification of notifications) {
     const userId = notification.user?.toString();
+
+    if (DEBUG && userId != process.env.DEBUG_USER_ID) {
+      continue;
+    }
 
     const user = usersById.get(userId);
 

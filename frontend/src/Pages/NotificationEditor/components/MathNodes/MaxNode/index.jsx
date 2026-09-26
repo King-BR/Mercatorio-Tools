@@ -62,10 +62,7 @@ export default function MaxNode({ id, data }) {
 
       <BaseNode title="MAX" type="MATH" className="math-node">
         <div className="node-display">
-          <div className="node-operator-display">MAX {"("}</div>
-          {data.inputs.join(", ")}
-          <div className="node-operator-display">{")"} =</div>
-          {data.output}
+          <div className="node-operator-display">MAX</div>
         </div>
       </BaseNode>
 

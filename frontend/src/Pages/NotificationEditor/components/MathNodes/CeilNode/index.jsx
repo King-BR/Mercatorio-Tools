@@ -21,10 +21,7 @@ export default function CeilNode({ data }) {
 
   return (
     <UnaryNode title="CEIL" type="MATH" className="math-node">
-      <div className="node-operator-display">CEIL {"("}</div>
-      {data.input}
-      <div className="node-operator-display">{") ="}</div>
-      {data.output}
+      <div className="node-operator-display">CEIL</div>
     </UnaryNode>
   );
 }

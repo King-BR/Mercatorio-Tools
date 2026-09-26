@@ -111,7 +111,7 @@ function flattenFields(fields) {
 
   walk(fields);
 
-  result = result.filter((item) => item.path.includes("market"));
+  result = result.filter((item) => item.path.includes("market") || item.path.includes("inventory"));
 
   return result;
 }

@@ -21,10 +21,7 @@ export default function FloorNode({ data }) {
 
   return (
     <UnaryNode title="FLOOR" type="MATH" className="math-node">
-      <div className="node-operator-display">FLOOR {"("}</div>
-      {data.input}
-      <div className="node-operator-display">{") ="}</div>
-      {data.output}
+      <div className="node-operator-display">FLOOR</div>
     </UnaryNode>
   );
 }

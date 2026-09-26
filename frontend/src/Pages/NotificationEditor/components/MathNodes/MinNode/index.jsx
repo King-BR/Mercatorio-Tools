@@ -63,10 +63,7 @@ export default function MinNode({ id, data }) {
 
       <BaseNode title="MIN" type="MATH" className="math-node">
         <div className="node-display">
-          <div className="node-operator-display">MIN {"("}</div>
-          {data.inputs.join(", ")}
-          <div className="node-operator-display">{")"} =</div>
-          {data.output}
+          <div className="node-operator-display">MIN</div>
         </div>
       </BaseNode>
 

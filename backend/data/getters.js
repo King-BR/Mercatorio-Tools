@@ -456,7 +456,7 @@ async function getRecipes(force = false) {
   }
 }
 
-async function getPlayer(req, auth = { user: null, apiKey: null }) {
+async function getPlayer(auth = { user: null, apiKey: null }) {
   const response = await fetch(config.player_url, {
     method: "GET",
     headers: {
@@ -468,11 +468,7 @@ async function getPlayer(req, auth = { user: null, apiKey: null }) {
   return await response.json();
 }
 
-async function getPlayerInventory(
-  req,
-  player,
-  auth = { user: null, apiKey: null },
-) {
+async function getPlayerInventory(player, auth = { user: null, apiKey: null }) {
   const businessResponse = await fetch(
     config.business_url.replace(
       "{businessID}",
@@ -509,11 +505,7 @@ async function getPlayerInventory(
   return await inventoryResponse.json();
 }
 
-async function getBuilding(
-  req,
-  buildingID,
-  auth = { user: null, apiKey: null },
-) {
+async function getBuilding(buildingID, auth = { user: null, apiKey: null }) {
   const response = await fetch(
     config.building_url.replace("{buildingID}", buildingID),
     {

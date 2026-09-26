@@ -8,8 +8,8 @@
     },
     "region": 2203,
     "capital": true,
-    "satisfaction": "0.735",
-    "commoners": 136
+    "satisfaction": "0.696",
+    "commoners": 137
   },
   {
     "id": "27601050",
@@ -20,7 +20,7 @@
     },
     "region": 2191,
     "capital": true,
-    "satisfaction": "0.546",
+    "satisfaction": "0.7",
     "commoners": 133
   },
   {
@@ -32,8 +32,8 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.658",
-    "commoners": 110
+    "satisfaction": "0.861",
+    "commoners": 112
   },
   {
     "id": "33301425",
@@ -44,8 +44,8 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.639",
-    "commoners": 103
+    "satisfaction": "0.882",
+    "commoners": 104
   },
   {
     "id": "43001465",
@@ -56,8 +56,8 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.787",
-    "commoners": 106
+    "satisfaction": "0.776",
+    "commoners": 107
   },
   {
     "id": "45502465",
@@ -68,8 +68,8 @@
     },
     "region": 2187,
     "capital": true,
-    "satisfaction": "0.736",
-    "commoners": 152
+    "satisfaction": "0.732",
+    "commoners": 153
   },
   {
     "id": "53301458",
@@ -80,7 +80,7 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.738",
+    "satisfaction": "0.749",
     "commoners": 103
   },
   {
@@ -92,7 +92,7 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.638",
+    "satisfaction": "0.655",
     "commoners": 99
   },
   {
@@ -104,7 +104,7 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.776",
+    "satisfaction": "0.737",
     "commoners": 100
   },
   {
@@ -116,7 +116,7 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.48",
+    "satisfaction": "0.448",
     "commoners": 98
   },
   {
@@ -128,8 +128,8 @@
     },
     "region": 2187,
     "capital": false,
-    "satisfaction": "0.775",
-    "commoners": 104
+    "satisfaction": "0.873",
+    "commoners": 107
   },
   {
     "id": "61001234",
@@ -140,7 +140,7 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.775",
+    "satisfaction": "0.746",
     "commoners": 105
   },
   {
@@ -152,8 +152,8 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.697",
-    "commoners": 105
+    "satisfaction": "0.764",
+    "commoners": 106
   },
   {
     "id": "64701563",
@@ -164,7 +164,7 @@
     },
     "region": 2191,
     "capital": false,
-    "satisfaction": "0.672",
+    "satisfaction": "0.53",
     "commoners": 101
   },
   {
@@ -176,8 +176,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.971",
-    "commoners": 119
+    "satisfaction": "0.715",
+    "commoners": 123
   },
   {
     "id": "66903090",
@@ -188,8 +188,8 @@
     },
     "region": 2187,
     "capital": false,
-    "satisfaction": "0.516",
-    "commoners": 100
+    "satisfaction": "0.369",
+    "commoners": 99
   },
   {
     "id": "73002746",
@@ -212,8 +212,8 @@
     },
     "region": 2225,
     "capital": true,
-    "satisfaction": "0.888",
-    "commoners": 160
+    "satisfaction": "0.74",
+    "commoners": 162
   },
   {
     "id": "74801488",
@@ -224,7 +224,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.738",
+    "satisfaction": "0.645",
     "commoners": 105
   },
   {
@@ -236,8 +236,8 @@
     },
     "region": 2187,
     "capital": false,
-    "satisfaction": "0.648",
-    "commoners": 103
+    "satisfaction": "0.875",
+    "commoners": 105
   },
   {
     "id": "80202116",
@@ -248,8 +248,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.818",
-    "commoners": 108
+    "satisfaction": "0.789",
+    "commoners": 109
   },
   {
     "id": "82502972",
@@ -260,7 +260,7 @@
     },
     "region": 2187,
     "capital": false,
-    "satisfaction": "0.373",
+    "satisfaction": "0.362",
     "commoners": 98
   },
   {
@@ -272,8 +272,8 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.585",
-    "commoners": 100
+    "satisfaction": "0.64",
+    "commoners": 99
   },
   {
     "id": "88002195",
@@ -284,7 +284,7 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.507",
+    "satisfaction": "0.679",
     "commoners": 101
   },
   {
@@ -296,7 +296,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.408",
+    "satisfaction": "0.368",
     "commoners": 98
   },
   {
@@ -308,8 +308,8 @@
     },
     "region": 2187,
     "capital": false,
-    "satisfaction": "0.884",
-    "commoners": 133
+    "satisfaction": "0.86",
+    "commoners": 137
   },
   {
     "id": "97102672",
@@ -320,7 +320,7 @@
     },
     "region": 2187,
     "capital": false,
-    "satisfaction": "0.538",
+    "satisfaction": "0.655",
     "commoners": 104
   },
   {
@@ -332,7 +332,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.524",
+    "satisfaction": "0.45",
     "commoners": 100
   },
   {
@@ -344,7 +344,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.719",
+    "satisfaction": "0.707",
     "commoners": 105
   },
   {
@@ -356,7 +356,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.845",
+    "satisfaction": "0.68",
     "commoners": 106
   },
   {
@@ -368,8 +368,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.866",
-    "commoners": 106
+    "satisfaction": "0.847",
+    "commoners": 109
   },
   {
     "id": "101101950",
@@ -380,8 +380,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.754",
-    "commoners": 104
+    "satisfaction": "0.745",
+    "commoners": 105
   },
   {
     "id": "105202565",
@@ -392,8 +392,8 @@
     },
     "region": 2221,
     "capital": true,
-    "satisfaction": "0.919",
-    "commoners": 153
+    "satisfaction": "0.84",
+    "commoners": 155
   },
   {
     "id": "105702283",
@@ -404,7 +404,7 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.668",
+    "satisfaction": "0.65",
     "commoners": 101
   },
   {
@@ -416,8 +416,8 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.739",
-    "commoners": 107
+    "satisfaction": "0.824",
+    "commoners": 108
   },
   {
     "id": "109102068",
@@ -428,7 +428,7 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.655",
+    "satisfaction": "0.692",
     "commoners": 101
   },
   {
@@ -440,8 +440,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.672",
-    "commoners": 100
+    "satisfaction": "0.733",
+    "commoners": 101
   },
   {
     "id": "111802426",
@@ -452,8 +452,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.753",
-    "commoners": 109
+    "satisfaction": "0.673",
+    "commoners": 110
   },
   {
     "id": "112902838",
@@ -464,8 +464,8 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.701",
-    "commoners": 103
+    "satisfaction": "0.727",
+    "commoners": 104
   },
   {
     "id": "113901247",
@@ -476,7 +476,7 @@
     },
     "region": 2179,
     "capital": true,
-    "satisfaction": "0.699",
+    "satisfaction": "0.741",
     "commoners": 149
   },
   {
@@ -488,8 +488,8 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "1.002",
-    "commoners": 128
+    "satisfaction": "0.985",
+    "commoners": 133
   },
   {
     "id": "117101560",
@@ -500,7 +500,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.52",
+    "satisfaction": "0.683",
     "commoners": 99
   },
   {
@@ -512,7 +512,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.628",
+    "satisfaction": "0.559",
     "commoners": 99
   },
   {
@@ -524,8 +524,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.991",
-    "commoners": 141
+    "satisfaction": "1.007",
+    "commoners": 146
   },
   {
     "id": "124501207",
@@ -536,7 +536,7 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.493",
+    "satisfaction": "0.546",
     "commoners": 98
   },
   {
@@ -548,7 +548,7 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.732",
+    "satisfaction": "0.652",
     "commoners": 103
   },
   {
@@ -560,7 +560,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.587",
+    "satisfaction": "0.65",
     "commoners": 101
   },
   {
@@ -572,7 +572,7 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.678",
+    "satisfaction": "0.628",
     "commoners": 101
   },
   {
@@ -584,8 +584,8 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.712",
-    "commoners": 121
+    "satisfaction": "0.742",
+    "commoners": 122
   },
   {
     "id": "133002223",
@@ -596,8 +596,8 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.854",
-    "commoners": 119
+    "satisfaction": "0.798",
+    "commoners": 121
   },
   {
     "id": "133301775",
@@ -608,8 +608,8 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.732",
-    "commoners": 105
+    "satisfaction": "0.746",
+    "commoners": 106
   },
   {
     "id": "134101240",
@@ -620,7 +620,7 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.453",
+    "satisfaction": "0.442",
     "commoners": 97
   },
   {
@@ -632,7 +632,7 @@
     },
     "region": 2203,
     "capital": false,
-    "satisfaction": "0.681",
+    "satisfaction": "0.629",
     "commoners": 100
   },
   {
@@ -644,7 +644,7 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.681",
+    "satisfaction": "0.721",
     "commoners": 106
   },
   {
@@ -656,8 +656,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.565",
-    "commoners": 102
+    "satisfaction": "0.724",
+    "commoners": 103
   },
   {
     "id": "138201891",
@@ -668,7 +668,7 @@
     },
     "region": 2225,
     "capital": false,
-    "satisfaction": "0.62",
+    "satisfaction": "0.561",
     "commoners": 100
   },
   {
@@ -680,7 +680,7 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.787",
+    "satisfaction": "0.778",
     "commoners": 109
   },
   {
@@ -692,8 +692,8 @@
     },
     "region": 2181,
     "capital": true,
-    "satisfaction": "0.827",
-    "commoners": 178
+    "satisfaction": "0.859",
+    "commoners": 180
   },
   {
     "id": "142001494",
@@ -704,8 +704,8 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.73",
-    "commoners": 108
+    "satisfaction": "0.772",
+    "commoners": 109
   },
   {
     "id": "144001298",
@@ -716,8 +716,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.689",
-    "commoners": 152
+    "satisfaction": "0.581",
+    "commoners": 153
   },
   {
     "id": "144702149",
@@ -728,7 +728,7 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.659",
+    "satisfaction": "0.619",
     "commoners": 103
   },
   {
@@ -740,7 +740,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.736",
+    "satisfaction": "0.678",
     "commoners": 103
   },
   {
@@ -752,7 +752,7 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.541",
+    "satisfaction": "0.637",
     "commoners": 104
   },
   {
@@ -764,7 +764,7 @@
     },
     "region": 2221,
     "capital": false,
-    "satisfaction": "0.673",
+    "satisfaction": "0.751",
     "commoners": 100
   },
   {
@@ -776,7 +776,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.527",
+    "satisfaction": "0.46",
     "commoners": 99
   },
   {
@@ -788,8 +788,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.85",
-    "commoners": 118
+    "satisfaction": "0.802",
+    "commoners": 119
   },
   {
     "id": "156101871",
@@ -800,7 +800,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.364",
+    "satisfaction": "0.453",
     "commoners": 98
   },
   {
@@ -812,7 +812,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.569",
+    "satisfaction": "0.664",
     "commoners": 100
   },
   {
@@ -824,8 +824,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.911",
-    "commoners": 174
+    "satisfaction": "1.105",
+    "commoners": 180
   },
   {
     "id": "161401286",
@@ -836,8 +836,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.641",
-    "commoners": 136
+    "satisfaction": "0.46",
+    "commoners": 135
   },
   {
     "id": "162501560",
@@ -848,7 +848,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.73",
+    "satisfaction": "0.645",
     "commoners": 104
   },
   {
@@ -860,7 +860,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.698",
+    "satisfaction": "0.656",
     "commoners": 106
   },
   {
@@ -872,8 +872,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.804",
-    "commoners": 105
+    "satisfaction": "0.852",
+    "commoners": 107
   },
   {
     "id": "164901941",
@@ -884,7 +884,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.65",
+    "satisfaction": "0.682",
     "commoners": 100
   },
   {
@@ -896,8 +896,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.91",
-    "commoners": 182
+    "satisfaction": "0.937",
+    "commoners": 186
   },
   {
     "id": "170502066",
@@ -908,7 +908,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.634",
+    "satisfaction": "0.525",
     "commoners": 99
   },
   {
@@ -932,8 +932,8 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.642",
-    "commoners": 101
+    "satisfaction": "0.612",
+    "commoners": 100
   },
   {
     "id": "179001224",
@@ -944,8 +944,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.971",
-    "commoners": 159
+    "satisfaction": "0.892",
+    "commoners": 164
   },
   {
     "id": "179700876",
@@ -956,7 +956,7 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.628",
+    "satisfaction": "0.531",
     "commoners": 100
   },
   {
@@ -968,7 +968,7 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.527",
+    "satisfaction": "0.4",
     "commoners": 138
   },
   {
@@ -980,8 +980,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.88",
-    "commoners": 114
+    "satisfaction": "0.926",
+    "commoners": 116
   },
   {
     "id": "185801747",
@@ -992,8 +992,8 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.807",
-    "commoners": 115
+    "satisfaction": "0.912",
+    "commoners": 117
   },
   {
     "id": "186801123",
@@ -1004,8 +1004,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.856",
-    "commoners": 111
+    "satisfaction": "0.825",
+    "commoners": 114
   },
   {
     "id": "190001220",
@@ -1016,7 +1016,7 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.466",
+    "satisfaction": "0.731",
     "commoners": 101
   },
   {
@@ -1028,8 +1028,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.991",
-    "commoners": 136
+    "satisfaction": "1.066",
+    "commoners": 140
   },
   {
     "id": "196301457",
@@ -1040,8 +1040,8 @@
     },
     "region": 2179,
     "capital": false,
-    "satisfaction": "0.934",
-    "commoners": 159
+    "satisfaction": "0.932",
+    "commoners": 164
   },
   {
     "id": "196701566",
@@ -1052,8 +1052,8 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.707",
-    "commoners": 105
+    "satisfaction": "0.732",
+    "commoners": 106
   },
   {
     "id": "199101938",
@@ -1064,8 +1064,8 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.852",
-    "commoners": 103
+    "satisfaction": "0.641",
+    "commoners": 104
   },
   {
     "id": "199501758",
@@ -1076,7 +1076,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.613",
+    "satisfaction": "0.633",
     "commoners": 100
   },
   {
@@ -1088,8 +1088,8 @@
     },
     "region": 2177,
     "capital": true,
-    "satisfaction": "0.843",
-    "commoners": 161
+    "satisfaction": "0.812",
+    "commoners": 162
   },
   {
     "id": "206601845",
@@ -1100,7 +1100,7 @@
     },
     "region": 2181,
     "capital": false,
-    "satisfaction": "0.758",
+    "satisfaction": "0.674",
     "commoners": 101
   },
   {
@@ -1112,7 +1112,7 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.44",
+    "satisfaction": "0.5",
     "commoners": 98
   },
   {
@@ -1124,7 +1124,7 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.61",
+    "satisfaction": "0.7",
     "commoners": 103
   },
   {
@@ -1136,7 +1136,7 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.389",
+    "satisfaction": "0.333",
     "commoners": 96
   },
   {
@@ -1148,8 +1148,8 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.524",
-    "commoners": 120
+    "satisfaction": "0.773",
+    "commoners": 121
   },
   {
     "id": "226700873",
@@ -1160,7 +1160,7 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.735",
+    "satisfaction": "0.666",
     "commoners": 101
   },
   {
@@ -1172,7 +1172,7 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.507",
+    "satisfaction": "0.608",
     "commoners": 101
   },
   {
@@ -1184,8 +1184,8 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.835",
-    "commoners": 106
+    "satisfaction": "0.887",
+    "commoners": 107
   },
   {
     "id": "242301168",
@@ -1196,8 +1196,8 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.738",
-    "commoners": 111
+    "satisfaction": "0.781",
+    "commoners": 112
   },
   {
     "id": "255001360",
@@ -1208,7 +1208,7 @@
     },
     "region": 2177,
     "capital": false,
-    "satisfaction": "0.833",
+    "satisfaction": "0.734",
     "commoners": 108
   }
 ]
