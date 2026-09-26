@@ -15,6 +15,9 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import "./NotificationEditor.css";
+
+import { useAuth } from "../../context/AuthContext";
+
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 
 import TownSelector from "../../components/TownSelector";
@@ -110,8 +113,6 @@ function flattenFields(fields) {
   }
 
   walk(fields);
-
-  result = result.filter((item) => item.path.includes("market") || item.path.includes("inventory"));
 
   return result;
 }
@@ -372,7 +373,7 @@ const nodeTypes = {
 /* Field properties                                                           */
 /* -------------------------------------------------------------------------- */
 
-function FieldProperties({ node, fields, onChange }) {
+function FieldProperties({ node, fields, onChange, hasMercatorioApiKey }) {
   const fieldData = node.data.field || createFieldData(fields).field;
 
   const field =
@@ -475,7 +476,13 @@ function FieldProperties({ node, fields, onChange }) {
             onChange={(event) => updateField(event.target.value)}
           >
             {fields.map((item) => (
-              <option key={item.label} value={item.label}>
+              <option
+                key={item.label}
+                value={item.label}
+                disabled={
+                  !hasMercatorioApiKey && item.label.includes("inventory")
+                }
+              >
                 {item.label}
               </option>
             ))}
@@ -754,7 +761,7 @@ function ActionProperties({ node, onChange }) {
 /* Node properties                                                            */
 /* -------------------------------------------------------------------------- */
 
-function NodeProperties({ node, fields, onChange }) {
+function NodeProperties({ node, fields, onChange, hasMercatorioApiKey }) {
   if (!node) {
     return (
       <div className="empty-properties">
@@ -768,7 +775,12 @@ function NodeProperties({ node, fields, onChange }) {
   switch (node.type) {
     case "field":
       return (
-        <FieldProperties node={node} fields={fields} onChange={onChange} />
+        <FieldProperties
+          node={node}
+          fields={fields}
+          onChange={onChange}
+          hasMercatorioApiKey={hasMercatorioApiKey}
+        />
       );
     case "value":
       return <ValueProperties node={node} onChange={onChange} />;
@@ -786,7 +798,11 @@ function NodeProperties({ node, fields, onChange }) {
 /* Main editor                                                                */
 /* -------------------------------------------------------------------------- */
 
-function NotificationEditorInner({ notificationId, onClose }) {
+function NotificationEditorInner({
+  notificationId,
+  onClose,
+  hasMercatorioApiKey,
+}) {
   const { updateNodeData } = useReactFlow();
 
   const [notification, setNotification] = useState(null);
@@ -1623,6 +1639,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
               node={selectedNode}
               fields={fields}
               onChange={updateSelectedNode}
+              hasMercatorioApiKey={hasMercatorioApiKey}
             />
 
             {selectedNode && (
@@ -1705,6 +1722,7 @@ function NotificationEditorInner({ notificationId, onClose }) {
 /* -------------------------------------------------------------------------- */
 
 export default function NotificationEditor(props) {
+  const { user, hasMercatorioApiKey } = useAuth();
   const navigate = useNavigate();
 
   // get notification ID from URL
@@ -1730,6 +1748,7 @@ export default function NotificationEditor(props) {
           {...props}
           notificationId={notificationId}
           onClose={onClose}
+          hasMercatorioApiKey={hasMercatorioApiKey}
         />
       </ReactFlowProvider>
     </>
